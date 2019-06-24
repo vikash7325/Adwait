@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "142890698927",
+    "firebase_url": "https://adwait-99336.firebaseio.com",
+    "project_id": "adwait-99336",
+    "storage_bucket": "adwait-99336.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:142890698927:android:2729913e9e155ae3",
+        "android_client_info": {
+          "package_name": "android.adwait.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "142890698927-dtnpfmq19mvrteo1nupk0lhks27gbdc1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "android.adwait.com",
+            "certificate_hash": "a0fee6f34cd0ee282f900e30bbc731ad2bf58038"
+          }
+        },
+        {
+          "client_id": "142890698927-tmtbkr6j359s7ich8tjfn0p8vttfoiv5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "android.adwait.com",
+            "certificate_hash": "0e30309136425432b3d67d12348ed3e492a6aa40"
+          }
+        },
+        {
+          "client_id": "142890698927-d4vii97bjg7m8gtvb26dpvhlo88vl10a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9-aGdF89n7P8jGi_h2y1h4MqDbJD8PiM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "142890698927-d4vii97bjg7m8gtvb26dpvhlo88vl10a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

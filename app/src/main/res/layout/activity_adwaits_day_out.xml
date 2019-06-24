@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/day_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_bg_with_line">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/action_bar_height"
+                android:background="@android:color/white" />
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:fillViewport="true"
+            android:padding="@dimen/default_padding">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/static_image_hgt"
+                    android:layout_height="@dimen/static_image_hgt"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/ic_board" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:padding="5dp"
+                    android:text="@string/adwait_header"
+                    android:textAllCaps="false"
+                    android:textColor="@color/app_text"
+                    android:textSize="@dimen/large_text"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rounded_white_bg"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <!--Adwait day out hint-->
+                    <LinearLayout
+                        android:id="@+id/day_out_page1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:padding="10dp"
+                            android:text="What is Adwait's day out?"
+                            android:textColor="@color/app_text"
+                            android:textSize="@dimen/large_text"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_margin="10dp"
+                            android:background="@color/gray1"
+                            android:padding="5dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_check"
+                            android:drawablePadding="3dp"
+                            android:padding="5dp"
+                            android:text="A chance for you to connect with an underprivilaged kids"
+                            android:textColor="@color/app_text"
+                            android:textSize="@dimen/medium_text" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_check"
+                            android:drawablePadding="3dp"
+                            android:padding="5dp"
+                            android:text="A chance for you to be involved personally to do good for society"
+                            android:textColor="@color/app_text"
+                            android:textSize="@dimen/medium_text" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_check"
+                            android:drawablePadding="3dp"
+                            android:padding="5dp"
+                            android:text="A chance for you to make a kid happy by being there for them"
+                            android:textColor="@color/app_text"
+                            android:textSize="@dimen/medium_text" />
+
+                    </LinearLayout>
+
+                    <!--Day out form-->
+                    <LinearLayout
+                        android:id="@+id/day_out_page2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:text="Fill out the following details based on your availability. Our team will get back to you soon."
+                            android:textColor="@color/app_text"
+                            android:textSize="@dimen/medium_text" />
+
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp">
+
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/name"
+                                android:imeOptions="actionNext"
+                                android:inputType="textCapSentences|text"
+                                android:lines="1"
+                                android:paddingBottom="10dp"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/medium_text" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp">
+
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/date"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawableRight="@android:drawable/arrow_down_float"
+                                android:hint="@string/date"
+                                android:imeOptions="actionNext"
+                                android:inputType="textCapSentences|text"
+                                android:lines="1"
+                                android:paddingBottom="10dp"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/medium_text" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp">
+
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/contact_details"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/email_or_number"
+                                android:imeOptions="actionNext"
+                                android:inputType="text"
+                                android:lines="1"
+                                android:paddingBottom="10dp"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/medium_text" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp">
+
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/message"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/message"
+                                android:imeOptions="actionDone"
+                                android:inputType="textCapSentences|text"
+                                android:lines="1"
+                                android:maxLength="10"
+                                android:paddingBottom="10dp"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/medium_text" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+
+                    </LinearLayout>
+
+
+                    <Button
+                        android:id="@+id/day_out_apply"
+                        android:layout_width="@dimen/btn_width"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/rounded_primary_color_bg"
+                        android:text="Apply"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/medium_text" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+    </LinearLayout>
+
+    <!--Progress layout-->
+    <LinearLayout
+        android:id="@+id/progress_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <include layout="@layout/progress_layout" />
+
+    </LinearLayout>
+
+</RelativeLayout>

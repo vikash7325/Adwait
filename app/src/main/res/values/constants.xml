@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="help_screen">help_screen</string>
+    <string name="already_logged">first_login</string>
+    <string name="logged_in">logged_in</string>
+    <string name="registered">registered</string>
+    <string name="userId">user_id</string>
+    <string name="month_yr">month_yr</string>
+    <string name="current_date">current_date</string>
+
+</resources>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Common-->
+    <string name="no_internet">Please connect to Internet and try again..!</string>
+    <string name="development">Development in Process</string>
+
+    <!--Registration-->
+    <string name="empty_username">Enter some Name!</string>
+    <string name="empty_password">Enter a Password!</string>
+    <string name="empty_email">Enter an email</string>
+    <string name="empty_phone">Enter your Phone number</string>
+    <string name="empty_dob">Enter your Date of Birth</string>
+    <string name="invalid_dob">You should be 18 years to register</string>
+    <string name="err_invalid_email">Enter a valid email</string>
+    <string name="err_invalid_password">Enter a password of length > 8</string>
+    <string name="err_invalid_phone">Enter a valid Phone number</string>
+    <string name="registration_failed">Registration failed! Try again.</string>
+    <string name="registration_duplicate">We find a user with same details. Try to Login</string>
+    <string name="user_registered">User already registered.</string>
+    <string name="num_not_registered">Number not registered.</string>
+    <string name="empty_referral_code">Enter some referral code.</string>
+    <string name="err_verify_email">Verify email by clicking the link sent to your mail</string>
+    <string name="empty_pin">Enter the PIN number</string>
+    <string name="invalid_pin">Enter a valid PIN</string>
+
+    <!--Login-->
+    <string name="invalid_user_pass">Enter valid credentials</string>
+    <string name="unable_to_send_reset_mail">We are unable to send email now. Try again</string>
+    <string name="unable_to_reset_password">We are unable to reset password now. Try again</string>
+    <string name="password_mismatch">Passwords are not same. Try again</string>
+    <string name="invalid_otp">The verification code entered was invalid</string>
+    <string name="login_failed">We are unable to login now. Try again</string>
+
+
+    <!--Contact Us-->
+    <string name="empty_subject">Select a subject</string>
+    <string name="empty_contact">Provide some details so that we can reach you</string>
+    <string name="empty_message">Enter some details for our analysis</string>
+    <string name="contact_failed">Something went wrong. Try again.</string>
+    <string name="invalid_contact">Enter some valid phone number or email</string>
+
+    <!--Profile-->
+    <string name="profile_update_failed">Profile update failed! Try again.</string>
+
+    <!--Be the Change-->
+    <string name="empty_area_of_interest">Select area of interest</string>
+    <string name="empty_area_of_expert">Select area of expert</string>
+    <string name="empty_location">Enter some location</string>
+    <string name="empty_date">Enter some date</string>
+    <string name="empty_time">Enter some time</string>
+    <string name="empty_event_name">Enter name of your event</string>
+    <string name="empty_type">Enter type of your event</string>
+    <string name="empty_desc">Enter description for your event</string>
+    <string name="no_event_image">Add some image for your event</string>
+
+    <!--My mentee-->
+    <string name="message_failed">We are unable to send your message. Try again</string>
+</resources>

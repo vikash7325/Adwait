@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/app_bg_with_line"
+              android:orientation="vertical"
+              android:weightSum="1"
+              android:padding="@dimen/default_padding">
+
+    <LinearLayout
+            android:id="@+id/logo_layout"
+            android:layout_width="match_parent"
+            android:layout_marginTop="25dp"
+            android:layout_height="0dp"
+            android:layout_weight="0.15">
+
+        <include layout="@layout/logo_layout"/>
+
+    </LinearLayout>
+
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:scrollbars="none"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:fillViewport="true"
+            android:layout_marginBottom="10dp"
+            android:layout_height="0dp"
+            android:layout_weight="0.77">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="match_parent">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_white_bg"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="15dp">
+
+                <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_marginBottom="10dp"
+                        android:src=" @drawable/superhero_kids"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:padding="5dp"
+                        android:text="@string/already_elve"
+                        android:textSize="@dimen/medium_text"/>
+
+
+                <Button
+                        android:id="@+id/sign_in_btn"
+                        android:layout_width="@dimen/btn_width"
+                        android:layout_height="@dimen/btn_height"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/rounded_primary_color_bg"
+                        android:text="@string/sign_in"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/medium_text"/>
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:text="Be "
+                            android:textColor="@color/app_text"
+                            android:textSize="@dimen/medium_text"/>
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:id="@+id/be_our_elve"
+                            android:text="your"
+                            android:textColor="@android:color/holo_red_dark"
+                            android:textSize="@dimen/medium_text"/>
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:text=" our Elve"
+                            android:textColor="@color/app_text"
+                            android:textSize="@dimen/medium_text"/>
+                </LinearLayout>
+
+
+                <Button
+                        android:id="@+id/sign_up_btn"
+                        android:layout_width="@dimen/btn_width"
+                        android:layout_height="@dimen/btn_height"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/rounded_primary_color_bg"
+                        android:text="@string/sign_up"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/medium_text"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+    <TextView
+            android:id="@+id/skip_btn"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.08"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/skip_for_now"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16dp"/>
+
+</LinearLayout>

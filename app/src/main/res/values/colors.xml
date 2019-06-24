@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#0166A2</color>
+    <color name="colorPrimaryDark">#0b4874</color>
+    <color name="colorAccent">#167EE6</color>
+
+    <color name="app_text">#58595B</color>
+    <color name="transparent_black">#8058595B</color>
+    <color name="navigation_item_color">#6E6E6E</color>
+    <color name="gray1">#dedede</color>
+    <color name="gray2">#A2A2A2</color>
+    <color name="drawer_header_bg">#CFCFCF</color>
+
+    <color name="refer_header">#010101</color>
+    <color name="refer_hint">#3C3C3C</color>
+</resources>

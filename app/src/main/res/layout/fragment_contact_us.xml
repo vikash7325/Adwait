@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/contact_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_bg_with_line"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        android:padding="@dimen/default_padding">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/static_image_hgt"
+                android:layout_height="65dp"
+                android:layout_marginTop="10dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_contact" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/contact_header"
+                android:textColor="@color/app_text"
+                android:textSize="@dimen/large_text"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/rounded_white_bg"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="@string/contact_sub_header"
+                    android:textColor="@color/app_text"
+                    android:textSize="@dimen/small_text" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:text="@string/contact_email"
+                        android:textColor="@color/app_text"
+                        android:textSize="@dimen/medium_text" />
+
+                    <TextView
+                        android:id="@+id/email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:padding="2dp"
+                        android:text="adwait@gmail.com"
+                        android:textColor="@color/app_text"
+                        android:textSize="@dimen/medium_text"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:text="@string/contact_care"
+                        android:textColor="@color/app_text"
+                        android:textSize="@dimen/medium_text" />
+
+                    <TextView
+                        android:id="@+id/number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:padding="2dp"
+                        android:text="+91-9876543210"
+                        android:textColor="@color/app_text"
+                        android:textSize="@dimen/medium_text"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="0.4"
+                        android:background="@color/gray1" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.2"
+                        android:gravity="center"
+                        android:text="Or"
+                        android:textColor="@color/app_text" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="0.4"
+                        android:background="@color/gray1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:padding="5dp"
+                        android:text="@string/contact_sub_header2"
+                        android:textColor="@color/app_text"
+                        android:textSize="@dimen/small_text"
+                        android:textStyle="bold" />
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/name"
+                            android:imeOptions="actionNext"
+                            android:inputType="textCapSentences"
+                            android:lines="1"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/medium_text" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <Spinner
+                            android:id="@+id/subject"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:entries="@array/subjects"
+                            android:padding="5dp"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/medium_text" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@drawable/bottomline_gray"
+                            android:padding="5dp" />
+                    </LinearLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/email_or_num"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/email_or_number"
+                            android:imeOptions="actionNext"
+                            android:inputType="textCapSentences"
+                            android:lines="1"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/medium_text" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/message"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/message"
+                            android:imeOptions="actionDone"
+                            android:inputType="textCapSentences"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/medium_text" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/form_submit"
+                        android:layout_width="@dimen/btn_width"
+                        android:layout_height="@dimen/btn_height"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/rounded_primary_color_bg"
+                        android:text="@string/submit"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/progress_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <include layout="@layout/progress_layout" />
+
+    </LinearLayout>
+
+</RelativeLayout>

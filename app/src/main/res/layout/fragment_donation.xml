@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/donation_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_bg_with_line"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="5dp"
+        android:fillViewport="true"
+        android:padding="@dimen/default_padding">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_white_bg"
+                android:padding="5dp">
+
+                <ImageView
+                    android:id="@+id/child_image"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_margin="5dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_guest_user" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="5dp"
+                    android:layout_toRightOf="@id/child_image"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/child_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:text="Name:"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/medium_text"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/child_age"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:text="Age:"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/medium_text"
+                        android:textStyle="bold" />
+
+
+                    <ProgressBar
+                        android:id="@+id/progress"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="left"
+                        android:progress="0"
+                        android:progressDrawable="@drawable/seekbar_fill" />
+
+                    <TextView
+                        android:id="@+id/fund_details"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:text="@string/fund_raised"
+                        android:textColor="@color/app_text"
+                        android:textSize="@dimen/small_text" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:text="@string/your_contribution"
+                        android:textColor="@color/app_text"
+                        android:textSize="@dimen/small_text" />
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/donation_hint"
+                android:textColor="@color/app_text"
+                android:textSize="@dimen/small_text" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_white_bg"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/share_contribute_via"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/medium_text"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/btn_height2"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="0.5"
+                        android:drawableLeft="@drawable/ic_net_banking"
+                        android:drawablePadding="3dp"
+                        android:gravity="center"
+                        android:text="@string/net_banking"
+                        android:textAllCaps="false"
+                        android:textSize="@dimen/medium_text" />
+
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/btn_height2"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="0.5"
+                        android:drawableLeft="@drawable/ic_debit_card"
+                        android:drawablePadding="3dp"
+                        android:text="@string/debit_card"
+                        android:textAllCaps="false"
+                        android:textSize="@dimen/medium_text" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="0.4"
+                        android:background="@color/gray1" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.2"
+                        android:gravity="center"
+                        android:text="Or"
+                        android:textColor="@color/app_text" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="0.4"
+                        android:background="@color/gray1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingTop="3dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/paytn" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:padding="3dp"
+                            android:text="@string/paytm"
+                            android:textColor="@color/app_text"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/gpay" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:padding="3dp"
+                            android:text="@string/google_pay"
+                            android:textColor="@color/app_text"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/phonepe" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:padding="3dp"
+                            android:text="@string/phone_pe"
+                            android:textColor="@color/app_text"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/bhm" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:padding="3dp"
+                            android:text="@string/upi"
+                            android:textColor="@color/app_text"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+                <CheckBox
+                    android:id="@+id/anonymous"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:checked="true"
+                    android:text="@string/checkbox" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_padding"
+                android:background="@drawable/rounded_white_bg"
+                android:padding="20dp">
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fillViewport="true"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:src="@drawable/ic_trophy" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:padding="5dp"
+                            android:text="@string/top_contributers"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/medium_text"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:id="@+id/contributers_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </ScrollView>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!--Progress Layout-->
+    <LinearLayout
+        android:id="@+id/progress_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <include layout="@layout/progress_layout" />
+
+    </LinearLayout>
+</RelativeLayout>

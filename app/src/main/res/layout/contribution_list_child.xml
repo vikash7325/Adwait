@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/transaction_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="Transaction ID : "
+        android:textSize="@dimen/medium_text" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_toLeftOf="@+id/try_again"
+            android:padding="5dp"
+            android:text="Date : "
+            android:textSize="@dimen/medium_text" />
+
+
+        <TextView
+            android:id="@+id/try_again"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toLeftOf="@+id/status"
+            android:padding="5dp"
+            android:text="Try Again"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/medium_text" />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:padding="5dp"
+            android:text="Failed"
+            android:textAllCaps="true"
+            android:textSize="@dimen/medium_text" />
+
+
+    </RelativeLayout>
+
+</LinearLayout>
