@@ -11,6 +11,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -95,7 +97,8 @@ class ADDonationFragment : ADBaseFragment() {
                             val imageUrl = data.child("child_image").value.toString()
                             if (!imageUrl.isEmpty()) {
                                 Glide.with(activity as ADBaseActivity).load(imageUrl)
-                                    .error(R.drawable.ic_guest_user).into(child_image)
+                                    .apply(RequestOptions().placeholder(R.drawable.ic_guest_user).diskCacheStrategy(
+                                        DiskCacheStrategy.AUTOMATIC)).into(child_image)
                             }
 
                             val age: String = (activity as ADBaseActivity).getAge(
@@ -106,19 +109,20 @@ class ADDonationFragment : ADBaseFragment() {
 
                             val monthlyAmount = data.child("amount_needed").value.toString()
                             var monthYr =
-                                MySharedPreference(activity as ADBaseActivity).getValueString(
-                                    getString(R.string.month_yr)
-                                ).toString()
+                                MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.month_yr)).toString()
 
-                            if (monthYr.isEmpty()) {
+                            if (monthYr.isEmpty() || monthYr.equals("null")) {
                                 monthYr =
                                     (activity as ADBaseActivity).getServerDate("getCurrentMonthAndYr")
                             }
 
-                            val collectedAmount =
+                            var collectedAmount =
                                 data.child("contribution").child(monthYr).child("collected_amt")
                                     .value.toString()
 
+                            if(collectedAmount.isEmpty() || collectedAmount.equals("null")){
+                                collectedAmount="0"
+                            }
                             val text = java.lang.String.format(
                                 getString(R.string.fund_raised_msg),
                                 collectedAmount,
