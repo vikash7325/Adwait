@@ -9,7 +9,7 @@
     <dimen name="h2_text">20sp</dimen>
     <dimen name="h3_text">18sp</dimen>
 
-    <dimen name="dashboard_smile">35dp</dimen>
-    <dimen name="dashboard_smile2">38dp</dimen>
+    <dimen name="dashboard_smile">55dp</dimen>
+    <dimen name="dashboard_smile2">50dp</dimen>
 
 </resources>

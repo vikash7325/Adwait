@@ -66,7 +66,7 @@
     <string name="swipe_to_contribute">Swipe to Contribute</string>
     <string name="sign_in_dash">Please sign to access this info</string>
     <string name="exit">Yes, quit</string>
-    <string name="exit_message">Hey Elve %s.\n\n Do You Really want to leave the world of happiness?</string>
+    <string name="exit_message">Hey Elve %s.\n\nDo You Really want to leave the world of happiness?</string>
 
     <string-array name="navigation_items">
         <item>Home</item>
@@ -255,4 +255,9 @@
     <string name="cause2_content">She is not a whore. She is not the curse of shame.She is a bundle of hope and aspiration.There are 1 million sex worker\'s children in India who are forced to lose their dignity.</string>
     <string name="cause3_content">Does that mean, I should no longer dream? Can\'t I hold pens rather than hammers?There are 6 million migrating daily wage workers in India who cannot enrol their child education.</string>
     <string name="click_for_more">Click to know more</string>
+
+    <!--Wish Corner-->
+    <string name="wish_corner_hint">Planning to get them a gift?\nHere are the things that they would love to have.</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="recent">Recent</string>
 </resources>

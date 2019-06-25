@@ -97,8 +97,8 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:lines="1"
-                            android:text="Name:"
                             android:paddingBottom="3dp"
+                            android:text="Name:"
                             android:textColor="@android:color/black"
                             android:textSize="@dimen/large_text"
                             android:textStyle="bold" />
@@ -109,8 +109,8 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:lines="1"
-                            android:text="Age:"
                             android:paddingBottom="3dp"
+                            android:text="Age:"
                             android:textColor="@android:color/black"
                             android:textSize="@dimen/large_text"
                             android:textStyle="bold" />
@@ -189,31 +189,32 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="0.28">
+                    android:layout_weight="0.28"
+                    android:background="@drawable/rounded_white_bg">
 
                     <com.ebanx.swipebtn.SwipeButton
                         android:id="@+id/swipe_btn"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dashboard_smile2"
+                        android:layout_height="match_parent"
                         android:layout_centerInParent="true"
                         app:button_background="@drawable/rounded_primary_color_bg"
-                        app:button_bottom_padding="5dp"
+                        app:button_bottom_padding="8dp"
                         app:button_image_disabled="@drawable/ic_sad"
                         app:button_image_enabled="@drawable/ic_happy_white"
                         app:button_image_height="@dimen/dashboard_smile"
-                        app:button_image_width="@dimen/btn_height"
-                        app:button_left_padding="5dp"
-                        app:button_right_padding="5dp"
-                        app:button_top_padding="5dp"
+                        app:button_image_width="@dimen/dashboard_smile2"
+                        app:button_left_padding="8dp"
+                        app:button_right_padding="8dp"
+                        app:button_top_padding="8dp"
                         app:button_trail_enabled="true"
                         app:has_activate_state="true"
                         app:initial_state="disabled"
                         app:inner_text="@string/swipe_to_contribute"
                         app:inner_text_background="@drawable/rounded_white_bg"
-                        app:inner_text_bottom_padding="8dp"
+                        app:inner_text_bottom_padding="10dp"
                         app:inner_text_color="@color/colorPrimaryDark"
                         app:inner_text_size="@dimen/medium_text"
-                        app:inner_text_top_padding="8dp" />
+                        app:inner_text_top_padding="10dp" />
 
 
                     <ImageView
@@ -223,8 +224,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
                         android:layout_marginRight="5dp"
-                        android:padding="5dp"
-                        android:scaleType="fitXY"
+                        android:padding="9dp"
                         android:src="@drawable/ic_happy"
                         android:visibility="visible" />
 
@@ -484,8 +484,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:gravity="center"
         android:background="@color/transparent_black"
+        android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone">
 

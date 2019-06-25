@@ -74,19 +74,19 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:lines="1"
-                            android:text="Name:"
                             android:paddingBottom="3dp"
+                            android:text="Name:"
                             android:textColor="@color/app_text"
                             android:textSize="@dimen/medium_text" />
 
                         <TextView
                             android:id="@+id/child_age"
-                            android:text="Age:"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:lines="1"
                             android:paddingBottom="3dp"
+                            android:text="Age:"
                             android:textColor="@color/app_text"
                             android:textSize="@dimen/medium_text" />
 
@@ -95,9 +95,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
-                            android:text="Guardian\'s Name:"
                             android:lines="1"
                             android:paddingBottom="3dp"
+                            android:text="Guardian\'s Name:"
                             android:textColor="@color/app_text"
                             android:textSize="@dimen/medium_text" />
 
@@ -106,9 +106,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
-                            android:text="Location"
                             android:lines="1"
                             android:paddingBottom="3dp"
+                            android:text="Location"
                             android:textColor="@color/app_text"
                             android:textSize="@dimen/medium_text" />
 
@@ -118,8 +118,8 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:lines="1"
-                            android:text="NGO"
                             android:paddingBottom="3dp"
+                            android:text="NGO"
                             android:textColor="@color/app_text"
                             android:textSize="@dimen/medium_text" />
                     </LinearLayout>
@@ -175,22 +175,23 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.2">
+                android:layout_weight="0.2"
+                android:background="@drawable/rounded_white_bg">
 
                 <com.ebanx.swipebtn.SwipeButton
                     android:id="@+id/swipe_btn"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dashboard_smile2"
+                    android:layout_height="match_parent"
                     android:layout_centerInParent="true"
                     app:button_background="@drawable/rounded_primary_color_bg"
-                    app:button_bottom_padding="5dp"
+                    app:button_bottom_padding="8dp"
                     app:button_image_disabled="@drawable/ic_sad"
                     app:button_image_enabled="@drawable/ic_happy_white"
                     app:button_image_height="@dimen/dashboard_smile"
-                    app:button_image_width="@dimen/btn_height"
-                    app:button_left_padding="5dp"
-                    app:button_right_padding="5dp"
-                    app:button_top_padding="5dp"
+                    app:button_image_width="@dimen/dashboard_smile2"
+                    app:button_left_padding="8dp"
+                    app:button_right_padding="8dp"
+                    app:button_top_padding="8dp"
                     app:button_trail_enabled="true"
                     app:has_activate_state="true"
                     app:initial_state="disabled"
@@ -209,8 +210,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
                     android:layout_marginRight="5dp"
-                    android:padding="5dp"
-                    android:scaleType="fitXY"
+                    android:padding="8dp"
                     android:src="@drawable/ic_happy"
                     android:visibility="visible" />
 
