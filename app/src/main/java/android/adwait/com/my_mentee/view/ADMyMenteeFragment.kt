@@ -201,44 +201,15 @@ class ADMyMenteeFragment : ADBaseFragment() {
                             val dream = data.child("career_interest").value.toString()
                             val talent = data.child("hobby").value.toString()
 
-                            val message = java.lang.String.format(
-                                getString(R.string.evle_msg),
-                                menteeDetails.userName,
-                                name
-                            )
+                            val message = java.lang.String.format(getString(R.string.evle_msg), menteeDetails.userName, name)
                             text_message_body.setText(message)
-                            child_name?.setText(
-                                CommonUtils.getHtmlText(
-                                    java.lang.String.format(
-                                        getString(R.string.mente_child_name),
-                                        name
-                                    )
-                                )
-                            )
-                            guardian_name?.setText(
-                                CommonUtils.getHtmlText(
-                                    java.lang.String.format(
-                                        getString(R.string.mente_guardian),
-                                        guardian
-                                    )
-                                )
-                            )
-                            men_location?.setText(
-                                CommonUtils.getHtmlText(
-                                    java.lang.String.format(
-                                        getString(R.string.mentee_location),
-                                        location
-                                    )
-                                )
-                            )
-                            ngo_name?.setText(
-                                CommonUtils.getHtmlText(
-                                    java.lang.String.format(
-                                        getString(R.string.mentee_ngo),
-                                        ngoName
-                                    )
-                                )
-                            )
+                            child_name?.setText(CommonUtils.getHtmlText(java.lang.String.format(getString(R.string.mente_child_name), name)))
+
+                            guardian_name?.setText(CommonUtils.getHtmlText(java.lang.String.format(getString(R.string.mente_guardian), guardian)))
+
+                            men_location?.setText(CommonUtils.getHtmlText(java.lang.String.format(getString(R.string.mentee_location), location)))
+
+                            ngo_name?.setText(CommonUtils.getHtmlText(java.lang.String.format(getString(R.string.mentee_ngo), ngoName)))
 
                             tile_1_text.setText(dob)
                             tile_2_text.setText(talent)
@@ -250,18 +221,10 @@ class ADMyMenteeFragment : ADBaseFragment() {
                                     RequestOptions().placeholder(R.drawable.ic_guest_user).diskCacheStrategy(
                                         DiskCacheStrategy.AUTOMATIC)).into(child_image)
                             }
-                            val age: String = (activity as ADBaseActivity).getAge(
-                                dob,
-                                "dd-MMM-yyyy"
-                            ).toString() + " Years"
+                            val age: String = (activity as ADBaseActivity).getAge(dob, "dd-MMM-yyyy").toString() + " Years"
+
                             child_age?.setText(
-                                CommonUtils.getHtmlText(
-                                    java.lang.String.format(
-                                        getString(R.string.mente_child_age),
-                                        age
-                                    )
-                                )
-                            )
+                                CommonUtils.getHtmlText(java.lang.String.format(getString(R.string.mente_child_age), age)))
 
                             var monthYr =
                                 MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.month_yr)).toString()

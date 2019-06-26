@@ -17,7 +17,12 @@
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />st
+            android:value="@string/facebook_app_id" />
+
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="@string/razor_pay_id"
+            />
 
         <activity
             android:name=".startup.view.ADSplashActivity"

@@ -149,7 +149,7 @@ class ADEditProfileActivity : ADBaseActivity() {
 
         // get reference to 'users' node
         val mFirebaseDatabase = mFirebaseInstance.getReference(USER_TABLE_NAME)
-        mFirebaseDatabase.child(MySharedPreference(applicationContext).getValueString(getString(R.string.userId))!!).setValue(user)
+        mFirebaseDatabase.child(MySharedPreference(applicationContext).getValueString(getString(R.string.userId))!!).updateChildren(user.toMap())
                 .addOnSuccessListener {
                     progress_layout.visibility = View.GONE
                     setResult(Activity.RESULT_OK)

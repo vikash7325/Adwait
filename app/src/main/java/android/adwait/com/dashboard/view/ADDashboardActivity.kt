@@ -28,11 +28,13 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.razorpay.PaymentData
+import com.razorpay.PaymentResultWithDataListener
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 
-class ADDashboardActivity : ADBaseActivity() {
+class ADDashboardActivity : ADBaseActivity(),PaymentResultWithDataListener {
 
     private val TAG: String = "ADDashboardActivity"
     private var mUserName = ""
@@ -254,4 +256,13 @@ class ADDashboardActivity : ADBaseActivity() {
         login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(login)
     }
+
+    override fun onPaymentError(p0: Int, p1: String?, p2: PaymentData?) {
+    val donationFragment = supportFragmentManager.findFragmentById(R.id.home_container) as ADDonationFragment
+        donationFragment.onPaymentError(p0,p1,p2)
+    }
+
+    override fun onPaymentSuccess(p0: String?, p1: PaymentData?) {
+        val donationFragment = supportFragmentManager.findFragmentById(R.id.home_container) as ADDonationFragment
+        donationFragment.onPaymentSuccess(p0,p1) }
 }

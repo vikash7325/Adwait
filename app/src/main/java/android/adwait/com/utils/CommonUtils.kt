@@ -7,10 +7,6 @@ import android.text.Spanned
 class CommonUtils {
 
     companion object {
-        public fun addFragment() {
-
-
-        }
 
         public fun getHtmlText(msg: String): Spanned {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -18,6 +14,16 @@ class CommonUtils {
             } else {
                 return Html.fromHtml(msg)
             }
+        }
+
+        public fun checkForEmpty(text:String):String{
+            var str = text
+
+            if (str.isEmpty() || str.toLowerCase().equals("null")){
+                str = ""
+            }
+
+            return str
         }
     }
 }

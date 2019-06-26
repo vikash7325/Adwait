@@ -56,4 +56,8 @@
 
     <!--My mentee-->
     <string name="message_failed">We are unable to send your message. Try again</string>
+
+    <!--Donation-->
+    <string name="empty_amount">Enter your contribution and continue</string>
+    <string name="invalid_amount">Enter a valid amount</string>
 </resources>
