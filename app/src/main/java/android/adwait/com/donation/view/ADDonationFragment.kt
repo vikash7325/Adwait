@@ -4,7 +4,6 @@ import and.com.polam.utils.ADBaseActivity
 import and.com.polam.utils.CommonUtils
 import and.com.polam.utils.MySharedPreference
 import android.adwait.com.R
-import android.adwait.com.be_the_change.model.ADDayOutModel
 import android.adwait.com.dashboard.view.ADDashboardActivity
 import android.adwait.com.donation.model.ADDonationModel
 import android.adwait.com.registeration.model.ADUserDetails
@@ -25,7 +24,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.razorpay.Checkout
 import com.razorpay.PaymentData
-import com.razorpay.PaymentResultListener
 import com.razorpay.PaymentResultWithDataListener
 import kotlinx.android.synthetic.main.fragment_donation.*
 import org.json.JSONObject
@@ -39,6 +37,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
     private var mUserId = ""
     private var mChildId = ""
     private var mUserName = ""
+    private var mOldContribution=0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_donation, container, false)
@@ -56,7 +55,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
         })
 
         donate_now.setOnClickListener(View.OnClickListener { startPayment() })
-    }
+        hx_content.setText(CommonUtils.getHtmlText(getString(R.string.hx_content))) }
 
     private fun startPayment() {
 
@@ -191,21 +190,16 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                             if (collectedAmount.isEmpty() || collectedAmount.equals("null")) {
                                 collectedAmount = "0"
                             }
-                            val text = java.lang.String.format(
-                                getString(R.string.fund_raised_msg),
-                                collectedAmount,
-                                monthlyAmount
-                            )
+                            val text = java.lang.String.format(getString(R.string.fund_raised_msg),
+                                collectedAmount, monthlyAmount)
                             fund_details?.setText(text)
 
-                            if (!collectedAmount.isEmpty() && collectedAmount != null && !collectedAmount.equals(
-                                    "null"
-                                ) &&
-                                monthlyAmount != null && !monthlyAmount.equals("null") && monthlyAmount.toInt() > 0
-                            ) {
+                            if (!collectedAmount.isEmpty() && collectedAmount != null && !collectedAmount.equals("null") &&
+                                monthlyAmount != null && !monthlyAmount.equals("null") && monthlyAmount.toInt() > 0) {
                                 val percent =
                                     ((collectedAmount.toInt()) * 100 / monthlyAmount.toInt())
                                 progress.setProgress(percent)
+                                mOldContribution = collectedAmount.toInt()
                             }
                         }
                     }
@@ -225,17 +219,23 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
     }
 
     override fun onPaymentError(error_id: Int, error_msg: String?, paymentData: PaymentData?) {
+        if (error_id == Checkout.PAYMENT_CANCELED
+            || error_id == Checkout.NETWORK_ERROR)
+        {
+            return
+        }
         progress_layout.visibility = View.VISIBLE
         saveData(paymentData,false)
         (activity as ADBaseActivity).showMessage(error_msg.toString(), donation_parent, true)
     }
 
-
-    fun saveData(payment: PaymentData?,status:Boolean) {
+    private fun saveData(payment: PaymentData?,status:Boolean) {
         try {
+            val preference = MySharedPreference(activity!!.applicationContext)
+            val userId = preference.getValueString(getString(R.string.userId)).toString()
+
             var monthYr =
-                MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.month_yr))
-                    .toString()
+                MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.month_yr)).toString()
 
             if (monthYr.isEmpty() || monthYr.equals("null")) {
                 monthYr =
@@ -249,7 +249,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                 today =
                     (activity as ADBaseActivity).getServerDate("getCurrentDate")
             }
-            val donation = ADDonationModel(payment?.paymentId.toString(), "", today, amount.text.toString(), status, mChildId, mUserName)
+            val donation = ADDonationModel(payment?.paymentId.toString(), "", today, amount.text.toString(), status, mChildId, mUserName,userId)
             var mFirebaseDatabase = FirebaseDatabase.getInstance().getReference((activity as ADBaseActivity).USER_TABLE_NAME)
 
             val key = mFirebaseDatabase.push().key.toString()
@@ -264,6 +264,12 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                     mFirebaseDatabase.child(mChildId).child("contribution")
                         .child(monthYr).child(key2).setValue(donation)
                         .addOnSuccessListener {
+                            if(status) {
+                                mOldContribution = mOldContribution + amount.text.toString().toInt()
+                                mFirebaseDatabase.child(mChildId).child("contribution")
+                                    .child(monthYr).child("collected_amt")
+                                    .setValue(mOldContribution)
+                            }
                             payment_layout.visibility = View.GONE
                             congrats_layout.visibility = View.VISIBLE
                             progress_layout.visibility = View.GONE

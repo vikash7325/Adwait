@@ -47,16 +47,15 @@
                     android:layout_marginTop="5dp"
                     android:src="@drawable/ic_birthday_cake" />
 
-                <TextView
+                <android.adwait.com.utils.customfonts.ADBoldFont
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:padding="5dp"
                     android:text="@string/pledge_header"
                     android:textAllCaps="false"
-                    android:textColor="@color/app_text"
-                    android:textSize="@dimen/large_text"
-                    android:textStyle="bold" />
+                    android:textColor="@color/hint_text_color"
+                    android:textSize="@dimen/large_text" />
 
                 <!--Form UI-->
                 <LinearLayout

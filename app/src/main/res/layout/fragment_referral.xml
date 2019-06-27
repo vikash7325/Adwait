@@ -34,15 +34,14 @@
                 android:padding="@dimen/default_padding">
 
 
-                <TextView
+                <android.adwait.com.utils.customfonts.ADBoldFont
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:gravity="center"
                     android:text="@string/referral_header"
-                    android:textColor="@color/refer_header"
-                    android:textSize="@dimen/large_text"
-                    android:textStyle="bold" />
+                    android:textColor="@color/header_text_color"
+                    android:textSize="@dimen/large_text" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -51,7 +50,7 @@
                     android:gravity="center"
                     android:paddingBottom="5dp"
                     android:text="@string/referral_t_c"
-                    android:textColor="@color/refer_hint"
+                    android:textColor="@color/hint_text_color"
                     android:textSize="@dimen/small_text" />
 
                 <RelativeLayout
@@ -73,7 +72,7 @@
                         android:paddingRight="5dp"
                         android:paddingBottom="8dp"
                         android:text="@string/c_referral_code"
-                        android:textColor="@color/refer_hint"
+                        android:textColor="@color/hint_text_color"
                         android:textSize="@dimen/medium_text" />
 
                     <TextView
@@ -86,7 +85,7 @@
                         android:background="@android:color/white"
                         android:padding="8dp"
                         android:text="ELVE - XXXXXXX"
-                        android:textColor="@color/refer_hint"
+                        android:textColor="@color/hint_text_color"
                         android:textSize="@dimen/medium_text"
                         android:textStyle="bold" />
 
@@ -109,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/c_share_via"
-                    android:textColor="@color/refer_header"
+                    android:textColor="@color/header_text_color"
                     android:textSize="@dimen/small_text"
                     android:textStyle="bold" />
 
@@ -141,7 +140,7 @@
                             android:layout_marginTop="3dp"
                             android:padding="3dp"
                             android:text="@string/whatsapp"
-                            android:textColor="@color/refer_hint"
+                            android:textColor="@color/hint_text_color"
                             android:textSize="10sp" />
                     </LinearLayout>
 
@@ -165,7 +164,7 @@
                             android:layout_marginTop="3dp"
                             android:padding="3dp"
                             android:text="@string/facebook"
-                            android:textColor="@color/refer_hint"
+                            android:textColor="@color/hint_text_color"
                             android:textSize="10sp" />
                     </LinearLayout>
 
@@ -189,7 +188,7 @@
                             android:layout_marginTop="3dp"
                             android:padding="3dp"
                             android:text="@string/twitter"
-                            android:textColor="@color/refer_hint"
+                            android:textColor="@color/hint_text_color"
                             android:textSize="10sp" />
                     </LinearLayout>
 
@@ -216,7 +215,7 @@
                             android:layout_marginTop="3dp"
                             android:padding="3dp"
                             android:text="@string/others"
-                            android:textColor="@color/refer_hint"
+                            android:textColor="@color/hint_text_color"
                             android:textSize="10sp" />
                     </LinearLayout>
 
@@ -236,7 +235,7 @@
                     android:layout_marginBottom="10dp"
                     android:gravity="center"
                     android:text="@string/your_earning"
-                    android:textColor="@color/refer_header"
+                    android:textColor="@color/header_text_color"
                     android:textSize="@dimen/small_text"
                     android:textStyle="bold" />
 
@@ -246,7 +245,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:gravity="center"
-                    android:textColor="@color/refer_header"
+                    android:textColor="@color/header_text_color"
                     android:textSize="24dp"
                     android:textStyle="bold" />
 
@@ -256,7 +255,7 @@
                     android:layout_marginBottom="10dp"
                     android:gravity="center"
                     android:text="@string/c_refer_hint"
-                    android:textColor="@color/refer_hint"
+                    android:textColor="@color/hint_text_color"
                     android:textSize="@dimen/small_text"
                     android:textStyle="bold" />
             </LinearLayout>

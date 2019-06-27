@@ -20,11 +20,7 @@ import kotlinx.android.synthetic.main.fragment_be_the_change.*
 class ADBeTheChangeFragment : ADBaseFragment(), View.OnClickListener {
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_be_the_change, container, false)
 
         return view

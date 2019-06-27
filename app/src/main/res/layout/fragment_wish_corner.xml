@@ -47,9 +47,8 @@
                 android:padding="5dp"
                 android:text="@string/wish_corner_hint"
                 android:textAllCaps="false"
-                android:textColor="@color/app_text"
-                android:textSize="@dimen/large_text"
-                android:textStyle="bold" />
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/large_text" />
 
             <LinearLayout
                 android:layout_width="match_parent"

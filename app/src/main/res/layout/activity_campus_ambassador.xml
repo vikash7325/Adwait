@@ -46,16 +46,15 @@
                     android:layout_marginTop="5dp"
                     android:src="@drawable/ic_manager_avatar" />
 
-                <TextView
+                <android.adwait.com.utils.customfonts.ADBoldFont
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:padding="5dp"
                     android:text="@string/campus_header"
                     android:textAllCaps="false"
-                    android:textColor="@color/app_text"
-                    android:textSize="@dimen/large_text"
-                    android:textStyle="bold" />
+                    android:textColor="@color/hint_text_color"
+                    android:textSize="@dimen/large_text" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -81,7 +80,7 @@
                             android:gravity="center_vertical"
                             android:padding="10dp"
                             android:text="Your benefits"
-                            android:textColor="@color/app_text"
+                            android:textColor="@color/header_text_color"
                             android:textSize="@dimen/large_text"
                             android:textStyle="bold" />
 
@@ -122,8 +121,8 @@
                                     android:gravity="center"
                                     android:lines="2"
                                     android:padding="3dp"
-                                    android:text="Summer Internship"
-                                    android:textColor="@color/app_text"
+                                    android:text="@string/option1"
+                                    android:textColor="@color/hint_text_color"
                                     android:textSize="@dimen/medium_text" />
 
                             </LinearLayout>
@@ -148,8 +147,8 @@
                                     android:gravity="center"
                                     android:lines="2"
                                     android:padding="3dp"
-                                    android:text="CXO Level Networking"
-                                    android:textColor="@color/app_text"
+                                    android:text="@string/option2"
+                                    android:textColor="@color/hint_text_color"
                                     android:textSize="@dimen/medium_text" />
 
                             </LinearLayout>
@@ -174,8 +173,8 @@
                                     android:gravity="center"
                                     android:lines="2"
                                     android:padding="3dp"
-                                    android:text="Resume Booster"
-                                    android:textColor="@color/app_text"
+                                    android:text="@string/option3"
+                                    android:textColor="@color/hint_text_color"
                                     android:textSize="@dimen/medium_text" />
 
                             </LinearLayout>
@@ -201,8 +200,8 @@
                                     android:lines="2"
                                     android:paddingTop="3dp"
                                     android:paddingBottom="3dp"
-                                    android:text="Be the CEO Competition"
-                                    android:textColor="@color/app_text"
+                                    android:text="@string/option4"
+                                    android:textColor="@color/hint_text_color"
                                     android:textSize="@dimen/medium_text" />
 
                             </LinearLayout>
@@ -242,8 +241,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:padding="5dp"
-                                android:text="Conduct live marketing projects for Adwait"
-                                android:textColor="@color/app_text"
+                                android:text="@string/content1"
+                                android:textColor="@color/hint_text_color"
                                 android:textSize="@dimen/medium_text" />
 
                         </LinearLayout>
@@ -264,8 +263,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:padding="5dp"
-                                android:text="Design implement and monitor innovative campaign plans"
-                                android:textColor="@color/app_text"
+                                android:text="@string/content2"
+                                android:textColor="@color/hint_text_color"
                                 android:textSize="@dimen/medium_text" />
 
                         </LinearLayout>
@@ -286,8 +285,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:padding="5dp"
-                                android:text="Spread word of mouth in campus events and activities"
-                                android:textColor="@color/app_text"
+                                android:text="@string/content3"
+                                android:textColor="@color/hint_text_color"
                                 android:textSize="@dimen/medium_text" />
                         </LinearLayout>
 
@@ -307,8 +306,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:padding="5dp"
-                                android:text="SPOC between campus and management for any communications"
-                                android:textColor="@color/app_text"
+                                android:text="@string/content4"
+                                android:textColor="@color/hint_text_color"
                                 android:textSize="@dimen/medium_text" />
                         </LinearLayout>
                     </LinearLayout>
@@ -327,7 +326,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:text="Fill the following details to apply for our Campus Ambassador program"
+                            android:text="@string/campus_form"
                             android:textColor="@color/app_text"
                             android:textSize="@dimen/medium_text" />
 

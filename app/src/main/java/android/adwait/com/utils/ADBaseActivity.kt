@@ -34,6 +34,7 @@ open class ADBaseActivity : AppCompatActivity() {
 
     val USER_TABLE_NAME: String = "users";
     val CHILD_TABLE_NAME: String = "children";
+    val CONTRIBUTION_TABLE_NAME: String = "Contribution";
     private val TAG: String = "ADBaseActivity";
     private lateinit var auth: FirebaseAuth.AuthStateListener
     private lateinit var mFirebaseAuth: FirebaseAuth

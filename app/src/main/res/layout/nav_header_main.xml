@@ -1,31 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/drawer_header_bg"
-        android:padding="10dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark"
-        android:orientation="vertical"
-        android:id="@+id/nav_header"
-        android:gravity="center">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nav_header"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/drawer_header_bg"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-            android:layout_marginTop="25dp"
-            android:layout_width="@dimen/nav_header_image"
-            android:layout_height="@dimen/nav_header_image"
-            android:src="@drawable/ic_rounded_user"
-            android:contentDescription="@string/nav_header_desc"
-            android:id="@+id/user"/>
+        android:id="@+id/user"
+        android:layout_width="@dimen/nav_header_image"
+        android:layout_height="@dimen/nav_header_image"
+        android:layout_marginTop="25dp"
+        android:contentDescription="@string/nav_header_desc"
+        android:src="@drawable/ic_rounded_user" />
 
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="5dp"
-            android:id="@+id/nav_header_title"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:textSize="@dimen/large_text"
-            android:textColor="@color/app_text"
-            android:text="@string/nav_header_title"/>
+    <android.adwait.com.utils.customfonts.ADBoldFont
+        android:id="@+id/nav_header_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="5dp"
+        android:text="@string/nav_header_title"
+        android:textColor="@color/app_text"
+        android:textSize="@dimen/large_text" />
 </LinearLayout>

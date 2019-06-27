@@ -11,6 +11,11 @@
     <color name="gray2">#A2A2A2</color>
     <color name="drawer_header_bg">#CFCFCF</color>
 
-    <color name="refer_header">#010101</color>
-    <color name="refer_hint">#3C3C3C</color>
+    <color name="header_text_color">#010101</color>
+    <color name="hint_text_color">#3C3C3C</color>
+    <color name="hint_text_color2">#222222</color>
+    <color name="light_gray_color">#AAAAAA</color>
+
+    <color name="failed">#A62609</color>
+    <color name="successful">#4BB543</color>
 </resources>

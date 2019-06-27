@@ -8,9 +8,11 @@ import android.os.Parcelable
 class ADDonationModel(
     val transactionId: String = "", val paymentMethod: String = "",
     val date: String = "", val amount: String = "", val status: Boolean,
-    val childName: String = "", val userName: String = ""
+    val childName: String = "", val userName: String = "", val userId: String = ""
 ) : ADBaseModel(), Parcelable {
 
+
+    constructor() : this("","","","",false,"","",""){}
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(transactionId)
@@ -20,6 +22,7 @@ class ADDonationModel(
         parcel.writeString(status.toString())
         parcel.writeString(childName)
         parcel.writeString(userName)
+        parcel.writeString(userId)
     }
 
     override fun describeContents(): Int {
@@ -32,6 +35,7 @@ class ADDonationModel(
         parcel.readString(),
         parcel.readString(),
         parcel.readByte() != 0.toByte(),
+        parcel.readString(),
         parcel.readString(),
         parcel.readString()
     ) {

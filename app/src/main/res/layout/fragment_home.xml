@@ -99,7 +99,7 @@
                             android:lines="1"
                             android:paddingBottom="3dp"
                             android:text="Name:"
-                            android:textColor="@android:color/black"
+                            android:textColor="@color/app_text"
                             android:textSize="@dimen/large_text"
                             android:textStyle="bold" />
 
@@ -111,7 +111,7 @@
                             android:lines="1"
                             android:paddingBottom="3dp"
                             android:text="Age:"
-                            android:textColor="@android:color/black"
+                            android:textColor="@color/app_text"
                             android:textSize="@dimen/large_text"
                             android:textStyle="bold" />
 
@@ -148,7 +148,7 @@
                             android:lines="1"
                             android:paddingTop="3dp"
                             android:text="Fund Raised:"
-                            android:textColor="@android:color/black"
+                            android:textColor="@color/hint_text_color"
                             android:textSize="@dimen/tiny_text" />
                     </LinearLayout>
 
@@ -166,6 +166,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
+                            android:textColor="@android:color/black"
                             android:text="@string/sign_in_dash"
                             android:textSize="@dimen/medium_text"
                             android:visibility="visible" />

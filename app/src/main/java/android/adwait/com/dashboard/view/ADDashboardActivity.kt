@@ -6,7 +6,7 @@ import android.adwait.com.be_the_change.view.ADBeTheChangeFragment
 import android.adwait.com.dashboard.adapter.ADNavigationListAdapter
 import android.adwait.com.donation.view.ADDonationFragment
 import android.adwait.com.login.view.ADLoginActivity
-import android.adwait.com.my_contribution.view.ADMyContributions
+import android.adwait.com.my_contribution.view.ADMyContributionsFragment
 import android.adwait.com.my_mentee.view.ADMyMenteeFragment
 import android.adwait.com.profile.view.ADMyProfileFragment
 import android.adwait.com.registeration.model.ADUserDetails
@@ -24,7 +24,6 @@ import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.Gravity
 import android.view.View
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -196,7 +195,7 @@ class ADDashboardActivity : ADBaseActivity(),PaymentResultWithDataListener {
                     fireLogin()
                     return
                 }
-                val adMyContributions = ADMyContributions()
+                val adMyContributions = ADMyContributionsFragment()
                 addOrReplaceFragment(false, R.id.home_container, adMyContributions, addToStack)
                 mSelectedMenu=option
             }

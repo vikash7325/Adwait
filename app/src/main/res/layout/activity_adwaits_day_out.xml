@@ -43,16 +43,15 @@
                     android:layout_marginTop="5dp"
                     android:src="@drawable/ic_board" />
 
-                <TextView
+                <android.adwait.com.utils.customfonts.ADBoldFont
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:padding="5dp"
                     android:text="@string/adwait_header"
                     android:textAllCaps="false"
-                    android:textColor="@color/app_text"
-                    android:textSize="@dimen/large_text"
-                    android:textStyle="bold" />
+                    android:textColor="@color/hint_text_color"
+                    android:textSize="@dimen/large_text" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -77,8 +76,8 @@
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
                             android:padding="10dp"
-                            android:text="What is Adwait's day out?"
-                            android:textColor="@color/app_text"
+                            android:text="@string/dayout_header"
+                            android:textColor="@color/header_text_color"
                             android:textSize="@dimen/large_text"
                             android:textStyle="bold" />
 
@@ -95,8 +94,8 @@
                             android:drawableLeft="@drawable/ic_check"
                             android:drawablePadding="3dp"
                             android:padding="5dp"
-                            android:text="A chance for you to connect with an underprivilaged kids"
-                            android:textColor="@color/app_text"
+                            android:text="@string/dayout_content1"
+                            android:textColor="@color/hint_text_color"
                             android:textSize="@dimen/medium_text" />
 
                         <TextView
@@ -105,8 +104,8 @@
                             android:drawableLeft="@drawable/ic_check"
                             android:drawablePadding="3dp"
                             android:padding="5dp"
-                            android:text="A chance for you to be involved personally to do good for society"
-                            android:textColor="@color/app_text"
+                            android:text="@string/dayout_content2"
+                            android:textColor="@color/hint_text_color"
                             android:textSize="@dimen/medium_text" />
 
                         <TextView
@@ -115,8 +114,8 @@
                             android:drawableLeft="@drawable/ic_check"
                             android:drawablePadding="3dp"
                             android:padding="5dp"
-                            android:text="A chance for you to make a kid happy by being there for them"
-                            android:textColor="@color/app_text"
+                            android:text="@string/dayout_content3"
+                            android:textColor="@color/hint_text_color"
                             android:textSize="@dimen/medium_text" />
 
                     </LinearLayout>
@@ -135,7 +134,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:text="Fill out the following details based on your availability. Our team will get back to you soon."
+                            android:text="@string/dayout_form_hint"
                             android:textColor="@color/app_text"
                             android:textSize="@dimen/medium_text" />
 

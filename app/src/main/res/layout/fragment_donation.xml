@@ -20,6 +20,7 @@
             android:gravity="center"
             android:orientation="vertical">
 
+            <!--Donation Layout-->
             <LinearLayout
                 android:id="@+id/payment_layout"
                 android:layout_width="match_parent"
@@ -57,7 +58,7 @@
                             android:layout_height="wrap_content"
                             android:padding="2dp"
                             android:text="Name:"
-                            android:textColor="@android:color/black"
+                            android:textColor="@color/app_text"
                             android:textSize="@dimen/medium_text"
                             android:textStyle="bold" />
 
@@ -67,7 +68,7 @@
                             android:layout_height="wrap_content"
                             android:padding="2dp"
                             android:text="Age:"
-                            android:textColor="@android:color/black"
+                            android:textColor="@color/app_text"
                             android:textSize="@dimen/medium_text"
                             android:textStyle="bold" />
 
@@ -88,7 +89,7 @@
                             android:layout_height="wrap_content"
                             android:padding="2dp"
                             android:text="@string/fund_raised"
-                            android:textColor="@color/app_text"
+                            android:textColor="@color/hint_text_color"
                             android:textSize="@dimen/small_text" />
 
                         <TextView
@@ -96,7 +97,7 @@
                             android:layout_height="wrap_content"
                             android:padding="2dp"
                             android:text="@string/your_contribution"
-                            android:textColor="@color/app_text"
+                            android:textColor="@color/header_text_color"
                             android:textSize="@dimen/small_text" />
 
 
@@ -109,7 +110,7 @@
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:text="@string/donation_hint"
-                    android:textColor="@color/app_text"
+                    android:textColor="@color/hint_text_color"
                     android:textSize="@dimen/small_text" />
 
                 <LinearLayout
@@ -126,7 +127,7 @@
                         android:layout_marginBottom="10dp"
                         android:gravity="center"
                         android:text="@string/share_contribute_via"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/hint_text_color"
                         android:textSize="@dimen/medium_text"
                         android:textStyle="bold" />
 
@@ -338,7 +339,9 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="5dp"
                         android:checked="true"
-                        android:text="@string/checkbox" />
+                        android:text="@string/checkbox"
+                        android:textColor="@color/hint_text_color"
+                        android:textSize="@dimen/medium_text" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -417,7 +420,7 @@
                         android:layout_marginTop="10dp"
                         android:padding="5dp"
                         android:text="@string/thankyou"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/hint_text_color"
                         android:textSize="@dimen/large_text"
                         android:textStyle="bold" />
 
@@ -425,10 +428,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginBottom="5dp"
                         android:padding="5dp"
                         android:text="@string/happiness_is_yours"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/hint_text_color"
                         android:textSize="@dimen/medium_text"
                         android:textStyle="bold" />
 
@@ -441,7 +444,7 @@
                         android:gravity="center"
                         android:padding="5dp"
                         android:text="@string/congrats_content"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/hint_text_color"
                         android:textSize="@dimen/medium_text" />
 
 
@@ -452,7 +455,7 @@
                         android:layout_marginBottom="10dp"
                         android:padding="5dp"
                         android:text="@string/footer"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/hint_text_color"
                         android:textSize="@dimen/medium_text"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -469,6 +472,83 @@
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/medium_text" />
             </LinearLayout>
+
+            <!--Hx layout-->
+            <LinearLayout
+                android:id="@+id/hx_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_white_bg"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:padding="5dp"
+                        android:text="@string/congrats"
+                        android:textColor="@color/hint_text_color"
+                        android:textSize="@dimen/large_text"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:padding="5dp"
+                        android:text="@string/happiness_is_yours"
+                        android:textColor="@color/hint_text_color"
+                        android:textSize="@dimen/medium_text"
+                        android:textStyle="bold" />
+
+
+                    <TextView
+                        android:id="@+id/hx_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="@string/hx_content"
+                        android:textColor="@color/hint_text_color"
+                        android:textSize="@dimen/medium_text" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:padding="5dp"
+                        android:text="@string/footer"
+                        android:textColor="@color/hint_text_color"
+                        android:textSize="@dimen/medium_text"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/next_btn"
+                    android:layout_width="@dimen/btn_width"
+                    android:layout_height="@dimen/btn_height"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/rounded_primary_color_bg"
+                    android:text="@string/next"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/medium_text" />
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 

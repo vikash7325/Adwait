@@ -149,7 +149,7 @@
                             android:layout_width="0dp"
                             android:layout_height="1dp"
                             android:layout_weight="0.45"
-                            android:background="@android:color/darker_gray" />
+                            android:background="@color/light_gray_color" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -157,13 +157,14 @@
                             android:layout_weight="0.1"
                             android:gravity="center"
                             android:text="Or"
+                            android:textColor="@color/light_gray_color"
                             android:textSize="@dimen/medium_text" />
 
                         <View
                             android:layout_width="0dp"
                             android:layout_height="1dp"
                             android:layout_weight="0.45"
-                            android:background="@android:color/darker_gray" />
+                            android:background="@color/light_gray_color" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -202,6 +203,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:padding="5dp"
+                            android:textColor="@color/light_gray_color"
                             android:text="@string/no_account"
                             android:textSize="@dimen/medium_text" />
 
@@ -238,15 +240,14 @@
                         android:orientation="vertical"
                         android:padding="10dp">
 
-                        <TextView
+                        <android.adwait.com.utils.customfonts.ADBoldFont
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:padding="5dp"
                             android:text="@string/congrats_heading"
                             android:textColor="@android:color/black"
-                            android:textSize="@dimen/large_text"
-                            android:textStyle="bold" />
+                            android:textSize="@dimen/large_text" />
 
 
                         <TextView

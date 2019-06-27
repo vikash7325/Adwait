@@ -176,7 +176,7 @@
     <string name="pledge_header">Pledge your birthday</string>
     <string name="pledge_hint">It’s easy. Instead of gifts, ask for donations.</string>
     <string name="date_of_bday">Date of Birth</string>
-    <string name="congrats">Congratulation!</string>
+    <string name="congrats">Congratulations!</string>
     <string name="step_closer">You are a step closer to spreading happiness</string>
     <string name="tell_us_about_u">Tell us about your event!</string>
     <string name="event_name">Event Name</string>
@@ -235,6 +235,8 @@
     <string name="thankyou">Thankyou!</string>
     <string name="happiness_is_yours">#NowHappinessIsYours</string>
     <string name="congrats_content">Every Contribution counts.\nEven the Rome wasn\'t built in a day.</string>
+    <string name="hx_content"><![CDATA[You are now an exclusive member of the <b>H<sup>x</sup> Club</b>.]]></string>
+
     <string name="footer">We believe happiness is limitless.</string>
 
     <!--Contribution-->
@@ -268,4 +270,27 @@
     <string name="wish_corner_hint">Planning to get them a gift?\nHere are the things that they would love to have.</string>
     <string name="upcoming">Upcoming</string>
     <string name="recent">Recent</string>
+
+    <!--Campus Ambassador-->
+    <string name="option1">Summer Internship</string>
+    <string name="option2">CXO Level Networking</string>
+    <string name="option3">Resume Booster</string>
+    <string name="option4">Be the CEO Competition</string>
+    <string name="content1">Conduct live marketing projects for Adwait</string>
+    <string name="content2">Design implement and monitor innovative campaign plans</string>
+    <string name="content3">Spread word of mouth in campus events and activities</string>
+    <string name="content4">SPOC between campus and management for any communications</string>
+    <string name="campus_form">Fill the following details to apply for our Campus Ambassador program</string>
+
+    <!--Adwait dayout-->
+    <string name="dayout_header">What is Adwait\'s day out?</string>
+    <string name="dayout_content1">A chance for you to connect with an underprivilaged kids</string>
+    <string name="dayout_content2">A chance for you to be involved personally to do good for society</string>
+    <string name="dayout_content3">A chance for you to make a kid happy by being there for them</string>
+    <string name="dayout_form_hint">Fill out the following details based on your availability. Our team will get back to you soon.</string>
+
+    <!--Evle Talk-->
+    <string name="evle_talk">Evle Talk</string>
+    <string name="evle_talk_header">What is Evle Talk?</string>
+
 </resources>

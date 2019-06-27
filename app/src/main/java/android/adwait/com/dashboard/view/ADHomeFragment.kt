@@ -246,8 +246,7 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                             }
 
                             var collectedAmount =
-                                data.child("contribution").child(monthYr).child("collected_amt")
-                                    .value.toString()
+                                data.child("contribution").child(monthYr).child("collected_amt").value.toString()
 
                             if(collectedAmount.isEmpty() || collectedAmount.equals("null")){
                                 collectedAmount="0"
@@ -256,11 +255,8 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                             val text = java.lang.String.format(getString(R.string.fund_raised_msg), collectedAmount, monthlyAmount)
                             fund_details?.setText(text)
 
-                            if (!collectedAmount.isEmpty() && collectedAmount != null && !collectedAmount.equals(
-                                    "null"
-                                ) &&
-                                monthlyAmount != null && !monthlyAmount.equals("null") && monthlyAmount.toInt() > 0
-                            ) {
+                            if (!collectedAmount.isEmpty() && collectedAmount != null && !collectedAmount.equals("null") &&
+                                monthlyAmount != null && !monthlyAmount.equals("null") && monthlyAmount.toInt() > 0) {
                                 val percent =
                                     ((collectedAmount.toInt()) * 100 / monthlyAmount.toInt())
                                 progress.setProgress(percent)

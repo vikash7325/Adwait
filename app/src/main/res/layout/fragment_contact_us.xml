@@ -12,8 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:fillViewport="true"
-        android:scrollbars="none"
-        android:padding="@dimen/default_padding">
+        android:padding="@dimen/default_padding"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,14 +28,13 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_contact" />
 
-            <TextView
+            <android.adwait.com.utils.customfonts.ADBoldFont
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:text="@string/contact_header"
-                android:textColor="@color/app_text"
-                android:textSize="@dimen/large_text"
-                android:textStyle="bold" />
+                android:textColor="@color/hint_text_color"
+                android:textSize="@dimen/large_text" />
 
             <LinearLayout
                 android:layout_width="match_parent"

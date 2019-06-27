@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
+        android:textColor="@color/gray2"
         android:text="Transaction ID : "
         android:textSize="@dimen/medium_text" />
 
@@ -23,6 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:textColor="@color/gray2"
             android:layout_centerInParent="true"
             android:layout_toLeftOf="@+id/try_again"
             android:padding="5dp"
@@ -38,6 +40,7 @@
             android:layout_toLeftOf="@+id/status"
             android:padding="5dp"
             android:text="Try Again"
+            android:visibility="gone"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/medium_text" />
 
@@ -48,7 +51,6 @@
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:padding="5dp"
-            android:text="Failed"
             android:textAllCaps="true"
             android:textSize="@dimen/medium_text" />
 

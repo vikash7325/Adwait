@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:orientation="vertical"
-                android:padding="5dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:padding="5dp">
 
     <TextView
-            android:id="@+id/cost"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            android:padding="5dp"
-            android:text="200$"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/medium_text"/>
+        android:id="@+id/cost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerInParent="true"
+        android:padding="5dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/medium_text" />
 
     <TextView
-            android:id="@+id/payment_option"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/indicator"
-            android:layout_toRightOf="@+id/cost"
-            android:padding="5dp"
-            android:textColor="@color/app_text"
-            android:textSize="@dimen/medium_text"/>
+        android:id="@+id/payment_option"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/indicator"
+        android:layout_toRightOf="@+id/cost"
+        android:padding="5dp"
+        android:textColor="@color/header_text_color"
+        android:textSize="@dimen/medium_text" />d
 
     <ImageView
-            android:id="@+id/indicator"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:layout_margin="5dp"
-            android:src="@drawable/ic_be_the_change"/>
+        android:id="@+id/indicator"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:padding="3dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_margin="5dp"
+        android:src="@drawable/collapsed" />
 
 </RelativeLayout>

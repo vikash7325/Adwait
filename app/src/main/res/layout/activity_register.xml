@@ -210,7 +210,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="@string/ref_code_hint"
-                            android:textColor="@color/app_text"
+                            android:textColor="@color/hint_text_color"
                             android:textSize="@dimen/medium_text" />
 
                         <LinearLayout
@@ -231,7 +231,7 @@
                                 android:padding="5dp"
                                 android:text="ELEV - "
                                 android:textAllCaps="true"
-                                android:textColor="@color/app_text"
+                                android:textColor="@color/hint_text_color"
                                 android:textSize="@dimen/large_text" />
 
 
@@ -306,15 +306,14 @@
                         android:orientation="vertical"
                         android:padding="10dp">
 
-                        <TextView
+                        <android.adwait.com.utils.customfonts.ADBoldFont
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:padding="5dp"
                             android:text="@string/congrats_heading"
-                            android:textColor="@android:color/black"
-                            android:textSize="@dimen/large_text"
-                            android:textStyle="bold" />
+                            android:textColor="@color/hint_text_color"
+                            android:textSize="@dimen/large_text" />
 
 
                         <TextView
@@ -324,7 +323,7 @@
                             android:layout_marginTop="10dp"
                             android:gravity="center"
                             android:padding="5dp"
-                            android:textColor="@android:color/black"
+                            android:textColor="@color/hint_text_color"
                             android:textSize="@dimen/medium_text" />
 
                     </LinearLayout>
