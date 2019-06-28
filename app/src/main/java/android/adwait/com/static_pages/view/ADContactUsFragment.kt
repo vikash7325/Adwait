@@ -38,7 +38,7 @@ class ADContactUsFragment : ADBaseFragment() {
                 (activity as ADBaseActivity).showMessage(getString(R.string.empty_subject), contact_parent, true);
             } else if (TextUtils.isEmpty(cContact)) {
                 email_or_num.setError(getString(R.string.empty_contact));
-            } else if ((activity as ADBaseActivity).isValidContactDetails(cContact)) {
+            } else if (!(activity as ADBaseActivity).isValidContactDetails(cContact)) {
                 email_or_num.setError(getString(R.string.invalid_contact))
             } else if (TextUtils.isEmpty(cMessage)) {
                 message.setError(getString(R.string.empty_message));

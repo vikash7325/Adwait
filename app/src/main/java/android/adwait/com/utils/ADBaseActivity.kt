@@ -32,8 +32,8 @@ import java.util.regex.Pattern
 
 open class ADBaseActivity : AppCompatActivity() {
 
-    val USER_TABLE_NAME: String = "users";
-    val CHILD_TABLE_NAME: String = "children";
+    val USER_TABLE_NAME: String = "Elve_details";
+    val CHILD_TABLE_NAME: String = "Children_Details";
     val CONTRIBUTION_TABLE_NAME: String = "Contribution";
     private val TAG: String = "ADBaseActivity";
     private lateinit var auth: FirebaseAuth.AuthStateListener
@@ -165,16 +165,19 @@ open class ADBaseActivity : AppCompatActivity() {
 
     public fun isValidContactDetails(contact: String): Boolean {
         var isValid = false
-        val mobile =
-            "^[A-Za-z][A-Za-z0-9]*([._-]?[A-Za-z0-9]+)@[A-Za-z].[A-Za-z]{0,3}?.[A-Za-z]{0,2}$"
-        val pat = Pattern.compile(mobile)
+        val email = "^[A-Za-z][A-Za-z0-9]*([._-]?[A-Za-z0-9]+)@[A-Za-z].[A-Za-z]{0,3}?.[A-Za-z]{0,2}$"
+        val emailPat = Pattern.compile(email)
 
-        val email = "^[6-9][0-9]{9}$"
-        val pat2 = Pattern.compile(email)
-        if (pat2.matcher(contact).matches()) {
-            isValid = true
+        val  mobile= "^[6-9][0-9]{9}$"
+        val mobilePat = Pattern.compile(mobile)
 
-        } else if (pat.matcher(contact).matches()) {
+        val  mobile1= "[0-9]+"
+        val mobilePat2 = Pattern.compile(mobile1)
+        if (mobilePat2.matcher(contact).matches()) {
+            if (mobilePat.matcher(contact).matches()) {
+                isValid = true
+            }
+        } else if (emailPat.matcher(contact).matches()) {
             isValid = true
         }
         return isValid

@@ -250,12 +250,11 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                     (activity as ADBaseActivity).getServerDate("getCurrentDate")
             }
             val donation = ADDonationModel(payment?.paymentId.toString(), "", today, amount.text.toString(), status, mChildId, mUserName,userId)
-            var mFirebaseDatabase = FirebaseDatabase.getInstance().getReference((activity as ADBaseActivity).USER_TABLE_NAME)
+            var mFirebaseDatabase = FirebaseDatabase.getInstance().getReference((activity as ADBaseActivity).CONTRIBUTION_TABLE_NAME)
 
             val key = mFirebaseDatabase.push().key.toString()
 
-            mFirebaseDatabase.child(mUserId)
-                .child("contribution")
+            mFirebaseDatabase
                 .child(monthYr).child(key).setValue(donation)
                 .addOnSuccessListener {
 

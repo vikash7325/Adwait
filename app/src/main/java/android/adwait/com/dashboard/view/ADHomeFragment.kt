@@ -175,7 +175,7 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
             (activity as ADBaseActivity).getUserDetails(object : ValueEventListener {
 
                 override fun onDataChange(data: DataSnapshot) {
-                    Log.e(TAG, "Mentee fetched.")
+                    Log.i(TAG, "Mentee fetched.")
                     if (data.exists()) {
                         menteeDetails = data.getValue(ADUserDetails::class.java)!!
                         if (menteeDetails != null) {
@@ -191,7 +191,7 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    Log.e(TAG, "Mentee fetch Error : " + error.message)
+                    Log.i(TAG, "Mentee fetch Error : " + error.message)
                     hideProgress()
                 }
             })
@@ -218,7 +218,7 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
             (activity as ADBaseActivity).getChildDetails(childId, object : ValueEventListener {
 
                 override fun onDataChange(data: DataSnapshot) {
-                    Log.e(TAG, "Child Fetched.")
+                    Log.i(TAG, "Child Fetched.")
                     hideProgress()
                     if (data.exists()) {
                         if (data != null) {
@@ -266,7 +266,7 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    Log.e(TAG, "Error : " + error.message)
+                    Log.i(TAG, "Error : " + error.message)
                     hideProgress()
                 }
             })
