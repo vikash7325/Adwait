@@ -1,6 +1,5 @@
 package android.adwait.com.donation.model
 
-import and.com.polam.utils.ADBaseActivity
 import android.adwait.com.utils.ADBaseModel
 import android.os.Parcel
 import android.os.Parcelable
@@ -8,7 +7,7 @@ import android.os.Parcelable
 class ADDonationModel(
     val transactionId: String = "", val paymentMethod: String = "",
     val date: String = "", val amount: String = "", val status: Boolean,
-    val childName: String = "", val userName: String = "", val userId: String = ""
+    val childId: String = "", val userName: String = "", val userId: String = ""
 ) : ADBaseModel(), Parcelable {
 
 
@@ -20,7 +19,7 @@ class ADDonationModel(
         parcel.writeString(date)
         parcel.writeString(amount)
         parcel.writeString(status.toString())
-        parcel.writeString(childName)
+        parcel.writeString(childId)
         parcel.writeString(userName)
         parcel.writeString(userId)
     }

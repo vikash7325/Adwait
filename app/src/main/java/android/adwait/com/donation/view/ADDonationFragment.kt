@@ -37,9 +37,13 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
     private var mUserId = ""
     private var mChildId = ""
     private var mUserName = ""
-    private var mOldContribution=0
+    private var mOldContribution = 0
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater?.inflate(R.layout.fragment_donation, container, false)
 
         return view
@@ -51,16 +55,21 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
         fetchUserData()
 
         done_btn.setOnClickListener(View.OnClickListener {
-            (activity as ADDashboardActivity).menuAction(ADConstants.MENU_HOME,"")
+            (activity as ADDashboardActivity).menuAction(ADConstants.MENU_HOME, "")
         })
 
         donate_now.setOnClickListener(View.OnClickListener { startPayment() })
-        hx_content.setText(CommonUtils.getHtmlText(getString(R.string.hx_content))) }
+        hx_content.setText(CommonUtils.getHtmlText(getString(R.string.hx_content)))
+    }
 
     private fun startPayment() {
 
-        if (amount.text.toString().isEmpty()){
-            (activity as ADBaseActivity).showMessage(getString(R.string.empty_amount),donation_parent,true)
+        if (amount.text.toString().isEmpty()) {
+            (activity as ADBaseActivity).showMessage(
+                getString(R.string.empty_amount),
+                donation_parent,
+                true
+            )
             return
         }
 
@@ -74,8 +83,12 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
 
             val money = amount.text.toString().toInt() * 100
 
-            if (money==0){
-                (activity as ADBaseActivity).showMessage(getString(R.string.invalid_amount),donation_parent,true)
+            if (money == 0) {
+                (activity as ADBaseActivity).showMessage(
+                    getString(R.string.invalid_amount),
+                    donation_parent,
+                    true
+                )
                 return
             }
             options.put("currency", "INR")
@@ -98,7 +111,11 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
     private fun fetchUserData() {
 
         if (!(activity as ADBaseActivity).isNetworkAvailable()) {
-            (activity as ADBaseActivity).showMessage(getString(R.string.no_internet), donation_parent, true)
+            (activity as ADBaseActivity).showMessage(
+                getString(R.string.no_internet),
+                donation_parent,
+                true
+            )
             return
         }
         if ((activity as ADBaseActivity).isLoggedInUser()) {
@@ -114,12 +131,14 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                         mEmail = menteeDetails.emailAddress
                         mUserName = menteeDetails.userName
 
-                        mUserId = MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.userId)).toString()
+                        mUserId = MySharedPreference(activity as ADBaseActivity).getValueString(
+                            getString(R.string.userId)
+                        ).toString()
                         mPhoneNumber = CommonUtils.checkForEmpty(mPhoneNumber)
                         mEmail = CommonUtils.checkForEmpty(mEmail)
                         mUserName = CommonUtils.checkForEmpty(mUserName)
 
-                        if (mUserName.isEmpty()){
+                        if (mUserName.isEmpty()) {
                             mUserName = mEmail
                         }
                         fetchChildData(menteeDetails.childId)
@@ -162,8 +181,11 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                             val imageUrl = data.child("child_image").value.toString()
                             if (!imageUrl.isEmpty()) {
                                 Glide.with(activity as ADBaseActivity).load(imageUrl)
-                                    .apply(RequestOptions().placeholder(R.drawable.ic_guest_user).diskCacheStrategy(
-                                        DiskCacheStrategy.AUTOMATIC)).into(child_image)
+                                    .apply(
+                                        RequestOptions().placeholder(R.drawable.ic_guest_user).diskCacheStrategy(
+                                            DiskCacheStrategy.AUTOMATIC
+                                        )
+                                    ).into(child_image)
                             }
 
                             val age: String = (activity as ADBaseActivity).getAge(
@@ -182,6 +204,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                                 monthYr =
                                     (activity as ADBaseActivity).getServerDate("getCurrentMonthAndYr")
                             }
+                            fetchContribution(mUserId,monthYr)
 
                             var collectedAmount =
                                 data.child("contribution").child(monthYr).child("collected_amt")
@@ -190,12 +213,15 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                             if (collectedAmount.isEmpty() || collectedAmount.equals("null")) {
                                 collectedAmount = "0"
                             }
-                            val text = java.lang.String.format(getString(R.string.fund_raised_msg),
-                                collectedAmount, monthlyAmount)
+                            val text = java.lang.String.format(
+                                getString(R.string.fund_raised_msg),
+                                collectedAmount, monthlyAmount
+                            )
                             fund_details?.setText(text)
 
                             if (!collectedAmount.isEmpty() && collectedAmount != null && !collectedAmount.equals("null") &&
-                                monthlyAmount != null && !monthlyAmount.equals("null") && monthlyAmount.toInt() > 0) {
+                                monthlyAmount != null && !monthlyAmount.equals("null") && monthlyAmount.toInt() > 0
+                            ) {
                                 val percent =
                                     ((collectedAmount.toInt()) * 100 / monthlyAmount.toInt())
                                 progress.setProgress(percent)
@@ -213,29 +239,62 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
         }
     }
 
+    private fun fetchContribution(userId: String,monthYr:String) {
+
+        var myContribution = 0;
+        FirebaseDatabase.getInstance()
+            .getReference((activity as ADBaseActivity).CONTRIBUTION_TABLE_NAME).child(monthYr)
+            .orderByChild("amount")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                            for (data in dataSnapshot.children){
+                                Log.e(TAG, "onDataChange : " + data)
+                                val donation = data.getValue(ADDonationModel::class.java)
+                                if(donation?.userId.equals(userId)){
+                                    val amt:Int = donation?.amount?.toInt()!!
+                                    myContribution = myContribution+amt
+                                }
+                            }
+                        val text = java.lang.String.format(
+                            getString(R.string.your_contribution),myContribution.toString())
+                        my_contribution?.setText(text)
+
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "fetchContribution Error : " + error.message)
+                }
+
+            })
+    }
+
     override fun onPaymentSuccess(paymentId: String?, paymentData: PaymentData?) {
         progress_layout.visibility = View.VISIBLE
-        saveData(paymentData,true)
+        saveData(paymentData, true)
     }
 
     override fun onPaymentError(error_id: Int, error_msg: String?, paymentData: PaymentData?) {
         if (error_id == Checkout.PAYMENT_CANCELED
-            || error_id == Checkout.NETWORK_ERROR)
-        {
+            || error_id == Checkout.NETWORK_ERROR
+        ) {
             return
         }
         progress_layout.visibility = View.VISIBLE
-        saveData(paymentData,false)
+        saveData(paymentData, false)
         (activity as ADBaseActivity).showMessage(error_msg.toString(), donation_parent, true)
     }
 
-    private fun saveData(payment: PaymentData?,status:Boolean) {
+    private fun saveData(payment: PaymentData?, status: Boolean) {
         try {
             val preference = MySharedPreference(activity!!.applicationContext)
             val userId = preference.getValueString(getString(R.string.userId)).toString()
 
             var monthYr =
-                MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.month_yr)).toString()
+                MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.month_yr))
+                    .toString()
 
             if (monthYr.isEmpty() || monthYr.equals("null")) {
                 monthYr =
@@ -243,14 +302,25 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
             }
 
             var today =
-                MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.current_date)).toString()
+                MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.current_date))
+                    .toString()
 
             if (today.isEmpty() || today.equals("null")) {
                 today =
                     (activity as ADBaseActivity).getServerDate("getCurrentDate")
             }
-            val donation = ADDonationModel(payment?.paymentId.toString(), "", today, amount.text.toString(), status, mChildId, mUserName,userId)
-            var mFirebaseDatabase = FirebaseDatabase.getInstance().getReference((activity as ADBaseActivity).CONTRIBUTION_TABLE_NAME)
+            val donation = ADDonationModel(
+                payment?.paymentId.toString(),
+                "",
+                today,
+                amount.text.toString(),
+                status,
+                mChildId,
+                mUserName,
+                userId
+            )
+            var mFirebaseDatabase = FirebaseDatabase.getInstance()
+                .getReference((activity as ADBaseActivity).CONTRIBUTION_TABLE_NAME)
 
             val key = mFirebaseDatabase.push().key.toString()
 
@@ -258,12 +328,13 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                 .child(monthYr).child(key).setValue(donation)
                 .addOnSuccessListener {
 
-                    mFirebaseDatabase = FirebaseDatabase.getInstance().getReference((activity as ADBaseActivity).CHILD_TABLE_NAME)
+                    mFirebaseDatabase = FirebaseDatabase.getInstance()
+                        .getReference((activity as ADBaseActivity).CHILD_TABLE_NAME)
                     val key2 = mFirebaseDatabase.push().key.toString()
                     mFirebaseDatabase.child(mChildId).child("contribution")
                         .child(monthYr).child(key2).setValue(donation)
                         .addOnSuccessListener {
-                            if(status) {
+                            if (status) {
                                 mOldContribution = mOldContribution + amount.text.toString().toInt()
                                 mFirebaseDatabase.child(mChildId).child("contribution")
                                     .child(monthYr).child("collected_amt")
@@ -281,8 +352,8 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                 .addOnFailureListener {
                     progress_layout.visibility = View.GONE
                 }
-        }catch(e:Exception){
-            Log.i("Tag",e.printStackTrace().toString())
+        } catch (e: Exception) {
+            Log.i("Tag", e.printStackTrace().toString())
             progress_layout.visibility = View.GONE
         }
     }

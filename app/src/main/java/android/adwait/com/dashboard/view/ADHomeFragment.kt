@@ -28,6 +28,7 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
     private var mScreenWidth = 0
     private var mDetailsFilled = false
     private lateinit var menteeDetails: ADUserDetails
+    private var mHasChild = true
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -49,43 +50,11 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
         home_indicator.setViewPager(home_pager)
         homeAdapter.registerDataSetObserver(home_indicator.dataSetObserver)
 
-        /*       swipe_layout.setOnTouchListener { v, event ->
-
-                   var downX: Float = 0.0f
-                   var upX: Float = 0.0f
-                   when (event.action) {
-
-                       MotionEvent.ACTION_DOWN -> {
-                           downX = event.x
-                       }
-
-                       MotionEvent.ACTION_MOVE -> {
-                           val swiped = event.x - downX
-
-                           val values = (swiped / mScreenWidth) * 100
-                           contribution_progress.setProgress(values.toInt())
-                           Log.i(TAG, "Swipped % -> " + values + " mScreenWidth -> " + mScreenWidth)
-                           sad_icon.visibility = View.GONE
-
-                           if (values > 50) {
-                               if ((activity as ADBaseActivity).isLoggedInUser()) {
-                                   (activity as ADDashboardActivity).menuAction(ADConstants.MENU_DONATION,"")
-                               } else {
-                                   (activity as ADDashboardActivity).fireLogin()
-                               }
-                           }
-
-                           sad_icon.visibility = View.VISIBLE
-
-                           contribution_progress.setProgress(13)
-                       }
-                   }
-
-                   true
-               }
-       */
-
         swipe_btn.setOnStateChangeListener(OnStateChangeListener {
+
+            if (!mHasChild) {
+                return@OnStateChangeListener
+            }
             if (it) {
                 happy_icon.visibility = View.GONE
                 if ((activity as ADBaseActivity).isLoggedInUser()) {
@@ -93,18 +62,22 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                 } else {
                     (activity as ADDashboardActivity).fireLogin()
                 }
-            }else{
+            } else {
                 happy_icon.visibility = View.VISIBLE
             }
         })
 
-        if((activity as ADBaseActivity).isLoggedInUser()&& !MySharedPreference((activity as ADBaseActivity)).getValueBoolean(getString(R.string.already_logged))){
+        if ((activity as ADBaseActivity).isLoggedInUser() && !MySharedPreference((activity as ADBaseActivity)).getValueBoolean(getString(R.string.already_logged))) {
 
-            Glide.with(activity as ADBaseActivity).asGif().load(R.drawable.loading_vid).into(progress_image)
+            Glide.with(activity as ADBaseActivity).asGif().load(R.drawable.loading_vid)
+                .into(progress_image)
             progress_image.visibility = View.VISIBLE
             progress_bar.visibility = View.GONE
-            MySharedPreference((activity as ADBaseActivity)).saveBoolean(getString(R.string.already_logged),true)
-        }else{
+            MySharedPreference((activity as ADBaseActivity)).saveBoolean(
+                getString(R.string.already_logged),
+                true
+            )
+        } else {
             progress_image.visibility = View.GONE
             progress_bar.visibility = View.VISIBLE
         }
@@ -133,6 +106,7 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
     override fun onStart() {
         super.onStart()
     }
+
     override fun onClick(v: View?) {
 
         when (v?.id) {
@@ -140,6 +114,9 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                 (activity as ADDashboardActivity).menuAction(ADConstants.MENU_HX_CLUB, "")
             }
             R.id.tile2 -> {
+                if (!mHasChild){
+                    return
+                }
                 if (mDetailsFilled) {
                     (activity as ADDashboardActivity).menuAction(ADConstants.MENU_MY_MENTEE, "")
                 } else {
@@ -147,15 +124,24 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                 }
             }
             R.id.tile3 -> {
+                if (!mHasChild){
+                    return
+                }
                 (activity as ADDashboardActivity).menuAction(ADConstants.MENU_WISH_CORNER, "")
             }
             R.id.tile4 -> {
                 (activity as ADDashboardActivity).menuAction(ADConstants.MENU_OUR_PARTNERS, "")
             }
             R.id.tile5 -> {
+                if (!mHasChild){
+                    return
+                }
                 (activity as ADDashboardActivity).menuAction(ADConstants.MENU_BE_THE_CHANGE, "")
             }
             R.id.tile6 -> {
+                if (!mHasChild){
+                    return
+                }
                 (activity as ADDashboardActivity).menuAction(ADConstants.MENU_OUR_CAUSE, "")
             }
         }
@@ -164,7 +150,11 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
     private fun fetchUserData() {
 
         if (!(activity as ADBaseActivity).isNetworkAvailable()) {
-            (activity as ADBaseActivity).showMessage(getString(R.string.no_internet), home_parent, true)
+            (activity as ADBaseActivity).showMessage(
+                getString(R.string.no_internet),
+                home_parent,
+                true
+            )
             return
         }
         if ((activity as ADBaseActivity).isLoggedInUser()) {
@@ -204,11 +194,16 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
     private fun fetchChildData(childId: String) {
 
         if (!(activity as ADBaseActivity).isNetworkAvailable()) {
-            (activity as ADBaseActivity).showMessage(getString(R.string.no_internet), home_parent, true)
+            (activity as ADBaseActivity).showMessage(
+                getString(R.string.no_internet),
+                home_parent,
+                true
+            )
             return
         }
-        if (childId.isEmpty()){
+        if (childId.isEmpty()) {
             hideProgress()
+            mHasChild = false
             return
         }
         if ((activity as ADBaseActivity).isLoggedInUser()) {
@@ -229,16 +224,21 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                             if (!imageUrl.isEmpty()) {
                                 Glide.with(activity as ADBaseActivity).load(imageUrl).apply(
                                     RequestOptions().placeholder(R.drawable.ic_guest_user).diskCacheStrategy(
-                                        DiskCacheStrategy.AUTOMATIC)).into(child_image)
+                                        DiskCacheStrategy.AUTOMATIC
+                                    )
+                                ).into(child_image)
                             }
                             val dob = data.child("date_of_birth").value.toString()
 
-                            val age: String = (activity as ADBaseActivity).getAge(dob, "dd-MMM-yyyy").toString()
+                            val age: String =
+                                (activity as ADBaseActivity).getAge(dob, "dd-MMM-yyyy").toString()
                             child_age?.setText(age + " Years")
 
                             val monthlyAmount = data.child("amount_needed").value.toString()
                             var monthYr =
-                                MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.month_yr)).toString()
+                                MySharedPreference(activity as ADBaseActivity).getValueString(
+                                    getString(R.string.month_yr)
+                                ).toString()
 
                             if (monthYr.isEmpty() || monthYr.equals("null")) {
                                 monthYr =
@@ -246,17 +246,25 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                             }
 
                             var collectedAmount =
-                                data.child("contribution").child(monthYr).child("collected_amt").value.toString()
+                                data.child("contribution").child(monthYr).child("collected_amt")
+                                    .value.toString()
 
-                            if(collectedAmount.isEmpty() || collectedAmount.equals("null")){
-                                collectedAmount="0"
+                            if (collectedAmount.isEmpty() || collectedAmount.equals("null")) {
+                                collectedAmount = "0"
                             }
 
-                            val text = java.lang.String.format(getString(R.string.fund_raised_msg), collectedAmount, monthlyAmount)
+                            val text = java.lang.String.format(
+                                getString(R.string.fund_raised_msg),
+                                collectedAmount,
+                                monthlyAmount
+                            )
                             fund_details?.setText(text)
 
-                            if (!collectedAmount.isEmpty() && collectedAmount != null && !collectedAmount.equals("null") &&
-                                monthlyAmount != null && !monthlyAmount.equals("null") && monthlyAmount.toInt() > 0) {
+                            if (!collectedAmount.isEmpty() && collectedAmount != null && !collectedAmount.equals(
+                                    "null"
+                                ) &&
+                                monthlyAmount != null && !monthlyAmount.equals("null") && monthlyAmount.toInt() > 0
+                            ) {
                                 val percent =
                                     ((collectedAmount.toInt()) * 100 / monthlyAmount.toInt())
                                 progress.setProgress(percent)
@@ -277,12 +285,12 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
         }
     }
 
-    fun  hideProgress(){
+    fun hideProgress() {
 
-        if (progress_image.visibility == View.VISIBLE){
+        if (progress_image.visibility == View.VISIBLE) {
             Thread.sleep(5000)
             progress_layout?.visibility = View.GONE
-        }else{
+        } else {
             progress_layout?.visibility = View.GONE
         }
     }

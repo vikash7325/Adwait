@@ -29,7 +29,7 @@ class ADContributionAdapter(
     }
 
     override fun getChild(groupPosition: Int, childPosition: Int): Any {
-        return mContributionList.get(groupPosition).childName
+        return mContributionList.get(groupPosition).childId
     }
 
     override fun getGroupId(groupPosition: Int): Long {

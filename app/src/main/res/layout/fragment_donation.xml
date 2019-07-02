@@ -93,10 +93,11 @@
                             android:textSize="@dimen/small_text" />
 
                         <TextView
+                            android:id="@+id/my_contribution"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="2dp"
-                            android:text="@string/your_contribution"
+                            android:text="Your contribution this month: ₹0"
                             android:textColor="@color/header_text_color"
                             android:textSize="@dimen/small_text" />
 
