@@ -11,6 +11,7 @@ import android.adwait.com.my_mentee.view.ADMyMenteeFragment
 import android.adwait.com.profile.view.ADMyProfileFragment
 import android.adwait.com.registeration.model.ADUserDetails
 import android.adwait.com.static_pages.view.*
+import android.adwait.com.utils.ADCommonResponseListener
 import android.adwait.com.utils.ADConstants
 import android.adwait.com.utils.ADViewClickListener
 import android.adwait.com.wish_corner.view.ADWishCornerFragment
@@ -37,7 +38,7 @@ class ADDashboardActivity : ADBaseActivity(),PaymentResultWithDataListener {
 
     private val TAG: String = "ADDashboardActivity"
     private var mUserName = ""
-    private var mSelectedMenu=0;
+    private var mSelectedMenu=0
     private var mHasChild = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,9 +46,8 @@ class ADDashboardActivity : ADBaseActivity(),PaymentResultWithDataListener {
         setContentView(R.layout.activity_dashboard)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-
-        getServerDate("getCurrentMonthAndYr")
-        getServerDate("getCurrentDate")
+        getServerDate("getCurrentMonthAndYr",null)
+        getServerDate("getCurrentDate",null)
 
         supportActionBar?.setDisplayShowHomeEnabled(false)
 
@@ -75,7 +75,6 @@ class ADDashboardActivity : ADBaseActivity(),PaymentResultWithDataListener {
             }
         })
         val homeFragment = ADHomeFragment()
-        addOrReplaceFragment(true, R.id.home_container, homeFragment, "")
         mSelectedMenu=0
 
         nav_header.setOnClickListener(View.OnClickListener {
@@ -85,10 +84,9 @@ class ADDashboardActivity : ADBaseActivity(),PaymentResultWithDataListener {
         val adapter = ADNavigationListAdapter(this)
         navigation_list.adapter = adapter
 
-        navigation_list.setOnItemClickListener { parent, view, position, id ->
-            menuAction(position,"")
-        }
+        navigation_list.setOnItemClickListener { parent, view, position, id -> menuAction(position,"") }
         fetchUserData()
+        addOrReplaceFragment(true, R.id.home_container, homeFragment, "")
     }
 
     fun fetchUserData() {

@@ -7,6 +7,7 @@ import android.adwait.com.R
 import android.adwait.com.dashboard.adapter.ADHomePageAdapter
 import android.adwait.com.registeration.model.ADUserDetails
 import android.adwait.com.utils.ADBaseFragment
+import android.adwait.com.utils.ADCommonResponseListener
 import android.adwait.com.utils.ADConstants
 import android.os.Bundle
 import android.util.Log
@@ -73,10 +74,7 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                 .into(progress_image)
             progress_image.visibility = View.VISIBLE
             progress_bar.visibility = View.GONE
-            MySharedPreference((activity as ADBaseActivity)).saveBoolean(
-                getString(R.string.already_logged),
-                true
-            )
+            MySharedPreference((activity as ADBaseActivity)).saveBoolean(getString(R.string.already_logged), true)
         } else {
             progress_image.visibility = View.GONE
             progress_bar.visibility = View.VISIBLE
@@ -175,7 +173,23 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                             } else {
                                 mDetailsFilled = true
                             }
-                            fetchChildData(menteeDetails.childId)
+                            var monthYr =
+                                MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.month_yr)).toString()
+
+                             if (monthYr.isEmpty() || monthYr.length==0){
+                                 (activity as ADBaseActivity).getServerDate("getCurrentDate",object :ADCommonResponseListener{
+                                     override fun onSuccess() {
+                                         fetchChildData(menteeDetails.childId,monthYr)
+                                     }
+
+                                     override fun onError() {
+                                         hideProgress()
+                                     }
+
+                                 })
+                             }else {
+                                 fetchChildData(menteeDetails.childId,monthYr)
+                             }
                         }
                     }
                 }
@@ -191,14 +205,11 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
         }
     }
 
-    private fun fetchChildData(childId: String) {
+    private fun fetchChildData(childId: String,monthYr:String) {
 
         if (!(activity as ADBaseActivity).isNetworkAvailable()) {
             (activity as ADBaseActivity).showMessage(
-                getString(R.string.no_internet),
-                home_parent,
-                true
-            )
+                getString(R.string.no_internet), home_parent, true)
             return
         }
         if (childId.isEmpty()) {
@@ -235,15 +246,7 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                             child_age?.setText(age + " Years")
 
                             val monthlyAmount = data.child("amount_needed").value.toString()
-                            var monthYr =
-                                MySharedPreference(activity as ADBaseActivity).getValueString(
-                                    getString(R.string.month_yr)
-                                ).toString()
 
-                            if (monthYr.isEmpty() || monthYr.equals("null")) {
-                                monthYr =
-                                    (activity as ADBaseActivity).getServerDate("getCurrentMonthAndYr")
-                            }
 
                             var collectedAmount =
                                 data.child("contribution").child(monthYr).child("collected_amt")

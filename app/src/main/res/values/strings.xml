@@ -228,7 +228,7 @@
     <string name="top_contributers">Top Contributors</string>
     <string name="checkbox">Keep me Anonymous</string>
     <string name="fund_raised">Fund Raised:</string>
-    <string name="your_contribution">Your contribution this month: ₹0</string>
+    <string name="your_contribution">Your contribution this month: ₹%s</string>
     <string name="amount_hint">Enter your contribution</string>
     <string name="donate_now">Donate Now</string>
     <string name="description">Your share for happiness</string>

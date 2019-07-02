@@ -8,6 +8,7 @@ import android.adwait.com.dashboard.view.ADDashboardActivity
 import android.adwait.com.registeration.model.ADUserDetails
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -24,6 +25,8 @@ import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.logo_layout.*
 import kotlinx.android.synthetic.main.register_otp.*
+import nl.dionsegijn.konfetti.models.Shape
+import nl.dionsegijn.konfetti.models.Size
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -343,6 +346,19 @@ class ADRegistrationActivity : ADBaseActivity() {
                 val hint = java.lang.String.format(con, user.userName)
                 mIsRegistered = true
                 congrats_text.text = CommonUtils.getHtmlText(hint)
+
+
+                celebration_view.visibility = View.VISIBLE
+                        celebration_view.build()
+                            .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
+                            .setDirection(0.0, 359.0)
+                            .setSpeed(1f, 5f)
+                            .setFadeOutEnabled(true)
+                            .setTimeToLive(2000L)
+                            .addShapes(Shape.RECT, Shape.CIRCLE)
+                            .addSizes(Size(12))
+                            .setPosition(-50f, celebration_view.width + 50f, -50f, -50f)
+                            .streamFor(300, 1500L)
             }
             .addOnFailureListener {
                 Log.i("Test", it.message)

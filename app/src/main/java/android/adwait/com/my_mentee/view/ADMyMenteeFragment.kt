@@ -99,13 +99,9 @@ class ADMyMenteeFragment : ADBaseFragment() {
 
             progress_layout.visibility = View.VISIBLE
             var today =
-                MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.current_date))
-                    .toString()
+                MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.current_date)).toString()
 
-            if (today.isEmpty()) {
-                today =
-                    (activity as ADBaseActivity).getServerDate("getCurrentDate")
-            }
+
             val message = ADMessageModel(today, message, menteeDetails.userName, false)
             FirebaseDatabase.getInstance()
                 .reference.child((activity as ADBaseActivity).CHILD_TABLE_NAME)
@@ -229,10 +225,6 @@ class ADMyMenteeFragment : ADBaseFragment() {
                             var monthYr =
                                 MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.month_yr)).toString()
 
-                            if (monthYr.isEmpty() || monthYr.equals("null")) {
-                                monthYr =
-                                    (activity as ADBaseActivity).getServerDate("getCurrentMonthAndYr")
-                            }
 
                             var collectedAmount =
                                 data.child("contribution").child(monthYr).child("collected_amt")

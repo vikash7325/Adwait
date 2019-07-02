@@ -9,11 +9,13 @@ import android.adwait.com.donation.model.ADDonationModel
 import android.adwait.com.registeration.model.ADUserDetails
 import android.adwait.com.utils.ADBaseFragment
 import android.adwait.com.utils.ADConstants
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -26,6 +28,8 @@ import com.razorpay.Checkout
 import com.razorpay.PaymentData
 import com.razorpay.PaymentResultWithDataListener
 import kotlinx.android.synthetic.main.fragment_donation.*
+import nl.dionsegijn.konfetti.models.Shape
+import nl.dionsegijn.konfetti.models.Size
 import org.json.JSONObject
 
 
@@ -39,11 +43,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
     private var mUserName = ""
     private var mOldContribution = 0
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_donation, container, false)
 
         return view
@@ -190,20 +190,13 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
 
                             val age: String = (activity as ADBaseActivity).getAge(
                                 data.child("date_of_birth").value.toString(),
-                                "dd-MMM-yyyy"
-                            ).toString()
+                                "dd-MMM-yyyy").toString()
                             child_age?.setText(age + " Years")
 
                             val monthlyAmount = data.child("amount_needed").value.toString()
                             var monthYr =
-                                MySharedPreference(activity as ADBaseActivity).getValueString(
-                                    getString(R.string.month_yr)
-                                ).toString()
+                                MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.month_yr)).toString()
 
-                            if (monthYr.isEmpty() || monthYr.equals("null")) {
-                                monthYr =
-                                    (activity as ADBaseActivity).getServerDate("getCurrentMonthAndYr")
-                            }
                             fetchContribution(mUserId,monthYr)
 
                             var collectedAmount =
@@ -242,6 +235,11 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
     private fun fetchContribution(userId: String,monthYr:String) {
 
         var myContribution = 0;
+        if (contributers_list.childCount>0){
+            contributers_list.removeAllViews()
+        }
+
+        val topList = ArrayList<ADDonationModel>()
         FirebaseDatabase.getInstance()
             .getReference((activity as ADBaseActivity).CONTRIBUTION_TABLE_NAME).child(monthYr)
             .orderByChild("amount")
@@ -249,6 +247,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
 
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists()) {
+                        val size = dataSnapshot.childrenCount.toInt()
                             for (data in dataSnapshot.children){
                                 Log.e(TAG, "onDataChange : " + data)
                                 val donation = data.getValue(ADDonationModel::class.java)
@@ -256,10 +255,30 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                                     val amt:Int = donation?.amount?.toInt()!!
                                     myContribution = myContribution+amt
                                 }
+                                if (donation != null) {
+                                    topList.add(donation)
+                                }
                             }
                         val text = java.lang.String.format(
                             getString(R.string.your_contribution),myContribution.toString())
                         my_contribution?.setText(text)
+
+                        var count =1
+                        var looper = topList.size-1
+
+                        while(count<=3){
+                            val donation = topList.get(looper)
+                            val view = View.inflate(activity, R.layout.contributers_topper_list_item, null)
+                            val name = view.findViewById<TextView>(R.id.contribution_data)
+
+                            name.setText(
+                                (contributers_list.childCount+1).toString() + ". " + donation?.userName + " "
+                                        + donation?.amount.toString() + getString(R.string.rupees)
+                            )
+                            contributers_list.addView(view)
+                            count++
+                            looper--
+                        }
 
                     }
                 }
@@ -293,32 +312,14 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
             val userId = preference.getValueString(getString(R.string.userId)).toString()
 
             var monthYr =
-                MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.month_yr))
-                    .toString()
-
-            if (monthYr.isEmpty() || monthYr.equals("null")) {
-                monthYr =
-                    (activity as ADBaseActivity).getServerDate("getCurrentMonthAndYr")
-            }
+                MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.month_yr)).toString()
 
             var today =
-                MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.current_date))
-                    .toString()
+                MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.current_date)).toString()
 
-            if (today.isEmpty() || today.equals("null")) {
-                today =
-                    (activity as ADBaseActivity).getServerDate("getCurrentDate")
-            }
-            val donation = ADDonationModel(
-                payment?.paymentId.toString(),
-                "",
-                today,
-                amount.text.toString(),
-                status,
-                mChildId,
-                mUserName,
-                userId
-            )
+            val donation = ADDonationModel(payment?.paymentId.toString(), "", today, amount.text.toString().toInt(),
+                status, mChildId, mUserName, userId)
+
             var mFirebaseDatabase = FirebaseDatabase.getInstance()
                 .getReference((activity as ADBaseActivity).CONTRIBUTION_TABLE_NAME)
 
@@ -343,6 +344,18 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                             payment_layout.visibility = View.GONE
                             congrats_layout.visibility = View.VISIBLE
                             progress_layout.visibility = View.GONE
+
+                            celebration_view.visibility = View.VISIBLE
+                            celebration_view.build()
+                                .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
+                                .setDirection(0.0, 359.0)
+                                .setSpeed(1f, 5f)
+                                .setFadeOutEnabled(true)
+                                .setTimeToLive(2000L)
+                                .addShapes(Shape.RECT, Shape.CIRCLE)
+                                .addSizes(Size(12))
+                                .setPosition(-50f, celebration_view.width + 50f, -50f, -50f)
+                                .streamFor(300, 1500L)
                         }
                         .addOnFailureListener {
                             progress_layout.visibility = View.GONE

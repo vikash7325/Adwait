@@ -8,6 +8,7 @@ import android.adwait.com.dashboard.view.ADDashboardActivity
 import android.adwait.com.registeration.model.ADUserDetails
 import android.adwait.com.registeration.view.ADRegistrationActivity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -30,6 +31,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_login.*
+import nl.dionsegijn.konfetti.models.Shape
+import nl.dionsegijn.konfetti.models.Size
 import java.util.*
 
 class ADLoginActivity : ADBaseActivity() {
@@ -250,9 +253,6 @@ class ADLoginActivity : ADBaseActivity() {
      * Method to register user data
      */
     fun checkUserInDb(user: ADUserDetails, userId: String) {
-        MySharedPreference(this).saveStrings(getString(R.string.userId), userId)
-        MySharedPreference(this).saveBoolean(getString(R.string.logged_in), true)
-        MySharedPreference(this).saveBoolean(getString(R.string.registered), true)
 
         getUserDetails(object : ValueEventListener {
 
@@ -276,6 +276,20 @@ class ADLoginActivity : ADBaseActivity() {
                             val hint = java.lang.String.format(con, user.userName)
                             congrats_text.text = CommonUtils.getHtmlText(hint)
                             mUserId = userId
+                            MySharedPreference(applicationContext).saveStrings(getString(R.string.userId), userId)
+                            MySharedPreference(applicationContext).saveBoolean(getString(R.string.logged_in), true)
+                            MySharedPreference(applicationContext).saveBoolean(getString(R.string.registered), true)
+                            celebration_view.visibility = View.VISIBLE
+                            celebration_view.build()
+                                .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
+                                .setDirection(0.0, 359.0)
+                                .setSpeed(1f, 5f)
+                                .setFadeOutEnabled(true)
+                                .setTimeToLive(2000L)
+                                .addShapes(Shape.RECT, Shape.CIRCLE)
+                                .addSizes(Size(12))
+                                .setPosition(-50f, celebration_view.width + 50f, -50f, -50f)
+                                .streamFor(300, 1500L)
                         }
                         .addOnFailureListener {
                             showMessage(getString(R.string.registration_failed), login_parent, true)

@@ -61,7 +61,7 @@ class ADContributionAdapter(
         val groupIndicator = convertView!!.findViewById<ImageView>(R.id.indicator)
 
         val data = mContributionList.get(groupPosition)
-        amount.setText( data.amount+mContext.getString(R.string.rupees))
+        amount.setText( data.amount.toString()+mContext.getString(R.string.rupees))
         paymentOption.setText(data.paymentMethod)
 
 

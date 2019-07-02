@@ -347,6 +347,7 @@
         </ScrollView>
     </LinearLayout>
 
+    <!--Progress Layout-->
     <LinearLayout
         android:id="@+id/progress_layout"
         android:layout_width="match_parent"
@@ -360,4 +361,11 @@
 
     </LinearLayout>
 
+    <!--Congrats Layout-->
+    <nl.dionsegijn.konfetti.KonfettiView
+        android:id="@+id/celebration_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:visibility="gone" />
 </RelativeLayout>

@@ -3,6 +3,7 @@ package and.com.polam.utils
 import android.adwait.com.R
 import android.adwait.com.login.view.ADLoginActivity
 import android.adwait.com.utils.ADBaseFragment
+import android.adwait.com.utils.ADCommonResponseListener
 import android.adwait.com.utils.ADViewClickListener
 import android.content.Context
 import android.content.Intent
@@ -128,12 +129,7 @@ open class ADBaseActivity : AppCompatActivity() {
         }
     }
 
-    public fun addOrReplaceFragment(
-        isAdd: Boolean,
-        id: Int,
-        fragment: ADBaseFragment,
-        addToStack: String
-    ) {
+    public fun addOrReplaceFragment(isAdd: Boolean, id: Int, fragment: ADBaseFragment, addToStack: String) {
         val manager = supportFragmentManager
         val transaction = manager.beginTransaction()
         if (isAdd) {
@@ -264,12 +260,7 @@ open class ADBaseActivity : AppCompatActivity() {
         return age
     }
 
-    fun showAlertDialog(
-        message: String,
-        btnPositive: String,
-        btnNegative: String,
-        listener: ADViewClickListener
-    ) {
+    fun showAlertDialog(message: String, btnPositive: String, btnNegative: String, listener: ADViewClickListener) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle(R.string.app_name)
         builder.setMessage(message)
@@ -287,7 +278,7 @@ open class ADBaseActivity : AppCompatActivity() {
     }
 
 
-    fun getServerDate(functionName: String): String {
+    fun getServerDate(functionName: String, listener : ADCommonResponseListener?=null): String {
         var serverDate: String = ""
         FirebaseFunctions.getInstance().getHttpsCallable(functionName).call()
             .addOnSuccessListener {
@@ -298,9 +289,15 @@ open class ADBaseActivity : AppCompatActivity() {
                     serverDate = it.data.toString()
                     MySharedPreference(this).saveStrings(getString(R.string.month_yr), serverDate)
                 }
+                if (listener!=null) {
+                    listener.onSuccess()
+                }
             }
             .addOnFailureListener {
                 Log.v(TAG, "getServerDate Exception -> " + it.message)
+                if (listener!=null) {
+                    listener.onError()
+                }
             }
 
         return serverDate
