@@ -1,6 +1,7 @@
 package android.adwait.com.dashboard.view
 
 import and.com.polam.utils.ADBaseActivity
+import and.com.polam.utils.MySharedPreference
 import android.adwait.com.R
 import android.adwait.com.be_the_change.view.ADBeTheChangeFragment
 import android.adwait.com.dashboard.adapter.ADNavigationListAdapter
@@ -25,6 +26,7 @@ import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.Gravity
 import android.view.View
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -238,6 +240,12 @@ class ADDashboardActivity : ADBaseActivity(),PaymentResultWithDataListener {
                 val contactUsFragment = ADContactUsFragment()
                 addOrReplaceFragment(false, R.id.home_container, contactUsFragment, addToStack)
                 mSelectedMenu=option
+            }
+
+            /*Contact us*/
+            ADConstants.MENU_LOGOUT -> {
+                registerLogoutListener()
+                FirebaseAuth.getInstance().signOut()
             }
 
             /*Donation*/

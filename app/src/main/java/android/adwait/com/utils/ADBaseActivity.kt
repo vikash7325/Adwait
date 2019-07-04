@@ -57,10 +57,7 @@ open class ADBaseActivity : AppCompatActivity() {
                 val googleSignInClient = GoogleSignIn.getClient(applicationContext, gso)
                 googleSignInClient.signOut()
                 LoginManager.getInstance().logOut()
-                MySharedPreference(applicationContext).saveBoolean(
-                    getString(R.string.logged_in),
-                    false
-                )
+                MySharedPreference(applicationContext).saveBoolean(getString(R.string.logged_in), false)
                 MySharedPreference(applicationContext).saveStrings(getString(R.string.userId), "")
                 var login = Intent(applicationContext, ADLoginActivity::class.java)
                 login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -277,7 +274,6 @@ open class ADBaseActivity : AppCompatActivity() {
         alertDialog.show()
     }
 
-
     fun getServerDate(functionName: String, listener : ADCommonResponseListener?=null): String {
         var serverDate: String = ""
         FirebaseFunctions.getInstance().getHttpsCallable(functionName).call()
@@ -290,13 +286,13 @@ open class ADBaseActivity : AppCompatActivity() {
                     MySharedPreference(this).saveStrings(getString(R.string.month_yr), serverDate)
                 }
                 if (listener!=null) {
-                    listener.onSuccess()
+                    listener.onSuccess(serverDate)
                 }
             }
             .addOnFailureListener {
                 Log.v(TAG, "getServerDate Exception -> " + it.message)
                 if (listener!=null) {
-                    listener.onError()
+                    listener.onError(it)
                 }
             }
 

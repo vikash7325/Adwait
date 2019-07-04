@@ -19,7 +19,6 @@ import android.widget.TextView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -180,12 +179,8 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                             child_name?.setText(data.child("name").value.toString())
                             val imageUrl = data.child("child_image").value.toString()
                             if (!imageUrl.isEmpty()) {
-                                Glide.with(activity as ADBaseActivity).load(imageUrl)
-                                    .apply(
-                                        RequestOptions().placeholder(R.drawable.ic_guest_user).diskCacheStrategy(
-                                            DiskCacheStrategy.AUTOMATIC
-                                        )
-                                    ).into(child_image)
+                                Glide.with(activity as ADBaseActivity).load(imageUrl).placeholder(R.drawable.ic_guest_user).diskCacheStrategy(
+                                    DiskCacheStrategy.SOURCE).into(child_image)
                             }
 
                             val age: String = (activity as ADBaseActivity).getAge(

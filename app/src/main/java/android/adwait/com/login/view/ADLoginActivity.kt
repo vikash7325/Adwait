@@ -254,7 +254,9 @@ class ADLoginActivity : ADBaseActivity() {
      */
     fun checkUserInDb(user: ADUserDetails, userId: String) {
 
-        getUserDetails(object : ValueEventListener {
+        val mUserDataTable = FirebaseDatabase.getInstance().reference.child(USER_TABLE_NAME).child(userId)
+
+        mUserDataTable.addListenerForSingleValueEvent(object : ValueEventListener {
 
             override fun onDataChange(data: DataSnapshot) {
 

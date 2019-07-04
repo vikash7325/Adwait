@@ -18,7 +18,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
 import com.ebanx.swipebtn.OnStateChangeListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -213,9 +212,8 @@ class ADMyMenteeFragment : ADBaseFragment() {
                             tile_4_text.setText(school)
 
                             if (!imageUrl.isEmpty()) {
-                                Glide.with(activity as ADBaseActivity).load(imageUrl).apply(
-                                    RequestOptions().placeholder(R.drawable.ic_guest_user).diskCacheStrategy(
-                                        DiskCacheStrategy.AUTOMATIC)).into(child_image)
+                                Glide.with(activity as ADBaseActivity).load(imageUrl).placeholder(R.drawable.ic_guest_user).diskCacheStrategy(
+                                    DiskCacheStrategy.SOURCE).into(child_image)
                             }
                             val age: String = (activity as ADBaseActivity).getAge(dob, "dd-MMM-yyyy").toString() + " Years"
 

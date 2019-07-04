@@ -16,7 +16,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
 import com.ebanx.swipebtn.OnStateChangeListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -70,8 +69,7 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
 
         if ((activity as ADBaseActivity).isLoggedInUser() && !MySharedPreference((activity as ADBaseActivity)).getValueBoolean(getString(R.string.already_logged))) {
 
-            Glide.with(activity as ADBaseActivity).asGif().load(R.drawable.loading_vid)
-                .into(progress_image)
+            Glide.with(activity as ADBaseActivity).load(R.drawable.loading_vid).asGif().diskCacheStrategy(DiskCacheStrategy.ALL).into(progress_image)
             progress_image.visibility = View.VISIBLE
             progress_bar.visibility = View.GONE
             MySharedPreference((activity as ADBaseActivity)).saveBoolean(getString(R.string.already_logged), true)
@@ -176,13 +174,13 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                             var monthYr =
                                 MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.month_yr)).toString()
 
-                             if (monthYr.isEmpty() || monthYr.length==0){
-                                 (activity as ADBaseActivity).getServerDate("getCurrentDate",object :ADCommonResponseListener{
-                                     override fun onSuccess() {
-                                         fetchChildData(menteeDetails.childId,monthYr)
+                             if (monthYr.isEmpty() || monthYr.length==0 || monthYr.toLowerCase().equals("null")){
+                                 (activity as ADBaseActivity).getServerDate("getCurrentMonthAndYr",object :ADCommonResponseListener{
+                                     override fun onSuccess(data: Any?) {
+                                         fetchChildData(menteeDetails.childId,data.toString())
                                      }
 
-                                     override fun onError() {
+                                     override fun onError(data: Any?) {
                                          hideProgress()
                                      }
 
@@ -215,6 +213,8 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
         if (childId.isEmpty()) {
             hideProgress()
             mHasChild = false
+            (activity as ADBaseActivity).showMessage(
+                getString(R.string.no_child_mapped), home_parent, true)
             return
         }
         if ((activity as ADBaseActivity).isLoggedInUser()) {
@@ -233,11 +233,8 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                             val imageUrl = data.child("child_image").value.toString()
 
                             if (!imageUrl.isEmpty()) {
-                                Glide.with(activity as ADBaseActivity).load(imageUrl).apply(
-                                    RequestOptions().placeholder(R.drawable.ic_guest_user).diskCacheStrategy(
-                                        DiskCacheStrategy.AUTOMATIC
-                                    )
-                                ).into(child_image)
+                                Glide.with(activity as ADBaseActivity).load(imageUrl).placeholder(R.drawable.ic_guest_user).diskCacheStrategy(
+                                    DiskCacheStrategy.SOURCE).into(child_image)
                             }
                             val dob = data.child("date_of_birth").value.toString()
 
