@@ -89,7 +89,7 @@
     <string name="our_partner">Our Partners</string>
     <string name="be_the_change">Be the Change</string>
     <string name="our_cause">Our Causes</string>
-    <string name="fund_raised_msg">Fund Raised: ₹%s of ₹ %s/Month</string>
+    <string name="fund_raised_msg">Fund Raised: ₹%s of ₹ %s/%s</string>
 
     <!--Pre sigin screen-->
     <string name="skip">Skip</string>
@@ -255,7 +255,7 @@
     <string name="mentee_location"><![CDATA[Location: <font style="color:Black;"><b>%s</b></font>]]></string>
     <string name="mentee_ngo"><![CDATA[NGO Name: <font style="color:Black;"><b>%s</b></font>]]></string>
     <string name="evle_msg">Hey Elve %s,Please leave a personalized note for %s</string>
-    <string name="message_sent">Thank you. We have received your message. </string>
+    <string name="message_sent">Thank You Elve %s for your message.Aarohi would be delighted to listen from you.You will soon receive her reply in your dashboard</string>
 
     <!--Our Causes-->
     <string name="cause1_header">Ensuring the dignity these wonderful god\'s creation deserve.</string>

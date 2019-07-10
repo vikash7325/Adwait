@@ -126,6 +126,7 @@
                                 android:layout_height="@dimen/large_text"
                                 android:layout_centerInParent="true"
                                 android:layout_gravity="left"
+                                android:layout_toLeftOf="@+id/info_icon"
                                 android:progress="0"
                                 android:progressDrawable="@drawable/seekbar_fill" />
 
@@ -134,11 +135,21 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_centerInParent="true"
+                                android:layout_toLeftOf="@+id/info_icon"
                                 android:gravity="center"
                                 android:lines="1"
                                 android:textColor="@android:color/white"
                                 android:textSize="10sp"
                                 android:textStyle="bold" />
+
+                            <ImageView
+                                android:id="@+id/info_icon"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerInParent="true"
+                                android:padding="3dp"
+                                android:src="@drawable/ic_info_icon" />
                         </RelativeLayout>
 
                         <TextView
@@ -166,8 +177,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:textColor="@android:color/black"
                             android:text="@string/sign_in_dash"
+                            android:textColor="@android:color/black"
                             android:textSize="@dimen/medium_text"
                             android:visibility="visible" />
 
@@ -198,7 +209,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_centerInParent="true"
-                        app:button_background="@drawable/rounded_primary_color_bg"
+                        app:button_background="@drawable/swipe_btn_bg"
                         app:button_bottom_padding="8dp"
                         app:button_image_disabled="@drawable/ic_sad"
                         app:button_image_enabled="@drawable/ic_happy_white"
@@ -211,7 +222,7 @@
                         app:has_activate_state="true"
                         app:initial_state="disabled"
                         app:inner_text="@string/swipe_to_contribute"
-                        app:inner_text_background="@drawable/rounded_white_bg"
+                        app:inner_text_background="@drawable/swipe_btn_white_bg"
                         app:inner_text_bottom_padding="10dp"
                         app:inner_text_color="@color/colorPrimaryDark"
                         app:inner_text_size="@dimen/medium_text"

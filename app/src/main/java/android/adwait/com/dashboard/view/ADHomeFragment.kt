@@ -31,7 +31,11 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
     private var mHasChild = true
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater?.inflate(R.layout.fragment_home, container, false)
 
         return view
@@ -67,12 +71,19 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
             }
         })
 
-        if ((activity as ADBaseActivity).isLoggedInUser() && !MySharedPreference((activity as ADBaseActivity)).getValueBoolean(getString(R.string.already_logged))) {
+        if ((activity as ADBaseActivity).isLoggedInUser() && !MySharedPreference((activity as ADBaseActivity)).getValueBoolean(
+                getString(R.string.already_logged)
+            )
+        ) {
 
-            Glide.with(activity as ADBaseActivity).load(R.drawable.loading_vid).asGif().diskCacheStrategy(DiskCacheStrategy.ALL).into(progress_image)
+            Glide.with(activity as ADBaseActivity).load(R.drawable.loading_vid).asGif()
+                .diskCacheStrategy(DiskCacheStrategy.ALL).into(progress_image)
             progress_image.visibility = View.VISIBLE
             progress_bar.visibility = View.GONE
-            MySharedPreference((activity as ADBaseActivity)).saveBoolean(getString(R.string.already_logged), true)
+            MySharedPreference((activity as ADBaseActivity)).saveBoolean(
+                getString(R.string.already_logged),
+                true
+            )
         } else {
             progress_image.visibility = View.GONE
             progress_bar.visibility = View.VISIBLE
@@ -110,7 +121,7 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                 (activity as ADDashboardActivity).menuAction(ADConstants.MENU_HX_CLUB, "")
             }
             R.id.tile2 -> {
-                if (!mHasChild){
+                if (!mHasChild) {
                     return
                 }
                 if (mDetailsFilled) {
@@ -120,7 +131,7 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                 }
             }
             R.id.tile3 -> {
-                if (!mHasChild){
+                if (!mHasChild) {
                     return
                 }
                 (activity as ADDashboardActivity).menuAction(ADConstants.MENU_WISH_CORNER, "")
@@ -129,13 +140,13 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                 (activity as ADDashboardActivity).menuAction(ADConstants.MENU_OUR_PARTNERS, "")
             }
             R.id.tile5 -> {
-                if (!mHasChild){
+                if (!mHasChild) {
                     return
                 }
                 (activity as ADDashboardActivity).menuAction(ADConstants.MENU_BE_THE_CHANGE, "")
             }
             R.id.tile6 -> {
-                if (!mHasChild){
+                if (!mHasChild) {
                     return
                 }
                 (activity as ADDashboardActivity).menuAction(ADConstants.MENU_OUR_CAUSE, "")
@@ -172,22 +183,28 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                                 mDetailsFilled = true
                             }
                             var monthYr =
-                                MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.month_yr)).toString()
+                                MySharedPreference(activity as ADBaseActivity).getValueString(
+                                    getString(R.string.month_yr)
+                                ).toString()
 
-                             if (monthYr.isEmpty() || monthYr.length==0 || monthYr.toLowerCase().equals("null")){
-                                 (activity as ADBaseActivity).getServerDate("getCurrentMonthAndYr",object :ADCommonResponseListener{
-                                     override fun onSuccess(data: Any?) {
-                                         fetchChildData(menteeDetails.childId,data.toString())
-                                     }
+                            if (monthYr.isEmpty() || monthYr.length == 0 || monthYr.toLowerCase().equals(
+                                    "null"
+                                )
+                            ) {
+                                (activity as ADBaseActivity).getServerDate("getCurrentMonthAndYr",
+                                    object : ADCommonResponseListener {
+                                        override fun onSuccess(data: Any?) {
+                                            fetchChildData(menteeDetails.childId, data.toString())
+                                        }
 
-                                     override fun onError(data: Any?) {
-                                         hideProgress()
-                                     }
+                                        override fun onError(data: Any?) {
+                                            hideProgress()
+                                        }
 
-                                 })
-                             }else {
-                                 fetchChildData(menteeDetails.childId,monthYr)
-                             }
+                                    })
+                            } else {
+                                fetchChildData(menteeDetails.childId, monthYr)
+                            }
                         }
                     }
                 }
@@ -203,18 +220,20 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
         }
     }
 
-    private fun fetchChildData(childId: String,monthYr:String) {
+    private fun fetchChildData(childId: String, monthYr: String) {
 
         if (!(activity as ADBaseActivity).isNetworkAvailable()) {
             (activity as ADBaseActivity).showMessage(
-                getString(R.string.no_internet), home_parent, true)
+                getString(R.string.no_internet), home_parent, true
+            )
             return
         }
         if (childId.isEmpty()) {
             hideProgress()
             mHasChild = false
             (activity as ADBaseActivity).showMessage(
-                getString(R.string.no_child_mapped), home_parent, true)
+                getString(R.string.no_child_mapped), home_parent, true
+            )
             return
         }
         if ((activity as ADBaseActivity).isLoggedInUser()) {
@@ -233,8 +252,10 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                             val imageUrl = data.child("child_image").value.toString()
 
                             if (!imageUrl.isEmpty()) {
-                                Glide.with(activity as ADBaseActivity).load(imageUrl).placeholder(R.drawable.ic_guest_user).diskCacheStrategy(
-                                    DiskCacheStrategy.SOURCE).into(child_image)
+                                Glide.with(activity as ADBaseActivity).load(imageUrl)
+                                    .placeholder(R.drawable.ic_guest_user).diskCacheStrategy(
+                                    DiskCacheStrategy.SOURCE
+                                ).into(child_image)
                             }
                             val dob = data.child("date_of_birth").value.toString()
 
@@ -253,11 +274,11 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                                 collectedAmount = "0"
                             }
 
+
                             val text = java.lang.String.format(
                                 getString(R.string.fund_raised_msg),
                                 collectedAmount,
-                                monthlyAmount
-                            )
+                                monthlyAmount, monthYr)
                             fund_details?.setText(text)
 
                             if (!collectedAmount.isEmpty() && collectedAmount != null && !collectedAmount.equals(

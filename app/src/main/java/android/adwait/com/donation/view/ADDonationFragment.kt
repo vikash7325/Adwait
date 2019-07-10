@@ -203,7 +203,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                             }
                             val text = java.lang.String.format(
                                 getString(R.string.fund_raised_msg),
-                                collectedAmount, monthlyAmount
+                                collectedAmount, monthlyAmount,monthYr
                             )
                             fund_details?.setText(text)
 

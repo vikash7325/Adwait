@@ -98,7 +98,8 @@ class ADMyMenteeFragment : ADBaseFragment() {
 
             progress_layout.visibility = View.VISIBLE
             var today =
-                MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.current_date)).toString()
+                MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.current_date))
+                    .toString()
 
 
             val message = ADMessageModel(today, message, menteeDetails.userName, false)
@@ -106,12 +107,16 @@ class ADMyMenteeFragment : ADBaseFragment() {
                 .reference.child((activity as ADBaseActivity).CHILD_TABLE_NAME)
                 .child(menteeDetails.childId).child(menteeDetails.userName).setValue(message)
                 .addOnSuccessListener {
+
+                    var message = java.lang.String.format(
+                        getString(R.string.message_sent),
+                        menteeDetails.userName
+                    )
                     typed_msg.setText("")
                     progress_layout.visibility = View.GONE
-                    (activity as ADBaseActivity).showMessage(
-                        getString(R.string.message_sent),
-                        mentee_parent,
-                        false
+                    (activity as ADBaseActivity).showAlertDialog(
+                        message, "",
+                        "Close", null
                     )
                 }
                 .addOnFailureListener {
@@ -191,20 +196,59 @@ class ADMyMenteeFragment : ADBaseFragment() {
                             val monthlyAmount = data.child("amount_needed").value.toString()
                             val guardian = data.child("guardian_name").value.toString()
                             val location = data.child("city").value.toString()
-                            val ngoName = data.child("ngo_name").value.toString()
+                            var ngoName = data.child("ngo_name").value.toString()
+                            if (ngoName.isEmpty()) {
+                                ngoName = "NA"
+                            }
                             val school = data.child("school_name").value.toString()
                             val dream = data.child("career_interest").value.toString()
                             val talent = data.child("hobby").value.toString()
 
-                            val message = java.lang.String.format(getString(R.string.evle_msg), menteeDetails.userName, name)
+                            var elveName = menteeDetails.userName
+                            if (elveName.contains(" ")) {
+                                elveName = elveName.substring(0, elveName.indexOf(" "))
+                            }
+                            val message = java.lang.String.format(
+                                getString(R.string.evle_msg),
+                                elveName,
+                                name
+                            )
                             text_message_body.setText(message)
-                            child_name?.setText(CommonUtils.getHtmlText(java.lang.String.format(getString(R.string.mente_child_name), name)))
+                            child_name?.setText(
+                                CommonUtils.getHtmlText(
+                                    java.lang.String.format(
+                                        getString(R.string.mente_child_name),
+                                        name
+                                    )
+                                )
+                            )
 
-                            guardian_name?.setText(CommonUtils.getHtmlText(java.lang.String.format(getString(R.string.mente_guardian), guardian)))
+                            guardian_name?.setText(
+                                CommonUtils.getHtmlText(
+                                    java.lang.String.format(
+                                        getString(R.string.mente_guardian),
+                                        guardian
+                                    )
+                                )
+                            )
 
-                            men_location?.setText(CommonUtils.getHtmlText(java.lang.String.format(getString(R.string.mentee_location), location)))
+                            men_location?.setText(
+                                CommonUtils.getHtmlText(
+                                    java.lang.String.format(
+                                        getString(R.string.mentee_location),
+                                        location
+                                    )
+                                )
+                            )
 
-                            ngo_name?.setText(CommonUtils.getHtmlText(java.lang.String.format(getString(R.string.mentee_ngo), ngoName)))
+                            ngo_name?.setText(
+                                CommonUtils.getHtmlText(
+                                    java.lang.String.format(
+                                        getString(R.string.mentee_ngo),
+                                        ngoName
+                                    )
+                                )
+                            )
 
                             tile_1_text.setText(dob)
                             tile_2_text.setText(talent)
@@ -212,28 +256,45 @@ class ADMyMenteeFragment : ADBaseFragment() {
                             tile_4_text.setText(school)
 
                             if (!imageUrl.isEmpty()) {
-                                Glide.with(activity as ADBaseActivity).load(imageUrl).placeholder(R.drawable.ic_guest_user).diskCacheStrategy(
-                                    DiskCacheStrategy.SOURCE).into(child_image)
+                                Glide.with(activity as ADBaseActivity).load(imageUrl)
+                                    .placeholder(R.drawable.ic_guest_user).diskCacheStrategy(
+                                        DiskCacheStrategy.SOURCE
+                                    ).into(child_image)
                             }
-                            val age: String = (activity as ADBaseActivity).getAge(dob, "dd-MMM-yyyy").toString() + " Years"
+                            val age: String = (activity as ADBaseActivity).getAge(
+                                dob,
+                                "dd-MMM-yyyy"
+                            ).toString() + " Years"
 
                             child_age?.setText(
-                                CommonUtils.getHtmlText(java.lang.String.format(getString(R.string.mente_child_age), age)))
+                                CommonUtils.getHtmlText(
+                                    java.lang.String.format(
+                                        getString(R.string.mente_child_age),
+                                        age
+                                    )
+                                )
+                            )
 
                             var monthYr =
-                                MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.month_yr)).toString()
+                                MySharedPreference(activity as ADBaseActivity).getValueString(
+                                    getString(R.string.month_yr)
+                                ).toString()
 
 
                             var collectedAmount =
                                 data.child("contribution").child(monthYr).child("collected_amt")
                                     .value.toString()
 
-                            if(collectedAmount.isEmpty() || collectedAmount.equals("null")){
-                                collectedAmount="0"
+                            if (collectedAmount.isEmpty() || collectedAmount.equals("null")) {
+                                collectedAmount = "0"
                             }
 
                             val text = java.lang.String.format(
-                                getString(R.string.fund_raised_msg), collectedAmount, monthlyAmount)
+                                getString(R.string.fund_raised_msg),
+                                collectedAmount,
+                                monthlyAmount,
+                                monthYr
+                            )
                             fund_details?.setText(text)
 
                             if (!collectedAmount.isEmpty() && collectedAmount != null && !collectedAmount.equals(

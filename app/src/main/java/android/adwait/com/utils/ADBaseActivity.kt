@@ -257,18 +257,23 @@ open class ADBaseActivity : AppCompatActivity() {
         return age
     }
 
-    fun showAlertDialog(message: String, btnPositive: String, btnNegative: String, listener: ADViewClickListener) {
+    fun showAlertDialog(message: String, btnPositive: String, btnNegative: String, listener: ADViewClickListener?) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle(R.string.app_name)
         builder.setMessage(message)
 
-        builder.setPositiveButton(btnPositive) { dialog, which ->
-            listener.onViewClicked()
+        if (!btnPositive.isEmpty()) {
+            builder.setPositiveButton(btnPositive) { dialog, which ->
+                if (listener != null) {
+                    listener.onViewClicked()
+                }
+            }
         }
-        builder.setNegativeButton(btnNegative) { dialog, which ->
-            dialog.dismiss()
+        if (!btnNegative.isEmpty()) {
+            builder.setNegativeButton(btnNegative) { dialog, which ->
+                dialog.dismiss()
+            }
         }
-
         val alertDialog: AlertDialog = builder.create()
         alertDialog.setCancelable(false)
         alertDialog.show()
