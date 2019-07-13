@@ -268,7 +268,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
 
                             name.setText(
                                 (contributers_list.childCount+1).toString() + ". " + donation?.userName + " "
-                                        + donation?.amount.toString() + getString(R.string.rupees)
+                                        + getString(R.string.rupees) + donation?.amount.toString()
                             )
                             contributers_list.addView(view)
                             count++

@@ -5,6 +5,7 @@
     <string name="razor_pay_id">rzp_test_1eLYeFJjG4PW4o</string>
     <string name="loading">Please wait...</string>
     <string name="rupees">₹</string>
+    <string name="close">Close</string>
 
     <!--Help Screen-->
     <string name="help1"> Get 100% visibility on your money.\nAnytime, Anywhere, Any Device</string>
@@ -284,10 +285,13 @@
 
     <!--Adwait dayout-->
     <string name="dayout_header">What is Adwait\'s day out?</string>
+    <string name="date_hint">Your Availability Date</string>
+    <string name="message_hint">Tell Us Your area of interest.</string>
     <string name="dayout_content1">A chance for you to connect with an underprivilaged kids</string>
     <string name="dayout_content2">A chance for you to be involved personally to do good for society</string>
     <string name="dayout_content3">A chance for you to make a kid happy by being there for them</string>
     <string name="dayout_form_hint">Fill out the following details based on your availability. Our team will get back to you soon.</string>
+    <string name="dayout_success">ThankYou for showing interest in Adwait\'s Day Out.\nOur team will get back to you shortly with the list of engagements.</string>
 
     <!--Evle Talk-->
     <string name="evle_talk">Evle Talk</string>

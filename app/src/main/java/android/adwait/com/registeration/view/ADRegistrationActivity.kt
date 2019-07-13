@@ -91,7 +91,7 @@ class ADRegistrationActivity : ADBaseActivity() {
                 email.error = getString(R.string.err_invalid_email)
             } else if (!isValidPhone(phoneNo)) {
                 phone.error = getString(R.string.err_invalid_phone)
-            } else if (getAge(doBirth,"dd-MM-yyyy") < 18) {
+            } else if (getAge(doBirth,"dd-MM-yyyy") < 14) {
                 showMessage(getString(R.string.invalid_dob), register_parent, true)
             } else {
                 if (!isNetworkAvailable()) {

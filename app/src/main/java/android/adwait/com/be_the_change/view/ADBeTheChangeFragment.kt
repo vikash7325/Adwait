@@ -16,6 +16,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.fragment_be_the_change.*
+import android.graphics.Paint
+
 
 class ADBeTheChangeFragment : ADBaseFragment(), View.OnClickListener {
 
@@ -35,7 +37,7 @@ class ADBeTheChangeFragment : ADBaseFragment(), View.OnClickListener {
         spannedString.setSpan(red, 3, 7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         spannedString.setSpan(StrikethroughSpan(), 3, 7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         spanned_text.setText(spannedString)
-
+        header_1.setPaintFlags(header_1.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)
 
         val baseActivity = activity as ADBaseActivity
         val height: Int = (baseActivity.getScreenDetails(true) * 0.15).toInt()

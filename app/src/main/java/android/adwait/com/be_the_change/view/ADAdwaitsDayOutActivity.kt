@@ -4,6 +4,7 @@ import and.com.polam.utils.ADBaseActivity
 import and.com.polam.utils.MySharedPreference
 import android.adwait.com.R
 import android.adwait.com.be_the_change.model.ADDayOutModel
+import android.adwait.com.utils.ADViewClickListener
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
@@ -33,7 +34,7 @@ class ADAdwaitsDayOutActivity : ADBaseActivity() {
             val month = cal.get(Calendar.MONTH)
             val day = cal.get(Calendar.DAY_OF_MONTH)
 
-            val dpd = DatePickerDialog(applicationContext,
+            val dpd = DatePickerDialog(this,
                     DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                         // Display Selected date in textbox
                         cal.set(Calendar.YEAR, year)
@@ -84,7 +85,10 @@ class ADAdwaitsDayOutActivity : ADBaseActivity() {
                         fireBaseDB.child(key).setValue(dayoutData)
                                 .addOnSuccessListener {
                                     progress_layout.visibility = View.GONE
-                                    finish()
+                                    showAlertDialog(getString(R.string.dayout_success),getString(R.string.close),"",
+                                        ADViewClickListener {
+                                            finish()
+                                        })
                                 }
                                 .addOnFailureListener {
                                     progress_layout.visibility = View.GONE
