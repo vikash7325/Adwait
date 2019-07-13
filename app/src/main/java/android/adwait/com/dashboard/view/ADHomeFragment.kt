@@ -19,6 +19,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.ebanx.swipebtn.OnStateChangeListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -34,8 +35,7 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_home, container, false)
 
         return view
@@ -160,8 +160,7 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
             (activity as ADBaseActivity).showMessage(
                 getString(R.string.no_internet),
                 home_parent,
-                true
-            )
+                true)
             return
         }
         if ((activity as ADBaseActivity).isLoggedInUser()) {
@@ -184,8 +183,7 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                             }
                             var monthYr =
                                 MySharedPreference(activity as ADBaseActivity).getValueString(
-                                    getString(R.string.month_yr)
-                                ).toString()
+                                    getString(R.string.month_yr)).toString()
 
                             if (monthYr.isEmpty() || monthYr.length == 0 || monthYr.toLowerCase().equals(
                                     "null"
@@ -228,12 +226,8 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
             )
             return
         }
-        if (childId.isEmpty()) {
-            hideProgress()
-            mHasChild = false
-            (activity as ADBaseActivity).showMessage(
-                getString(R.string.no_child_mapped), home_parent, true
-            )
+        if (childId.isEmpty() || childId.equals("null")) {
+            mapChildToUser(monthYr)
             return
         }
         if ((activity as ADBaseActivity).isLoggedInUser()) {
@@ -254,8 +248,8 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                             if (!imageUrl.isEmpty()) {
                                 Glide.with(activity as ADBaseActivity).load(imageUrl)
                                     .placeholder(R.drawable.ic_guest_user).diskCacheStrategy(
-                                    DiskCacheStrategy.SOURCE
-                                ).into(child_image)
+                                        DiskCacheStrategy.SOURCE
+                                    ).into(child_image)
                             }
                             val dob = data.child("date_of_birth").value.toString()
 
@@ -278,14 +272,13 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                             val text = java.lang.String.format(
                                 getString(R.string.fund_raised_msg),
                                 collectedAmount,
-                                monthlyAmount, monthYr)
+                                monthlyAmount, monthYr
+                            )
                             fund_details?.setText(text)
 
                             if (!collectedAmount.isEmpty() && collectedAmount != null && !collectedAmount.equals(
-                                    "null"
-                                ) &&
-                                monthlyAmount != null && !monthlyAmount.equals("null") && monthlyAmount.toInt() > 0
-                            ) {
+                                    "null") &&
+                                monthlyAmount != null && !monthlyAmount.equals("null") && monthlyAmount.toInt() > 0) {
                                 val percent =
                                     ((collectedAmount.toInt()) * 100 / monthlyAmount.toInt())
                                 progress.setProgress(percent)
@@ -304,6 +297,77 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
             guest_layout.visibility = View.VISIBLE
             hideProgress()
         }
+    }
+
+    private fun mapChildToUser(monthYr: String) {
+        val mChildDataTable =
+            FirebaseDatabase.getInstance()
+                .reference.child((activity as ADBaseActivity).CHILD_TABLE_NAME)
+                .orderByKey()
+        mChildDataTable.addValueEventListener(object : ValueEventListener {
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                for (data in dataSnapshot.children) {
+
+                    if (!data.hasChild("contribution")) {
+                        updateUserWithChild(data.key.toString(), monthYr)
+                        break
+                    } else {
+                        var lastMonth =
+                            MySharedPreference(activity as ADBaseActivity).getValueString(
+                                getString(R.string.previous_month_yr)).toString()
+
+                        if (lastMonth.isEmpty() || lastMonth.length == 0 || lastMonth.toLowerCase().equals("null")) {
+                            lastMonth = (activity as ADBaseActivity).getServerDate(
+                                "getPreviousMonthAndYr", null)
+                        }
+                        if (data.child("contribution").hasChild(lastMonth)) {
+                            val monthlyAmount = data.child("amount_needed").value.toString()
+                            var collectedAmount =
+                                data.child("contribution").child(lastMonth).child("collected_amt")
+                                    .value.toString()
+
+                            if (collectedAmount.isEmpty() || collectedAmount.equals("null")) {
+                                collectedAmount = "0"
+                            }
+
+                            if (collectedAmount.toInt() < monthlyAmount.toInt()) {
+                                updateUserWithChild(data.key.toString(), monthYr)
+                                break
+                            }else{
+                                continue
+                            }
+                        }
+                    }
+                }
+
+                hideProgress()
+
+            }
+
+            override fun onCancelled(dataError: DatabaseError) {
+                Log.i(TAG, "Error : " + dataError.message)
+                hideProgress()
+            }
+        })
+    }
+
+    private fun updateUserWithChild(childId: String, monthYr: String) {
+        val preference = MySharedPreference((activity as ADBaseActivity).applicationContext)
+        val userId = preference.getValueString(getString(R.string.userId)).toString()
+        val updateTable =
+            FirebaseDatabase.getInstance()
+                .reference.child((activity as ADBaseActivity).USER_TABLE_NAME).child(userId)
+        updateTable.child("childId").setValue(childId)
+            .addOnCompleteListener((activity as ADBaseActivity)) { task ->
+                if (task.isSuccessful) {
+                    fetchChildData(childId, monthYr)
+                } else {
+                    hideProgress()
+                    Log.i(TAG, "Error : " + "Something went wrong while updating child")
+                }
+            }
     }
 
     fun hideProgress() {

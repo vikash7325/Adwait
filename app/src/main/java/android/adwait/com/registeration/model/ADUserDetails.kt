@@ -16,6 +16,7 @@ class ADUserDetails(
     var myReferralCode: String = ""
     var childId: String = ""
     var referralPoints: String = "100"
+    var isAdmin: String = "No"
 
 
     @Exclude
@@ -37,6 +38,7 @@ class ADUserDetails(
         usedReferralCode = parcel.readString()
         myReferralCode = parcel.readString()
         childId = parcel.readString()
+        isAdmin = parcel.readString()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -48,6 +50,7 @@ class ADUserDetails(
         parcel.writeString(usedReferralCode)
         parcel.writeString(myReferralCode)
         parcel.writeString(childId)
+        parcel.writeString(isAdmin)
     }
 
     override fun describeContents(): Int {

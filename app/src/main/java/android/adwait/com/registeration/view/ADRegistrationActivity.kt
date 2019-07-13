@@ -6,6 +6,7 @@ import and.com.polam.utils.MySharedPreference
 import android.adwait.com.R
 import android.adwait.com.dashboard.view.ADDashboardActivity
 import android.adwait.com.registeration.model.ADUserDetails
+import android.adwait.com.utils.ADConstants
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Color
@@ -164,6 +165,9 @@ class ADRegistrationActivity : ADBaseActivity() {
                 showMessage(getString(R.string.empty_referral_code), register_parent, true)
             } else {
                 userRegister.usedReferralCode = code
+                if (code.equals(ADConstants.ADMIN_REFERRAL_CODE)){
+                    userRegister.isAdmin = "Yes"
+                }
                 sendVerificationCodes(SEND_ALL_VERIFICATION)
             }
         })
@@ -354,11 +358,11 @@ class ADRegistrationActivity : ADBaseActivity() {
                             .setDirection(0.0, 359.0)
                             .setSpeed(1f, 5f)
                             .setFadeOutEnabled(true)
-                            .setTimeToLive(2000L)
+                            .setTimeToLive(ADConstants.ANIMATION_TIME_TO_LIVE)
                             .addShapes(Shape.RECT, Shape.CIRCLE)
-                            .addSizes(Size(12))
+                            .addSizes(Size(ADConstants.ANIMATION_SIZE))
                             .setPosition(-50f, celebration_view.width + 50f, -50f, -50f)
-                            .streamFor(300, 1500L)
+                            .streamFor(ADConstants.ANIMATION_COUNT, ADConstants.ANIMATION_EMITTING_TIME)
             }
             .addOnFailureListener {
                 Log.i("Test", it.message)

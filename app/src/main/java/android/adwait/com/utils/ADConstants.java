@@ -15,4 +15,11 @@ public class ADConstants {
     public static final int MENU_LOGOUT = 10;
     public static final int MENU_DONATION = 11;
     public static final int MENU_PROFILE = 12;
+    public static final String ADMIN_REFERRAL_CODE="Adm!n@2019";
+
+    //Animation
+    public static final int ANIMATION_COUNT = 500;
+    public static final int ANIMATION_SIZE = 12;
+    public static final long ANIMATION_TIME_TO_LIVE = 2000L;
+    public static final long ANIMATION_EMITTING_TIME = 1500L;
 }

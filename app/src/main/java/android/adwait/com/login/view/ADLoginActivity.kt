@@ -7,6 +7,7 @@ import android.adwait.com.R
 import android.adwait.com.dashboard.view.ADDashboardActivity
 import android.adwait.com.registeration.model.ADUserDetails
 import android.adwait.com.registeration.view.ADRegistrationActivity
+import android.adwait.com.utils.ADConstants
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -287,11 +288,11 @@ class ADLoginActivity : ADBaseActivity() {
                                 .setDirection(0.0, 359.0)
                                 .setSpeed(1f, 5f)
                                 .setFadeOutEnabled(true)
-                                .setTimeToLive(2000L)
+                                .setTimeToLive(ADConstants.ANIMATION_TIME_TO_LIVE)
                                 .addShapes(Shape.RECT, Shape.CIRCLE)
-                                .addSizes(Size(12))
+                                .addSizes(Size(ADConstants.ANIMATION_SIZE))
                                 .setPosition(-50f, celebration_view.width + 50f, -50f, -50f)
-                                .streamFor(300, 1500L)
+                                .streamFor(ADConstants.ANIMATION_COUNT, ADConstants.ANIMATION_EMITTING_TIME)
                         }
                         .addOnFailureListener {
                             showMessage(getString(R.string.registration_failed), login_parent, true)

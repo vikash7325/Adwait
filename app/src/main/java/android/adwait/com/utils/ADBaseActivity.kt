@@ -283,12 +283,15 @@ open class ADBaseActivity : AppCompatActivity() {
         var serverDate: String = ""
         FirebaseFunctions.getInstance().getHttpsCallable(functionName).call()
             .addOnSuccessListener {
+                serverDate = it.data.toString()
                 if (functionName.equals("getCurrentDate")) {
-                    serverDate = it.data.toString()
                     MySharedPreference(this).saveStrings(getString(R.string.current_date), serverDate)
-                } else {
-                    serverDate = it.data.toString()
+                } else if(functionName.equals("getCurrentMonthAndYr")){
                     MySharedPreference(this).saveStrings(getString(R.string.month_yr), serverDate)
+                }else if(functionName.equals("getPreviousMonthAndYr")){
+                    MySharedPreference(this).saveStrings(getString(R.string.previous_month_yr), serverDate)
+                } else {
+                    MySharedPreference(this).saveStrings(getString(R.string.next_month_yr), serverDate)
                 }
                 if (listener!=null) {
                     listener.onSuccess(serverDate)

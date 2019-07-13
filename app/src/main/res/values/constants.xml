@@ -7,6 +7,8 @@
     <string name="registered">registered</string>
     <string name="userId">user_id</string>
     <string name="month_yr">month_yr</string>
+    <string name="previous_month_yr">previous_month_yr</string>
+    <string name="next_month_yr">next_month_yr</string>
     <string name="current_date">current_date</string>
 
 </resources>

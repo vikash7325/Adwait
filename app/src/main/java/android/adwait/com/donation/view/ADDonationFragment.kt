@@ -41,8 +41,13 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
     private var mChildId = ""
     private var mUserName = ""
     private var mOldContribution = 0
+    private var monthlyAmount = "0";
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater?.inflate(R.layout.fragment_donation, container, false)
 
         return view
@@ -179,20 +184,25 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                             child_name?.setText(data.child("name").value.toString())
                             val imageUrl = data.child("child_image").value.toString()
                             if (!imageUrl.isEmpty()) {
-                                Glide.with(activity as ADBaseActivity).load(imageUrl).placeholder(R.drawable.ic_guest_user).diskCacheStrategy(
-                                    DiskCacheStrategy.SOURCE).into(child_image)
+                                Glide.with(activity as ADBaseActivity).load(imageUrl)
+                                    .placeholder(R.drawable.ic_guest_user).diskCacheStrategy(
+                                        DiskCacheStrategy.SOURCE
+                                    ).into(child_image)
                             }
 
                             val age: String = (activity as ADBaseActivity).getAge(
                                 data.child("date_of_birth").value.toString(),
-                                "dd-MMM-yyyy").toString()
+                                "dd-MMM-yyyy"
+                            ).toString()
                             child_age?.setText(age + " Years")
 
-                            val monthlyAmount = data.child("amount_needed").value.toString()
+                            monthlyAmount = data.child("amount_needed").value.toString()
                             var monthYr =
-                                MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.month_yr)).toString()
+                                MySharedPreference(activity as ADBaseActivity).getValueString(
+                                    getString(R.string.month_yr)
+                                ).toString()
 
-                            fetchContribution(mUserId,monthYr)
+                            fetchContribution(mUserId, monthYr)
 
                             var collectedAmount =
                                 data.child("contribution").child(monthYr).child("collected_amt")
@@ -203,11 +213,13 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                             }
                             val text = java.lang.String.format(
                                 getString(R.string.fund_raised_msg),
-                                collectedAmount, monthlyAmount,monthYr
+                                collectedAmount, monthlyAmount, monthYr
                             )
                             fund_details?.setText(text)
 
-                            if (!collectedAmount.isEmpty() && collectedAmount != null && !collectedAmount.equals("null") &&
+                            if (!collectedAmount.isEmpty() && collectedAmount != null && !collectedAmount.equals(
+                                    "null"
+                                ) &&
                                 monthlyAmount != null && !monthlyAmount.equals("null") && monthlyAmount.toInt() > 0
                             ) {
                                 val percent =
@@ -227,10 +239,10 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
         }
     }
 
-    private fun fetchContribution(userId: String,monthYr:String) {
+    private fun fetchContribution(userId: String, monthYr: String) {
 
         var myContribution = 0;
-        if (contributers_list.childCount>0){
+        if (contributers_list.childCount > 0) {
             contributers_list.removeAllViews()
         }
 
@@ -243,31 +255,33 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists()) {
                         val size = dataSnapshot.childrenCount.toInt()
-                            for (data in dataSnapshot.children){
-                                Log.e(TAG, "onDataChange : " + data)
-                                val donation = data.getValue(ADDonationModel::class.java)
-                                if(donation?.userId.equals(userId)){
-                                    val amt:Int = donation?.amount?.toInt()!!
-                                    myContribution = myContribution+amt
-                                }
-                                if (donation != null) {
-                                    topList.add(donation)
-                                }
+                        for (data in dataSnapshot.children) {
+                            Log.e(TAG, "onDataChange : " + data)
+                            val donation = data.getValue(ADDonationModel::class.java)
+                            if (donation?.userId.equals(userId)) {
+                                val amt: Int = donation?.amount?.toInt()!!
+                                myContribution = myContribution + amt
                             }
+                            if (donation != null) {
+                                topList.add(donation)
+                            }
+                        }
                         val text = java.lang.String.format(
-                            getString(R.string.your_contribution),myContribution.toString())
+                            getString(R.string.your_contribution), myContribution.toString()
+                        )
                         my_contribution?.setText(text)
 
-                        var count =1
-                        var looper = topList.size-1
+                        var count = 1
+                        var looper = topList.size - 1
 
-                        while(count<=3){
+                        while (count <= 3) {
                             val donation = topList.get(looper)
-                            val view = View.inflate(activity, R.layout.contributers_topper_list_item, null)
+                            val view =
+                                View.inflate(activity, R.layout.contributers_topper_list_item, null)
                             val name = view.findViewById<TextView>(R.id.contribution_data)
 
                             name.setText(
-                                (contributers_list.childCount+1).toString() + ". " + donation?.userName + " "
+                                (contributers_list.childCount + 1).toString() + ". " + donation?.userName + " "
                                         + getString(R.string.rupees) + donation?.amount.toString()
                             )
                             contributers_list.addView(view)
@@ -287,7 +301,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
 
     override fun onPaymentSuccess(paymentId: String?, paymentData: PaymentData?) {
         progress_layout.visibility = View.VISIBLE
-        saveData(paymentData, true)
+        checkAmountOfChild(paymentData, true)
     }
 
     override fun onPaymentError(error_id: Int, error_msg: String?, paymentData: PaymentData?) {
@@ -297,45 +311,102 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
             return
         }
         progress_layout.visibility = View.VISIBLE
-        saveData(paymentData, false)
+        checkAmountOfChild(paymentData, false)
         (activity as ADBaseActivity).showMessage(error_msg.toString(), donation_parent, true)
     }
 
-    private fun saveData(payment: PaymentData?, status: Boolean) {
+    private fun checkAmountOfChild(payment: PaymentData?, status: Boolean) {
         try {
             val preference = MySharedPreference(activity!!.applicationContext)
             val userId = preference.getValueString(getString(R.string.userId)).toString()
 
             var monthYr =
-                MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.month_yr)).toString()
+                MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.month_yr))
+                    .toString()
 
             var today =
-                MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.current_date)).toString()
+                MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.current_date))
+                    .toString()
+            var donation = ADDonationModel(
+                payment?.paymentId.toString(), "", today, amount.text.toString().toInt(),
+                status, mChildId, mUserName, userId
+            )
 
-            val donation = ADDonationModel(payment?.paymentId.toString(), "", today, amount.text.toString().toInt(),
-                status, mChildId, mUserName, userId)
+            var tempAmount = mOldContribution + amount.text.toString().toInt()
 
-            var mFirebaseDatabase = FirebaseDatabase.getInstance()
-                .getReference((activity as ADBaseActivity).CONTRIBUTION_TABLE_NAME)
+            if ((mOldContribution + amount.text.toString().toInt()) > monthlyAmount.toInt()) {
+                var balance = monthlyAmount.toInt() - mOldContribution
+                tempAmount = mOldContribution + balance
+                donation = ADDonationModel(
+                    payment?.paymentId.toString(),
+                    "",
+                    today,
+                    balance,
+                    status,
+                    mChildId,
+                    mUserName,
+                    userId
+                )
+                savePaymentToServer(monthYr, donation, tempAmount, status, false)
 
-            val key = mFirebaseDatabase.push().key.toString()
 
-            mFirebaseDatabase
-                .child(monthYr).child(key).setValue(donation)
-                .addOnSuccessListener {
+                monthYr =
+                    MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.next_month_yr))
+                        .toString()
+                balance =
+                    (mOldContribution + amount.text.toString().toInt()) - monthlyAmount.toInt()
+                mOldContribution = 0
+                donation = ADDonationModel(
+                    payment?.paymentId.toString(),
+                    "",
+                    today,
+                    balance,
+                    status,
+                    mChildId,
+                    mUserName,
+                    userId
+                )
+                savePaymentToServer(monthYr, donation,balance, status, true)
 
-                    mFirebaseDatabase = FirebaseDatabase.getInstance()
-                        .getReference((activity as ADBaseActivity).CHILD_TABLE_NAME)
-                    val key2 = mFirebaseDatabase.push().key.toString()
-                    mFirebaseDatabase.child(mChildId).child("contribution")
-                        .child(monthYr).child(key2).setValue(donation)
-                        .addOnSuccessListener {
-                            if (status) {
-                                mOldContribution = mOldContribution + amount.text.toString().toInt()
-                                mFirebaseDatabase.child(mChildId).child("contribution")
-                                    .child(monthYr).child("collected_amt")
-                                    .setValue(mOldContribution)
-                            }
+            } else {
+
+                savePaymentToServer(monthYr, donation, tempAmount, status, true)
+            }
+
+        } catch (e: Exception) {
+            Log.i("Tag", e.printStackTrace().toString())
+            progress_layout.visibility = View.GONE
+        }
+    }
+
+    private fun savePaymentToServer(
+        monthYr: String,
+        donation: ADDonationModel,
+        amount: Int,
+        status: Boolean,
+        showCele: Boolean
+    ) {
+        var mFirebaseDatabase = FirebaseDatabase.getInstance()
+            .getReference((activity as ADBaseActivity).CONTRIBUTION_TABLE_NAME)
+
+        val key = mFirebaseDatabase.push().key.toString()
+
+        mFirebaseDatabase
+            .child(monthYr).child(key).setValue(donation)
+            .addOnSuccessListener {
+
+                mFirebaseDatabase = FirebaseDatabase.getInstance()
+                    .getReference((activity as ADBaseActivity).CHILD_TABLE_NAME)
+                val key2 = mFirebaseDatabase.push().key.toString()
+                mFirebaseDatabase.child(mChildId).child("contribution")
+                    .child(monthYr).child(key2).setValue(donation)
+                    .addOnSuccessListener {
+                        if (status) {
+                            mFirebaseDatabase.child(mChildId).child("contribution")
+                                .child(monthYr).child("collected_amt")
+                                .setValue(amount)
+                        }
+                        if (showCele) {
                             payment_layout.visibility = View.GONE
                             congrats_layout.visibility = View.VISIBLE
                             progress_layout.visibility = View.GONE
@@ -346,24 +417,24 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                                 .setDirection(0.0, 359.0)
                                 .setSpeed(1f, 5f)
                                 .setFadeOutEnabled(true)
-                                .setTimeToLive(2000L)
+                                .setTimeToLive(ADConstants.ANIMATION_TIME_TO_LIVE)
                                 .addShapes(Shape.RECT, Shape.CIRCLE)
-                                .addSizes(Size(12))
+                                .addSizes(Size(ADConstants.ANIMATION_SIZE))
                                 .setPosition(-50f, celebration_view.width + 50f, -50f, -50f)
-                                .streamFor(300, 1500L)
+                                .streamFor(
+                                    ADConstants.ANIMATION_COUNT,
+                                    ADConstants.ANIMATION_EMITTING_TIME
+                                )
                         }
-                        .addOnFailureListener {
-                            progress_layout.visibility = View.GONE
-                        }
+                    }
+                    .addOnFailureListener {
+                        progress_layout.visibility = View.GONE
+                    }
 
-                }
-                .addOnFailureListener {
-                    progress_layout.visibility = View.GONE
-                }
-        } catch (e: Exception) {
-            Log.i("Tag", e.printStackTrace().toString())
-            progress_layout.visibility = View.GONE
-        }
+            }
+            .addOnFailureListener {
+                progress_layout.visibility = View.GONE
+            }
     }
 
 
