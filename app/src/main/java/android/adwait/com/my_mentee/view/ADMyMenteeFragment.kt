@@ -151,7 +151,7 @@ class ADMyMenteeFragment : ADBaseFragment() {
                     if (data.exists()) {
                         menteeDetails = data.getValue(ADUserDetails::class.java)!!
                         if (menteeDetails != null) {
-                            fetchChildData(menteeDetails.childId)
+                            fetchChildData(menteeDetails.childId,false)
                         }
                     }
                 }
@@ -166,7 +166,7 @@ class ADMyMenteeFragment : ADBaseFragment() {
         }
     }
 
-    private fun fetchChildData(childId: String) {
+    private fun fetchChildData(childId: String,amtCollected:Boolean) {
 
         if (!(activity as ADBaseActivity).isNetworkAvailable()) {
             (activity as ADBaseActivity).showMessage(
@@ -277,9 +277,12 @@ class ADMyMenteeFragment : ADBaseFragment() {
 
                             var monthYr =
                                 MySharedPreference(activity as ADBaseActivity).getValueString(
-                                    getString(R.string.month_yr)
-                                ).toString()
-
+                                    getString(R.string.month_yr)).toString()
+                            if (amtCollected){
+                                monthYr =
+                                    MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.next_month_yr))
+                                        .toString()
+                            }
 
                             var collectedAmount =
                                 data.child("contribution").child(monthYr).child("collected_amt")
@@ -287,6 +290,10 @@ class ADMyMenteeFragment : ADBaseFragment() {
 
                             if (collectedAmount.isEmpty() || collectedAmount.equals("null")) {
                                 collectedAmount = "0"
+                            }
+                            if (monthlyAmount.toInt() > 0 && monthlyAmount.toInt() == collectedAmount.toInt()){
+                                fetchChildData(childId,true)
+                                return
                             }
 
                             val text = java.lang.String.format(

@@ -30,4 +30,5 @@
 
     <dimen name="static_image_hgt">100dp</dimen>
     <dimen name="static_image_hgt2">75dp</dimen>
+    <dimen name="static_image_hgt3">60dp</dimen>
 </resources>

@@ -46,8 +46,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_donation, container, false)
 
         return view
@@ -145,7 +144,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                         if (mUserName.isEmpty()) {
                             mUserName = mEmail
                         }
-                        fetchChildData(menteeDetails.childId)
+                        fetchChildData(menteeDetails.childId,false)
                     }
                 }
 
@@ -157,7 +156,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
         }
     }
 
-    private fun fetchChildData(childId: String) {
+    private fun fetchChildData(childId: String, amtCollected:Boolean) {
         mChildId = childId
         if (!(activity as ADBaseActivity).isNetworkAvailable()) {
             (activity as ADBaseActivity).showMessage(
@@ -199,10 +198,13 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                             monthlyAmount = data.child("amount_needed").value.toString()
                             var monthYr =
                                 MySharedPreference(activity as ADBaseActivity).getValueString(
-                                    getString(R.string.month_yr)
-                                ).toString()
+                                    getString(R.string.month_yr)).toString()
 
-                            fetchContribution(mUserId, monthYr)
+                            if (amtCollected){
+                                monthYr =
+                                    MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.next_month_yr))
+                                        .toString()
+                            }
 
                             var collectedAmount =
                                 data.child("contribution").child(monthYr).child("collected_amt")
@@ -211,6 +213,15 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                             if (collectedAmount.isEmpty() || collectedAmount.equals("null")) {
                                 collectedAmount = "0"
                             }
+
+                            if (monthlyAmount.toInt() > 0 && monthlyAmount.toInt() == collectedAmount.toInt()){
+                                fetchChildData(childId,true)
+                                return
+                            }
+
+                            fetchContribution(mUserId, monthYr)
+
+
                             val text = java.lang.String.format(
                                 getString(R.string.fund_raised_msg),
                                 collectedAmount, monthlyAmount, monthYr
@@ -254,7 +265,6 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
 
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists()) {
-                        val size = dataSnapshot.childrenCount.toInt()
                         for (data in dataSnapshot.children) {
                             Log.e(TAG, "onDataChange : " + data)
                             val donation = data.getValue(ADDonationModel::class.java)
@@ -272,9 +282,13 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                         my_contribution?.setText(text)
 
                         var count = 1
-                        var looper = topList.size - 1
+                        val size = topList.size
+                        var looper = size - 1
 
-                        while (count <= 3) {
+                        if (size > 3){
+                            size == 3
+                        }
+                        while (count <= size) {
                             val donation = topList.get(looper)
                             val view =
                                 View.inflate(activity, R.layout.contributers_topper_list_item, null)

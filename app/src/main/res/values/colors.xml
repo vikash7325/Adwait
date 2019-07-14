@@ -15,6 +15,7 @@
     <color name="hint_text_color">#3C3C3C</color>
     <color name="hint_text_color2">#222222</color>
     <color name="light_gray_color">#AAAAAA</color>
+    <color name="light_gray_color2">#F1F2F1</color>
 
     <color name="failed">#A62609</color>
     <color name="successful">#4BB543</color>

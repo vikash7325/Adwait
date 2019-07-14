@@ -268,6 +268,13 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                                 collectedAmount = "0"
                             }
 
+                            if (monthlyAmount.toInt() > 0 && monthlyAmount.toInt() == collectedAmount.toInt()){
+                               val month =
+                                    MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.next_month_yr))
+                                        .toString()
+                                fetchChildData(childId,month)
+                                return
+                            }
 
                             val text = java.lang.String.format(
                                 getString(R.string.fund_raised_msg),

@@ -21,53 +21,61 @@
             android:scaleType="fitXY"
             android:src="@drawable/home_banner_1" />
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginLeft="@dimen/default_padding"
             android:layout_marginTop="@dimen/default_padding"
             android:layout_marginRight="@dimen/default_padding"
-            android:layout_marginBottom="@dimen/default_padding"
-            android:layout_weight="0.5"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="0.45"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="@dimen/static_image_hgt2"
-                android:layout_height="@dimen/static_image_hgt2"
-                android:layout_marginTop="5dp"
+                android:layout_width="@dimen/static_image_hgt3"
+                android:layout_height="@dimen/static_image_hgt3"
                 android:src="@drawable/ic_giftbox" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:padding="5dp"
                 android:text="@string/wish_corner_hint"
                 android:textAllCaps="false"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/large_text" />
+                android:textSize="@dimen/medium_text" />
 
             <LinearLayout
+                android:id="@+id/wish_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/rounded_white_bg"
-                android:orientation="vertical"></LinearLayout>
+                android:orientation="vertical"
+                android:padding="5dp">
 
+                <ListView
+                    android:id="@+id/wishes_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="@null" />
+
+            </LinearLayout>
         </LinearLayout>
 
-
         <LinearLayout
+            android:id="@+id/events_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginLeft="@dimen/default_padding"
             android:layout_marginRight="@dimen/default_padding"
-            android:layout_weight="0.25"
+            android:layout_weight="0.3"
             android:background="@drawable/rounded_white_bg"
+            android:gravity="center_vertical"
             android:orientation="vertical">
 
             <android.support.design.widget.TabLayout
@@ -76,6 +84,12 @@
                 android:layout_height="wrap_content"
                 app:tabSelectedTextColor="@color/colorPrimary"
                 app:tabTextColor="@color/colorPrimary"></android.support.design.widget.TabLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/events_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp" />
 
         </LinearLayout>
 
