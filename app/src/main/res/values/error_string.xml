@@ -61,4 +61,8 @@
     <!--Donation-->
     <string name="empty_amount">Enter your contribution and continue</string>
     <string name="invalid_amount">Enter a valid amount</string>
+
+    <string name="empty_ngo">Enter the NGO name</string>
+    <string name="empty_wish_item">Enter the Wish</string>
+    <string name="empty_price">Enter approx price</string>
 </resources>

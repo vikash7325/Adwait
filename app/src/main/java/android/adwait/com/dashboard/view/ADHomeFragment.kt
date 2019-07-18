@@ -175,6 +175,8 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                     if (data.exists()) {
                         menteeDetails = data.getValue(ADUserDetails::class.java)!!
                         if (menteeDetails != null) {
+
+                            MySharedPreference(activity as ADBaseActivity).saveStrings(getString(R.string.userName),menteeDetails.userName)
                             if (menteeDetails.phoneNumber.isEmpty() && menteeDetails.date_of_birth.isEmpty()) {
                                 mentee_layout.alpha = 0.5f
                                 mDetailsFilled = false

@@ -9,6 +9,8 @@ import android.adwait.com.wish_corner.adapter.ADEventsAdapter
 import android.adwait.com.wish_corner.adapter.AdWishListAdapter
 import android.adwait.com.wish_corner.model.ADEventsModel
 import android.adwait.com.wish_corner.model.ADWishModel
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v7.widget.LinearLayoutManager
@@ -33,7 +35,8 @@ class ADWishCornerFragment : ADBaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater?.inflate(R.layout.fragment_wish_corner, container, false)
 
         return view
@@ -42,7 +45,10 @@ class ADWishCornerFragment : ADBaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        val screenHeight: Int = ((activity as ADBaseActivity).getScreenDetails(true) * 0.2).toInt()
+        val params = events_layout.layoutParams
+        params.height = screenHeight
+        events_layout.layoutParams = params
 
         tabLayout.addTab(tabLayout.newTab().setText(R.string.upcoming))
         tabLayout.addTab(tabLayout.newTab().setText(R.string.recent))
@@ -50,9 +56,9 @@ class ADWishCornerFragment : ADBaseFragment() {
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                if (tab?.text.toString().equals(getString(R.string.upcoming))){
+                if (tab?.text.toString().equals(getString(R.string.upcoming))) {
                     eventsAdapter.setmEventsData(mUpComingEvent)
-                }else{
+                } else {
                     eventsAdapter.setmEventsData(mPastEvent)
                 }
             }
@@ -70,8 +76,25 @@ class ADWishCornerFragment : ADBaseFragment() {
                 LinearLayoutManager(
                     activity as ADBaseActivity,
                     LinearLayoutManager.HORIZONTAL,
-                    false))
+                    false
+                ))
         fetchWishes()
+        checkUserForAdmin()
+
+        add_wishes.setOnClickListener(View.OnClickListener {
+
+            val add = Intent((activity as ADBaseActivity), ADAddWishesActivity::class.java)
+            startActivityForResult(add, 454)
+        })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 454) {
+            if (resultCode == Activity.RESULT_OK) {
+                fetchWishes()
+            }
+        }
     }
 
     private fun fetchWishes() {
@@ -107,7 +130,6 @@ class ADWishCornerFragment : ADBaseFragment() {
         })
     }
 
-
     private fun fetchEvents() {
         mUpComingEvent = ArrayList<ADEventsModel>()
         mPastEvent = ArrayList<ADEventsModel>()
@@ -140,7 +162,7 @@ class ADWishCornerFragment : ADBaseFragment() {
                         } else {
                             mPastEvent.add(eventItem)
                         }
-                        eventsAdapter = ADEventsAdapter(activity,mUpComingEvent)
+                        eventsAdapter = ADEventsAdapter(activity, mUpComingEvent)
                         events_list.adapter = eventsAdapter
                         events_layout.visibility = View.VISIBLE
                     }
@@ -156,7 +178,6 @@ class ADWishCornerFragment : ADBaseFragment() {
         })
     }
 
-
     private fun checkUserForAdmin() {
         (activity as ADBaseActivity).getUserDetails(object : ValueEventListener {
 
@@ -165,8 +186,10 @@ class ADWishCornerFragment : ADBaseFragment() {
                 if (data.exists()) {
                     val menteeDetails = data.getValue(ADUserDetails::class.java)!!
 
-                    if (menteeDetails.isAdmin.equals("Yes")) {
-
+                    if (menteeDetails.can_add_data) {
+                        add_wishes.visibility = View.VISIBLE
+                    } else {
+                        add_wishes.visibility = View.GONE
                     }
                 }
             }

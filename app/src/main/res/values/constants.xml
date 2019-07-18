@@ -6,6 +6,7 @@
     <string name="logged_in">logged_in</string>
     <string name="registered">registered</string>
     <string name="userId">user_id</string>
+    <string name="userName">userName</string>
     <string name="month_yr">month_yr</string>
     <string name="previous_month_yr">previous_month_yr</string>
     <string name="next_month_yr">next_month_yr</string>

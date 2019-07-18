@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="android.adwait.com">
 
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".utils.ADApplication"
@@ -22,8 +22,7 @@
 
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="@string/razor_pay_id"
-            />
+            android:value="@string/razor_pay_id" />
 
         <activity
             android:name=".startup.view.ADSplashActivity"
@@ -50,6 +49,10 @@
 
         <activity
             android:name=".registeration.view.ADRegistrationActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+
+        <activity
+            android:name=".wish_corner.view.ADAddWishesActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
 
         <activity

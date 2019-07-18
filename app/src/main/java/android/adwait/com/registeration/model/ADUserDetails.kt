@@ -15,9 +15,22 @@ class ADUserDetails(
     var usedReferralCode: String = ""
     var myReferralCode: String = ""
     var childId: String = ""
+    var can_add_data: Boolean = false
     var referralPoints: String = "100"
-    var isAdmin: String = "No"
 
+    constructor(parcel: Parcel) : this(
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString()
+    ) {
+        usedReferralCode = parcel.readString()
+        myReferralCode = parcel.readString()
+        childId = parcel.readString()
+        can_add_data = parcel.readByte() != 0.toByte()
+        referralPoints = parcel.readString()
+    }
 
     @Exclude
     fun toMap(): Map<String, Any?> {
@@ -29,18 +42,6 @@ class ADUserDetails(
         )
     }
 
-    constructor(parcel: Parcel) : this(
-            parcel.readString(),
-            parcel.readString(),
-            parcel.readString(),
-            parcel.readString(),
-            parcel.readString()) {
-        usedReferralCode = parcel.readString()
-        myReferralCode = parcel.readString()
-        childId = parcel.readString()
-        isAdmin = parcel.readString()
-    }
-
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(userName)
         parcel.writeString(password)
@@ -50,7 +51,8 @@ class ADUserDetails(
         parcel.writeString(usedReferralCode)
         parcel.writeString(myReferralCode)
         parcel.writeString(childId)
-        parcel.writeString(isAdmin)
+        parcel.writeByte(if (can_add_data) 1 else 0)
+        parcel.writeString(referralPoints)
     }
 
     override fun describeContents(): Int {

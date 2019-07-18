@@ -6,6 +6,8 @@
     <string name="loading">Please wait...</string>
     <string name="rupees">₹</string>
     <string name="close">Close</string>
+    <string name="ngoname">Ngo</string>
+    <string name="wishitem">Wish Item</string>
 
     <!--Help Screen-->
     <string name="help1"> Get 100% visibility on your money.\nAnytime, Anywhere, Any Device</string>
@@ -296,5 +298,6 @@
     <!--Evle Talk-->
     <string name="evle_talk">Evle Talk</string>
     <string name="evle_talk_header">What is Evle Talk?</string>
+    <string name="price">Price</string>
 
 </resources>

@@ -21,37 +21,47 @@
             android:scaleType="fitXY"
             android:src="@drawable/home_banner_1" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginLeft="@dimen/default_padding"
             android:layout_marginTop="@dimen/default_padding"
             android:layout_marginRight="@dimen/default_padding"
             android:layout_marginBottom="8dp"
-            android:layout_weight="0.45"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:layout_weight="0.75"
+            android:gravity="center_horizontal">
 
-            <ImageView
-                android:layout_width="@dimen/static_image_hgt3"
-                android:layout_height="@dimen/static_image_hgt3"
-                android:src="@drawable/ic_giftbox" />
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/header"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_alignParentTop="true"
                 android:gravity="center"
-                android:padding="5dp"
-                android:text="@string/wish_corner_hint"
-                android:textAllCaps="false"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/medium_text" />
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/static_image_hgt3"
+                    android:layout_height="@dimen/static_image_hgt3"
+                    android:src="@drawable/ic_giftbox" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/wish_corner_hint"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/medium_text" />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/wish_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_above="@+id/events_layout"
+                android:layout_below="@+id/header"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/rounded_white_bg"
@@ -65,35 +75,49 @@
                     android:divider="@null" />
 
             </LinearLayout>
-        </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/events_layout"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginLeft="@dimen/default_padding"
-            android:layout_marginRight="@dimen/default_padding"
-            android:layout_weight="0.3"
-            android:background="@drawable/rounded_white_bg"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tabLayout"
+            <LinearLayout
+                android:id="@+id/events_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:tabSelectedTextColor="@color/colorPrimary"
-                app:tabTextColor="@color/colorPrimary"></android.support.design.widget.TabLayout>
+                android:layout_height="200dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="@dimen/default_padding"
+                android:layout_marginRight="@dimen/default_padding"
+                android:background="@drawable/rounded_white_bg"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/events_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp" />
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/tabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:tabSelectedTextColor="@color/colorPrimary"
+                    app:tabTextColor="@color/colorPrimary"></android.support.design.widget.TabLayout>
 
-        </LinearLayout>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/events_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
 
     </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_wishes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/default_padding"
+        app:backgroundTint="@color/colorPrimary"
+        android:src="@drawable/plus_icon"
+        android:visibility="gone" />
 
 
     <!--Progress Layout-->

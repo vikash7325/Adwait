@@ -166,7 +166,7 @@ class ADRegistrationActivity : ADBaseActivity() {
             } else {
                 userRegister.usedReferralCode = code
                 if (code.equals(ADConstants.ADMIN_REFERRAL_CODE)){
-                    userRegister.isAdmin = "Yes"
+                    userRegister.can_add_data = true
                 }
                 sendVerificationCodes(SEND_ALL_VERIFICATION)
             }
