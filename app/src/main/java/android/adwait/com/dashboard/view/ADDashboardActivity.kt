@@ -50,8 +50,6 @@ class ADDashboardActivity : ADBaseActivity(),PaymentResultWithDataListener {
         setSupportActionBar(toolbar)
         getServerDate("getCurrentMonthAndYr",null)
         getServerDate("getCurrentDate",null)
-        getServerDate("getPreviousMonthAndYr",null)
-        getServerDate("getNextMonthAndYr",null)
 
         supportActionBar?.setDisplayShowHomeEnabled(false)
 

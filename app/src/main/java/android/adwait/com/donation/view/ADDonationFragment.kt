@@ -8,6 +8,7 @@ import android.adwait.com.dashboard.view.ADDashboardActivity
 import android.adwait.com.donation.model.ADDonationModel
 import android.adwait.com.registeration.model.ADUserDetails
 import android.adwait.com.utils.ADBaseFragment
+import android.adwait.com.utils.ADCommonResponseListener
 import android.adwait.com.utils.ADConstants
 import android.graphics.Color
 import android.os.Bundle
@@ -46,7 +47,8 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater?.inflate(R.layout.fragment_donation, container, false)
 
         return view
@@ -144,7 +146,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                         if (mUserName.isEmpty()) {
                             mUserName = mEmail
                         }
-                        fetchChildData(menteeDetails.childId,false)
+                        fetchChildData(menteeDetails.childId, false)
                     }
                 }
 
@@ -156,7 +158,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
         }
     }
 
-    private fun fetchChildData(childId: String, amtCollected:Boolean) {
+    private fun fetchChildData(childId: String, amtCollected: Boolean) {
         mChildId = childId
         if (!(activity as ADBaseActivity).isNetworkAvailable()) {
             (activity as ADBaseActivity).showMessage(
@@ -198,11 +200,14 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                             monthlyAmount = data.child("amount_needed").value.toString()
                             var monthYr =
                                 MySharedPreference(activity as ADBaseActivity).getValueString(
-                                    getString(R.string.month_yr)).toString()
+                                    getString(R.string.month_yr)
+                                ).toString()
 
-                            if (amtCollected){
+                            if (amtCollected) {
                                 monthYr =
-                                    MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.next_month_yr))
+                                    MySharedPreference(activity as ADBaseActivity).getValueString(
+                                        getString(R.string.next_month_yr)
+                                    )
                                         .toString()
                             }
 
@@ -214,12 +219,12 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                                 collectedAmount = "0"
                             }
 
-                            if (monthlyAmount.toInt() > 0 && monthlyAmount.toInt() == collectedAmount.toInt()){
-                                fetchChildData(childId,true)
+                            if (monthlyAmount.toInt() > 0 && monthlyAmount.toInt() == collectedAmount.toInt()) {
+                                fetchChildData(childId, true)
                                 return
                             }
 
-                            fetchContribution(mUserId, monthYr)
+                            fetchContribution(mUserId, monthYr, childId)
 
 
                             val text = java.lang.String.format(
@@ -250,7 +255,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
         }
     }
 
-    private fun fetchContribution(userId: String, monthYr: String) {
+    private fun fetchContribution(userId: String, monthYr: String, childId: String) {
 
         var myContribution = 0;
         if (contributers_list.childCount > 0) {
@@ -272,7 +277,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                                 val amt: Int = donation?.amount?.toInt()!!
                                 myContribution = myContribution + amt
                             }
-                            if (donation != null) {
+                            if (donation != null && donation.childId.equals(childId)) {
                                 topList.add(donation)
                             }
                         }
@@ -285,24 +290,44 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                         val size = topList.size
                         var looper = size - 1
 
-                        if (size > 3){
+                        if (size > 3) {
                             size == 3
                         }
-                        while (count <= size) {
-                            val donation = topList.get(looper)
-                            val view =
-                                View.inflate(activity, R.layout.contributers_topper_list_item, null)
-                            val name = view.findViewById<TextView>(R.id.contribution_data)
 
-                            name.setText(
-                                (contributers_list.childCount + 1).toString() + ". " + donation?.userName + " "
-                                        + getString(R.string.rupees) + donation?.amount.toString()
+                        if (size == 0) {
+                            top_contribution.visibility = View.GONE
+                            no_contribution.visibility = View.VISIBLE
+                            val text = java.lang.String.format(
+                                getString(R.string.no_contribution), child_name.text.toString()
                             )
-                            contributers_list.addView(view)
-                            count++
-                            looper--
-                        }
+                            no_contribution.setText(text)
+                        } else {
+                            while (count <= size) {
+                                val donation = topList.get(looper)
+                                val view =
+                                    View.inflate(
+                                        activity,
+                                        R.layout.contributers_topper_list_item,
+                                        null
+                                    )
+                                val name = view.findViewById<TextView>(R.id.contribution_data)
 
+                                name.setText(
+                                    (contributers_list.childCount + 1).toString() + ". " + donation?.userName + " "
+                                            + getString(R.string.rupees) + donation?.amount.toString()
+                                )
+                                contributers_list.addView(view)
+                                count++
+                                looper--
+                            }
+                        }
+                    }else{
+                        top_contribution.visibility = View.GONE
+                        no_contribution.visibility = View.VISIBLE
+                        val text = java.lang.String.format(
+                            getString(R.string.no_contribution), child_name.text.toString()
+                        )
+                        no_contribution.setText(text)
                     }
                 }
 
@@ -362,26 +387,40 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                     userId
                 )
                 savePaymentToServer(monthYr, donation, tempAmount, status, false)
+                MySharedPreference(activity as ADBaseActivity).saveStrings(getString(R.string.previous_month_yr), monthYr)
 
+                (activity as ADBaseActivity).getNextDate("getNextMonthAndYr", monthYr,
+                    object : ADCommonResponseListener {
+                        override fun onSuccess(data: Any?) {
+                            MySharedPreference(activity as ADBaseActivity).saveStrings(
+                                getString(R.string.month_yr),
+                                data.toString()
+                            )
+                            monthYr =
+                                MySharedPreference(activity as ADBaseActivity).getValueString(
+                                    getString(R.string.next_month_yr)
+                                )
+                                    .toString()
+                            balance =
+                                (mOldContribution + amount.text.toString().toInt()) - monthlyAmount.toInt()
+                            mOldContribution = 0
+                            donation = ADDonationModel(
+                                payment?.paymentId.toString(),
+                                "",
+                                today,
+                                balance,
+                                status,
+                                mChildId,
+                                mUserName,
+                                userId
+                            )
+                            savePaymentToServer(monthYr, donation, balance, status, true)
+                        }
 
-                monthYr =
-                    MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.next_month_yr))
-                        .toString()
-                balance =
-                    (mOldContribution + amount.text.toString().toInt()) - monthlyAmount.toInt()
-                mOldContribution = 0
-                donation = ADDonationModel(
-                    payment?.paymentId.toString(),
-                    "",
-                    today,
-                    balance,
-                    status,
-                    mChildId,
-                    mUserName,
-                    userId
-                )
-                savePaymentToServer(monthYr, donation,balance, status, true)
-
+                        override fun onError(data: Any?) {
+                            progress_layout.visibility = View.GONE
+                        }
+                    })
             } else {
 
                 savePaymentToServer(monthYr, donation, tempAmount, status, true)

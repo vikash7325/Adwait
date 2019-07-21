@@ -21,90 +21,98 @@
             android:scaleType="fitXY"
             android:src="@drawable/home_banner_1" />
 
-        <RelativeLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginLeft="@dimen/default_padding"
-            android:layout_marginTop="@dimen/default_padding"
-            android:layout_marginRight="@dimen/default_padding"
-            android:layout_marginBottom="8dp"
             android:layout_weight="0.75"
-            android:gravity="center_horizontal">
+            android:fillViewport="true">
 
-            <LinearLayout
-                android:id="@+id/header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="@dimen/static_image_hgt3"
-                    android:layout_height="@dimen/static_image_hgt3"
-                    android:src="@drawable/ic_giftbox" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/wish_corner_hint"
-                    android:textAllCaps="false"
-                    android:textColor="@android:color/black"
-                    android:textSize="@dimen/medium_text" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/wish_layout"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@+id/events_layout"
-                android:layout_below="@+id/header"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/rounded_white_bg"
-                android:orientation="vertical"
-                android:padding="5dp">
-
-                <ListView
-                    android:id="@+id/wishes_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:divider="@null" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/events_layout"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_alignParentBottom="true"
                 android:layout_marginLeft="@dimen/default_padding"
+                android:layout_marginTop="@dimen/default_padding"
                 android:layout_marginRight="@dimen/default_padding"
-                android:background="@drawable/rounded_white_bg"
-                android:gravity="center_vertical"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:layout_marginBottom="8dp"
+                android:gravity="center_horizontal">
 
-                <android.support.design.widget.TabLayout
-                    android:id="@+id/tabLayout"
+                <LinearLayout
+                    android:id="@+id/header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:tabSelectedTextColor="@color/colorPrimary"
-                    app:tabTextColor="@color/colorPrimary"></android.support.design.widget.TabLayout>
+                    android:layout_alignParentTop="true"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/events_list"
+                    <ImageView
+                        android:layout_width="@dimen/static_image_hgt3"
+                        android:layout_height="@dimen/static_image_hgt3"
+                        android:src="@drawable/ic_giftbox" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="@string/wish_corner_hint"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/medium_text" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/wish_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="5dp" />
+                    android:layout_above="@+id/events_layout"
+                    android:layout_below="@+id/header"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/rounded_white_bg"
+                    android:orientation="vertical"
+                    android:padding="5dp">
 
-            </LinearLayout>
+                    <ListView
+                        android:id="@+id/wishes_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:divider="@null"
+                        android:nestedScrollingEnabled="true" />
 
-        </RelativeLayout>
+                </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/events_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/default_padding"
+                    android:layout_marginRight="@dimen/default_padding"
+                    android:background="@drawable/rounded_white_bg"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <android.support.design.widget.TabLayout
+                        android:id="@+id/tabLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:tabSelectedTextColor="@color/colorPrimary"
+                        app:tabTextColor="@color/colorPrimary"></android.support.design.widget.TabLayout>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/events_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:nestedScrollingEnabled="true" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </android.support.v4.widget.NestedScrollView>
 
     </LinearLayout>
 
@@ -115,10 +123,9 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/default_padding"
-        app:backgroundTint="@color/colorPrimary"
         android:src="@drawable/plus_icon"
-        android:visibility="gone" />
-
+        android:visibility="gone"
+        app:backgroundTint="@color/colorPrimary" />
 
     <!--Progress Layout-->
     <LinearLayout

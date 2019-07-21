@@ -281,6 +281,7 @@ open class ADBaseActivity : AppCompatActivity() {
 
     fun getServerDate(functionName: String, listener : ADCommonResponseListener?=null): String {
         var serverDate: String = ""
+
         FirebaseFunctions.getInstance().getHttpsCallable(functionName).call()
             .addOnSuccessListener {
                 serverDate = it.data.toString()
@@ -288,7 +289,32 @@ open class ADBaseActivity : AppCompatActivity() {
                     MySharedPreference(this).saveStrings(getString(R.string.current_date), serverDate)
                 } else if(functionName.equals("getCurrentMonthAndYr")){
                     MySharedPreference(this).saveStrings(getString(R.string.month_yr), serverDate)
-                }else if(functionName.equals("getPreviousMonthAndYr")){
+                }
+
+                if (listener!=null) {
+                    listener.onSuccess(serverDate)
+                }
+            }
+            .addOnFailureListener {
+                Log.v(TAG, "getServerDate Exception -> " + it.message)
+                if (listener!=null) {
+                    listener.onError(it)
+                }
+            }
+
+        return serverDate
+    }
+
+    fun getNextDate(functionName: String, date : String, listener : ADCommonResponseListener?=null): String {
+        var serverDate: String = ""
+
+        val data = hashMapOf(
+            "month" to date)
+
+        FirebaseFunctions.getInstance().getHttpsCallable(functionName).call(data)
+            .addOnSuccessListener {
+                serverDate = it.data.toString()
+               if(functionName.equals("getPreviousMonthAndYr")){
                     MySharedPreference(this).saveStrings(getString(R.string.previous_month_yr), serverDate)
                 } else {
                     MySharedPreference(this).saveStrings(getString(R.string.next_month_yr), serverDate)
@@ -306,4 +332,5 @@ open class ADBaseActivity : AppCompatActivity() {
 
         return serverDate
     }
+
 }

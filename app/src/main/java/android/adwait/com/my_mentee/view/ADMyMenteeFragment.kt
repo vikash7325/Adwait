@@ -110,7 +110,7 @@ class ADMyMenteeFragment : ADBaseFragment() {
 
                     var message = java.lang.String.format(
                         getString(R.string.message_sent),
-                        menteeDetails.userName
+                        menteeDetails.userName, child_name.text.toString()
                     )
                     typed_msg.setText("")
                     progress_layout.visibility = View.GONE
@@ -129,7 +129,6 @@ class ADMyMenteeFragment : ADBaseFragment() {
                 }
         }
     }
-
 
     private fun fetchUserData() {
 
@@ -151,7 +150,7 @@ class ADMyMenteeFragment : ADBaseFragment() {
                     if (data.exists()) {
                         menteeDetails = data.getValue(ADUserDetails::class.java)!!
                         if (menteeDetails != null) {
-                            fetchChildData(menteeDetails.childId,false)
+                            fetchChildData(menteeDetails.childId, false)
                         }
                     }
                 }
@@ -166,7 +165,7 @@ class ADMyMenteeFragment : ADBaseFragment() {
         }
     }
 
-    private fun fetchChildData(childId: String,amtCollected:Boolean) {
+    private fun fetchChildData(childId: String, amtCollected: Boolean) {
 
         if (!(activity as ADBaseActivity).isNetworkAvailable()) {
             (activity as ADBaseActivity).showMessage(
@@ -278,10 +277,11 @@ class ADMyMenteeFragment : ADBaseFragment() {
                             var monthYr =
                                 MySharedPreference(activity as ADBaseActivity).getValueString(
                                     getString(R.string.month_yr)).toString()
-                            if (amtCollected){
+
+                            if (amtCollected) {
                                 monthYr =
-                                    MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.next_month_yr))
-                                        .toString()
+                                    MySharedPreference(activity as ADBaseActivity).getValueString(
+                                        getString(R.string.next_month_yr)).toString()
                             }
 
                             var collectedAmount =
@@ -291,24 +291,20 @@ class ADMyMenteeFragment : ADBaseFragment() {
                             if (collectedAmount.isEmpty() || collectedAmount.equals("null")) {
                                 collectedAmount = "0"
                             }
-                            if (monthlyAmount.toInt() > 0 && monthlyAmount.toInt() == collectedAmount.toInt()){
-                                fetchChildData(childId,true)
+                            if (monthlyAmount.toInt() > 0 && monthlyAmount.toInt() == collectedAmount.toInt()) {
+                                fetchChildData(childId, true)
                                 return
                             }
 
                             val text = java.lang.String.format(
                                 getString(R.string.fund_raised_msg),
                                 collectedAmount,
-                                monthlyAmount,
-                                monthYr
-                            )
+                                monthlyAmount, monthYr)
+
                             fund_details?.setText(text)
 
-                            if (!collectedAmount.isEmpty() && collectedAmount != null && !collectedAmount.equals(
-                                    "null"
-                                ) &&
-                                monthlyAmount != null && !monthlyAmount.equals("null") && monthlyAmount.toInt() > 0
-                            ) {
+                            if (!collectedAmount.isEmpty() && collectedAmount != null && !collectedAmount.equals("null") &&
+                                monthlyAmount != null && !monthlyAmount.equals("null") && monthlyAmount.toInt() > 0) {
                                 val percent =
                                     ((collectedAmount.toInt()) * 100 / monthlyAmount.toInt())
                                 progress.setProgress(percent)

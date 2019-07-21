@@ -60,7 +60,7 @@ class ADPledgeBdayActivity : ADBaseActivity() {
                 birthday.setError(getString(R.string.invalid_dob))
             } else if (contact.isEmpty()) {
                 contact_details.setError(getString(R.string.empty_contact))
-            } else if (isValidContactDetails(contact)) {
+            } else if (!isValidContactDetails(contact)) {
                 contact_details.setError(getString(R.string.invalid_contact))
             } else {
                 if (!isNetworkAvailable()) {

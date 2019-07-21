@@ -386,39 +386,58 @@
                         android:fillViewport="true"
                         android:scrollbars="none">
 
+
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center_horizontal"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
                             android:orientation="vertical">
 
-                            <ImageView
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:src="@drawable/ic_trophy" />
-
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:id="@+id/no_contribution"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="5dp"
                                 android:padding="5dp"
-                                android:text="@string/top_contributers"
-                                android:textColor="@android:color/black"
-                                android:textSize="@dimen/medium_text"
-                                android:textStyle="bold" />
+                                android:gravity="center"
+                                android:textColor="@color/app_text"
+                                android:visibility="gone" />
 
                             <LinearLayout
-                                android:id="@+id/contributers_list"
+                                android:id="@+id/top_contribution"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:gravity="center_horizontal"
                                 android:orientation="vertical">
 
+                                <ImageView
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:src="@drawable/ic_trophy" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="5dp"
+                                    android:padding="5dp"
+                                    android:text="@string/top_contributers"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="@dimen/medium_text"
+                                    android:textStyle="bold" />
+
+                                <LinearLayout
+                                    android:id="@+id/contributers_list"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center_horizontal"
+                                    android:orientation="vertical">
+
+
+                                </LinearLayout>
 
                             </LinearLayout>
 
                         </LinearLayout>
-
                     </ScrollView>
 
 

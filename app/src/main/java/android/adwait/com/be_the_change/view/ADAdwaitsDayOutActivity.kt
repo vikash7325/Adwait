@@ -66,7 +66,7 @@ class ADAdwaitsDayOutActivity : ADBaseActivity() {
                     date.setError(getString(R.string.empty_date))
                 } else if (contact.isEmpty()) {
                     contact_details.setError(getString(R.string.empty_contact))
-                } else if (isValidContactDetails(contact)) {
+                } else if (!isValidContactDetails(contact)) {
                     contact_details.setError(getString(R.string.invalid_contact))
                 } else if (uMessage.isEmpty()) {
                     message.setError(getString(R.string.empty_message))

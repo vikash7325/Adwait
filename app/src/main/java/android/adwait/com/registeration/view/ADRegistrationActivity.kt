@@ -21,8 +21,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.logo_layout.*
 import kotlinx.android.synthetic.main.register_otp.*
@@ -92,7 +91,7 @@ class ADRegistrationActivity : ADBaseActivity() {
                 email.error = getString(R.string.err_invalid_email)
             } else if (!isValidPhone(phoneNo)) {
                 phone.error = getString(R.string.err_invalid_phone)
-            } else if (getAge(doBirth,"dd-MM-yyyy") < 14) {
+            } else if (getAge(doBirth, "dd-MM-yyyy") < 14) {
                 showMessage(getString(R.string.invalid_dob), register_parent, true)
             } else {
                 if (!isNetworkAvailable()) {
@@ -103,44 +102,47 @@ class ADRegistrationActivity : ADBaseActivity() {
                 userRegister = ADUserDetails(name, pass, phoneNo, emailId, doBirth)
                 userRegister.myReferralCode = getReferralString()
                 mFirebaseAuth = FirebaseAuth.getInstance()
+                val mUserDataTable =
+                    FirebaseDatabase.getInstance().reference.child(USER_TABLE_NAME)
 
-                mFirebaseAuth.createUserWithEmailAndPassword(
-                    userRegister.emailAddress,
-                    userRegister.password
-                )
-                    .addOnCompleteListener(this) { task ->
+                mUserDataTable.addListenerForSingleValueEvent(object : ValueEventListener {
 
-                        if (task.isSuccessful) {
-                            //Registration OK
-                            val user = mFirebaseAuth.currentUser
-                            if (user != null) {
-                                mUserId = user.uid
+                    override fun onDataChange(data: DataSnapshot) {
+
+                        if (data.exists()) {
+                            var elve = ADUserDetails()
+                            var count: Long = 0
+                            val size = data.childrenCount
+                            for (user in data.children) {
+                                elve = user.getValue(ADUserDetails::class.java)!!
+
+                                if (elve.emailAddress.equals(emailId) || (elve.phoneNumber.isEmpty() &&
+                                            elve.phoneNumber.equals(phoneNo))) {
+                                    progress_layout.visibility = View.GONE
+                                    showMessage(
+                                        getString(R.string.registration_duplicate),
+                                        register_parent,
+                                        true)
+                                    break
+                                } else {
+                                    count++
+                                }
                             }
-                            if (has_referral.isChecked) {
-                                register_layout.visibility = View.GONE
-                                referral_code_layout.visibility = View.VISIBLE
-                            } else {
-                                sendVerificationCodes(SEND_ALL_VERIFICATION)
+
+                            if (count == size) {
+                                registerUser()
                             }
 
-                            progress_layout.visibility = View.GONE
                         } else {
-                            progress_layout.visibility = View.GONE
-                            if (task.exception is FirebaseAuthUserCollisionException) {
-                                showMessage(
-                                    getString(R.string.registration_duplicate),
-                                    register_parent,
-                                    true
-                                )
-                            } else {
-                                showMessage(
-                                    getString(R.string.registration_failed),
-                                    register_parent,
-                                    true
-                                )
-                            }
+                            registerUser()
                         }
                     }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        showMessage(getString(R.string.registration_failed), register_parent, true)
+                        progress_layout.visibility = View.GONE
+                    }
+                })
             }
         })
 
@@ -165,7 +167,7 @@ class ADRegistrationActivity : ADBaseActivity() {
                 showMessage(getString(R.string.empty_referral_code), register_parent, true)
             } else {
                 userRegister.usedReferralCode = code
-                if (code.equals(ADConstants.ADMIN_REFERRAL_CODE)){
+                if (code.equals(ADConstants.ADMIN_REFERRAL_CODE)) {
                     userRegister.can_add_data = true
                 }
                 sendVerificationCodes(SEND_ALL_VERIFICATION)
@@ -234,6 +236,45 @@ class ADRegistrationActivity : ADBaseActivity() {
         })
     }
 
+    private fun registerUser() {
+        mFirebaseAuth.createUserWithEmailAndPassword(
+            userRegister.emailAddress,
+            userRegister.password
+        )
+            .addOnCompleteListener(this) { task ->
+
+                if (task.isSuccessful) {
+                    //Registration OK
+                    val user = mFirebaseAuth.currentUser
+                    if (user != null) {
+                        mUserId = user.uid
+                    }
+                    if (has_referral.isChecked) {
+                        register_layout.visibility = View.GONE
+                        referral_code_layout.visibility = View.VISIBLE
+                    } else {
+                        sendVerificationCodes(SEND_ALL_VERIFICATION)
+                    }
+
+                    progress_layout.visibility = View.GONE
+                } else {
+                    progress_layout.visibility = View.GONE
+                    if (task.exception is FirebaseAuthUserCollisionException) {
+                        showMessage(
+                            getString(R.string.registration_duplicate),
+                            register_parent,
+                            true
+                        )
+                    } else {
+                        showMessage(
+                            getString(R.string.registration_failed),
+                            register_parent,
+                            true
+                        )
+                    }
+                }
+            }
+    }
 
     override fun onStop() {
         super.onStop()
@@ -353,16 +394,16 @@ class ADRegistrationActivity : ADBaseActivity() {
 
 
                 celebration_view.visibility = View.VISIBLE
-                        celebration_view.build()
-                            .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
-                            .setDirection(0.0, 359.0)
-                            .setSpeed(1f, 5f)
-                            .setFadeOutEnabled(true)
-                            .setTimeToLive(ADConstants.ANIMATION_TIME_TO_LIVE)
-                            .addShapes(Shape.RECT, Shape.CIRCLE)
-                            .addSizes(Size(ADConstants.ANIMATION_SIZE))
-                            .setPosition(-50f, celebration_view.width + 50f, -50f, -50f)
-                            .streamFor(ADConstants.ANIMATION_COUNT, ADConstants.ANIMATION_EMITTING_TIME)
+                celebration_view.build()
+                    .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
+                    .setDirection(0.0, 359.0)
+                    .setSpeed(1f, 5f)
+                    .setFadeOutEnabled(true)
+                    .setTimeToLive(ADConstants.ANIMATION_TIME_TO_LIVE)
+                    .addShapes(Shape.RECT, Shape.CIRCLE)
+                    .addSizes(Size(ADConstants.ANIMATION_SIZE))
+                    .setPosition(-50f, celebration_view.width + 50f, -50f, -50f)
+                    .streamFor(ADConstants.ANIMATION_COUNT, ADConstants.ANIMATION_EMITTING_TIME)
             }
             .addOnFailureListener {
                 Log.i("Test", it.message)

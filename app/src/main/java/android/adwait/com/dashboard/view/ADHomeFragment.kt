@@ -72,12 +72,9 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
         })
 
         if ((activity as ADBaseActivity).isLoggedInUser() && !MySharedPreference((activity as ADBaseActivity)).getValueBoolean(
-                getString(R.string.already_logged)
-            )
-        ) {
+                getString(R.string.already_logged))) {
 
-            Glide.with(activity as ADBaseActivity).load(R.drawable.loading_vid).asGif()
-                .diskCacheStrategy(DiskCacheStrategy.ALL).into(progress_image)
+
             progress_image.visibility = View.VISIBLE
             progress_bar.visibility = View.GONE
             MySharedPreference((activity as ADBaseActivity)).saveBoolean(
@@ -188,9 +185,7 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                                     getString(R.string.month_yr)).toString()
 
                             if (monthYr.isEmpty() || monthYr.length == 0 || monthYr.toLowerCase().equals(
-                                    "null"
-                                )
-                            ) {
+                                    "null")) {
                                 (activity as ADBaseActivity).getServerDate("getCurrentMonthAndYr",
                                     object : ADCommonResponseListener {
                                         override fun onSuccess(data: Any?) {
@@ -200,7 +195,6 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                                         override fun onError(data: Any?) {
                                             hideProgress()
                                         }
-
                                     })
                             } else {
                                 fetchChildData(menteeDetails.childId, monthYr)
@@ -261,7 +255,6 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
 
                             val monthlyAmount = data.child("amount_needed").value.toString()
 
-
                             var collectedAmount =
                                 data.child("contribution").child(monthYr).child("collected_amt")
                                     .value.toString()
@@ -271,10 +264,19 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                             }
 
                             if (monthlyAmount.toInt() > 0 && monthlyAmount.toInt() == collectedAmount.toInt()){
-                               val month =
-                                    MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.next_month_yr))
-                                        .toString()
-                                fetchChildData(childId,month)
+                                MySharedPreference(activity as ADBaseActivity).saveStrings(getString(R.string.previous_month_yr), monthYr)
+
+                                (activity as ADBaseActivity).getNextDate("getNextMonthAndYr",monthYr,
+                                    object : ADCommonResponseListener {
+                                        override fun onSuccess(data: Any?) {
+                                            MySharedPreference(activity as ADBaseActivity).saveStrings(getString(R.string.month_yr), data.toString())
+                                            fetchChildData(childId,data.toString())
+                                        }
+
+                                        override fun onError(data: Any?) {
+                                            hideProgress()
+                                        }
+                                    })
                                 return
                             }
 
@@ -327,10 +329,6 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                             MySharedPreference(activity as ADBaseActivity).getValueString(
                                 getString(R.string.previous_month_yr)).toString()
 
-                        if (lastMonth.isEmpty() || lastMonth.length == 0 || lastMonth.toLowerCase().equals("null")) {
-                            lastMonth = (activity as ADBaseActivity).getServerDate(
-                                "getPreviousMonthAndYr", null)
-                        }
                         if (data.child("contribution").hasChild(lastMonth)) {
                             val monthlyAmount = data.child("amount_needed").value.toString()
                             var collectedAmount =
