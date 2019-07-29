@@ -60,11 +60,22 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
         fetchUserData()
 
         done_btn.setOnClickListener(View.OnClickListener {
-            (activity as ADDashboardActivity).menuAction(ADConstants.MENU_HOME, "")
+
+           if(activity is ADDashboardActivity ){
+               (activity as ADDashboardActivity).menuAction(ADConstants.MENU_HOME, "")
+           }else{
+               (activity as ADDonationActivity).finish()
+           }
         })
 
         donate_now.setOnClickListener(View.OnClickListener { startPayment() })
         hx_content.setText(CommonUtils.getHtmlText(getString(R.string.hx_content)))
+
+        if (arguments!=null){
+            var bundle = arguments
+            val price:String = bundle?.getInt("amount",0).toString()
+            amount.setText(price)
+        }
     }
 
     private fun startPayment() {
@@ -200,15 +211,12 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                             monthlyAmount = data.child("amount_needed").value.toString()
                             var monthYr =
                                 MySharedPreference(activity as ADBaseActivity).getValueString(
-                                    getString(R.string.month_yr)
-                                ).toString()
+                                    getString(R.string.month_yr)).toString()
 
                             if (amtCollected) {
                                 monthYr =
                                     MySharedPreference(activity as ADBaseActivity).getValueString(
-                                        getString(R.string.next_month_yr)
-                                    )
-                                        .toString()
+                                        getString(R.string.next_month_yr)).toString()
                             }
 
                             var collectedAmount =
@@ -393,14 +401,9 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                     object : ADCommonResponseListener {
                         override fun onSuccess(data: Any?) {
                             MySharedPreference(activity as ADBaseActivity).saveStrings(
-                                getString(R.string.month_yr),
-                                data.toString()
-                            )
-                            monthYr =
-                                MySharedPreference(activity as ADBaseActivity).getValueString(
-                                    getString(R.string.next_month_yr)
-                                )
-                                    .toString()
+                                getString(R.string.month_yr), data.toString())
+                            monthYr =data.toString()
+
                             balance =
                                 (mOldContribution + amount.text.toString().toInt()) - monthlyAmount.toInt()
                             mOldContribution = 0
@@ -414,7 +417,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                                 mUserName,
                                 userId
                             )
-                            savePaymentToServer(monthYr, donation, balance, status, true)
+                            savePaymentToServer(data.toString(), donation, balance, status, true)
                         }
 
                         override fun onError(data: Any?) {

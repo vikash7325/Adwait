@@ -11,5 +11,6 @@
 
     <dimen name="dashboard_smile">55dp</dimen>
     <dimen name="dashboard_smile2">50dp</dimen>
+    <dimen name="dashboard_smile3">45dp</dimen>
 
 </resources>

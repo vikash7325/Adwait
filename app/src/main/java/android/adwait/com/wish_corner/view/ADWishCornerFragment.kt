@@ -45,11 +45,6 @@ class ADWishCornerFragment : ADBaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val screenHeight: Int = ((activity as ADBaseActivity).getScreenDetails(true) * 0.2).toInt()
-        val params = events_layout.layoutParams
-        params.height = screenHeight
-        events_layout.layoutParams = params
-
         tabLayout.addTab(tabLayout.newTab().setText(R.string.upcoming))
         tabLayout.addTab(tabLayout.newTab().setText(R.string.recent))
         tabLayout.tabGravity = TabLayout.GRAVITY_FILL
@@ -72,6 +67,7 @@ class ADWishCornerFragment : ADBaseFragment() {
             }
 
         })
+
         events_list.layoutManager = (
                 LinearLayoutManager(
                     activity as ADBaseActivity,
@@ -117,6 +113,9 @@ class ADWishCornerFragment : ADBaseFragment() {
                         val adapter = AdWishListAdapter(activity as ADBaseActivity, mData)
                         wishes_list.adapter = adapter
                         wish_layout.visibility = View.VISIBLE
+                        if(adapter.count>4){
+                            checkHeight()
+                        }
                     }
                 } else {
                     wish_layout.visibility = View.GONE
@@ -128,6 +127,13 @@ class ADWishCornerFragment : ADBaseFragment() {
                 fetchEvents()
             }
         })
+    }
+
+    private fun checkHeight(){
+        val screenHeight: Int = ((activity as ADBaseActivity).getScreenDetails(true) * 0.35).toInt()
+        val params = events_layout.layoutParams
+        params.height = screenHeight
+        wish_layout.layoutParams = params
     }
 
     private fun fetchEvents() {

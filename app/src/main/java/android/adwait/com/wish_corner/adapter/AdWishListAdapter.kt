@@ -1,8 +1,10 @@
 package android.adwait.com.wish_corner.adapter
 
 import android.adwait.com.R
+import android.adwait.com.donation.view.ADDonationActivity
 import android.adwait.com.wish_corner.model.ADWishModel
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,6 +43,11 @@ class AdWishListAdapter(val context: Context, var mWishList: List<ADWishModel>) 
         ngo_name.setText(item.ngo)
         wish_item.setText(item.wishItem)
 
+        donate.setOnClickListener(View.OnClickListener {
+            var donation = Intent(context, ADDonationActivity::class.java)
+            donation.putExtra("amount",item.price)
+            context.startActivity(donation)
+        })
         return vi
     }
 
