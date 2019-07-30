@@ -58,6 +58,11 @@ class ADMyProfileFragment : ADBaseFragment() {
             )
         })
 
+        reset_pwd.setOnClickListener(View.OnClickListener {
+            val intent = Intent(activity, ADResetPassword::class.java)
+            startActivity(intent)
+        })
+
         edit_layout.setOnClickListener(View.OnClickListener {
             showDialog(true)
         })
@@ -135,7 +140,6 @@ class ADMyProfileFragment : ADBaseFragment() {
 
             })
     }
-
 
     private fun showDialog(isEdit: Boolean) {
         val intent = Intent(activity, ADEditProfileActivity::class.java)

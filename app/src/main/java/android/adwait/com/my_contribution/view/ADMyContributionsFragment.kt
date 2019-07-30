@@ -7,7 +7,6 @@ import android.adwait.com.donation.model.ADDonationModel
 import android.adwait.com.my_contribution.adapter.ADContributionAdapter
 import android.adwait.com.utils.ADBaseFragment
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +18,11 @@ import kotlinx.android.synthetic.main.fragment_my_contributions.*
 
 class ADMyContributionsFragment : ADBaseFragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater?.inflate(R.layout.fragment_my_contributions, container, false)
 
         return view
@@ -48,28 +51,40 @@ class ADMyContributionsFragment : ADBaseFragment() {
 
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
 
-                        for (data in dataSnapshot.children) {
+                        if (dataSnapshot.exists()) {
 
-                            val list = data.children
+                            for (data in dataSnapshot.children) {
 
-                            list.forEach {
-                                val item = it.getValue(ADDonationModel::class.java)
-                                if (item?.userId.equals(userId)) {
-                                    mContributionData.add(item!!)
+                                val list = data.children
+
+                                list.forEach {
+                                    val item = it.getValue(ADDonationModel::class.java)
+                                    if (item?.userId.equals(userId)) {
+                                        mContributionData.add(item!!)
+                                    }
                                 }
                             }
+
+                            val adapter =
+                                ADContributionAdapter(
+                                    (activity as ADBaseActivity),
+                                    mContributionData
+                                )
+                            contribution_list.setAdapter(adapter)
+                            contribution_layout.visibility = View.VISIBLE
+                            no_contribution.visibility = View.GONE
+                            progress_layout.visibility = View.GONE
+
+                        }else{
+                            contribution_layout.visibility = View.GONE
+                            no_contribution.visibility = View.VISIBLE
                         }
-
-                        val adapter =
-                            ADContributionAdapter((activity as ADBaseActivity), mContributionData)
-                        contribution_list.setAdapter(adapter)
-                        progress_layout.visibility = View.GONE
-
                     }
 
                     override fun onCancelled(error: DatabaseError) {
                         progress_layout.visibility = View.GONE
-                    }
+                        contribution_layout.visibility = View.GONE
+                        no_contribution.visibility = View.VISIBLE     }
                 })
 
         }

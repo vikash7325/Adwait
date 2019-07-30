@@ -130,7 +130,7 @@ class ADWishCornerFragment : ADBaseFragment() {
     }
 
     private fun checkHeight(){
-        val screenHeight: Int = ((activity as ADBaseActivity).getScreenDetails(true) * 0.35).toInt()
+        val screenHeight: Int = ((activity as ADBaseActivity).getScreenDetails(true) * 0.3).toInt()
         val params = events_layout.layoutParams
         params.height = screenHeight
         wish_layout.layoutParams = params

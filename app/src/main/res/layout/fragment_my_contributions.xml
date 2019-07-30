@@ -30,15 +30,24 @@
             android:textColor="@color/app_text"
             android:textSize="@dimen/large_text" />
 
+        <TextView
+            android:id="@+id/no_contribution"
+            android:layout_width="match_parent"
+            android:textSize="@dimen/medium_text"
+            android:textColor="@color/app_text"
+            android:gravity="center"
+            android:text="Contribute to make someone happy."
+            android:layout_height="match_parent" />
 
         <LinearLayout
+            android:id="@+id/contribution_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_white_bg"
             android:orientation="vertical"
             android:paddingLeft="@dimen/default_padding"
             android:paddingRight="@dimen/default_padding"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <ExpandableListView
                 android:id="@+id/contribution_list"
@@ -51,6 +60,7 @@
 
         </LinearLayout>
 
+
     </LinearLayout>
 
     <!--Progress Layout-->
@@ -59,25 +69,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:background="@color/transparent_black"
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone">
 
-        <LinearLayout
-            android:id="@+id/progress_bar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <include layout="@layout/progress_layout" />
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/progress_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone" />
+        <include layout="@layout/progress_layout" />
 
     </LinearLayout>
 </RelativeLayout>

@@ -184,7 +184,7 @@
                 android:textSize="@dimen/medium_text" />
 
             <Button
-                android:id="@+id/reset"
+                android:id="@+id/reset_pwd"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/btn_height"
                 android:layout_margin="5dp"

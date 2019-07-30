@@ -58,7 +58,7 @@ class ADForgetActivity : ADBaseActivity() {
                     showMessage(getString(R.string.no_internet), forget_parent,true)
                     return@OnClickListener
                 }
-                progressBar.visibility = View.VISIBLE
+                progress_layout.visibility = View.VISIBLE
                 verifyMobileNumber(mobile)
             }
         }
@@ -77,7 +77,7 @@ class ADForgetActivity : ADBaseActivity() {
                     showMessage(getString(R.string.no_internet), forget_parent,true)
                     return@OnClickListener
                 }
-                progressBar.visibility = View.VISIBLE
+                progress_layout.visibility = View.VISIBLE
                 signInWithPhoneAuthCredential(credential)
             }
         })
@@ -112,7 +112,7 @@ class ADForgetActivity : ADBaseActivity() {
                             val user = FirebaseAuth.getInstance().currentUser
 
                             if (user != null) {
-                                progressBar.visibility = View.VISIBLE
+                                progress_layout.visibility = View.VISIBLE
 
                                 user.updatePassword(newPassword)
                                     .addOnCompleteListener(this) { task ->
@@ -120,13 +120,13 @@ class ADForgetActivity : ADBaseActivity() {
                                             showMessage(getString(R.string.mobile_reset_success), forget_parent,true)
                                             passwordReset()
                                         } else {
-                                            progressBar.visibility = View.GONE
+                                            progress_layout.visibility = View.GONE
                                             showMessage(getString(R.string.unable_to_reset_password), forget_parent,true)
                                         }
                                     }
                             }
                         } else {
-                            progressBar.visibility = View.GONE
+                            progress_layout.visibility = View.GONE
                         }
                     }
             }
@@ -145,14 +145,14 @@ class ADForgetActivity : ADBaseActivity() {
                     showMessage(getString(R.string.no_internet), forget_parent,true)
                     return@OnClickListener
                 }
-                progressBar.visibility = View.VISIBLE
+                progress_layout.visibility = View.VISIBLE
                 FirebaseAuth.getInstance().sendPasswordResetEmail(emailId)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
                             showMessage(getString(R.string.email_success), forget_parent,true)
                             passwordReset()
                         } else {
-                            progressBar.visibility = View.GONE
+                            progress_layout.visibility = View.GONE
                             showMessage(getString(R.string.unable_to_send_reset_mail), forget_parent,true)
                         }
                     }
@@ -165,7 +165,7 @@ class ADForgetActivity : ADBaseActivity() {
     }
 
     private fun passwordReset() {
-        progressBar.visibility = View.GONE
+        progress_layout.visibility = View.GONE
         FirebaseAuth.getInstance().signOut()
         finish()
     }
@@ -196,7 +196,7 @@ class ADForgetActivity : ADBaseActivity() {
             Log.d(TAG, "onCodeSent:" + verificationId!!)
             storedVerificationId = verificationId
             showMessage(getString(R.string.otp_sent), forget_parent,false)
-            progressBar.visibility = View.GONE
+            progress_layout.visibility = View.GONE
         }
     }
 
@@ -210,14 +210,14 @@ class ADForgetActivity : ADBaseActivity() {
 
                     mobile_layout.visibility = View.GONE
                     new_password_layout.visibility = View.VISIBLE
-                    progressBar.visibility = View.GONE
+                    progress_layout.visibility = View.GONE
                 } else {
                     // Sign in failed, display a message and update the UI
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
                     if (task.exception is FirebaseAuthInvalidCredentialsException) {
                         showMessage(getString(R.string.invalid_otp), forget_parent,true)
                     }
-                    progressBar.visibility = View.GONE
+                    progress_layout.visibility = View.GONE
                 }
             }
     }
@@ -249,13 +249,13 @@ class ADForgetActivity : ADBaseActivity() {
                                             }
                                         } else {
                                             showMessage(getString(R.string.num_not_registered), forget_parent,true)
-                                            progressBar.visibility = View.GONE
+                                            progress_layout.visibility = View.GONE
                                         }
                                     }
 
                                     override fun onCancelled(error: DatabaseError) {
                                         Log.e(TAG, "Error : " + error.message)
-                                        progressBar.visibility = View.GONE
+                                        progress_layout.visibility = View.GONE
                                     }
                                 })
                         }
@@ -265,13 +265,13 @@ class ADForgetActivity : ADBaseActivity() {
                     }
                 }
                 if (count == data.childrenCount) {
-                    progressBar.visibility = View.GONE
+                    progress_layout.visibility = View.GONE
                     showMessage(getString(R.string.num_not_registered), forget_parent,true)
                 }
             }
 
             override fun onCancelled(p0: DatabaseError) {
-                progressBar.visibility = View.GONE
+                progress_layout.visibility = View.GONE
             }
         }
 

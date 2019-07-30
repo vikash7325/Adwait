@@ -19,10 +19,12 @@
 
     <style name="DialogTheme" parent="Theme.AppCompat.Dialog">
         <item name="android:windowNoTitle">true</item>
+        <item name="windowNoTitle">true</item>
         <item name="colorControlNormal">@color/gray1</item>
         <item name="colorControlActivated">@color/colorAccent</item>
         <item name="colorControlHighlight">@color/colorAccent</item>
         <item name="android:textColorHint">@color/gray1</item>
+        <item name="android:textColor">@color/app_text</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>

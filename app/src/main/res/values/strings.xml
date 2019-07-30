@@ -53,6 +53,7 @@
     <string name="request_otp">Request OTP</string>
     <string name="enter_otp">Enter OTP</string>
     <string name="reset_password">Reset password</string>
+    <string name="current_password">Current Password</string>
     <string name="new_password">New Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="cancel">Cancel</string>
