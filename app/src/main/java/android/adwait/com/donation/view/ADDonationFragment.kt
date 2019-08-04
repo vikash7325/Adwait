@@ -6,10 +6,12 @@ import and.com.polam.utils.MySharedPreference
 import android.adwait.com.R
 import android.adwait.com.dashboard.view.ADDashboardActivity
 import android.adwait.com.donation.model.ADDonationModel
+import android.adwait.com.my_mentee.view.ADMonthlySplit
 import android.adwait.com.registeration.model.ADUserDetails
 import android.adwait.com.utils.ADBaseFragment
 import android.adwait.com.utils.ADCommonResponseListener
 import android.adwait.com.utils.ADConstants
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -43,12 +45,12 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
     private var mUserName = ""
     private var mOldContribution = 0
     private var monthlyAmount = "0";
+    private var splitData:String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+        savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_donation, container, false)
 
         return view
@@ -61,21 +63,44 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
 
         done_btn.setOnClickListener(View.OnClickListener {
 
-           if(activity is ADDashboardActivity ){
-               (activity as ADDashboardActivity).menuAction(ADConstants.MENU_HOME, "")
-           }else{
-               (activity as ADDonationActivity).finish()
-           }
+            if (activity is ADDashboardActivity) {
+                (activity as ADDashboardActivity).menuAction(ADConstants.MENU_HOME, "")
+            } else {
+                (activity as ADDonationActivity).finish()
+            }
         })
 
         donate_now.setOnClickListener(View.OnClickListener { startPayment() })
         hx_content.setText(CommonUtils.getHtmlText(getString(R.string.hx_content)))
 
-        if (arguments!=null){
+        if (arguments != null) {
             var bundle = arguments
-            val price:String = bundle?.getInt("amount",0).toString()
+            val price: String = bundle?.getInt("amount", 0).toString()
             amount.setText(price)
         }
+
+        info_icon.setOnClickListener(View.OnClickListener {
+            val intent = Intent(activity, ADMonthlySplit::class.java)
+            intent.putExtra("data", splitData)
+            startActivity(intent)
+        })
+
+        btn_monthly.setOnClickListener(View.OnClickListener {
+            amount.setText(monthlyAmount)
+        })
+
+        btn_100.setOnClickListener(View.OnClickListener {
+            amount.setText("100")
+        })
+        btn_200.setOnClickListener(View.OnClickListener {
+            amount.setText("200")
+        })
+        btn_500.setOnClickListener(View.OnClickListener {
+            amount.setText("500")
+        })
+        btn_1000.setOnClickListener(View.OnClickListener {
+            amount.setText("1000")
+        })
     }
 
     private fun startPayment() {
@@ -208,15 +233,18 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                             ).toString()
                             child_age?.setText(age + " Years")
 
+
                             monthlyAmount = data.child("amount_needed").value.toString()
                             var monthYr =
                                 MySharedPreference(activity as ADBaseActivity).getValueString(
-                                    getString(R.string.month_yr)).toString()
+                                    getString(R.string.month_yr)
+                                ).toString()
 
                             if (amtCollected) {
                                 monthYr =
                                     MySharedPreference(activity as ADBaseActivity).getValueString(
-                                        getString(R.string.next_month_yr)).toString()
+                                        getString(R.string.next_month_yr)
+                                    ).toString()
                             }
 
                             var collectedAmount =
@@ -232,14 +260,23 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                                 return
                             }
 
+                            splitData = data.child("split_up").value.toString()
+
+
                             fetchContribution(mUserId, monthYr, childId)
 
-
+                            btn_monthly.setText(getString(R.string.rupees) + " " + monthlyAmount)
                             val text = java.lang.String.format(
                                 getString(R.string.fund_raised_msg),
                                 collectedAmount, monthlyAmount, monthYr
                             )
                             fund_details?.setText(text)
+
+                            val hint = java.lang.String.format(
+                                getString(R.string.hint_with_name),
+                                data.child("name").value.toString()
+                            )
+                            hint_with_name.setText(hint)
 
                             if (!collectedAmount.isEmpty() && collectedAmount != null && !collectedAmount.equals(
                                     "null"
@@ -314,10 +351,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                                 val donation = topList.get(looper)
                                 val view =
                                     View.inflate(
-                                        activity,
-                                        R.layout.contributers_topper_list_item,
-                                        null
-                                    )
+                                        activity, R.layout.contributers_topper_list_item, null)
                                 val name = view.findViewById<TextView>(R.id.contribution_data)
 
                                 name.setText(
@@ -329,7 +363,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                                 looper--
                             }
                         }
-                    }else{
+                    } else {
                         top_contribution.visibility = View.GONE
                         no_contribution.visibility = View.VISIBLE
                         val text = java.lang.String.format(
@@ -395,14 +429,18 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                     userId
                 )
                 savePaymentToServer(monthYr, donation, tempAmount, status, false)
-                MySharedPreference(activity as ADBaseActivity).saveStrings(getString(R.string.previous_month_yr), monthYr)
+                MySharedPreference(activity as ADBaseActivity).saveStrings(
+                    getString(R.string.previous_month_yr),
+                    monthYr
+                )
 
                 (activity as ADBaseActivity).getNextDate("getNextMonthAndYr", monthYr,
                     object : ADCommonResponseListener {
                         override fun onSuccess(data: Any?) {
                             MySharedPreference(activity as ADBaseActivity).saveStrings(
-                                getString(R.string.month_yr), data.toString())
-                            monthYr =data.toString()
+                                getString(R.string.month_yr), data.toString()
+                            )
+                            monthYr = data.toString()
 
                             balance =
                                 (mOldContribution + amount.text.toString().toInt()) - monthlyAmount.toInt()

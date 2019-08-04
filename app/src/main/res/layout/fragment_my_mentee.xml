@@ -141,6 +141,7 @@
                         android:layout_height="@dimen/large_text"
                         android:layout_centerInParent="true"
                         android:layout_gravity="left"
+                        android:layout_toLeftOf="@+id/info_icon"
                         android:progress="0"
                         android:progressDrawable="@drawable/seekbar_fill" />
 
@@ -149,11 +150,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
+                        android:layout_toLeftOf="@+id/info_icon"
                         android:gravity="center"
                         android:lines="1"
                         android:textColor="@android:color/white"
                         android:textSize="10sp"
                         android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/info_icon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:padding="3dp"
+                        android:src="@drawable/ic_info_icon" />
                 </RelativeLayout>
 
                 <TextView
@@ -164,6 +175,7 @@
                     android:layout_marginRight="10dp"
                     android:lines="1"
                     android:paddingLeft="10dp"
+                    android:gravity="center"
                     android:paddingTop="3dp"
                     android:paddingRight="10dp"
                     android:text="@string/fund_raised"

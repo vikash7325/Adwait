@@ -148,229 +148,166 @@
                     android:background="@drawable/rounded_white_bg"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:padding="20dp">
+                    android:padding="@dimen/default_padding">
 
                     <TextView
+                        android:id="@+id/hint_with_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:gravity="center"
-                        android:text="@string/share_contribute_via"
+                        android:gravity="center_vertical"
+                        android:text="@string/hint_with_name"
                         android:textColor="@color/hint_text_color"
-                        android:textSize="@dimen/medium_text"
-                        android:textStyle="bold" />
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp">
-
-                        <android.support.design.widget.TextInputEditText
-                            android:id="@+id/amount"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/amount_hint"
-                            android:imeOptions="actionDone"
-                            android:inputType="numberDecimal"
-                            android:lines="1"
-                            android:textSize="@dimen/medium_text" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-
-                    <Button
-                        android:id="@+id/donate_now"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/rounded_primary_color_bg"
-                        android:text="@string/donate_now"
-                        android:textAllCaps="false"
-                        android:textColor="@android:color/white"
                         android:textSize="@dimen/medium_text" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:visibility="gone">
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:orientation="horizontal"
-                            android:weightSum="1">
-
-                            <Button
-                                android:layout_width="0dp"
-                                android:layout_height="@dimen/btn_height2"
-                                android:layout_marginLeft="5dp"
-                                android:layout_marginRight="5dp"
-                                android:layout_weight="0.5"
-                                android:drawableLeft="@drawable/ic_net_banking"
-                                android:drawablePadding="3dp"
-                                android:gravity="center"
-                                android:text="@string/net_banking"
-                                android:textAllCaps="false"
-                                android:textSize="@dimen/medium_text" />
-
-
-                            <Button
-                                android:layout_width="0dp"
-                                android:layout_height="@dimen/btn_height2"
-                                android:layout_marginLeft="5dp"
-                                android:layout_marginRight="5dp"
-                                android:layout_weight="0.5"
-                                android:drawableLeft="@drawable/ic_debit_card"
-                                android:drawablePadding="3dp"
-                                android:text="@string/debit_card"
-                                android:textAllCaps="false"
-                                android:textSize="@dimen/medium_text" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            android:weightSum="1">
-
-                            <View
-                                android:layout_width="0dp"
-                                android:layout_height="1dp"
-                                android:layout_weight="0.4"
-                                android:background="@color/gray1" />
+                            android:layout_margin="2dp"
+                            android:layout_weight="0.7"
+                            android:background="@drawable/bottomline_gray">
 
                             <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0.2"
-                                android:gravity="center"
-                                android:text="Or"
-                                android:textColor="@color/app_text" />
-
-                            <View
-                                android:layout_width="0dp"
-                                android:layout_height="1dp"
-                                android:layout_weight="0.4"
-                                android:background="@color/gray1" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="5dp"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            android:paddingTop="3dp">
-
-                            <LinearLayout
+                                android:id="@+id/rs"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginRight="10dp"
-                                android:gravity="center"
-                                android:orientation="vertical">
+                                android:layout_alignParentLeft="true"
+                                android:layout_centerInParent="true"
+                                android:padding="3dp"
+                                android:text="@string/rupees"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/large_text" />
 
-                                <ImageView
-                                    android:layout_width="40dp"
-                                    android:layout_height="40dp"
-                                    android:src="@drawable/paytn" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="3dp"
-                                    android:padding="3dp"
-                                    android:text="@string/paytm"
-                                    android:textColor="@color/app_text"
-                                    android:textSize="10sp" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
+                            <EditText
+                                android:id="@+id/amount"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginRight="10dp"
-                                android:gravity="center"
-                                android:orientation="vertical">
+                                android:layout_centerInParent="true"
+                                android:layout_toRightOf="@+id/rs"
+                                android:background="@android:color/transparent"
+                                android:inputType="numberDecimal"
+                                android:lines="1"
+                                android:paddingLeft="5dp"
+                                android:textSize="@dimen/medium_text" />
+                        </RelativeLayout>
 
-                                <ImageView
-                                    android:layout_width="40dp"
-                                    android:layout_height="40dp"
-                                    android:src="@drawable/gpay" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="3dp"
-                                    android:padding="3dp"
-                                    android:text="@string/google_pay"
-                                    android:textColor="@color/app_text"
-                                    android:textSize="10sp" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginRight="10dp"
-                                android:gravity="center"
-                                android:orientation="vertical">
-
-                                <ImageView
-                                    android:layout_width="40dp"
-                                    android:layout_height="40dp"
-                                    android:src="@drawable/phonepe" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="3dp"
-                                    android:padding="3dp"
-                                    android:text="@string/phone_pe"
-                                    android:textColor="@color/app_text"
-                                    android:textSize="10sp" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginRight="10dp"
-                                android:gravity="center"
-                                android:orientation="vertical">
-
-                                <ImageView
-                                    android:layout_width="40dp"
-                                    android:layout_height="40dp"
-                                    android:src="@drawable/bhm" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="3dp"
-                                    android:padding="3dp"
-                                    android:text="@string/upi"
-                                    android:textColor="@color/app_text"
-                                    android:textSize="10sp" />
-                            </LinearLayout>
-
-                        </LinearLayout>
-
+                        <Button
+                            android:id="@+id/donate_now"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/btn_height"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="0.3"
+                            android:background="@drawable/rounded_primary_color_bg"
+                            android:text="@string/btn_proceed"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/medium_text" />
                     </LinearLayout>
 
-                    <CheckBox
-                        android:id="@+id/anonymous"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:layout_marginBottom="5dp"
-                        android:checked="true"
-                        android:text="@string/checkbox"
-                        android:textColor="@color/hint_text_color"
-                        android:textSize="@dimen/medium_text" />
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/btn_monthly"
+                            android:layout_width="@dimen/btn_width"
+                            android:layout_height="@dimen/btn_height"
+                            android:background="@drawable/payment_btn"
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="@string/rupees"
+                            android:textColor="@color/app_text"
+                            android:textSize="@dimen/medium_text" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:text="One Month's expense"
+                            android:textColor="@color/app_text"
+                            android:textSize="@dimen/medium_text" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <Button
+                                android:id="@+id/btn_100"
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/btn_height"
+                                android:layout_marginRight="10dp"
+                                android:layout_weight="0.25"
+                                android:background="@drawable/payment_btn"
+                                android:gravity="center"
+                                android:padding="3dp"
+                                android:text="@string/btn_100"
+                                android:textColor="@color/app_text"
+                                android:textSize="@dimen/medium_text" />
+
+                            <Button
+                                android:id="@+id/btn_200"
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/btn_height"
+                                android:layout_marginRight="10dp"
+                                android:layout_weight="0.25"
+                                android:background="@drawable/payment_btn"
+                                android:gravity="center"
+                                android:padding="3dp"
+                                android:text="@string/btn_200"
+                                android:textColor="@color/app_text"
+                                android:textSize="@dimen/medium_text" />
+
+                            <Button
+                                android:id="@+id/btn_500"
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/btn_height"
+                                android:layout_marginRight="10dp"
+                                android:layout_weight="0.25"
+                                android:background="@drawable/payment_btn"
+                                android:gravity="center"
+                                android:padding="3dp"
+                                android:text="@string/btn_500"
+                                android:textColor="@color/app_text"
+                                android:textSize="@dimen/medium_text" />
+
+                            <Button
+                                android:id="@+id/btn_1000"
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/btn_height"
+                                android:layout_weight="0.25"
+                                android:background="@drawable/payment_btn"
+                                android:gravity="center"
+                                android:padding="3dp"
+                                android:text="@string/btn_1000"
+                                android:textColor="@color/app_text"
+                                android:textSize="@dimen/medium_text" />
+
+
+                        </LinearLayout>
+
+                        <CheckBox
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/checkbox"
+                            android:textColor="@color/app_text"
+                            android:textSize="@dimen/small_text" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -398,8 +335,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="5dp"
-                                android:padding="5dp"
                                 android:gravity="center"
+                                android:padding="5dp"
                                 android:textColor="@color/app_text"
                                 android:visibility="gone" />
 

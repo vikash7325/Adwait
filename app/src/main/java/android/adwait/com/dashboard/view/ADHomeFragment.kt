@@ -5,10 +5,12 @@ import and.com.polam.utils.CommonUtils
 import and.com.polam.utils.MySharedPreference
 import android.adwait.com.R
 import android.adwait.com.dashboard.adapter.ADHomePageAdapter
+import android.adwait.com.my_mentee.view.ADMonthlySplit
 import android.adwait.com.registeration.model.ADUserDetails
 import android.adwait.com.utils.ADBaseFragment
 import android.adwait.com.utils.ADCommonResponseListener
 import android.adwait.com.utils.ADConstants
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -30,7 +32,7 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
     private var mDetailsFilled = false
     private lateinit var menteeDetails: ADUserDetails
     private var mHasChild = true
-
+    private var splitData:String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -96,6 +98,12 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
             if (mDetailsFilled) {
                 (activity as ADDashboardActivity).menuAction(ADConstants.MENU_MY_MENTEE, "")
             }
+        })
+
+        info_icon.setOnClickListener(View.OnClickListener {
+            val intent = Intent(activity, ADMonthlySplit::class.java)
+            intent.putExtra("data", splitData)
+            startActivity(intent)
         })
 
         tile1.setOnClickListener(this)
@@ -286,6 +294,7 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                                 monthlyAmount, monthYr
                             )
                             fund_details?.setText(text)
+                            splitData = data.child("split_up").value.toString()
 
                             if (!collectedAmount.isEmpty() && collectedAmount != null && !collectedAmount.equals(
                                     "null") &&

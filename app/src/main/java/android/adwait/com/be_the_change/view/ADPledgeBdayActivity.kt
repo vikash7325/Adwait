@@ -4,6 +4,7 @@ import and.com.polam.utils.ADBaseActivity
 import and.com.polam.utils.MySharedPreference
 import android.adwait.com.R
 import android.adwait.com.be_the_change.model.ADPledgeBdayModel
+import android.adwait.com.utils.ADViewClickListener
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
@@ -27,6 +28,14 @@ class ADPledgeBdayActivity : ADBaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back_arrow)
         toolbar.setNavigationOnClickListener(View.OnClickListener { onBackPressed() })
+
+
+        pledge_apply.setOnClickListener(View.OnClickListener {
+
+            pledge_page1.visibility = View.GONE
+            pledge_page2.visibility = View.VISIBLE
+        })
+
 
         birthday.setOnClickListener(View.OnClickListener {
             val cal = Calendar.getInstance()
@@ -81,7 +90,9 @@ class ADPledgeBdayActivity : ADBaseActivity() {
                     fireBaseDB.child(key).setValue(dataModel)
                         .addOnSuccessListener {
                             progress_layout.visibility = View.GONE
-                            finish()
+                            showAlertDialog(getString(R.string.pledge_bday_msg),getString(R.string.done),"", ADViewClickListener {
+                                finish()
+                            })
                         }
                         .addOnFailureListener {
                             progress_layout.visibility = View.GONE

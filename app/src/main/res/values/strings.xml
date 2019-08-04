@@ -179,8 +179,12 @@
     <string name="our_head">Become our Area Head</string>
     <string name="day_out">Adwait\'s Day Out</string>
     <string name="pledge_header">Pledge your birthday</string>
+    <string name="pledge_header_ques">What is Pledge your birthday?</string>
     <string name="pledge_hint">It’s easy. Instead of gifts, ask for donations.</string>
     <string name="date_of_bday">Date of Birth</string>
+    <string name="pledge_content1"></string>
+    <string name="pledge_content2"></string>
+    <string name="pledge_content3"></string>
     <string name="congrats">Congratulations!</string>
     <string name="step_closer">You are a step closer to spreading happiness</string>
     <string name="tell_us_about_u">Tell us about your event!</string>
@@ -205,6 +209,7 @@
     <string name="campus_header">Be our Campus Ambassador</string>
     <string name="phone_no">Phone Number</string>
     <string name="adwait_header">Adwait\'s day out</string>
+    <string name="pledge_bday_msg">Thankyou for pledging your birthday. We will together celebrate your birthday in Adwait\'s way.</string>
 
     <string-array name="area_of_interest">
         <item>Select your area of interest</item>
@@ -225,13 +230,13 @@
     <string name="debit_card">Debit/Credit Card</string>
     <string name="donation_hint">Just because he has enough for now,\nthat doesn\'t mean he has enough for future.
     </string>
-    <string name="share_contribute_via">Share Happiness, Contribute Via</string>
+    <string name="hint_with_name">Contribute towards %s\'s future</string>
     <string name="paytm">Paytm</string>
     <string name="google_pay">Google Pay</string>
     <string name="phone_pe">Phone Pe</string>
     <string name="upi">Upi</string>
     <string name="top_contributers">Top Contributors</string>
-    <string name="checkbox">Keep me Anonymous</string>
+    <string name="checkbox">Contribute monthly and share happiness hassle free.</string>
     <string name="fund_raised">Fund Raised:</string>
     <string name="your_contribution">Your contribution this month: ₹%s</string>
     <string name="no_contribution">Be the first one to contribute for %s</string>
@@ -243,6 +248,11 @@
     <string name="congrats_content">Every Contribution counts.\nEven the Rome wasn\'t built in a day.</string>
     <string name="hx_content"><![CDATA[You are now an exclusive member of the <b>H<sup>x</sup> Club</b>.]]></string>
     <string name="footer">We believe happiness is limitless.</string>
+    <string name="btn_proceed">Proceed</string>
+    <string name="btn_100">₹ 100</string>
+    <string name="btn_200">₹ 200</string>
+    <string name="btn_500">₹ 500</string>
+    <string name="btn_1000">₹ 1000</string>
 
     <!--Contribution-->
     <string name="contribution_header">My Contributions</string>
@@ -291,7 +301,7 @@
     <string name="dayout_header">What is Adwait\'s day out?</string>
     <string name="date_hint">Your Availability Date</string>
     <string name="message_hint">Tell Us Your area of interest.</string>
-    <string name="dayout_content1">A chance for you to connect with an underprivilaged kids</string>
+    <string name="dayout_content1">A chance for you to connect with an underprivileged kids</string>
     <string name="dayout_content2">A chance for you to be involved personally to do good for society</string>
     <string name="dayout_content3">A chance for you to make a kid happy by being there for them</string>
     <string name="dayout_form_hint">Fill out the following details based on your availability. Our team will get back to you soon.</string>

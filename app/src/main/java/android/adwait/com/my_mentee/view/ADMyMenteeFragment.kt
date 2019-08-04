@@ -10,6 +10,7 @@ import android.adwait.com.my_mentee.model.ADMessageModel
 import android.adwait.com.registeration.model.ADUserDetails
 import android.adwait.com.utils.ADBaseFragment
 import android.adwait.com.utils.ADConstants
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -30,6 +31,7 @@ class ADMyMenteeFragment : ADBaseFragment() {
 
     private val TAG: String = "ADMyMenteeFragment"
     private lateinit var menteeDetails: ADUserDetails
+    private var splitData:String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,6 +69,13 @@ class ADMyMenteeFragment : ADBaseFragment() {
                 false
             }
         }
+
+        info_icon.setOnClickListener(View.OnClickListener {
+            val intent = Intent(activity, ADMonthlySplit::class.java)
+            intent.putExtra("data", splitData)
+            startActivity(intent)
+        })
+
         fetchUserData()
 
         val data =
@@ -295,6 +304,7 @@ class ADMyMenteeFragment : ADBaseFragment() {
                                 fetchChildData(childId, true)
                                 return
                             }
+                            splitData = data.child("split_up").value.toString()
 
                             val text = java.lang.String.format(
                                 getString(R.string.fund_raised_msg),

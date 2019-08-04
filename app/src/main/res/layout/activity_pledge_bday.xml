@@ -57,7 +57,6 @@
                     android:textColor="@color/hint_text_color"
                     android:textSize="@dimen/large_text" />
 
-                <!--Form UI-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -67,83 +66,173 @@
                     android:orientation="vertical"
                     android:padding="10dp">
 
-                    <TextView
+                    <!--Pledge Bday out hint-->
+                    <LinearLayout
+                        android:id="@+id/pledge_page1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:text="@string/pledge_hint"
-                        android:textColor="@color/app_text"
-                        android:textSize="@dimen/medium_text" />
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:visibility="visible">
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp">
-
-                        <android.support.design.widget.TextInputEditText
-                            android:id="@+id/name"
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/name"
-                            android:imeOptions="actionNext"
-                            android:inputType="textCapSentences|text"
-                            android:lines="1"
-                            android:paddingBottom="10dp"
-                            android:textColor="@android:color/black"
-                            android:textSize="@dimen/medium_text" />
+                            android:gravity="center_vertical"
+                            android:padding="10dp"
+                            android:text="@string/pledge_header_ques"
+                            android:textColor="@color/header_text_color"
+                            android:textSize="@dimen/large_text"
+                            android:textStyle="bold" />
 
-                    </android.support.design.widget.TextInputLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_margin="10dp"
+                            android:background="@color/gray1"
+                            android:padding="5dp" />
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp">
-
-                        <android.support.design.widget.TextInputEditText
-                            android:id="@+id/birthday"
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:drawableRight="@android:drawable/arrow_down_float"
-                            android:focusable="false"
-                            android:hint="@string/date_of_bday"
-                            android:imeOptions="actionNext"
-                            android:inputType="textCapSentences|text"
-                            android:lines="1"
-                            android:paddingBottom="10dp"
-                            android:textColor="@android:color/black"
+                            android:drawableLeft="@drawable/ic_check"
+                            android:drawablePadding="3dp"
+                            android:padding="5dp"
+                            android:text="@string/pledge_content1"
+                            android:textColor="@color/hint_text_color"
                             android:textSize="@dimen/medium_text" />
 
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp">
-
-                        <android.support.design.widget.TextInputEditText
-                            android:id="@+id/contact_details"
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/email_or_number"
-                            android:imeOptions="actionNext"
-                            android:lines="1"
-                            android:paddingBottom="10dp"
-                            android:textColor="@android:color/black"
+                            android:drawableLeft="@drawable/ic_check"
+                            android:drawablePadding="3dp"
+                            android:padding="5dp"
+                            android:text="@string/pledge_content2"
+                            android:textColor="@color/hint_text_color"
                             android:textSize="@dimen/medium_text" />
 
-                    </android.support.design.widget.TextInputLayout>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/ic_check"
+                            android:drawablePadding="3dp"
+                            android:padding="5dp"
+                            android:text="@string/pledge_content3"
+                            android:textColor="@color/hint_text_color"
+                            android:textSize="@dimen/medium_text" />
 
-                    <Button
-                        android:id="@+id/pledge_submit"
-                        android:layout_width="@dimen/btn_width"
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/pledge_apply"
+                                android:layout_width="@dimen/btn_width"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:background="@drawable/rounded_primary_color_bg"
+                                android:text="Apply"
+                                android:textAllCaps="false"
+                                android:textColor="@android:color/white"
+                                android:textSize="@dimen/medium_text" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!--Form UI-->
+                    <LinearLayout
+                        android:id="@+id/pledge_page2"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:background="@drawable/rounded_primary_color_bg"
-                        android:text="Submit"
-                        android:textAllCaps="false"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/medium_text" />
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:text="@string/pledge_hint"
+                            android:textColor="@color/app_text"
+                            android:textSize="@dimen/medium_text" />
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp">
+
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/name"
+                                android:imeOptions="actionNext"
+                                android:inputType="textCapSentences|text"
+                                android:lines="1"
+                                android:paddingBottom="10dp"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/medium_text" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp">
+
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/birthday"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:drawableRight="@android:drawable/arrow_down_float"
+                                android:focusable="false"
+                                android:hint="@string/date_of_bday"
+                                android:imeOptions="actionNext"
+                                android:inputType="textCapSentences|text"
+                                android:lines="1"
+                                android:paddingBottom="10dp"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/medium_text" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp">
+
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/contact_details"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/email_or_number"
+                                android:imeOptions="actionNext"
+                                android:lines="1"
+                                android:paddingBottom="10dp"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/medium_text" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <Button
+                            android:id="@+id/pledge_submit"
+                            android:layout_width="@dimen/btn_width"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/rounded_primary_color_bg"
+                            android:text="Submit"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/medium_text" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
