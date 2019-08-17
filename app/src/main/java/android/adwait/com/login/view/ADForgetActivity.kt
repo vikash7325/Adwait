@@ -4,8 +4,11 @@ import and.com.polam.utils.ADBaseActivity
 import android.adwait.com.R
 import android.adwait.com.registeration.model.ADUserDetails
 import android.os.Bundle
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.view.Window
 import android.widget.LinearLayout
@@ -21,11 +24,11 @@ import java.util.concurrent.TimeUnit
 
 
 class ADForgetActivity : ADBaseActivity() {
-
     private val TAG: String = "ADForgetActivity"
     private var storedVerificationId: String = ""
     private var userEmail: String = ""
     private var userpassword: String = ""
+    private var isDeleted = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +58,7 @@ class ADForgetActivity : ADBaseActivity() {
                 phone_num.setError(getString(R.string.err_invalid_phone));
             } else {
                 if (!isNetworkAvailable()) {
-                    showMessage(getString(R.string.no_internet), forget_parent,true)
+                    showMessage(getString(R.string.no_internet), forget_parent, true)
                     return@OnClickListener
                 }
                 progress_layout.visibility = View.VISIBLE
@@ -64,17 +67,212 @@ class ADForgetActivity : ADBaseActivity() {
         }
         )
 
+        pin1.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (isDeleted) {
+                    isDeleted = false
+                    return
+                }
+                if (s.toString().trim().length == 1) {
+                    pin2.requestFocus()
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                if (count > after) {
+                    isDeleted = true
+                }
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+        })
+        pin2.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (isDeleted) {
+                    isDeleted = false
+                    return
+                }
+                if (s.toString().trim().length == 1) {
+                    pin3.requestFocus()
+                } else {
+                    pin1.requestFocus()
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                if (count > after) {
+                    isDeleted = true
+                }
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+        })
+        pin3.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (isDeleted) {
+                    isDeleted = false
+                    return
+                }
+                if (s.toString().trim().length == 1) {
+                    pin4.requestFocus()
+                } else {
+                    pin2.requestFocus()
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                if (count > after) {
+                    isDeleted = true
+                }
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+        })
+        pin4.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (isDeleted) {
+                    isDeleted = false
+                    return
+                }
+                if (s.toString().trim().length == 1) {
+                    pin5.requestFocus()
+                } else {
+                    pin3.requestFocus()
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                if (count > after) {
+                    isDeleted = true
+                }
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+        })
+        pin5.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (isDeleted) {
+                    isDeleted = false
+                    return
+                }
+                if (s.toString().trim().length == 1) {
+                    pin6.requestFocus()
+                } else {
+                    pin4.requestFocus()
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                if (count > after) {
+                    isDeleted = true
+                }
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+        })
+        pin6.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                if (isDeleted) {
+                    isDeleted = false
+                    return
+                }
+                if (s.toString().trim().length == 1) {
+                    pin6.hideKeyboard()
+                } else {
+                    pin5.requestFocus()
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                if (count > after) {
+                    isDeleted = true
+                }
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+        })
+
+        pin2.setOnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_DEL) {
+                if (pin2.text.toString().length == 0) {
+                    isDeleted = true
+                    Thread.sleep(50)
+                    pin1.setText("")
+                    pin1.requestFocus()
+                }
+            }
+            false
+        }
+        pin3.setOnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_DEL) {
+                if (pin3.text.toString().length == 0) {
+                    isDeleted = true
+                    Thread.sleep(50)
+                    pin2.setText("")
+                    pin2.requestFocus()
+                }
+            }
+            false
+        }
+        pin4.setOnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_DEL) {
+                if (pin4.text.toString().length == 0) {
+                    isDeleted = true
+                    Thread.sleep(50)
+                    pin3.setText("")
+                    pin3.requestFocus()
+                }
+            }
+            false
+        }
+        pin5.setOnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_DEL) {
+                if (pin5.text.toString().length == 0) {
+                    isDeleted = true
+                    Thread.sleep(50)
+                    pin4.setText("")
+                    pin4.requestFocus()
+                }
+            }
+            false
+        }
+        pin6.setOnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_DEL) {
+                if (pin6.text.toString().length == 0) {
+                    isDeleted = true
+                    Thread.sleep(50)
+                    pin5.setText("")
+                    pin5.requestFocus()
+                }
+            }
+            false
+        }
+
+
         //OTP Submit
         otp_submit.setOnClickListener(View.OnClickListener {
-            val otp = pinview.value.toString()
+            val otp = pin1.text.toString() + pin2.text.toString() + pin3.text.toString() +
+                    pin4.text.toString() + pin5.text.toString() + pin6.text.toString()
             val credential = PhoneAuthProvider.getCredential(storedVerificationId!!, otp)
             if (TextUtils.isEmpty(otp)) {
-                showMessage(getString(R.string.empty_pin), forget_parent,true)
+                showMessage(getString(R.string.empty_pin), forget_parent, true)
             } else if (otp.length < 6) {
-                showMessage(getString(R.string.invalid_pin), forget_parent,true)
+                showMessage(getString(R.string.invalid_pin), forget_parent, true)
             } else {
                 if (!isNetworkAvailable()) {
-                    showMessage(getString(R.string.no_internet), forget_parent,true)
+                    showMessage(getString(R.string.no_internet), forget_parent, true)
                     return@OnClickListener
                 }
                 progress_layout.visibility = View.VISIBLE
@@ -101,7 +299,7 @@ class ADForgetActivity : ADBaseActivity() {
                 confirm_password.setError(getString(R.string.password_mismatch))
             } else {
                 if (!isNetworkAvailable()) {
-                    showMessage(getString(R.string.no_internet), forget_parent,true)
+                    showMessage(getString(R.string.no_internet), forget_parent, true)
                     return@OnClickListener
                 }
 
@@ -117,11 +315,19 @@ class ADForgetActivity : ADBaseActivity() {
                                 user.updatePassword(newPassword)
                                     .addOnCompleteListener(this) { task ->
                                         if (task.isSuccessful) {
-                                            showMessage(getString(R.string.mobile_reset_success), forget_parent,true)
+                                            showMessage(
+                                                getString(R.string.mobile_reset_success),
+                                                forget_parent,
+                                                true
+                                            )
                                             passwordReset()
                                         } else {
                                             progress_layout.visibility = View.GONE
-                                            showMessage(getString(R.string.unable_to_reset_password), forget_parent,true)
+                                            showMessage(
+                                                getString(R.string.unable_to_reset_password),
+                                                forget_parent,
+                                                true
+                                            )
                                         }
                                     }
                             }
@@ -142,18 +348,22 @@ class ADForgetActivity : ADBaseActivity() {
                 email.setError(getString(R.string.err_invalid_email))
             } else {
                 if (!isNetworkAvailable()) {
-                    showMessage(getString(R.string.no_internet), forget_parent,true)
+                    showMessage(getString(R.string.no_internet), forget_parent, true)
                     return@OnClickListener
                 }
                 progress_layout.visibility = View.VISIBLE
                 FirebaseAuth.getInstance().sendPasswordResetEmail(emailId)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
-                            showMessage(getString(R.string.email_success), forget_parent,true)
+                            showMessage(getString(R.string.email_success), forget_parent, true)
                             passwordReset()
                         } else {
                             progress_layout.visibility = View.GONE
-                            showMessage(getString(R.string.unable_to_send_reset_mail), forget_parent,true)
+                            showMessage(
+                                getString(R.string.unable_to_send_reset_mail),
+                                forget_parent,
+                                true
+                            )
                         }
                     }
             }
@@ -192,10 +402,13 @@ class ADForgetActivity : ADBaseActivity() {
             }
         }
 
-        override fun onCodeSent(verificationId: String?, token: PhoneAuthProvider.ForceResendingToken) {
+        override fun onCodeSent(
+            verificationId: String?,
+            token: PhoneAuthProvider.ForceResendingToken
+        ) {
             Log.d(TAG, "onCodeSent:" + verificationId!!)
             storedVerificationId = verificationId
-            showMessage(getString(R.string.otp_sent), forget_parent,false)
+            showMessage(getString(R.string.otp_sent), forget_parent, false)
             progress_layout.visibility = View.GONE
         }
     }
@@ -215,7 +428,7 @@ class ADForgetActivity : ADBaseActivity() {
                     // Sign in failed, display a message and update the UI
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
                     if (task.exception is FirebaseAuthInvalidCredentialsException) {
-                        showMessage(getString(R.string.invalid_otp), forget_parent,true)
+                        showMessage(getString(R.string.invalid_otp), forget_parent, true)
                     }
                     progress_layout.visibility = View.GONE
                 }
@@ -224,7 +437,8 @@ class ADForgetActivity : ADBaseActivity() {
 
 
     private fun verifyMobileNumber(mobileNo: String) {
-        var mFirebaseDatabase: DatabaseReference = FirebaseDatabase.getInstance().getReference(USER_TABLE_NAME)
+        var mFirebaseDatabase: DatabaseReference =
+            FirebaseDatabase.getInstance().getReference(USER_TABLE_NAME)
 
         val eventListener = object : ValueEventListener {
             override fun onDataChange(data: DataSnapshot) {
@@ -248,7 +462,11 @@ class ADForgetActivity : ADBaseActivity() {
                                                 requestOTP(mobileNo)
                                             }
                                         } else {
-                                            showMessage(getString(R.string.num_not_registered), forget_parent,true)
+                                            showMessage(
+                                                getString(R.string.num_not_registered),
+                                                forget_parent,
+                                                true
+                                            )
                                             progress_layout.visibility = View.GONE
                                         }
                                     }
@@ -266,7 +484,7 @@ class ADForgetActivity : ADBaseActivity() {
                 }
                 if (count == data.childrenCount) {
                     progress_layout.visibility = View.GONE
-                    showMessage(getString(R.string.num_not_registered), forget_parent,true)
+                    showMessage(getString(R.string.num_not_registered), forget_parent, true)
                 }
             }
 
@@ -287,6 +505,9 @@ class ADForgetActivity : ADBaseActivity() {
     override fun onStart() {
         super.onStart()
         val window = this.getWindow()
-        window.setLayout((getScreenDetails(false) * 0.9).toInt(), LinearLayout.LayoutParams.WRAP_CONTENT)
+        window.setLayout(
+            (getScreenDetails(false) * 0.9).toInt(),
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
     }
 }

@@ -32,7 +32,7 @@
                 android:id="@+id/mentee_layout"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="7dp"
                 android:layout_weight="0.8"
                 android:background="@drawable/rounded_white_bg"
                 android:gravity="center"
@@ -159,11 +159,10 @@
 
                     <ImageView
                         android:id="@+id/info_icon"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
-                        android:padding="3dp"
                         android:src="@drawable/ic_info_icon" />
                 </RelativeLayout>
 
