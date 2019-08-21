@@ -78,6 +78,14 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
 
         <activity
+            android:name=".admin.view.ADAdminActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+
+        <activity
+            android:name=".admin.view.ADAddChildActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+
+        <activity
             android:name=".be_the_change.view.ADOrganizeEventActivity"
             android:label="@string/organise_event"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />

@@ -32,7 +32,6 @@ class ADPreSignActivity : ADBaseActivity() {
             finish()
         })
 
-
         be_our_elve.setPaintFlags(be_our_elve.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG)
     }
 }

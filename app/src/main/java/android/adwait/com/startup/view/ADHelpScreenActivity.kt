@@ -19,8 +19,6 @@ class ADHelpScreenActivity : ADBaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_help_screen)
-
-
         var data: MutableList<ADHelpPagerModel> = mutableListOf<ADHelpPagerModel>()
 
         var dataObj = ADHelpPagerModel()

@@ -4,6 +4,7 @@ import and.com.polam.utils.ADBaseActivity
 import and.com.polam.utils.CommonUtils
 import and.com.polam.utils.MySharedPreference
 import android.adwait.com.R
+import android.adwait.com.admin.view.ADAdminActivity
 import android.adwait.com.dashboard.view.ADDashboardActivity
 import android.adwait.com.registeration.model.ADUserDetails
 import android.adwait.com.registeration.view.ADRegistrationActivity
@@ -94,6 +95,13 @@ class ADLoginActivity : ADBaseActivity() {
                     return@OnClickListener
                 }
                 progress_layout.visibility = View.VISIBLE
+                if (name.equals(ADConstants.SUPER_ADMIN_NAME) && pass.equals(ADConstants.SUPER_ADMIN_PASS)) {
+                    progress_layout.visibility = View.GONE
+                    var admin = Intent(applicationContext, ADAdminActivity::class.java)
+                    startToNextScreen(admin, true, false)
+                    finish()
+                    return@OnClickListener
+                }
 
                 mFirebaseAuth.signInWithEmailAndPassword(name, pass)
                     .addOnCompleteListener(this) { task ->
@@ -111,7 +119,11 @@ class ADLoginActivity : ADBaseActivity() {
                                     .addOnSuccessListener {
                                         launchHomeScreen(true, user.uid)
                                     }.addOnFailureListener {
-                                        showMessage("Not updating due to some issue" + it.message, login_parent, true)
+                                        showMessage(
+                                            "Not updating due to some issue" + it.message,
+                                            login_parent,
+                                            true
+                                        )
                                         progress_layout.visibility = View.GONE
                                     }
                             }
@@ -255,7 +267,8 @@ class ADLoginActivity : ADBaseActivity() {
      */
     fun checkUserInDb(user: ADUserDetails, userId: String) {
 
-        val mUserDataTable = FirebaseDatabase.getInstance().reference.child(USER_TABLE_NAME).child(userId)
+        val mUserDataTable =
+            FirebaseDatabase.getInstance().reference.child(USER_TABLE_NAME).child(userId)
 
         mUserDataTable.addListenerForSingleValueEvent(object : ValueEventListener {
 
@@ -279,9 +292,18 @@ class ADLoginActivity : ADBaseActivity() {
                             val hint = java.lang.String.format(con, user.userName)
                             congrats_text.text = CommonUtils.getHtmlText(hint)
                             mUserId = userId
-                            MySharedPreference(applicationContext).saveStrings(getString(R.string.userId), userId)
-                            MySharedPreference(applicationContext).saveBoolean(getString(R.string.logged_in), true)
-                            MySharedPreference(applicationContext).saveBoolean(getString(R.string.registered), true)
+                            MySharedPreference(applicationContext).saveStrings(
+                                getString(R.string.userId),
+                                userId
+                            )
+                            MySharedPreference(applicationContext).saveBoolean(
+                                getString(R.string.logged_in),
+                                true
+                            )
+                            MySharedPreference(applicationContext).saveBoolean(
+                                getString(R.string.registered),
+                                true
+                            )
                             celebration_view.visibility = View.VISIBLE
                             celebration_view.build()
                                 .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
@@ -292,7 +314,10 @@ class ADLoginActivity : ADBaseActivity() {
                                 .addShapes(Shape.RECT, Shape.CIRCLE)
                                 .addSizes(Size(ADConstants.ANIMATION_SIZE))
                                 .setPosition(-50f, celebration_view.width + 50f, -50f, -50f)
-                                .streamFor(ADConstants.ANIMATION_COUNT, ADConstants.ANIMATION_EMITTING_TIME)
+                                .streamFor(
+                                    ADConstants.ANIMATION_COUNT,
+                                    ADConstants.ANIMATION_EMITTING_TIME
+                                )
                         }
                         .addOnFailureListener {
                             showMessage(getString(R.string.registration_failed), login_parent, true)

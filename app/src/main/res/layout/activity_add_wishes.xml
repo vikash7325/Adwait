@@ -26,7 +26,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/action_bar_height"
                 android:background="@android:color/white"
-                app:theme="@style/ToolBarStyle" />
+                app:theme="@style/ToolBarStyle"
+                app:title="Add Wish Item" />
         </LinearLayout>
 
         <ScrollView

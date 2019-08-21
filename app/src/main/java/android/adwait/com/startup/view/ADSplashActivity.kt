@@ -3,6 +3,7 @@ package android.adwait.com.startup.view
 import and.com.polam.utils.ADBaseActivity
 import and.com.polam.utils.MySharedPreference
 import android.adwait.com.R
+import android.adwait.com.admin.view.ADAdminActivity
 import android.adwait.com.dashboard.view.ADDashboardActivity
 import android.adwait.com.login.view.ADLoginActivity
 import android.adwait.com.login.view.ADPreSignActivity
@@ -21,24 +22,23 @@ class ADSplashActivity : ADBaseActivity() {
         if (!isNetworkAvailable()) {
 
             showMessage(getString(R.string.no_internet),splash_parent,true)
-
         } else {
             myHandler.postDelayed(Runnable() {
                 kotlin.run {
-                    var dash = Intent(applicationContext, ADDashboardActivity::class.java)
+                    var dash = Intent(applicationContext, ADAdminActivity::class.java)
 
                     var pref = MySharedPreference(applicationContext)
 
                     if (!pref.getValueBoolean(getString(R.string.help_screen))) {
-                        dash = Intent(applicationContext, ADHelpScreenActivity::class.java)
+                        dash = Intent(applicationContext, ADAdminActivity::class.java)
                     } else if (!pref.getValueBoolean(getString(R.string.registered))) {
-                        dash = Intent(applicationContext, ADPreSignActivity::class.java)
+                        dash = Intent(applicationContext, ADAdminActivity::class.java)
                     } else if (!isLoggedInUser()) {
-                        dash = Intent(applicationContext, ADLoginActivity::class.java)
+                        dash = Intent(applicationContext, ADAdminActivity::class.java)
                     } else if (isLoggedInUser()) {
                         val user = FirebaseAuth.getInstance().currentUser
                         if (user == null) {
-                            dash = Intent(applicationContext, ADLoginActivity::class.java)
+                            dash = Intent(applicationContext, ADAdminActivity::class.java)
                         }
                     }
                     startToNextScreen(dash, true, true)

@@ -65,4 +65,6 @@
     <string name="empty_ngo">Enter the NGO name</string>
     <string name="empty_wish_item">Enter the Wish</string>
     <string name="empty_price">Enter approx price</string>
+
+    <string name="empty_field">Enter some value to Continue..</string>
 </resources>

@@ -16,6 +16,8 @@ public class ADConstants {
     public static final int MENU_DONATION = 11;
     public static final int MENU_PROFILE = 12;
     public static final String ADMIN_REFERRAL_CODE="Adm!n@2019";
+    public static final String SUPER_ADMIN_NAME="adwaitkunwar2019@gmail.com";
+    public static final String SUPER_ADMIN_PASS="Adm!n";
 
     //Animation
     public static final int ANIMATION_COUNT = 500;

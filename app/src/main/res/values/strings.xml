@@ -313,4 +313,30 @@
     <string name="evle_talk_header">What is Evle Talk?</string>
     <string name="price">Price</string>
 
+    <!--Admin Page-->
+    <string name="admin_tab1">Child Details</string>
+    <string name="admin_tab2">Wish Corner</string>
+    <string name="delete">Delete</string>
+    <string name="admin_title">Adwait Admin</string>
+    <string name="mentor_name">Mentor Name</string>
+    <string name="monthly_amt">Monthly Amount</string>
+    <string name="carrier_int">Carrier Interest</string>
+    <string name="hobbies">Hobbies</string>
+    <string name="guardian_name">Guardian Name</string>
+    <string name="pincode">Pincode</string>
+    <string name="address">Address</string>
+    <string name="city">City</string>
+
+    <string name="account_name">Account Holder Name</string>
+    <string name="account_number">Account number</string>
+    <string name="ifsc_code">IFSC Code</string>
+    <string name="account_type">Account Type</string>
+    <string name="business_name">Business Name</string>
+    <string name="business_type">Business Type</string>
+
+    <string name="education">Education</string>
+    <string name="food">Food</string>
+    <string name="necessity">Necessity</string>
+    <string name="extras">Extras</string>
+
 </resources>

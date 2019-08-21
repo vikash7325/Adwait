@@ -15,7 +15,6 @@ public class ADHelpPagerAdapter(val context: Context, val data: MutableList<ADHe
 
     private val inflater: LayoutInflater
 
-
     init {
         inflater = LayoutInflater.from(context)
     }
