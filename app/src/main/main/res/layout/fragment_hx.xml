@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/app_bg_with_line"
+              android:gravity="center_horizontal"
+              android:orientation="vertical"
+              android:id="@+id/hx_parent"
+              android:padding="@dimen/default_padding">
+
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+
+            <android.adwait.com.utils.customfonts.ADBoldFont
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/hx_heading"
+                    android:textAllCaps="true"
+                    android:textColor="@color/hint_text_color"
+                    android:textSize="@dimen/large_text"/>
+
+            <ImageView
+                    android:layout_width="@dimen/static_image_hgt"
+                    android:layout_height="@dimen/static_image_hgt"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/ic_h_club"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/hx_hint1"
+                    android:textColor="@color/header_text_color"
+                    android:textSize="@dimen/medium_text"
+                    android:textStyle="bold"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/hx_hint2"
+                    android:textColor="@color/header_text_color"
+                    android:textSize="@dimen/small_text"
+                    android:textStyle="italic"/>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/rounded_white_bg"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.7"
+                            android:text="@string/discover_benifits"
+                            android:textColor="@color/header_text_color"
+                            android:textSize="@dimen/medium_text"/>
+
+
+                    <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.3"
+                            android:padding="5dp"
+                            android:id="@+id/click_here"
+                            android:text="@string/click_here"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/medium_text"/>
+
+                </LinearLayout>
+
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/gray1"
+                        android:padding="10dp"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:drawableLeft="@drawable/ic_check"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:padding="5dp"
+                        android:text="@string/point1"
+                        android:textColor="@color/hint_text_color"
+                        android:textSize="@dimen/small_text"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_check"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:padding="5dp"
+                        android:text="@string/point2"
+                        android:textColor="@color/hint_text_color"
+                        android:textSize="@dimen/small_text"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_check"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:padding="5dp"
+                        android:text="@string/point3"
+                        android:textColor="@color/app_text"
+                        android:textSize="@dimen/small_text"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/ic_check"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:padding="5dp"
+                        android:text="@string/point4"
+                        android:textColor="@color/hint_text_color"
+                        android:textSize="@dimen/small_text"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

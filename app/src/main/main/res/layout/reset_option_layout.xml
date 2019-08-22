@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/rounded_white_bg"
+              android:gravity="center"
+              android:orientation="vertical"
+              android:paddingLeft="10dp"
+              android:paddingTop="20dp"
+              android:paddingRight="10dp"
+              android:paddingBottom="20dp">
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter details"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/large_text"
+            android:textStyle="bold"/>
+
+    <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+        <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email/Phone"
+                android:lines="1"
+                android:textSize="@dimen/large_text"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="5dp"
+            android:text="Request OTP"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/large_text"
+            android:textStyle="bold"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:padding="5dp"
+            android:text="Enter OTP"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/large_text"/>
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+        <EditText
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
+                android:inputType="numberDecimal"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/large_text"/>
+
+        <EditText
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
+                android:inputType="numberDecimal"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/large_text"/>
+
+        <EditText
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
+                android:inputType="numberDecimal"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/large_text"/>
+
+        <EditText
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:padding="5dp"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/large_text"/>
+
+    </LinearLayout>
+
+    <Button
+            android:id="@+id/submit_btn"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/rounded_primary_color_bg"
+            android:text="Submit"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/large_text"/>
+
+    <TextView
+            android:id="@+id/cancel_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Cancel"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/large_text"/>
+
+</LinearLayout>

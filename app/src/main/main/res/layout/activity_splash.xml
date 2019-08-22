@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:background="@drawable/app_bg_default"
+                android:padding="5dp"
+                android:id="@+id/splash_parent"
+                android:layout_height="match_parent">
+
+    <ImageView android:layout_width="match_parent"
+               android:layout_height="100dp"
+               android:padding="5dp"
+               android:layout_alignParentTop="true"
+               android:scaleType="fitCenter"
+               android:layout_marginTop="50dp"
+               android:src="@drawable/adwait_name_alone"/>
+
+    <ImageView android:layout_width="match_parent"
+               android:layout_centerInParent="true"
+               android:layout_height="wrap_content"
+               android:scaleType="fitCenter"
+               android:id="@+id/logo"
+               android:layout_marginBottom="10dp"
+               android:src="@drawable/adwait_logo"/>
+
+
+    <ImageView android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_margin="10dp"
+               android:layout_below="@+id/logo"
+               android:scaleType="fitCenter"
+               android:src="@drawable/adwait_name"/>
+
+</RelativeLayout>

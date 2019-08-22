@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/organize_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_bg_with_line"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/action_bar_height"
+                android:background="@android:color/white"
+                app:theme="@style/ToolBarStyle" />
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            android:padding="@dimen/default_padding">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/static_image_hgt"
+                    android:layout_height="@dimen/static_image_hgt"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/ic_organize_event" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:padding="5dp"
+                    android:text="@string/congrats"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/medium_text"
+                    android:textStyle="italic" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:padding="5dp"
+                    android:text="@string/step_closer"
+                    android:textAllCaps="false"
+                    android:textColor="@color/hint_text_color2"
+                    android:textSize="@dimen/medium_text" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rounded_white_bg"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:padding="15dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:padding="5dp"
+                        android:text="@string/tell_us_about_u"
+                        android:textColor="@color/app_text"
+                        android:textSize="@dimen/medium_text" />
+
+                    <!--Page 1-->
+                    <LinearLayout
+                        android:id="@+id/event_page1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp">
+
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/event_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/event_name"
+                                android:imeOptions="actionNext"
+                                android:inputType="textCapSentences|text"
+                                android:lines="1"
+                                android:paddingBottom="10dp"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/medium_text" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp">
+
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/event_location"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/location"
+                                android:imeOptions="actionNext"
+                                android:inputType="textCapSentences|text"
+                                android:lines="1"
+                                android:paddingBottom="10dp"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/medium_text" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.5"
+                                android:padding="5dp">
+
+                                <android.support.design.widget.TextInputEditText
+                                    android:id="@+id/event_date"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:clickable="true"
+                                    android:drawableRight="@android:drawable/arrow_down_float"
+                                    android:focusable="false"
+                                    android:hint="@string/date"
+                                    android:imeOptions="actionNext"
+                                    android:inputType="textCapSentences|text"
+                                    android:lines="1"
+                                    android:paddingBottom="10dp"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="@dimen/medium_text" />
+
+                            </android.support.design.widget.TextInputLayout>
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.5"
+                                android:padding="5dp">
+
+                                <android.support.design.widget.TextInputEditText
+                                    android:id="@+id/event_time"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:clickable="true"
+                                    android:focusable="false"
+                                    android:hint="@string/time"
+                                    android:imeOptions="actionNext"
+                                    android:inputType="textCapSentences|text"
+                                    android:lines="1"
+                                    android:paddingBottom="10dp"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="@dimen/medium_text" />
+
+                            </android.support.design.widget.TextInputLayout>
+
+                        </LinearLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp">
+
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/event_type"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/event_type"
+                                android:imeOptions="actionNext"
+                                android:inputType="textCapSentences|text"
+                                android:lines="1"
+                                android:paddingBottom="10dp"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/medium_text" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp">
+
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/event_desc"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/event_desc"
+                                android:imeOptions="actionDone"
+                                android:inputType="text|textCapSentences"
+                                android:lines="1"
+                                android:paddingBottom="10dp"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/medium_text" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <!--Next Button-->
+                        <Button
+                            android:id="@+id/event_next1"
+                            android:layout_width="@dimen/btn_width"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/rounded_primary_color_bg"
+                            android:text="@string/next"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/medium_text" />
+                    </LinearLayout>
+
+                    <!--Page 2-->
+                    <LinearLayout
+                        android:id="@+id/event_page2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:text="@string/add_media"
+                            android:textColor="@color/hint_text_color2"
+                            android:textSize="@dimen/large_text"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:id="@+id/add_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:background="@android:color/darker_gray"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:padding="25dp">
+
+                            <ImageView
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:src="@android:drawable/ic_menu_camera" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:text="@string/add_image"
+                                android:textColor="@color/hint_text_color"
+                                android:textSize="@dimen/medium_text" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/choosed_image"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:scaleType="fitXY"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:text="@string/privacy_settings"
+                            android:textColor="@color/hint_text_color2"
+                            android:textSize="@dimen/large_text"
+                            android:textStyle="bold" />
+
+                        <RadioGroup
+                            android:id="@+id/privacy_setting"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <RadioButton
+                                android:id="@+id/public_event"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.5"
+                                android:checked="true"
+                                android:textColor="@android:color/black"
+                                android:text="@string/event1" />
+
+                            <RadioButton
+                                android:id="@+id/private_event"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:textColor="@android:color/black"
+                                android:layout_weight="0.5"
+                                android:text="@string/event2" />
+                        </RadioGroup>
+
+                        <!--Next Button-->
+                        <Button
+                            android:id="@+id/event_next2"
+                            android:layout_width="@dimen/btn_width"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/rounded_primary_color_bg"
+                            android:text="@string/next"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/medium_text" />
+
+                    </LinearLayout>
+
+                    <!--Page 3-->
+                    <LinearLayout
+                        android:id="@+id/event_page3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:text="@string/other_details"
+                            android:textColor="@color/hint_text_color2"
+                            android:textSize="@dimen/large_text"
+                            android:textStyle="bold" />
+
+                        <CheckBox
+                            android:id="@+id/invite_others"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="3dp"
+                            android:text="@string/check1"
+                            android:textColor="@color/app_text"
+                            android:textSize="@dimen/medium_text" />
+
+                        <CheckBox
+                            android:id="@+id/auto_checkin"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="3dp"
+                            android:text="@string/check2"
+                            android:textColor="@color/app_text"
+                            android:textSize="@dimen/medium_text" />
+
+                        <CheckBox
+                            android:id="@+id/allow_gift"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="3dp"
+                            android:text="@string/check3"
+                            android:textColor="@color/app_text"
+                            android:textSize="@dimen/medium_text" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:padding="5dp"
+                            android:text="@string/attach_docs"
+                            android:textColor="@color/hint_text_color2"
+                            android:textSize="@dimen/large_text"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:padding="5dp"
+                            android:text="@string/upload_docs"
+                            android:textColor="@color/app_text"
+                            android:textSize="@dimen/medium_text" />
+
+                        <TextView
+                            android:id="@+id/choose_files"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:padding="5dp"
+                            android:text="@string/choose_file"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/large_text"
+                            android:textStyle="italic" />
+
+                        <!--Next Button-->
+                        <Button
+                            android:id="@+id/event_submit"
+                            android:layout_width="@dimen/btn_width"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/rounded_primary_color_bg"
+                            android:text="@string/submit"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/medium_text" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <!--Progress layout-->
+    <LinearLayout
+        android:id="@+id/progress_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <include layout="@layout/progress_layout" />
+
+    </LinearLayout>
+
+</RelativeLayout>
