@@ -1,8 +1,11 @@
 package android.adwait.com.admin.adapter;
 
 import android.adwait.com.R;
-import android.adwait.com.admin.model.ADAddChildModel;
+import android.adwait.com.admin.view.ADAdminActivity;
+import android.adwait.com.wish_corner.model.ADWishModel;
+import android.adwait.com.wish_corner.view.ADAddWishesActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +17,9 @@ import java.util.List;
 
 public class ADWishListAdapter extends RecyclerView.Adapter<ADWishListAdapter.MyViewHolder> {
     private Context context;
-    private List<ADAddChildModel> wishListData;
+    private List<ADWishModel> wishListData;
 
-    public ADWishListAdapter(Context context, List<ADAddChildModel> wishList) {
+    public ADWishListAdapter(Context context, List<ADWishModel> wishList) {
         this.context = context;
         this.wishListData = wishList;
     }
@@ -31,14 +34,17 @@ public class ADWishListAdapter extends RecyclerView.Adapter<ADWishListAdapter.My
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        final ADAddChildModel item = wishListData.get(position);
-        holder.childName.setText("Name : " + (position + 1));
-        holder.wishItem.setText("Wish/Item : ");
-        holder.itemPrice.setText("Price(₹) : ");
+        final ADWishModel item = wishListData.get(position);
+        holder.childName.setText("Name : " + item.getName());
+        holder.wishItem.setText("Wish/Item : " + item.getWishItem());
+        holder.itemPrice.setText("Price(₹) : " + item.getPrice());
 
         holder.viewForeground.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent wishes =  new Intent(context, ADAddWishesActivity.class);
+                wishes.putExtra("wishData",item);
+                ((ADAdminActivity)context).startActivityForResult(wishes,1235);
 
             }
         });
@@ -77,7 +83,7 @@ public class ADWishListAdapter extends RecyclerView.Adapter<ADWishListAdapter.My
         notifyItemRemoved(position);
     }
 
-    public void restoreItem(ADAddChildModel item, int position) {
+    public void restoreItem(ADWishModel item, int position) {
         wishListData.add(position, item);
         // notify item added by position
         notifyItemInserted(position);

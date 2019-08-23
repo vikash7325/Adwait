@@ -67,6 +67,7 @@ class ADAddWishesActivity : ADBaseActivity() {
                     FirebaseDatabase.getInstance().reference.child("Wish_Corner")
 
                 val key = mWishesTable.push().key.toString()
+                wishModel.keyId = key
 
                 mWishesTable.child(key).setValue(wishModel)
                     .addOnSuccessListener {

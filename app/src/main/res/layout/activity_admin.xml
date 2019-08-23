@@ -12,16 +12,47 @@
         android:background="@color/colorPrimary"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
+
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:minHeight="?actionBarSize"
-            android:padding="@dimen/appbar_padding"
-            android:text="@string/admin_title"
-            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
-            android:textColor="@android:color/white" />
+            android:layout_marginLeft="@dimen/padd_10"
+            android:layout_marginRight="@dimen/padd_10"
+            android:gravity="left|center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:minHeight="?actionBarSize"
+                android:padding="@dimen/appbar_padding"
+                android:text="@string/admin_title"
+                android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+                android:textColor="@android:color/white" />
+
+            <ImageView
+                android:id="@+id/sync"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:tint="@android:color/white"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="@dimen/padd_10"
+                android:layout_toLeftOf="@id/logout"
+                android:src="@drawable/ic_sync" />
+
+            <ImageView
+                android:id="@+id/logout"
+                android:layout_width="25dp"
+                android:tint="@android:color/white"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_menu_logout" />
+        </RelativeLayout>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
@@ -67,6 +98,6 @@
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/ic_dialog_email" />
+            app:srcCompat="@drawable/plus_icon" />
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

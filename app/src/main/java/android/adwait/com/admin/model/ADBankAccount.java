@@ -11,9 +11,21 @@ public class ADBankAccount extends ADBaseModel {
     private String beneficiaryName;
     @SerializedName("account_type")
     private String accountType;
+
+    @Override
+    public String toString() {
+        return "ADBankAccount{" +
+                "IFSCCode='" + IFSCCode + '\'' +
+                ", beneficiaryName='" + beneficiaryName + '\'' +
+                ", accountType='" + accountType + '\'' +
+                ", accountNumber=" + accountNumber +
+                '}';
+    }
+
     @SerializedName("account_number")
-    private String accountNumber;
-    public ADBankAccount(String IFSCCode, String beneficiaryName, String accountType, String accountNumber) {
+    private long accountNumber;
+
+    public ADBankAccount(String IFSCCode, String beneficiaryName, String accountType, long accountNumber) {
         this.IFSCCode = IFSCCode;
         this.beneficiaryName = beneficiaryName;
         this.accountType = accountType;
@@ -44,11 +56,11 @@ public class ADBankAccount extends ADBaseModel {
         this.accountType = accountType;
     }
 
-    public String getAccountNumber() {
+    public long getAccountNumber() {
         return accountNumber;
     }
 
-    public void setAccountNumber(String accountNumber) {
+    public void setAccountNumber(long accountNumber) {
         this.accountNumber = accountNumber;
     }
 

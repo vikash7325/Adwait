@@ -4,6 +4,7 @@ import and.com.polam.utils.ADBaseActivity
 import and.com.polam.utils.CommonUtils
 import and.com.polam.utils.MySharedPreference
 import android.adwait.com.R
+import android.adwait.com.admin.model.ADAddChildModel
 import android.adwait.com.dashboard.adapter.ADHomePageAdapter
 import android.adwait.com.my_mentee.view.ADMonthlySplit
 import android.adwait.com.registeration.model.ADUserDetails
@@ -246,8 +247,9 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                     if (data.exists()) {
                         if (data != null) {
 
-                            child_name?.setText(data.child("name").value.toString())
-                            val imageUrl = data.child("child_image").value.toString()
+                            val childData = data.getValue(ADAddChildModel::class.java)!!
+                            child_name?.setText(childData.childName)
+                            val imageUrl = childData.childImage
 
                             if (!imageUrl.isEmpty()) {
                                 Glide.with(activity as ADBaseActivity).load(imageUrl)
@@ -255,13 +257,13 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                                         DiskCacheStrategy.SOURCE
                                     ).into(child_image)
                             }
-                            val dob = data.child("date_of_birth").value.toString()
+                            val dob = childData.dateOfBirth
 
                             val age: String =
-                                (activity as ADBaseActivity).getAge(dob, "dd-MMM-yyyy").toString()
+                                (activity as ADBaseActivity).getAge(dob, "dd-MM-yyyy").toString()
                             child_age?.setText(age + " Years")
 
-                            val monthlyAmount = data.child("amount_needed").value.toString()
+                            val monthlyAmount = childData.amountNeeded.toString()
 
                             var collectedAmount =
                                 data.child("contribution").child(monthYr).child("collected_amt")
@@ -294,7 +296,7 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                                 monthlyAmount, monthYr
                             )
                             fund_details?.setText(text)
-                            splitData = data.child("split_up").value.toString()
+                            splitData = childData.splitDetails.toString()
 
                             if (!collectedAmount.isEmpty() && collectedAmount != null && !collectedAmount.equals(
                                     "null") &&
@@ -327,32 +329,36 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
         mChildDataTable.addValueEventListener(object : ValueEventListener {
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
 
-                for (data in dataSnapshot.children) {
+                    for (data in dataSnapshot.children) {
 
-                    if (!data.hasChild("contribution")) {
-                        updateUserWithChild(data.key.toString(), monthYr)
-                        break
-                    } else {
-                        var lastMonth =
-                            MySharedPreference(activity as ADBaseActivity).getValueString(
-                                getString(R.string.previous_month_yr)).toString()
+                        if (!data.hasChild("contribution")) {
+                            updateUserWithChild(data.key.toString(), monthYr)
+                            break
+                        } else {
+                            var lastMonth =
+                                MySharedPreference(activity as ADBaseActivity).getValueString(
+                                    getString(R.string.previous_month_yr)
+                                ).toString()
 
-                        if (data.child("contribution").hasChild(lastMonth)) {
-                            val monthlyAmount = data.child("amount_needed").value.toString()
-                            var collectedAmount =
-                                data.child("contribution").child(lastMonth).child("collected_amt")
-                                    .value.toString()
+                            if (data.child("contribution").hasChild(lastMonth)) {
+                                val monthlyAmount = data.child("amount_needed").value.toString()
+                                var collectedAmount =
+                                    data.child("contribution").child(lastMonth)
+                                        .child("collected_amt")
+                                        .value.toString()
 
-                            if (collectedAmount.isEmpty() || collectedAmount.equals("null")) {
-                                collectedAmount = "0"
-                            }
+                                if (collectedAmount.isEmpty() || collectedAmount.equals("null")) {
+                                    collectedAmount = "0"
+                                }
 
-                            if (collectedAmount.toInt() < monthlyAmount.toInt()) {
-                                updateUserWithChild(data.key.toString(), monthYr)
-                                break
-                            }else{
-                                continue
+                                if (collectedAmount.toInt() < monthlyAmount.toInt()) {
+                                    updateUserWithChild(data.key.toString(), monthYr)
+                                    break
+                                } else {
+                                    continue
+                                }
                             }
                         }
                     }

@@ -98,6 +98,7 @@ class ADLoginActivity : ADBaseActivity() {
                 if (name.equals(ADConstants.SUPER_ADMIN_NAME) && pass.equals(ADConstants.SUPER_ADMIN_PASS)) {
                     progress_layout.visibility = View.GONE
                     var admin = Intent(applicationContext, ADAdminActivity::class.java)
+                    MySharedPreference(applicationContext).saveBoolean(getString(R.string.superAdmin), true)
                     startToNextScreen(admin, true, false)
                     finish()
                     return@OnClickListener

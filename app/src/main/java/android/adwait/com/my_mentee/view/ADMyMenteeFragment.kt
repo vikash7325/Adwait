@@ -4,6 +4,7 @@ import and.com.polam.utils.ADBaseActivity
 import and.com.polam.utils.CommonUtils
 import and.com.polam.utils.MySharedPreference
 import android.adwait.com.R
+import android.adwait.com.admin.model.ADAddChildModel
 import android.adwait.com.dashboard.adapter.ADHomePageAdapter
 import android.adwait.com.dashboard.view.ADDashboardActivity
 import android.adwait.com.my_mentee.model.ADMessageModel
@@ -198,19 +199,20 @@ class ADMyMenteeFragment : ADBaseFragment() {
                     if (data.exists()) {
                         if (data != null) {
 
-                            val name = data.child("name").value.toString()
-                            val imageUrl = data.child("child_image").value.toString()
-                            val dob = data.child("date_of_birth").value.toString()
-                            val monthlyAmount = data.child("amount_needed").value.toString()
-                            val guardian = data.child("guardian_name").value.toString()
-                            val location = data.child("city").value.toString()
-                            var ngoName = data.child("ngo_name").value.toString()
+                            val childData = data.getValue(ADAddChildModel::class.java)!!
+                            val name = childData.childName
+                            val imageUrl = childData.childImage
+                            val dob = childData.dateOfBirth
+                            val monthlyAmount = childData.amountNeeded.toString()
+                            val guardian = childData.guardianName
+                            val location = childData.city
+                            var ngoName = childData.NGOName
                             if (ngoName.isEmpty()) {
                                 ngoName = "NA"
                             }
-                            val school = data.child("school_name").value.toString()
-                            val dream = data.child("career_interest").value.toString()
-                            val talent = data.child("hobby").value.toString()
+                            val school = childData.schoolName
+                            val dream = childData.careerInterest
+                            val talent =childData.hobbies
 
                             var elveName = menteeDetails.userName
                             if (elveName.contains(" ")) {
@@ -271,7 +273,7 @@ class ADMyMenteeFragment : ADBaseFragment() {
                             }
                             val age: String = (activity as ADBaseActivity).getAge(
                                 dob,
-                                "dd-MMM-yyyy"
+                                "dd-MM-yyyy"
                             ).toString() + " Years"
 
                             child_age?.setText(
@@ -304,7 +306,7 @@ class ADMyMenteeFragment : ADBaseFragment() {
                                 fetchChildData(childId, true)
                                 return
                             }
-                            splitData = data.child("split_up").value.toString()
+                            splitData = childData.splitDetails.toString()
 
                             val text = java.lang.String.format(
                                 getString(R.string.fund_raised_msg),

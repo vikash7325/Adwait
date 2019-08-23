@@ -5,6 +5,7 @@
     <string name="already_logged">first_login</string>
     <string name="logged_in">logged_in</string>
     <string name="registered">registered</string>
+    <string name="superAdmin">super_admin</string>
     <string name="userId">user_id</string>
     <string name="userName">userName</string>
     <string name="month_yr">month_yr</string>

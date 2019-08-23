@@ -319,7 +319,7 @@
     <string name="delete">Delete</string>
     <string name="admin_title">Adwait Admin</string>
     <string name="mentor_name">Mentor Name</string>
-    <string name="monthly_amt">Monthly Amount</string>
+    <string name="monthly_amt">Monthly Amount(₹)</string>
     <string name="carrier_int">Carrier Interest</string>
     <string name="hobbies">Hobbies</string>
     <string name="guardian_name">Guardian Name</string>
@@ -334,9 +334,10 @@
     <string name="business_name">Business Name</string>
     <string name="business_type">Business Type</string>
 
-    <string name="education">Education</string>
-    <string name="food">Food</string>
-    <string name="necessity">Necessity</string>
-    <string name="extras">Extras</string>
+    <string name="education">Education(₹)</string>
+    <string name="food">Food(₹)</string>
+    <string name="necessity">Necessity(₹)</string>
+    <string name="extras">Extras(₹)</string>
+    <string name="hobbies_hint">Hobbies(₹)</string>
 
 </resources>

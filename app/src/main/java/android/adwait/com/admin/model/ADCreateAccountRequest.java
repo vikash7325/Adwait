@@ -19,6 +19,17 @@ public class ADCreateAccountRequest extends ADBaseModel {
     @SerializedName("account_details")
     private AccountDetails accountDetails;
 
+    @Override
+    public String toString() {
+        return "ADCreateAccountRequest{" +
+                "userName='" + userName + '\'' +
+                ", userEmail='" + userEmail + '\'' +
+                ", tnc_accepted=" + tnc_accepted +
+                ", bankAccount=" + bankAccount +
+                ", accountDetails=" + accountDetails +
+                '}';
+    }
+
     public ADCreateAccountRequest(String userName, String userEmail, boolean tnc_accepted, ADBankAccount bankAccount, AccountDetails accountDetails) {
         this.userName = userName;
         this.userEmail = userEmail;

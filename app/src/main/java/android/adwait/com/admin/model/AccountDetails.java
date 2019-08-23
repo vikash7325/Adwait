@@ -27,6 +27,14 @@ public class AccountDetails extends ADBaseModel {
         return businessType;
     }
 
+    @Override
+    public String toString() {
+        return "AccountDetails{" +
+                "businessName='" + businessName + '\'' +
+                ", businessType='" + businessType + '\'' +
+                '}';
+    }
+
     public void setBusinessType(String businessType) {
         this.businessType = businessType;
     }

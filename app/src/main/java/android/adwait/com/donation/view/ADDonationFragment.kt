@@ -4,6 +4,7 @@ import and.com.polam.utils.ADBaseActivity
 import and.com.polam.utils.CommonUtils
 import and.com.polam.utils.MySharedPreference
 import android.adwait.com.R
+import android.adwait.com.admin.model.ADAddChildModel
 import android.adwait.com.dashboard.view.ADDashboardActivity
 import android.adwait.com.donation.model.ADDonationModel
 import android.adwait.com.my_mentee.view.ADMonthlySplit
@@ -218,8 +219,9 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                     if (data.exists()) {
                         if (data != null) {
 
-                            child_name?.setText(data.child("name").value.toString())
-                            val imageUrl = data.child("child_image").value.toString()
+                            val childData = data.getValue(ADAddChildModel::class.java)!!
+                            child_name?.setText(childData.childName)
+                            val imageUrl = childData.childImage
                             if (!imageUrl.isEmpty()) {
                                 Glide.with(activity as ADBaseActivity).load(imageUrl)
                                     .placeholder(R.drawable.ic_guest_user).diskCacheStrategy(
@@ -227,14 +229,13 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                                     ).into(child_image)
                             }
 
-                            val age: String = (activity as ADBaseActivity).getAge(
-                                data.child("date_of_birth").value.toString(),
-                                "dd-MMM-yyyy"
+                            val age: String = (activity as ADBaseActivity).getAge(childData.dateOfBirth,
+                                "dd-MM-yyyy"
                             ).toString()
                             child_age?.setText(age + " Years")
 
 
-                            monthlyAmount = data.child("amount_needed").value.toString()
+                            monthlyAmount = childData.amountNeeded.toString()
                             var monthYr =
                                 MySharedPreference(activity as ADBaseActivity).getValueString(
                                     getString(R.string.month_yr)
@@ -260,7 +261,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                                 return
                             }
 
-                            splitData = data.child("split_up").value.toString()
+                            splitData = childData.splitDetails.toString()
 
 
                             fetchContribution(mUserId, monthYr, childId)
@@ -274,7 +275,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
 
                             val hint = java.lang.String.format(
                                 getString(R.string.hint_with_name),
-                                data.child("name").value.toString()
+                                childData.childName
                             )
                             hint_with_name.setText(hint)
 

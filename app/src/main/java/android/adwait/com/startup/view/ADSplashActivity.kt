@@ -25,20 +25,22 @@ class ADSplashActivity : ADBaseActivity() {
         } else {
             myHandler.postDelayed(Runnable() {
                 kotlin.run {
-                    var dash = Intent(applicationContext, ADAdminActivity::class.java)
+                    var dash = Intent(applicationContext, ADDashboardActivity::class.java)
 
                     var pref = MySharedPreference(applicationContext)
 
-                    if (!pref.getValueBoolean(getString(R.string.help_screen))) {
+                    if (pref.getValueBoolean(getString(R.string.superAdmin))){
                         dash = Intent(applicationContext, ADAdminActivity::class.java)
+                    }else if (!pref.getValueBoolean(getString(R.string.help_screen))) {
+                        dash = Intent(applicationContext, ADHelpScreenActivity::class.java)
                     } else if (!pref.getValueBoolean(getString(R.string.registered))) {
-                        dash = Intent(applicationContext, ADAdminActivity::class.java)
+                        dash = Intent(applicationContext, ADPreSignActivity::class.java)
                     } else if (!isLoggedInUser()) {
-                        dash = Intent(applicationContext, ADAdminActivity::class.java)
+                        dash = Intent(applicationContext, ADLoginActivity::class.java)
                     } else if (isLoggedInUser()) {
                         val user = FirebaseAuth.getInstance().currentUser
                         if (user == null) {
-                            dash = Intent(applicationContext, ADAdminActivity::class.java)
+                            dash = Intent(applicationContext, ADLoginActivity::class.java)
                         }
                     }
                     startToNextScreen(dash, true, true)

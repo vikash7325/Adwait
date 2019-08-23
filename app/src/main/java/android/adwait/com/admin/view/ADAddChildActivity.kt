@@ -1,26 +1,59 @@
 package android.adwait.com.admin.view
 
 import and.com.polam.utils.ADBaseActivity
+import android.Manifest
 import android.adwait.com.R
 import android.adwait.com.admin.model.*
 import android.adwait.com.rest_api.ApiClient
 import android.adwait.com.rest_api.ApiInterface
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.app.ProgressDialog
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.media.MediaScannerConnection
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.Toolbar
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
+import android.widget.Toast
+import com.bumptech.glide.Glide
+import com.google.android.gms.tasks.Continuation
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_add_child.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.lang.Exception
 import java.util.*
 
 class ADAddChildActivity : ADBaseActivity() {
 
-    private lateinit var mChildData: ADAddChildModel
+    private var mChildData: ADAddChildModel = ADAddChildModel()
+    private var mIsEdit = false
+    private var mKey = ""
+    private val GALLERY = 1
+    private val CAMERA = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +68,49 @@ class ADAddChildActivity : ADBaseActivity() {
             dob.hideKeyboard()
             showCalendar()
         })
+
+        add_image.setOnClickListener(View.OnClickListener {
+            showPictureDialog()
+        })
+
+        if (intent != null && intent.hasExtra("childData")) {
+            var data = intent.getParcelableExtra<ADAddChildModel>("childData")
+
+            child_name.setText(data.childName)
+            dob.setText(data.dateOfBirth)
+            ngo_name.setText(data.NGOName)
+            school_name.setText(data.schoolName)
+            email.setText(data.email)
+            mentor_name.setText(data.mentorName)
+            monthly_amt.setText(data.amountNeeded.toString())
+            carrier_int.setText(data.careerInterest)
+            hobbies.setText(data.hobbies)
+            guardian_name.setText(data.guardianName)
+            pincode.setText(data.pincode)
+            city.setText(data.city)
+            address.setText(data.address)
+
+            account_name.setText(data.bankDetails.holderName)
+            account_no.setText(data.bankDetails.accountNumber)
+            ifsc_code.setText(data.bankDetails.ifsccode)
+            account_type.setText(data.bankDetails.accountType)
+            business_name.setText(data.businessName)
+            business_type.setText(data.businessType)
+
+            education.setText(data.splitDetails.educationAmount.toString())
+            food.setText(data.splitDetails.foodAmount.toString())
+            necessity.setText(data.splitDetails.necessityAmount.toString())
+            extras.setText(data.splitDetails.extraAmount.toString())
+            hobbies_amt.setText(data.splitDetails.hobbiesAmount.toString())
+
+            mIsEdit = true
+            mKey = data.keyId
+            if (mChildData.childImage != null && !mChildData.childImage.equals("")) {
+                Glide.with(this).load(mChildData.childImage).error(R.drawable.image_not_found)
+            }
+        } else {
+            mIsEdit = false
+        }
 
         submit_btn.setOnClickListener(View.OnClickListener {
 
@@ -139,54 +215,71 @@ class ADAddChildActivity : ADBaseActivity() {
                     zipcode,
                     childCity,
                     school,
-                    ngo,
-                    "",
-                    ""
+                    ngo,"",
+                    businessName,
+                    businessType
                 )
 
                 mChildData.bankDetails = bankDetails
                 mChildData.splitDetails = splitDetails
             }
+            uploadImage()
 
-            var accountRequest = ADCreateAccountRequest(
-                holderName, emailId, true, ADBankAccount(ifsc, holderName, accountType, number),
-                AccountDetails(businessName, businessType)
-            )
-
-            val apiService = ApiClient.getClient(
-                getString(R.string.razor_pay_id) + ":" +
-                        getString(R.string.razor_pay_secret) + "@"
-            ).create(ApiInterface::class.java)
-
-            val call = apiService.createAccount(accountRequest)
-
-            call.enqueue(object : Callback<ADCreateAccountResponse> {
-                override fun onFailure(call: Call<ADCreateAccountResponse>?, t: Throwable?) {
-                    progress_layout.visibility = View.GONE
-                    showMessage("Something went wrong. Try again later", add_child_parent, true)
-                }
-
-                override fun onResponse(
-                    call: Call<ADCreateAccountResponse>?,
-                    response: Response<ADCreateAccountResponse>?
-                ) {
-                    if (response!=null) {
-                        val data: ADCreateAccountResponse = response?.body()!!
-                        mChildData.accountId = data.id
-                        addChildToServer()
-                    }
-                }
-
-            })
+//            var accountRequest = ADCreateAccountRequest(
+//                holderName,
+//                emailId,
+//                true,
+//                ADBankAccount(ifsc.toUpperCase(), holderName, accountType, number.toLong()),
+//                AccountDetails(businessName, businessType)
+//            )
+//            val apiService = ApiClient.getClient(
+//                getString(R.string.razor_pay_id) + ":" +
+//                        getString(R.string.razor_pay_secret) + "@"
+//            ).create(ApiInterface::class.java)
+//
+//            val call = apiService.createAccount(accountRequest)
+//
+//            call.enqueue(object : Callback<ADCreateAccountResponse> {
+//
+//                override fun onResponse(
+//                    call: Call<ADCreateAccountResponse>?,
+//                    response: Response<ADCreateAccountResponse>?
+//                ) {
+//                    if (response != null && response.isSuccessful) {
+//                        if (response.body() != null) {
+//                            val data: ADCreateAccountResponse = response?.body()!!
+//                            mChildData.accountId = data.id
+//                            addChildToServer()
+//                        }
+//                    } else {
+//                        val error = Gson().fromJson(
+//                            response?.errorBody()?.charStream(),
+//                            RestError::class.java
+//                        )
+//                        Log.i("Testing ==> ", error.toString())
+//                        showMessage(error.error.description, add_child_parent, true)
+//                        progress_layout.visibility = View.GONE
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<ADCreateAccountResponse>?, t: Throwable?) {
+//                    progress_layout.visibility = View.GONE
+//                    showMessage("Something went wrong. Try again later", add_child_parent, true)
+//                    Log.i("Testing ==> ", t?.message.toString())
+//                }
+//
+//            })
 
         })
     }
 
-    private fun addChildToServer(){
+    private fun addChildToServer() {
         val mChildTable =
-            FirebaseDatabase.getInstance().reference.child("Children_Details")
+            FirebaseDatabase.getInstance().reference.child(CHILD_TABLE_NAME)
 
         val key = mChildTable.push().key.toString()
+
+        mChildData.keyId = key
 
         mChildTable.child(key).setValue(mChildData)
             .addOnSuccessListener {
@@ -196,7 +289,7 @@ class ADAddChildActivity : ADBaseActivity() {
             }
             .addOnFailureListener {
                 progress_layout.visibility = View.GONE
-                showMessage(it.message.toString(),null,true)
+                showMessage(it.message.toString(), null, true)
             }
     }
 
@@ -219,5 +312,161 @@ class ADAddChildActivity : ADBaseActivity() {
         )
 
         dpd.show()
+    }
+
+    private fun showPictureDialog() {
+        val pictureDialog = AlertDialog.Builder(this)
+        pictureDialog.setTitle("Select Action")
+        val pictureDialogItems = arrayOf("Select photo from gallery", "Capture photo from camera")
+        pictureDialog.setItems(
+            pictureDialogItems
+        ) { dialog, which ->
+            when (which) {
+                0 -> choosePhotoFromGallary()
+                1 -> takePhotoFromCamera()
+            }
+        }
+        pictureDialog.show()
+    }
+
+    fun choosePhotoFromGallary() {
+
+        val permission = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 34
+            )
+            return
+        }
+
+        val galleryIntent = Intent(
+            Intent.ACTION_PICK,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        )
+
+        startActivityForResult(galleryIntent, GALLERY)
+    }
+
+    private fun takePhotoFromCamera() {
+
+        val permission = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.CAMERA
+        )
+        val permission2 = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+        if (permission != PackageManager.PERMISSION_GRANTED || permission2 != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE), 35
+            )
+            return
+        }
+
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(intent, CAMERA)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>, grantResults: IntArray
+    ) {
+        when (requestCode) {
+            34 -> {
+
+                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+
+                    Log.i("", "Permission has been denied by user")
+                } else {
+                    choosePhotoFromGallary()
+                }
+            }
+
+            35 -> {
+                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+
+                    Log.i("", "Permission has been denied by user")
+                } else {
+                    takePhotoFromCamera()
+                }
+            }
+        }
+    }
+
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == GALLERY) {
+            if (data != null) {
+                val contentURI = data!!.data
+                try {
+                    val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, contentURI)
+                    add_image!!.setImageBitmap(bitmap)
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                    Toast.makeText(this@ADAddChildActivity, "Failed!", Toast.LENGTH_SHORT).show()
+                }
+
+            }
+
+        } else if (requestCode == CAMERA) {
+            val thumbnail = data!!.extras!!.get("data") as Bitmap
+            add_image!!.setImageBitmap(thumbnail)
+        }
+    }
+
+    private fun uploadImage() {
+
+        // Get the data from an ImageView as bytes
+        add_image.isDrawingCacheEnabled = true
+        add_image.buildDrawingCache()
+        val bitmap = (add_image.drawable as BitmapDrawable).bitmap
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val data = baos.toByteArray()
+
+
+        if (data != null) {
+
+            val storage = FirebaseStorage.getInstance();
+            val storageReference = storage.getReference();
+
+            val childImagesRef = storageReference.child("images/" + child_name.text.toString())
+
+            var progressDialog = ProgressDialog(this);
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
+            var uploadTask = childImagesRef.putBytes(data)
+
+            uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        throw it
+                    }
+                }
+                return@Continuation childImagesRef.downloadUrl
+            }).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    mChildData.childImage = task.result.toString()
+                    progressDialog.dismiss()
+                    progress_layout.visibility = View.VISIBLE
+                    addChildToServer()
+                    Log.d("TAG", "File Saved::--->" + mChildData.childImage)
+                } else {
+                    progressDialog.dismiss()
+                }
+            }
+        }
+    }
+
+    companion object {
+        private val IMAGE_DIRECTORY = "/demonuts"
     }
 }
