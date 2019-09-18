@@ -15,6 +15,8 @@ import kotlinx.android.synthetic.main.activity_add_wishes.*
 import java.util.*
 
 class ADAddWishesActivity : ADBaseActivity() {
+    private var mIsEdit = false
+    private var mKey = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +32,21 @@ class ADAddWishesActivity : ADBaseActivity() {
             dob.hideKeyboard()
             showCalendar()
         })
+
+        if (intent != null && intent.hasExtra("wishData")) {
+            var data = intent.getParcelableExtra<ADWishModel>("wishData")
+            mIsEdit = true
+            mKey = data.keyId
+            child_name.setText(data.name)
+            dob.setText(data.birthday)
+            ngo_name.setText(data.ngo)
+            wish_item.setText(data.wishItem)
+            item_price.setText(data.price.toString())
+
+        }else
+        {
+            mIsEdit = false
+        }
 
         submit_btn.setOnClickListener(View.OnClickListener {
 
@@ -66,9 +83,12 @@ class ADAddWishesActivity : ADBaseActivity() {
                 val mWishesTable =
                     FirebaseDatabase.getInstance().reference.child("Wish_Corner")
 
-                val key = mWishesTable.push().key.toString()
-                wishModel.keyId = key
-
+                var key = mWishesTable.push().key.toString()
+                if(!mIsEdit) {
+                    wishModel.keyId = key
+                }else{
+                    key =mKey
+                }
                 mWishesTable.child(key).setValue(wishModel)
                     .addOnSuccessListener {
                         progress_layout.visibility = View.GONE

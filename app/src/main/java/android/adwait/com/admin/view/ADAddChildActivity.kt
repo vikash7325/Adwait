@@ -277,9 +277,13 @@ class ADAddChildActivity : ADBaseActivity() {
         val mChildTable =
             FirebaseDatabase.getInstance().reference.child(CHILD_TABLE_NAME)
 
-        val key = mChildTable.push().key.toString()
+        var key = mChildTable.push().key.toString()
 
-        mChildData.keyId = key
+        if(!mIsEdit) {
+            mChildData.keyId = key
+        }else{
+            key =mKey
+        }
 
         mChildTable.child(key).setValue(mChildData)
             .addOnSuccessListener {
