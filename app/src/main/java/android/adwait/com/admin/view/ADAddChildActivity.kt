@@ -13,10 +13,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
-import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
@@ -28,12 +26,9 @@ import android.view.View
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.Continuation
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_add_child.*
@@ -41,10 +36,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
 import java.io.IOException
-import java.lang.Exception
 import java.util.*
 
 class ADAddChildActivity : ADBaseActivity() {
@@ -54,6 +46,7 @@ class ADAddChildActivity : ADBaseActivity() {
     private var mKey = ""
     private val GALLERY = 1
     private val CAMERA = 2
+    private var mImageTaken = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +61,8 @@ class ADAddChildActivity : ADBaseActivity() {
             dob.hideKeyboard()
             showCalendar()
         })
+
+        mImageTaken =false
 
         add_image.setOnClickListener(View.OnClickListener {
             showPictureDialog()
@@ -215,7 +210,7 @@ class ADAddChildActivity : ADBaseActivity() {
                     zipcode,
                     childCity,
                     school,
-                    ngo,"",
+                    ngo, "",
                     businessName,
                     businessType
                 )
@@ -223,52 +218,52 @@ class ADAddChildActivity : ADBaseActivity() {
                 mChildData.bankDetails = bankDetails
                 mChildData.splitDetails = splitDetails
             }
-            uploadImage()
 
-//            var accountRequest = ADCreateAccountRequest(
-//                holderName,
-//                emailId,
-//                true,
-//                ADBankAccount(ifsc.toUpperCase(), holderName, accountType, number.toLong()),
-//                AccountDetails(businessName, businessType)
-//            )
-//            val apiService = ApiClient.getClient(
-//                getString(R.string.razor_pay_id) + ":" +
-//                        getString(R.string.razor_pay_secret) + "@"
-//            ).create(ApiInterface::class.java)
-//
-//            val call = apiService.createAccount(accountRequest)
-//
-//            call.enqueue(object : Callback<ADCreateAccountResponse> {
-//
-//                override fun onResponse(
-//                    call: Call<ADCreateAccountResponse>?,
-//                    response: Response<ADCreateAccountResponse>?
-//                ) {
-//                    if (response != null && response.isSuccessful) {
-//                        if (response.body() != null) {
-//                            val data: ADCreateAccountResponse = response?.body()!!
-//                            mChildData.accountId = data.id
-//                            addChildToServer()
-//                        }
-//                    } else {
-//                        val error = Gson().fromJson(
-//                            response?.errorBody()?.charStream(),
-//                            RestError::class.java
-//                        )
-//                        Log.i("Testing ==> ", error.toString())
-//                        showMessage(error.error.description, add_child_parent, true)
-//                        progress_layout.visibility = View.GONE
-//                    }
-//                }
-//
-//                override fun onFailure(call: Call<ADCreateAccountResponse>?, t: Throwable?) {
-//                    progress_layout.visibility = View.GONE
-//                    showMessage("Something went wrong. Try again later", add_child_parent, true)
-//                    Log.i("Testing ==> ", t?.message.toString())
-//                }
-//
-//            })
+            if (mIsEdit){
+                uploadImage()
+                return@OnClickListener
+            }
+
+            var accountRequest = ADCreateAccountRequest(
+                holderName,
+                emailId,
+                businessName, businessType, ifsc.toUpperCase(), accountType, number.toLong()
+            )
+
+            val apiService = ApiClient.getClient().create(ApiInterface::class.java)
+
+            val call = apiService.createAccount(accountRequest)
+
+            call.enqueue(object : Callback<ADCreateAccountResponse> {
+
+                override fun onResponse(
+                    call: Call<ADCreateAccountResponse>?,
+                    response: Response<ADCreateAccountResponse>?
+                ) {
+                    if (response != null && response.isSuccessful) {
+                        if (response.body() != null) {
+                            val data: ADCreateAccountResponse = response?.body()!!
+                            mChildData.accountId = data.id
+                            uploadImage()
+                        }
+                    } else {
+                        val error = Gson().fromJson(
+                            response?.errorBody()?.charStream(),
+                            RestError::class.java
+                        )
+                        Log.i("Testing ==> ", error.toString())
+                        showMessage(error.error.description, add_child_parent, true)
+                        progress_layout.visibility = View.GONE
+                    }
+                }
+
+                override fun onFailure(call: Call<ADCreateAccountResponse>?, t: Throwable?) {
+                    progress_layout.visibility = View.GONE
+                    showMessage("Something went wrong. Try again later", add_child_parent, true)
+                    Log.i("Testing ==> ", t?.message.toString())
+                }
+
+            })
 
         })
     }
@@ -279,10 +274,10 @@ class ADAddChildActivity : ADBaseActivity() {
 
         var key = mChildTable.push().key.toString()
 
-        if(!mIsEdit) {
+        if (!mIsEdit) {
             mChildData.keyId = key
-        }else{
-            key =mKey
+        } else {
+            key = mKey
         }
 
         mChildTable.child(key).setValue(mChildData)
@@ -413,6 +408,7 @@ class ADAddChildActivity : ADBaseActivity() {
                 try {
                     val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, contentURI)
                     add_image!!.setImageBitmap(bitmap)
+                    mImageTaken = true
                 } catch (e: IOException) {
                     e.printStackTrace()
                     Toast.makeText(this@ADAddChildActivity, "Failed!", Toast.LENGTH_SHORT).show()
@@ -423,6 +419,7 @@ class ADAddChildActivity : ADBaseActivity() {
         } else if (requestCode == CAMERA) {
             val thumbnail = data!!.extras!!.get("data") as Bitmap
             add_image!!.setImageBitmap(thumbnail)
+            mImageTaken = true
         }
     }
 
@@ -438,6 +435,10 @@ class ADAddChildActivity : ADBaseActivity() {
 
 
         if (data != null) {
+            if (!mImageTaken){
+                addChildToServer()
+                return
+            }
 
             val storage = FirebaseStorage.getInstance();
             val storageReference = storage.getReference();

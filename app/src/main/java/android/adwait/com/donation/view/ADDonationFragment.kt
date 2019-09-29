@@ -5,10 +5,13 @@ import and.com.polam.utils.CommonUtils
 import and.com.polam.utils.MySharedPreference
 import android.adwait.com.R
 import android.adwait.com.admin.model.ADAddChildModel
+import android.adwait.com.admin.model.RestError
 import android.adwait.com.dashboard.view.ADDashboardActivity
-import android.adwait.com.donation.model.ADDonationModel
+import android.adwait.com.donation.model.*
 import android.adwait.com.my_mentee.view.ADMonthlySplit
 import android.adwait.com.registeration.model.ADUserDetails
+import android.adwait.com.rest_api.ApiClient
+import android.adwait.com.rest_api.ApiInterface
 import android.adwait.com.utils.ADBaseFragment
 import android.adwait.com.utils.ADCommonResponseListener
 import android.adwait.com.utils.ADConstants
@@ -27,6 +30,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.gson.Gson
 import com.razorpay.Checkout
 import com.razorpay.PaymentData
 import com.razorpay.PaymentResultWithDataListener
@@ -34,6 +38,9 @@ import kotlinx.android.synthetic.main.fragment_donation.*
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
@@ -46,12 +53,14 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
     private var mUserName = ""
     private var mOldContribution = 0
     private var monthlyAmount = "0";
-    private var splitData:String = ""
+    private var splitData: String = ""
+    private var receiptNo = "Receipt_"
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater?.inflate(R.layout.fragment_donation, container, false)
 
         return view
@@ -71,7 +80,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
             }
         })
 
-        donate_now.setOnClickListener(View.OnClickListener { startPayment() })
+        donate_now.setOnClickListener(View.OnClickListener { createOrder() })
         hx_content.setText(CommonUtils.getHtmlText(getString(R.string.hx_content)))
 
         if (arguments != null) {
@@ -104,8 +113,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
         })
     }
 
-    private fun startPayment() {
-
+    private fun createOrder() {
         if (amount.text.toString().isEmpty()) {
             (activity as ADBaseActivity).showMessage(
                 getString(R.string.empty_amount),
@@ -114,28 +122,73 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
             )
             return
         }
+        val money = amount.text.toString().toInt() * 100
+
+        if (money == 0) {
+            (activity as ADBaseActivity).showMessage(
+                getString(R.string.invalid_amount),
+                donation_parent,
+                true
+            )
+            return
+        }
+        if (!(activity as ADBaseActivity).isNetworkAvailable()) {
+            (activity as ADBaseActivity).showMessage(getString(R.string.no_internet), null, true)
+            return
+        }
+        progress_layout.visibility = View.VISIBLE
+        receiptNo = receiptNo + System.currentTimeMillis()
+        var orderRequest = ADCreateOrderRequest(receiptNo, money, "INR");
+        val apiService = ApiClient.getClient().create(ApiInterface::class.java)
+        val call = apiService.createOrder(orderRequest)
+
+        call.enqueue(object : Callback<ADCreateOrderResponse> {
+            override fun onResponse(
+                call: Call<ADCreateOrderResponse>?,
+                response: Response<ADCreateOrderResponse>?
+            ) {
+
+                if (response != null && response.isSuccessful) {
+                    if (response.body() != null) {
+                        val data: ADCreateOrderResponse = response?.body()!!
+                        startPayment(data)
+                    }
+                } else {
+                    val error = Gson().fromJson(
+                        response?.errorBody()?.charStream(),
+                        RestError::class.java
+                    )
+                    Log.i("Testing ==> ", error.toString())
+                    (activity as ADBaseActivity).showMessage(
+                        error.error.description,
+                        donation_parent,
+                        true
+                    )
+                    progress_layout.visibility = View.GONE
+                }
+            }
+
+            override fun onFailure(call: Call<ADCreateOrderResponse>?, t: Throwable?) {
+                progress_layout.visibility = View.GONE
+            }
+
+        })
+
+    }
+
+    private fun startPayment(data: ADCreateOrderResponse) {
 
         val checkout = Checkout()
-
         try {
 
             val options = JSONObject()
             options.put("name", getString(R.string.app_name))
             options.put("description", getString(R.string.description))
 
-            val money = amount.text.toString().toInt() * 100
 
-            if (money == 0) {
-                (activity as ADBaseActivity).showMessage(
-                    getString(R.string.invalid_amount),
-                    donation_parent,
-                    true
-                )
-                return
-            }
             options.put("currency", "INR")
-            options.put("amount", money.toString())
-
+            options.put("amount", data.amount.toString())
+            options.put("order_id", data.id);
             val preFill = JSONObject()
             preFill.put("email", mEmail)
             preFill.put("contact", mPhoneNumber)
@@ -148,6 +201,45 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
             Toast.makeText(activity, "Error in payment: " + e.message, Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
+    }
+
+    private fun verifySignature(paymentData: PaymentData?) {
+        var signRequest = ADSignVerifyRequest(paymentData!!.orderId, paymentData!!.signature);
+        val apiService = ApiClient.getClient().create(ApiInterface::class.java)
+        val call = apiService.verifySignature(signRequest)
+
+        call.enqueue(object : Callback<ADSignVerifyResponse> {
+
+            override fun onResponse(
+                call: Call<ADSignVerifyResponse>?,
+                response: Response<ADSignVerifyResponse>?
+            ) {
+                if (response != null && response.isSuccessful) {
+                    if (response.body() != null) {
+                        val data: ADSignVerifyResponse = response?.body()!!
+                        if (data.signature_res.equals("Signature Matched")) {
+                            checkAmountOfChild(paymentData, true)
+                        }
+                    }
+                } else {
+                    val error = Gson().fromJson(
+                        response?.errorBody()?.charStream(),
+                        RestError::class.java
+                    )
+                    Log.i("Testing ==> ", error.toString())
+                    (activity as ADBaseActivity).showMessage(
+                        error.error.description,
+                        donation_parent,
+                        true
+                    )
+                    progress_layout.visibility = View.GONE
+                }
+            }
+
+            override fun onFailure(call: Call<ADSignVerifyResponse>?, t: Throwable?) {
+                checkAmountOfChild(paymentData, false)
+            }
+        })
     }
 
     private fun fetchUserData() {
@@ -229,7 +321,8 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                                     ).into(child_image)
                             }
 
-                            val age: String = (activity as ADBaseActivity).getAge(childData.dateOfBirth,
+                            val age: String = (activity as ADBaseActivity).getAge(
+                                childData.dateOfBirth,
                                 "dd-MM-yyyy"
                             ).toString()
                             child_age?.setText(age + " Years")
@@ -352,7 +445,8 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                                 val donation = topList.get(looper)
                                 val view =
                                     View.inflate(
-                                        activity, R.layout.contributers_topper_list_item, null)
+                                        activity, R.layout.contributers_topper_list_item, null
+                                    )
                                 val name = view.findViewById<TextView>(R.id.contribution_data)
 
                                 name.setText(
@@ -383,17 +477,18 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
 
     override fun onPaymentSuccess(paymentId: String?, paymentData: PaymentData?) {
         progress_layout.visibility = View.VISIBLE
-        checkAmountOfChild(paymentData, true)
+        verifySignature(paymentData)
     }
 
     override fun onPaymentError(error_id: Int, error_msg: String?, paymentData: PaymentData?) {
+        progress_layout.visibility = View.GONE
+        Log.i("Testing ==> ", error_msg.toString())
         if (error_id == Checkout.PAYMENT_CANCELED
             || error_id == Checkout.NETWORK_ERROR
         ) {
             return
         }
-        progress_layout.visibility = View.VISIBLE
-        checkAmountOfChild(paymentData, false)
+        Checkout.clearUserData(activity)
         (activity as ADBaseActivity).showMessage(error_msg.toString(), donation_parent, true)
     }
 
@@ -410,6 +505,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                 MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.current_date))
                     .toString()
             var donation = ADDonationModel(
+                payment?.orderId.toString(), receiptNo,
                 payment?.paymentId.toString(), "", today, amount.text.toString().toInt(),
                 status, mChildId, mUserName, userId
             )
@@ -420,6 +516,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                 var balance = monthlyAmount.toInt() - mOldContribution
                 tempAmount = mOldContribution + balance
                 donation = ADDonationModel(
+                    payment?.orderId.toString(), receiptNo,
                     payment?.paymentId.toString(),
                     "",
                     today,
@@ -447,6 +544,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                                 (mOldContribution + amount.text.toString().toInt()) - monthlyAmount.toInt()
                             mOldContribution = 0
                             donation = ADDonationModel(
+                                payment?.orderId.toString(), receiptNo,
                                 payment?.paymentId.toString(),
                                 "",
                                 today,
