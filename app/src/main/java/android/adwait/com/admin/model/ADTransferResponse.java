@@ -1,15 +1,14 @@
-package android.adwait.com.donation.model;
+package android.adwait.com.admin.model;
 
 import android.adwait.com.utils.ADBaseModel;
 import com.google.gson.annotations.SerializedName;
 
-public class ADCreateOrderResponse extends ADBaseModel {
+public class ADTransferResponse extends ADBaseModel {
+
     @SerializedName("msg")
     private String message;
     @SerializedName("success")
     private boolean successFlag;
-
-    private ADCreateOrderData data;
 
     public String getMessage() {
         return message;
@@ -19,7 +18,7 @@ public class ADCreateOrderResponse extends ADBaseModel {
         this.message = message;
     }
 
-    public boolean getSuccessFlag() {
+    public boolean isSuccessFlag() {
         return successFlag;
     }
 
@@ -27,13 +26,13 @@ public class ADCreateOrderResponse extends ADBaseModel {
         this.successFlag = successFlag;
     }
 
-    public ADCreateOrderData getData() {
+    public ADTransferData getData() {
         return data;
     }
 
-    public void setData(ADCreateOrderData data) {
+    public void setData(ADTransferData data) {
         this.data = data;
     }
 
-
+    private ADTransferData data;
 }

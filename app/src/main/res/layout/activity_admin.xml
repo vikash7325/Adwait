@@ -36,10 +36,11 @@
 
             <ImageView
                 android:id="@+id/sync"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:tint="@android:color/white"
                 android:layout_centerInParent="true"
+                android:visibility="gone"
                 android:layout_marginRight="@dimen/padd_10"
                 android:layout_toLeftOf="@id/logout"
                 android:src="@drawable/ic_sync" />
@@ -49,6 +50,7 @@
                 android:layout_width="25dp"
                 android:tint="@android:color/white"
                 android:layout_height="25dp"
+                android:layout_marginLeft="@dimen/padd_10"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:src="@drawable/ic_menu_logout" />
@@ -100,4 +102,19 @@
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/plus_icon" />
     </LinearLayout>
+
+    <!--Progress Layout-->
+    <LinearLayout
+            android:id="@+id/progress_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+        <include layout="@layout/progress_layout" />
+
+    </LinearLayout>
+
 </android.support.design.widget.CoordinatorLayout>

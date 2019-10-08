@@ -1,8 +1,8 @@
 package android.adwait.com.utils
 
-import android.app.Application
+import android.support.multidex.MultiDexApplication
 
-class ADApplication : Application() {
+class ADApplication : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()

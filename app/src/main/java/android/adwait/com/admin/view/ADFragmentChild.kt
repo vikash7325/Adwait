@@ -4,6 +4,7 @@ import and.com.polam.utils.ADBaseActivity
 import android.adwait.com.R
 import android.adwait.com.admin.adapter.ADChildListAdapter
 import android.adwait.com.admin.model.ADAddChildModel
+import android.adwait.com.admin.view.ADAdminActivity
 import android.adwait.com.utils.ChildItemTouchHelper
 import android.graphics.Color
 import android.os.Bundle
@@ -66,7 +67,7 @@ class ADFragmentChild : Fragment(), ChildItemTouchHelper.RecyclerItemTouchHelper
 
         ItemTouchHelper(callBack).attachToRecyclerView(recycler_view)
 
-        getData()
+        getData(true)
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int, position: Int) {
@@ -101,7 +102,9 @@ class ADFragmentChild : Fragment(), ChildItemTouchHelper.RecyclerItemTouchHelper
         }
     }
 
-    fun getData() {
+    fun getData(checkData: Boolean) {
+
+        (activity as ADAdminActivity).showHideProgress(true)
 
         val mChildDataTable =
             FirebaseDatabase.getInstance()
@@ -120,11 +123,21 @@ class ADFragmentChild : Fragment(), ChildItemTouchHelper.RecyclerItemTouchHelper
                         childAdapter.notifyDataSetChanged()
                     }
                 }
+
+                if (checkData) {
+                    (activity as ADAdminActivity).getPreviousMonth()
+                } else {
+                    (activity as ADAdminActivity).showHideProgress(false)
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Log.i("Testing==>", error.message)
-
+                if (checkData) {
+                    (activity as ADAdminActivity).getPreviousMonth()
+                } else {
+                    (activity as ADAdminActivity).showHideProgress(false)
+                }
             }
 
         })
@@ -135,17 +148,19 @@ class ADFragmentChild : Fragment(), ChildItemTouchHelper.RecyclerItemTouchHelper
         val mChildDataTable =
             FirebaseDatabase.getInstance()
                 .reference.child((activity as ADBaseActivity).CHILD_TABLE_NAME).child(key)
-
+        (activity as ADAdminActivity).showHideProgress(true)
         mChildDataTable.addListenerForSingleValueEvent(object : ValueEventListener {
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (appleSnapshot in dataSnapshot.children) {
                     appleSnapshot.ref.removeValue()
                 }
+                (activity as ADAdminActivity).showHideProgress(false)
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Log.i("Testing==>", error.message)
+                (activity as ADAdminActivity).showHideProgress(false)
             }
         })
     }

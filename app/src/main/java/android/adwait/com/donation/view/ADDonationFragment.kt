@@ -142,6 +142,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
         val apiService = ApiClient.getClient().create(ApiInterface::class.java)
         val call = apiService.createOrder(orderRequest)
 
+        Log.v("orderRequest=> ", orderRequest.toString())
         call.enqueue(object : Callback<ADCreateOrderResponse> {
             override fun onResponse(
                 call: Call<ADCreateOrderResponse>?,
@@ -149,9 +150,18 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
             ) {
 
                 if (response != null && response.isSuccessful) {
-                    if (response.body() != null) {
-                        val data: ADCreateOrderResponse = response?.body()!!
-                        startPayment(data)
+                    if (response.body().successFlag) {
+                        if (response.body() != null) {
+                            val fullResponse: ADCreateOrderResponse = response?.body()!!
+                            startPayment(fullResponse.data)
+                        }
+                    } else {
+                        (activity as ADBaseActivity).showMessage(
+                            response.body().message,
+                            donation_parent,
+                            true
+                        )
+                        progress_layout.visibility = View.GONE
                     }
                 } else {
                     val error = Gson().fromJson(
@@ -176,7 +186,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
 
     }
 
-    private fun startPayment(data: ADCreateOrderResponse) {
+    private fun startPayment(data: ADCreateOrderData) {
 
         val checkout = Checkout()
         try {
@@ -199,6 +209,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
 
         } catch (e: Exception) {
             Toast.makeText(activity, "Error in payment: " + e.message, Toast.LENGTH_SHORT).show();
+            progress_layout.visibility = View.GONE
             e.printStackTrace();
         }
     }
@@ -215,11 +226,20 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                 response: Response<ADSignVerifyResponse>?
             ) {
                 if (response != null && response.isSuccessful) {
-                    if (response.body() != null) {
-                        val data: ADSignVerifyResponse = response?.body()!!
-                        if (data.signature_res.equals("Signature Matched")) {
-                            checkAmountOfChild(paymentData, true)
+                    if (response.body().isSuccessFlag) {
+                        if (response.body() != null) {
+                            val data: ADSignVerifyResponse = response?.body()!!
+                            if (data.data.signature_res.equals("Signature Matched")) {
+                                checkAmountOfChild(paymentData, true)
+                            }
                         }
+                    } else {
+                        (activity as ADBaseActivity).showMessage(
+                            response.body().message,
+                            donation_parent,
+                            true
+                        )
+                        progress_layout.visibility = View.GONE
                     }
                 } else {
                     val error = Gson().fromJson(

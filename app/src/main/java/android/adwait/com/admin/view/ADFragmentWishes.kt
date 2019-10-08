@@ -3,6 +3,7 @@ package com.example.myapplication.admin.view
 import and.com.polam.utils.ADBaseActivity
 import android.adwait.com.R
 import android.adwait.com.admin.adapter.ADWishListAdapter
+import android.adwait.com.admin.view.ADAdminActivity
 import android.adwait.com.utils.WishListItemTouchHelper
 import android.adwait.com.wish_corner.model.ADWishModel
 import android.graphics.Color
@@ -138,6 +139,7 @@ class ADFragmentWishes : Fragment(), WishListItemTouchHelper.RecyclerItemTouchHe
         val wishesDataTable =
             FirebaseDatabase.getInstance()
                 .reference.child((activity as ADBaseActivity).WISH_CORNER_TABLE_NAME).child(key)
+        (activity as ADAdminActivity).showHideProgress(true)
 
         wishesDataTable.addListenerForSingleValueEvent(object : ValueEventListener {
 
@@ -145,10 +147,12 @@ class ADFragmentWishes : Fragment(), WishListItemTouchHelper.RecyclerItemTouchHe
                 for (appleSnapshot in dataSnapshot.children) {
                     appleSnapshot.ref.removeValue()
                 }
+                (activity as ADAdminActivity).showHideProgress(false)
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Log.i("Testing==>", error.message)
+                (activity as ADAdminActivity).showHideProgress(false)
             }
         })
     }

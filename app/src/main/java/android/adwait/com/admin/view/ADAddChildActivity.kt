@@ -62,7 +62,7 @@ class ADAddChildActivity : ADBaseActivity() {
             showCalendar()
         })
 
-        mImageTaken =false
+        mImageTaken = false
 
         add_image.setOnClickListener(View.OnClickListener {
             showPictureDialog()
@@ -219,7 +219,7 @@ class ADAddChildActivity : ADBaseActivity() {
                 mChildData.splitDetails = splitDetails
             }
 
-            if (mIsEdit){
+            if (mIsEdit) {
                 uploadImage()
                 return@OnClickListener
             }
@@ -241,10 +241,15 @@ class ADAddChildActivity : ADBaseActivity() {
                     response: Response<ADCreateAccountResponse>?
                 ) {
                     if (response != null && response.isSuccessful) {
-                        if (response.body() != null) {
-                            val data: ADCreateAccountResponse = response?.body()!!
-                            mChildData.accountId = data.id
-                            uploadImage()
+                        if (response.body().isSuccessFlag) {
+                            if (response.body() != null) {
+                                val fullResponse: ADCreateAccountResponse = response?.body()!!
+                                mChildData.accountId = fullResponse.data.id
+                                uploadImage()
+                            }
+                        } else {
+                            showMessage(response.body().message, add_child_parent, true)
+                            progress_layout.visibility = View.GONE
                         }
                     } else {
                         val error = Gson().fromJson(
@@ -435,7 +440,7 @@ class ADAddChildActivity : ADBaseActivity() {
 
 
         if (data != null) {
-            if (!mImageTaken){
+            if (!mImageTaken) {
                 addChildToServer()
                 return
             }

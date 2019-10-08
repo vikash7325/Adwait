@@ -3,13 +3,13 @@ package android.adwait.com.donation.model;
 import android.adwait.com.utils.ADBaseModel;
 import com.google.gson.annotations.SerializedName;
 
-public class ADCreateOrderResponse extends ADBaseModel {
+public class ADSignVerifyResponse extends ADBaseModel {
+
     @SerializedName("msg")
     private String message;
     @SerializedName("success")
     private boolean successFlag;
-
-    private ADCreateOrderData data;
+    private ADSignVerifyData data;
 
     public String getMessage() {
         return message;
@@ -19,7 +19,7 @@ public class ADCreateOrderResponse extends ADBaseModel {
         this.message = message;
     }
 
-    public boolean getSuccessFlag() {
+    public boolean isSuccessFlag() {
         return successFlag;
     }
 
@@ -27,13 +27,12 @@ public class ADCreateOrderResponse extends ADBaseModel {
         this.successFlag = successFlag;
     }
 
-    public ADCreateOrderData getData() {
+    public ADSignVerifyData getData() {
         return data;
     }
 
-    public void setData(ADCreateOrderData data) {
+    public void setData(ADSignVerifyData data) {
         this.data = data;
     }
-
 
 }

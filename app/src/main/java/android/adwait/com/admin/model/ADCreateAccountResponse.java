@@ -1,56 +1,38 @@
 package android.adwait.com.admin.model;
 
 import android.adwait.com.utils.ADBaseModel;
-
 import com.google.gson.annotations.SerializedName;
 
 public class ADCreateAccountResponse extends ADBaseModel {
 
-    public String getId() {
-        return id;
+    @SerializedName("msg")
+    private String message;
+    @SerializedName("success")
+    private boolean successFlag;
+
+    public String getMessage() {
+        return message;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public String getEntity() {
-        return entity;
+    public boolean isSuccessFlag() {
+        return successFlag;
     }
 
-    public void setEntity(String entity) {
-        this.entity = entity;
+    public void setSuccessFlag(boolean successFlag) {
+        this.successFlag = successFlag;
     }
 
-    public String getName() {
-        return name;
+    public ADCreateAccountData getData() {
+        return data;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setData(ADCreateAccountData data) {
+        this.data = data;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public ADCreateAccountResponse(String id, String entity, String name, String email) {
-        this.id = id;
-        this.entity = entity;
-        this.name = name;
-        this.email = email;
-    }
-
-    @SerializedName("id")
-    private String id;
-    @SerializedName("entity")
-    private String entity;
-    @SerializedName("name")
-    private String name;
-    @SerializedName("email")
-    private String email;
+    private ADCreateAccountData data;
 }
