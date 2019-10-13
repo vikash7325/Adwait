@@ -3,9 +3,11 @@ package android.adwait.com.admin.view
 import and.com.polam.utils.ADBaseActivity
 import and.com.polam.utils.MySharedPreference
 import android.adwait.com.R
-import android.adwait.com.admin.model.*
+import android.adwait.com.admin.model.ADRoutingDetails
+import android.adwait.com.admin.model.ADTransferData
+import android.adwait.com.admin.model.ADTransferRequest
+import android.adwait.com.admin.model.RestError
 import android.adwait.com.login.view.ADLoginActivity
-import android.adwait.com.my_mentee.model.ADMessageModel
 import android.adwait.com.rest_api.ApiClient
 import android.adwait.com.rest_api.ApiInterface
 import android.adwait.com.utils.ADCommonResponseListener
@@ -25,12 +27,13 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
+import com.google.gson.JsonElement
+import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_admin.*
-import kotlinx.android.synthetic.main.progress_layout.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.HashMap
+import java.util.*
 
 class ADAdminActivity : ADBaseActivity() {
 
@@ -165,35 +168,38 @@ class ADAdminActivity : ADBaseActivity() {
 
         val call = apiService.transferAmount(ADTransferRequest())
 
-        call.enqueue(object : Callback<HashMap<String, ADTransferData>> {
-
-            override fun onResponse(
-                call: Call<HashMap<String, ADTransferData>>?,
-                response: Response<HashMap<String, ADTransferData>>?
-            ) {
+        call.enqueue(object : Callback<JsonElement> {
+            override fun onResponse(call: Call<JsonElement>?, response: Response<JsonElement>?) {
 
                 if (response != null && response.isSuccessful) {
                     if (response.body() != null) {
+                        val jsonElement = response.body()
+                        val gson = Gson()
 
-                        messageData = response.body()
-                        saveUpdateToServer(
-                            MySharedPreference(applicationContext).getValueString(
-                                getString(R.string.current_date)
-                            ).toString()
-                        )
+                        if (jsonElement.isJsonObject()) {
+                            val data = gson.fromJson(response.body(), ADTransferData::class.java)
+                            if (!data.isSuccessFlag) {
+                                progress_layout.visibility = View.GONE
+                                showMessage(data.message, admin_parent, true)
+                            }
+                        } else {
+                            messageData = gson.fromJson(response.body() , object : TypeToken<HashMap<String, ADTransferData>>() {}.type)
+                            saveUpdateToServer(
+                                MySharedPreference(applicationContext).getValueString(
+                                    getString(R.string.current_date)).toString())
+                        }
                     }
                 } else {
                     val error = Gson().fromJson(
                         response?.errorBody()?.charStream(),
-                        RestError::class.java
-                    )
+                        RestError::class.java)
                     Log.i("Testing ==> ", error.toString())
                     showMessage(error.error.description, null, false)
                     progress_layout.visibility = View.GONE
                 }
             }
 
-            override fun onFailure(call: Call<HashMap<String, ADTransferData>>?, t: Throwable?) {
+            override fun onFailure(call: Call<JsonElement>?, t: Throwable?) {
                 showHideProgress(false)
                 showMessage("Something went wrong. Try again later", null, false)
                 Log.i("Testing ==> ", t?.message.toString())

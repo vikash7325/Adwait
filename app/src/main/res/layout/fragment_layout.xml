@@ -16,6 +16,17 @@
             android:layout_alignParentTop="true"
             android:scrollbars="vertical" />
 
+        <TextView
+            android:id="@+id/error_msg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="No Items"
+            android:textColor="@color/app_text"
+            android:textSize="@dimen/large_text"
+            android:visibility="gone" />
+
         <!--Progress Layout-->
         <LinearLayout
             android:id="@+id/progress_layout"

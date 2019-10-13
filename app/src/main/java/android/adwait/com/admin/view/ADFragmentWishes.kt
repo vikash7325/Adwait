@@ -123,9 +123,11 @@ class ADFragmentWishes : Fragment(), WishListItemTouchHelper.RecyclerItemTouchHe
                         wishAdapter.notifyDataSetChanged()
                     } else {
                         Log.i("Testing==>", "Data null")
+                        error_msg.visibility = View.VISIBLE
                     }
                 } else {
                     Log.i("Testing==>", "Data does not exists")
+                    error_msg.visibility = View.VISIBLE
                 }
             }
 

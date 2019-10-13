@@ -3,6 +3,8 @@ package android.adwait.com.rest_api;
 import android.adwait.com.admin.model.*;
 import android.adwait.com.donation.model.*;
 
+import com.google.gson.JsonElement;
+
 import java.util.HashMap;
 
 import retrofit2.Call;
@@ -26,5 +28,5 @@ public interface ApiInterface {
 
     @Headers("Content-Type: application/json")
     @POST("api/transfer")
-    Call<HashMap<String,ADTransferData>> transferAmount(@Body ADTransferRequest request);
+    Call<JsonElement> transferAmount(@Body ADTransferRequest request);
 }

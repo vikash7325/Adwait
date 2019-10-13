@@ -121,9 +121,12 @@ class ADFragmentChild : Fragment(), ChildItemTouchHelper.RecyclerItemTouchHelper
                             mChildListData.add(childData)
                         }
                         childAdapter.notifyDataSetChanged()
+                    }else{
+                        error_msg.visibility = View.VISIBLE
                     }
+                }else {
+                    error_msg.visibility = View.VISIBLE
                 }
-
                 if (checkData) {
                     (activity as ADAdminActivity).getPreviousMonth()
                 } else {
