@@ -41,6 +41,9 @@ public class ADEventsAdapter extends RecyclerView.Adapter<ADEventsAdapter.EventH
 
     @Override
     public int getItemCount() {
+        if (mEventsData==null){
+            return 0;
+        }
         return mEventsData.size();
     }
 

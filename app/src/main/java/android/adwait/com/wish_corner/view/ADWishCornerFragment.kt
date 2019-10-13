@@ -56,6 +56,7 @@ class ADWishCornerFragment : ADBaseFragment() {
                 } else {
                     eventsAdapter.setmEventsData(mPastEvent)
                 }
+                showError(eventsAdapter.itemCount)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -140,7 +141,7 @@ class ADWishCornerFragment : ADBaseFragment() {
         mUpComingEvent = ArrayList<ADEventsModel>()
         mPastEvent = ArrayList<ADEventsModel>()
         val eventsTable =
-            FirebaseDatabase.getInstance().reference.child("Wish_Corner_Events")
+            FirebaseDatabase.getInstance().reference.child((activity as ADBaseActivity).WISH_EVENTS_TABLE_NAME)
         eventsTable.addListenerForSingleValueEvent(object : ValueEventListener {
 
 
@@ -170,6 +171,7 @@ class ADWishCornerFragment : ADBaseFragment() {
                         }
                         eventsAdapter = ADEventsAdapter(activity, mUpComingEvent)
                         events_list.adapter = eventsAdapter
+                        showError(eventsAdapter.itemCount)
                         events_layout.visibility = View.VISIBLE
                     }
                 } else {
@@ -182,6 +184,16 @@ class ADWishCornerFragment : ADBaseFragment() {
                 progress_layout.visibility = View.GONE
             }
         })
+    }
+
+    private fun showError(count:Int){
+        if(count==0){
+            error_msg.visibility = View.VISIBLE
+            events_list.visibility = View.INVISIBLE
+        }else{
+            events_list.visibility = View.VISIBLE
+            error_msg.visibility = View.GONE
+        }
     }
 
     private fun checkUserForAdmin() {

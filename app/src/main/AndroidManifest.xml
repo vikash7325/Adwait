@@ -101,6 +101,11 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
 
         <activity
+            android:name=".admin.view.ADRoutingMessagesActivity"
+            android:label="Transfer Details"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+
+        <activity
             android:name=".login.view.ADForgetActivity"
             android:excludeFromRecents="true"
             android:theme="@style/DialogTheme" />

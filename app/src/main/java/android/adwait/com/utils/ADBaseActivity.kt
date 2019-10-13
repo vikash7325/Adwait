@@ -38,6 +38,7 @@ open class ADBaseActivity : AppCompatActivity() {
     val CONTRIBUTION_TABLE_NAME: String = "Contribution";
     val WISH_CORNER_TABLE_NAME: String = "Wish_Corner";
     val ROUTING_TABLE_NAME: String = "Routing_details";
+    val WISH_EVENTS_TABLE_NAME: String = "Wish_Corner_Events";
 
     private val TAG: String = "ADBaseActivity";
     private lateinit var auth: FirebaseAuth.AuthStateListener
@@ -312,7 +313,7 @@ open class ADBaseActivity : AppCompatActivity() {
         var serverDate: String = ""
 
         val data = hashMapOf(
-            "month" to date)
+            "month" to changeData(date))
 
         FirebaseFunctions.getInstance().getHttpsCallable(functionName).call(data)
             .addOnSuccessListener {
@@ -334,6 +335,19 @@ open class ADBaseActivity : AppCompatActivity() {
             }
 
         return serverDate
+    }
+
+    fun changeData(cdate : String):String{
+
+        val fromFormat = SimpleDateFormat("dd-MMM-yyyy")
+        val toFormat = SimpleDateFormat("yyyy-MM-dd")
+
+        val currentDate = fromFormat.parse(cdate)
+
+        val converted =toFormat.format(currentDate)
+        Log.v(TAG, "converted -> " + cdate)
+        Log.v(TAG, "converted -> " + converted)
+        return converted
     }
 
 }

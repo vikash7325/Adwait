@@ -2,8 +2,8 @@
     <!--Common-->
     <string name="app_name">Adwait</string>
     <string name="facebook_app_id">305162560131651</string>
-    <string name="razor_pay_id">rzp_test_eeV0VCOUPe1NAQ</string>
-    <string name="razor_pay_secret">747XB7gReAFKvUZ1WVYK7xRR</string>
+    <string name="razor_pay_id">rzp_test_wZwgscDRHEobwb</string>
+    <string name="razor_pay_secret">nJ7v0lAat4YfOCC69QrcQgFE</string>
     <string name="loading">Please wait...</string>
     <string name="loading2">Please wait while Elves are setting\nup your account...</string>
     <string name="rupees">₹</string>

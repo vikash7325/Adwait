@@ -79,25 +79,43 @@
                 android:id="@+id/events_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_white_bg"
                 android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
+                android:background="@drawable/rounded_white_bg"
+                android:gravity="center_horizontal"
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <android.support.design.widget.TabLayout
-                    android:id="@+id/tabLayout"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:tabSelectedTextColor="@color/colorPrimary"
-                    app:tabTextColor="@color/colorPrimary" />
+                    android:layout_height="wrap_content">
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/events_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp" />
+                    <android.support.design.widget.TabLayout
+                        android:id="@+id/tabLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        app:tabSelectedTextColor="@color/colorPrimary"
+                        app:tabTextColor="@color/colorPrimary" />
 
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/events_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tabLayout"
+                        android:layout_margin="5dp"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/error_msg"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:gravity="center"
+                        android:text="No Events"
+                        android:textColor="@color/app_text"
+                        android:textSize="@dimen/large_text"
+                        android:visibility="gone" />
+                </RelativeLayout>
             </LinearLayout>
 
         </LinearLayout>

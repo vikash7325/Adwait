@@ -218,6 +218,8 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
         var signRequest = ADSignVerifyRequest(paymentData!!.orderId, paymentData!!.signature);
         val apiService = ApiClient.getClient().create(ApiInterface::class.java)
         val call = apiService.verifySignature(signRequest)
+        Log.i("Testing ==> ", "verifySignature called")
+        Log.i("Testing ==> ", signRequest.toString())
 
         call.enqueue(object : Callback<ADSignVerifyResponse> {
 
@@ -228,8 +230,8 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                 if (response != null && response.isSuccessful) {
                     if (response.body().isSuccessFlag) {
                         if (response.body() != null) {
-                            val data: ADSignVerifyResponse = response?.body()!!
-                            if (data.data.signature_res.equals("Signature Matched")) {
+                            val fullData: ADSignVerifyResponse = response?.body()!!
+                            if (fullData.message.equals("Signature Matched")) {
                                 checkAmountOfChild(paymentData, true)
                             }
                         }
@@ -258,6 +260,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
 
             override fun onFailure(call: Call<ADSignVerifyResponse>?, t: Throwable?) {
                 checkAmountOfChild(paymentData, false)
+                Log.i("Testing ==> onFailure", t.toString())
             }
         })
     }

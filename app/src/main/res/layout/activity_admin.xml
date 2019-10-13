@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/admin_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/app_bg_with_line"
@@ -38,22 +39,22 @@
                 android:id="@+id/sync"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:tint="@android:color/white"
                 android:layout_centerInParent="true"
-                android:visibility="gone"
                 android:layout_marginRight="@dimen/padd_10"
                 android:layout_toLeftOf="@id/logout"
-                android:src="@drawable/ic_sync" />
+                android:src="@drawable/ic_sync"
+                android:tint="@android:color/white"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/logout"
                 android:layout_width="25dp"
-                android:tint="@android:color/white"
                 android:layout_height="25dp"
-                android:layout_marginLeft="@dimen/padd_10"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
-                android:src="@drawable/ic_menu_logout" />
+                android:layout_marginLeft="@dimen/padd_10"
+                android:src="@drawable/ic_menu_logout"
+                android:tint="@android:color/white" />
         </RelativeLayout>
 
         <android.support.design.widget.TabLayout
@@ -105,13 +106,13 @@
 
     <!--Progress Layout-->
     <LinearLayout
-            android:id="@+id/progress_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone">
+        android:id="@+id/progress_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <include layout="@layout/progress_layout" />
 

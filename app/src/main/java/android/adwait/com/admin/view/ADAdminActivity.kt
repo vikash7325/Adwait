@@ -3,11 +3,9 @@ package android.adwait.com.admin.view
 import and.com.polam.utils.ADBaseActivity
 import and.com.polam.utils.MySharedPreference
 import android.adwait.com.R
-import android.adwait.com.admin.model.ADRoutingDetails
-import android.adwait.com.admin.model.ADTransferRequest
-import android.adwait.com.admin.model.ADTransferResponse
-import android.adwait.com.admin.model.RestError
+import android.adwait.com.admin.model.*
 import android.adwait.com.login.view.ADLoginActivity
+import android.adwait.com.my_mentee.model.ADMessageModel
 import android.adwait.com.rest_api.ApiClient
 import android.adwait.com.rest_api.ApiInterface
 import android.adwait.com.utils.ADCommonResponseListener
@@ -16,7 +14,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.util.Log
 import android.view.View
@@ -29,19 +26,24 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_admin.*
+import kotlinx.android.synthetic.main.progress_layout.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.HashMap
 
 class ADAdminActivity : ADBaseActivity() {
 
     private var mIsFabShown = false
     private lateinit var sectionsPagerAdapter: AdSectionsPagerAdapter
     private var mLastMonth = ""
+    private var mRetryCount = 0
+    private var messageData = HashMap<String, ADTransferData>();
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin)
+        mRetryCount = 0
 
         sectionsPagerAdapter =
             AdSectionsPagerAdapter(this, supportFragmentManager)
@@ -51,7 +53,10 @@ class ADAdminActivity : ADBaseActivity() {
         val fab: FloatingActionButton = findViewById(R.id.fab)
 
         logout.setOnClickListener(View.OnClickListener {
-            MySharedPreference(applicationContext).saveBoolean(getString(R.string.superAdmin), false)
+            MySharedPreference(applicationContext).saveBoolean(
+                getString(R.string.superAdmin),
+                false
+            )
             MySharedPreference(applicationContext).saveBoolean(getString(R.string.logged_in), false)
             MySharedPreference(applicationContext).saveStrings(getString(R.string.userId), "")
             var login = Intent(applicationContext, ADLoginActivity::class.java)
@@ -87,7 +92,8 @@ class ADAdminActivity : ADBaseActivity() {
 
     public fun getPreviousMonth() {
         showHideProgress(true)
-        getNextDate("getPreviousMonthAndYr", MySharedPreference(this).getValueString(getString(R.string.current_date)).toString(),
+        getNextDate("getPreviousMonthAndYr",
+            MySharedPreference(this).getValueString(getString(R.string.current_date)).toString(),
             object : ADCommonResponseListener {
                 override fun onSuccess(data: Any?) {
                     checkSyncingForLastMonth(data.toString())
@@ -114,6 +120,12 @@ class ADAdminActivity : ADBaseActivity() {
     }
 
     private fun checkSyncingForLastMonth(lastMonth: String) {
+
+
+        if (!isNetworkAvailable()) {
+            showMessage(getString(R.string.no_internet), admin_parent, true)
+            return
+        }
         showHideProgress(true)
         mLastMonth = lastMonth
         val routingTable =
@@ -122,12 +134,18 @@ class ADAdminActivity : ADBaseActivity() {
         routingTable.child(lastMonth).addListenerForSingleValueEvent(object : ValueEventListener {
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    if (dataSnapshot != null) {
-                        sync.visibility = View.GONE
-                    }
+                if (dataSnapshot.exists() && dataSnapshot != null) {
+                    sync.visibility = View.GONE
                 } else {
-                    sync.visibility = View.VISIBLE
+                    if (MySharedPreference(applicationContext).getValueBoolean(getString(R.string.is_update_failed))) {
+                        saveUpdateToServer(
+                            MySharedPreference(applicationContext).getValueString(
+                                getString(R.string.transferred_date)
+                            ).toString()
+                        )
+                    } else {
+                        sync.visibility = View.VISIBLE
+                    }
                 }
                 showHideProgress(false)
             }
@@ -147,18 +165,22 @@ class ADAdminActivity : ADBaseActivity() {
 
         val call = apiService.transferAmount(ADTransferRequest())
 
-        call.enqueue(object : Callback<ADTransferResponse> {
+        call.enqueue(object : Callback<HashMap<String, ADTransferData>> {
 
-            override fun onResponse(call: Call<ADTransferResponse>?, response: Response<ADTransferResponse>?) {
+            override fun onResponse(
+                call: Call<HashMap<String, ADTransferData>>?,
+                response: Response<HashMap<String, ADTransferData>>?
+            ) {
 
                 if (response != null && response.isSuccessful) {
-                    if (response.body().isSuccessFlag) {
-                        if (response.body() != null) {
-                            saveUpdateToServer()
-                        }
-                    } else {
-                        showMessage(response.body().message, null, false)
-                        progress_layout.visibility = View.GONE
+                    if (response.body() != null) {
+
+                        messageData = response.body()
+                        saveUpdateToServer(
+                            MySharedPreference(applicationContext).getValueString(
+                                getString(R.string.current_date)
+                            ).toString()
+                        )
                     }
                 } else {
                     val error = Gson().fromJson(
@@ -171,7 +193,7 @@ class ADAdminActivity : ADBaseActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<ADTransferResponse>?, t: Throwable?) {
+            override fun onFailure(call: Call<HashMap<String, ADTransferData>>?, t: Throwable?) {
                 showHideProgress(false)
                 showMessage("Something went wrong. Try again later", null, false)
                 Log.i("Testing ==> ", t?.message.toString())
@@ -179,24 +201,57 @@ class ADAdminActivity : ADBaseActivity() {
         })
     }
 
-    private fun saveUpdateToServer() {
+    private fun saveUpdateToServer(date: String) {
 
+        if (!isNetworkAvailable()) {
+            showMessage(getString(R.string.no_internet), admin_parent, true)
+            return
+        }
         showHideProgress(true)
-
         val routingTable =
             FirebaseDatabase.getInstance().reference.child(ROUTING_TABLE_NAME)
         routingTable.child(mLastMonth)
-            .setValue(ADRoutingDetails(MySharedPreference(this).getValueString(getString(R.string.current_date)), true))
+            .setValue(ADRoutingDetails(date, true))
             .addOnSuccessListener {
-                showHideProgress(false)
                 showMessage("Amount has been sent to respective accounts.", null, false)
                 sync.visibility = View.GONE
+                MySharedPreference(applicationContext).saveBoolean(
+                    getString(R.string.is_update_failed),
+                    false
+                )
+                showHideProgress(false)
+                val messagesActivity =
+                    Intent(applicationContext, ADRoutingMessagesActivity::class.java)
+                messagesActivity.putExtra("messageData", messageData)
+                startActivity(messagesActivity)
             }
             .addOnFailureListener {
-                showHideProgress(false)
-                showMessage(it.message.toString(), null, false)
+                if (mRetryCount < 3) {
+                    mRetryCount++
+                    saveUpdateToServer(date)
+                } else {
+                    showHideProgress(false)
+                    showMessage(it.message.toString(), null, false)
+                    Log.i("Testing ==> ", it?.message.toString())
+
+                    MySharedPreference(applicationContext).saveStrings(
+                        getString(R.string.transferred_date),
+                        MySharedPreference(applicationContext).getValueString(getString(R.string.current_date)).toString()
+                    )
+
+                    MySharedPreference(applicationContext).saveBoolean(
+                        getString(R.string.is_update_failed),
+                        true
+                    )
+                    val messagesActivity =
+                        Intent(applicationContext, ADRoutingMessagesActivity::class.java)
+                    messagesActivity.putExtra("messageData", messageData)
+                    startActivity(messagesActivity)
+                }
             }
+        Log.i("Testing ==> ", "saveUpdateToServer called")
     }
+
 
     private fun hideFABMenu() {
         mIsFabShown = false
