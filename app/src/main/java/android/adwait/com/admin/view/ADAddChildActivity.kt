@@ -92,6 +92,19 @@ class ADAddChildActivity : ADBaseActivity() {
             business_name.setText(data.businessName)
             business_type.setText(data.businessType)
 
+            account_name.isEnabled = false
+            account_name.isFocusable = false
+            account_no.isEnabled = false
+            account_no.isFocusable = false
+            ifsc_code.isEnabled = false
+            ifsc_code.isFocusable = false
+            account_type.isEnabled = false
+            account_type.isFocusable = false
+            business_name.isEnabled = false
+            business_name.isFocusable = false
+            business_type.isEnabled = false
+            business_type.isFocusable = false
+
             education.setText(data.splitDetails.educationAmount.toString())
             food.setText(data.splitDetails.foodAmount.toString())
             necessity.setText(data.splitDetails.necessityAmount.toString())
@@ -100,9 +113,10 @@ class ADAddChildActivity : ADBaseActivity() {
 
             mIsEdit = true
             mKey = data.keyId
-            if (mChildData.childImage != null && !mChildData.childImage.equals("")) {
-                Glide.with(this).load(mChildData.childImage).error(R.drawable.image_not_found)
+            if (data.childImage != null && !data.childImage.equals("")) {
+                Glide.with(this).load(data.childImage).error(R.drawable.image_not_found).into(add_image)
             }
+            mChildData = data
         } else {
             mIsEdit = false
         }
@@ -137,6 +151,7 @@ class ADAddChildActivity : ADBaseActivity() {
             val extrasAmt = extras.text.toString()
 
             extras.hideKeyboard()
+            var tempHolder = ADAddChildModel()
 
             if (TextUtils.isEmpty(name)) {
                 child_name.error = getString(R.string.empty_username)
@@ -197,6 +212,10 @@ class ADAddChildActivity : ADBaseActivity() {
                     necessityAmt.toInt(), extrasAmt.toInt()
                 )
 
+                if (mIsEdit) {
+                    tempHolder = mChildData
+                }
+
                 mChildData = ADAddChildModel(
                     name,
                     doBirth,
@@ -217,58 +236,62 @@ class ADAddChildActivity : ADBaseActivity() {
 
                 mChildData.bankDetails = bankDetails
                 mChildData.splitDetails = splitDetails
-            }
 
-            if (mIsEdit) {
-                uploadImage()
-                return@OnClickListener
-            }
 
-            var accountRequest = ADCreateAccountRequest(
-                holderName,
-                emailId,
-                businessName, businessType, ifsc.toUpperCase(), accountType, number.toLong()
-            )
+                if (mIsEdit) {
+                    mChildData.accountId = tempHolder.accountId
+                    mChildData.keyId = tempHolder.keyId
+                    mChildData.childImage = tempHolder.childImage
+                    uploadImage()
+                    return@OnClickListener
+                }
 
-            val apiService = ApiClient.getClient().create(ApiInterface::class.java)
+                var accountRequest = ADCreateAccountRequest(
+                    holderName,
+                    emailId,
+                    businessName, businessType, ifsc.toUpperCase(), accountType, number.toLong()
+                )
 
-            val call = apiService.createAccount(accountRequest)
+                val apiService = ApiClient.getClient().create(ApiInterface::class.java)
 
-            call.enqueue(object : Callback<ADCreateAccountResponse> {
+                val call = apiService.createAccount(accountRequest)
 
-                override fun onResponse(
-                    call: Call<ADCreateAccountResponse>?,
-                    response: Response<ADCreateAccountResponse>?
-                ) {
-                    if (response != null && response.isSuccessful) {
-                        if (response.body().isSuccessFlag) {
-                            if (response.body() != null) {
-                                val fullResponse: ADCreateAccountResponse = response?.body()!!
-                                mChildData.accountId = fullResponse.data.id
-                                uploadImage()
+                call.enqueue(object : Callback<ADCreateAccountResponse> {
+
+                    override fun onResponse(
+                        call: Call<ADCreateAccountResponse>?,
+                        response: Response<ADCreateAccountResponse>?
+                    ) {
+                        if (response != null && response.isSuccessful) {
+                            if (response.body().isSuccessFlag) {
+                                if (response.body() != null) {
+                                    val fullResponse: ADCreateAccountResponse = response?.body()!!
+                                    mChildData.accountId = fullResponse.data.id
+                                    uploadImage()
+                                }
+                            } else {
+                                showMessage(response.body().message, add_child_parent, true)
+                                progress_layout.visibility = View.GONE
                             }
                         } else {
-                            showMessage(response.body().message, add_child_parent, true)
+                            val error = Gson().fromJson(
+                                response?.errorBody()?.charStream(),
+                                RestError::class.java
+                            )
+                            Log.i("Testing ==> ", error.toString())
+                            showMessage(error.error.description, add_child_parent, true)
                             progress_layout.visibility = View.GONE
                         }
-                    } else {
-                        val error = Gson().fromJson(
-                            response?.errorBody()?.charStream(),
-                            RestError::class.java
-                        )
-                        Log.i("Testing ==> ", error.toString())
-                        showMessage(error.error.description, add_child_parent, true)
-                        progress_layout.visibility = View.GONE
                     }
-                }
 
-                override fun onFailure(call: Call<ADCreateAccountResponse>?, t: Throwable?) {
-                    progress_layout.visibility = View.GONE
-                    showMessage("Something went wrong. Try again later", add_child_parent, true)
-                    Log.i("Testing ==> ", t?.message.toString())
-                }
+                    override fun onFailure(call: Call<ADCreateAccountResponse>?, t: Throwable?) {
+                        progress_layout.visibility = View.GONE
+                        showMessage("Something went wrong. Try again later", add_child_parent, true)
+                        Log.i("Testing ==> ", t?.message.toString())
+                    }
 
-            })
+                })
+            }
 
         })
     }
@@ -279,22 +302,36 @@ class ADAddChildActivity : ADBaseActivity() {
 
         var key = mChildTable.push().key.toString()
 
-        if (!mIsEdit) {
-            mChildData.keyId = key
-        } else {
+        if (mIsEdit) {
             key = mKey
         }
+        mChildData.keyId = key
 
-        mChildTable.child(key).setValue(mChildData)
-            .addOnSuccessListener {
-                progress_layout.visibility = View.GONE
-                setResult(Activity.RESULT_OK)
-                finish()
-            }
-            .addOnFailureListener {
-                progress_layout.visibility = View.GONE
-                showMessage(it.message.toString(), null, true)
-            }
+        if (mIsEdit) {
+
+            mChildTable.child(key).updateChildren(mChildData.toMap())
+                .addOnSuccessListener {
+                    progress_layout.visibility = View.GONE
+                    setResult(Activity.RESULT_OK)
+                    finish()
+                }
+                .addOnFailureListener {
+                    progress_layout.visibility = View.GONE
+                    showMessage(it.message.toString(), null, true)
+                }
+        } else {
+
+            mChildTable.child(key).setValue(mChildData)
+                .addOnSuccessListener {
+                    progress_layout.visibility = View.GONE
+                    setResult(Activity.RESULT_OK)
+                    finish()
+                }
+                .addOnFailureListener {
+                    progress_layout.visibility = View.GONE
+                    showMessage(it.message.toString(), null, true)
+                }
+        }
     }
 
     private fun showCalendar() {
@@ -315,6 +352,7 @@ class ADAddChildActivity : ADBaseActivity() {
             day
         )
 
+        dpd.datePicker.maxDate = System.currentTimeMillis() + 1000
         dpd.show()
     }
 
@@ -430,6 +468,10 @@ class ADAddChildActivity : ADBaseActivity() {
 
     private fun uploadImage() {
 
+        if (!mImageTaken) {
+            addChildToServer()
+            return
+        }
         // Get the data from an ImageView as bytes
         add_image.isDrawingCacheEnabled = true
         add_image.buildDrawingCache()
@@ -440,10 +482,6 @@ class ADAddChildActivity : ADBaseActivity() {
 
 
         if (data != null) {
-            if (!mImageTaken) {
-                addChildToServer()
-                return
-            }
 
             val storage = FirebaseStorage.getInstance();
             val storageReference = storage.getReference();

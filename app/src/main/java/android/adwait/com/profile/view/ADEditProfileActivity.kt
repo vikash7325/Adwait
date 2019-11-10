@@ -140,6 +140,7 @@ class ADEditProfileActivity : ADBaseActivity() {
             dob.setText("" + dayOfMonth + "-" + monthOfYear + "-" + year)
         }, year, month, day)
 
+        dpd.datePicker.maxDate = System.currentTimeMillis() + 1000
         dpd.show()
     }
 

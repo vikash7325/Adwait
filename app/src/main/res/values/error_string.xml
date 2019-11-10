@@ -4,6 +4,7 @@
     <!--Common-->
     <string name="no_internet">Please connect to Internet and try again..!</string>
     <string name="development">Development in Process</string>
+    <string name="no_phone_num">We don\'t have your mobile number. Please update</string>
     <string name="no_child_mapped">We are working on mapping a child to you. Please after some time for updates</string>
 
     <!--Registration-->

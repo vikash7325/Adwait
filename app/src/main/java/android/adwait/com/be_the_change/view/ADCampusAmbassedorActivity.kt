@@ -4,6 +4,7 @@ import and.com.polam.utils.ADBaseActivity
 import and.com.polam.utils.MySharedPreference
 import android.adwait.com.R
 import android.adwait.com.be_the_change.model.ADCampusambassadorModel
+import android.adwait.com.utils.ADViewClickListener
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import android.text.Editable
@@ -69,7 +70,12 @@ class ADCampusambassadorActivity : ADBaseActivity() {
                         fireBaseDB.child(key).setValue(campusModel)
                             .addOnSuccessListener {
                                 progress_layout.visibility = View.GONE
-                                finish()
+                                showAlertDialog(getString(R.string.campus_success),
+                                    getString(R.string.close),
+                                    "",
+                                    ADViewClickListener {
+                                        finish()
+                                    })
                             }
                             .addOnFailureListener {
                                 progress_layout.visibility = View.GONE

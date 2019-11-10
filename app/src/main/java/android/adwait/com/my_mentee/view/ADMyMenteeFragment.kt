@@ -5,6 +5,7 @@ import and.com.polam.utils.CommonUtils
 import and.com.polam.utils.MySharedPreference
 import android.adwait.com.R
 import android.adwait.com.admin.model.ADAddChildModel
+import android.adwait.com.admin.model.ADMoneySplitUp
 import android.adwait.com.dashboard.adapter.ADHomePageAdapter
 import android.adwait.com.dashboard.view.ADDashboardActivity
 import android.adwait.com.my_mentee.model.ADMessageModel
@@ -32,7 +33,8 @@ class ADMyMenteeFragment : ADBaseFragment() {
 
     private val TAG: String = "ADMyMenteeFragment"
     private lateinit var menteeDetails: ADUserDetails
-    private var splitData:String = ""
+    private var splitData: ADMoneySplitUp = ADMoneySplitUp()
+    private lateinit var childData: ADAddChildModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -72,9 +74,14 @@ class ADMyMenteeFragment : ADBaseFragment() {
         }
 
         info_icon.setOnClickListener(View.OnClickListener {
-            val intent = Intent(activity, ADMonthlySplit::class.java)
-            intent.putExtra("data", splitData)
-            startActivity(intent)
+            if (splitData.toString().length == 0) {
+            } else {
+                val intent = Intent(activity, ADMonthlySplitActivity::class.java)
+                val bundle = Bundle()
+                bundle.putParcelable("splitData", splitData)
+                intent.putExtra("data", bundle)
+                startActivity(intent)
+            }
         })
 
         fetchUserData()
@@ -120,7 +127,7 @@ class ADMyMenteeFragment : ADBaseFragment() {
 
                     var message = java.lang.String.format(
                         getString(R.string.message_sent),
-                        menteeDetails.userName, child_name.text.toString()
+                        menteeDetails.userName, childData.childName
                     )
                     typed_msg.setText("")
                     progress_layout.visibility = View.GONE
@@ -199,7 +206,7 @@ class ADMyMenteeFragment : ADBaseFragment() {
                     if (data.exists()) {
                         if (data != null) {
 
-                            val childData = data.getValue(ADAddChildModel::class.java)!!
+                            childData = data.getValue(ADAddChildModel::class.java)!!
                             val name = childData.childName
                             val imageUrl = childData.childImage
                             val dob = childData.dateOfBirth
@@ -306,7 +313,7 @@ class ADMyMenteeFragment : ADBaseFragment() {
                                 fetchChildData(childId, true)
                                 return
                             }
-                            splitData = childData.splitDetails.toString()
+                            splitData = childData.splitDetails
 
                             val text = java.lang.String.format(
                                 getString(R.string.fund_raised_msg),

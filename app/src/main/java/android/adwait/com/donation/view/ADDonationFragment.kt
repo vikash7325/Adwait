@@ -5,16 +5,18 @@ import and.com.polam.utils.CommonUtils
 import and.com.polam.utils.MySharedPreference
 import android.adwait.com.R
 import android.adwait.com.admin.model.ADAddChildModel
+import android.adwait.com.admin.model.ADMoneySplitUp
 import android.adwait.com.admin.model.RestError
 import android.adwait.com.dashboard.view.ADDashboardActivity
 import android.adwait.com.donation.model.*
-import android.adwait.com.my_mentee.view.ADMonthlySplit
+import android.adwait.com.my_mentee.view.ADMonthlySplitActivity
 import android.adwait.com.registeration.model.ADUserDetails
 import android.adwait.com.rest_api.ApiClient
 import android.adwait.com.rest_api.ApiInterface
 import android.adwait.com.utils.ADBaseFragment
 import android.adwait.com.utils.ADCommonResponseListener
 import android.adwait.com.utils.ADConstants
+import android.adwait.com.utils.ADViewClickListener
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -53,7 +55,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
     private var mUserName = ""
     private var mOldContribution = 0
     private var monthlyAmount = "0";
-    private var splitData: String = ""
+    private var splitData: ADMoneySplitUp = ADMoneySplitUp()
     private var receiptNo = "Receipt_"
 
     override fun onCreateView(
@@ -80,7 +82,19 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
             }
         })
 
-        donate_now.setOnClickListener(View.OnClickListener { createOrder() })
+        donate_now.setOnClickListener(View.OnClickListener {
+            if (mPhoneNumber == null || mPhoneNumber.length == 0) {
+                (activity as ADBaseActivity).showAlertDialog(
+                    getString(R.string.no_phone_num),
+                    getString(R.string.update_now),
+                    getString(R.string.cancel),
+                    ADViewClickListener {
+                        (activity as ADDashboardActivity).menuAction(ADConstants.MENU_PROFILE, "")
+                    })
+            } else {
+                createOrder()
+            }
+        })
         hx_content.setText(CommonUtils.getHtmlText(getString(R.string.hx_content)))
 
         if (arguments != null) {
@@ -90,9 +104,14 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
         }
 
         info_icon.setOnClickListener(View.OnClickListener {
-            val intent = Intent(activity, ADMonthlySplit::class.java)
-            intent.putExtra("data", splitData)
-            startActivity(intent)
+            if (splitData.toString().length == 0) {
+            } else {
+                val intent = Intent(activity, ADMonthlySplitActivity::class.java)
+                val bundle = Bundle()
+                bundle.putParcelable("splitData", splitData)
+                intent.putExtra("data", bundle)
+                startActivity(intent)
+            }
         })
 
         btn_monthly.setOnClickListener(View.OnClickListener {
@@ -138,6 +157,10 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
         }
         progress_layout.visibility = View.VISIBLE
         receiptNo = receiptNo + System.currentTimeMillis()
+
+        if (receiptNo.length > 30) {
+            receiptNo = receiptNo.substring(0, 25)
+        }
         var orderRequest = ADCreateOrderRequest(receiptNo, money, "INR");
         val apiService = ApiClient.getClient().create(ApiInterface::class.java)
         val call = apiService.createOrder(orderRequest)
@@ -288,9 +311,13 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                         mEmail = menteeDetails.emailAddress
                         mUserName = menteeDetails.userName
 
-                        mUserId = MySharedPreference(activity as ADBaseActivity).getValueString(
-                            getString(R.string.userId)
-                        ).toString()
+                        mUserId =
+                            MySharedPreference(activity as ADBaseActivity).getValueString(
+                                getString(
+                                    R.string.userId
+                                )
+                            )
+                                .toString()
                         mPhoneNumber = CommonUtils.checkForEmpty(mPhoneNumber)
                         mEmail = CommonUtils.checkForEmpty(mEmail)
                         mUserName = CommonUtils.checkForEmpty(mUserName)
@@ -377,7 +404,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                                 return
                             }
 
-                            splitData = childData.splitDetails.toString()
+                            splitData = childData.splitDetails
 
 
                             fetchContribution(mUserId, monthYr, childId)

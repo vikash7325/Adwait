@@ -49,10 +49,11 @@ class ADPledgeBdayActivity : ADBaseActivity() {
                     cal.set(Calendar.YEAR, year)
                     cal.set(Calendar.MONTH, monthOfYear)
                     cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                    birthday.setText(SimpleDateFormat("dd-MM-yyyy").format(cal.time))
+                    birthday.setText(SimpleDateFormat("dd-MM-yyyy").format(cal.time).toString())
                 }, year, month, day
             )
 
+            dpd.datePicker.maxDate = System.currentTimeMillis() + 1000
             dpd.show()
         })
 
@@ -65,8 +66,6 @@ class ADPledgeBdayActivity : ADBaseActivity() {
                 name.setError(getString(R.string.empty_username))
             } else if (uBday.isEmpty()) {
                 birthday.setError(getString(R.string.empty_dob))
-            } else if (getAge(uBday,"dd-MM-yyyy") < 18) {
-                birthday.setError(getString(R.string.invalid_dob))
             } else if (contact.isEmpty()) {
                 contact_details.setError(getString(R.string.empty_contact))
             } else if (!isValidContactDetails(contact)) {

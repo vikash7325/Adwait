@@ -5,6 +5,7 @@ import and.com.polam.utils.MySharedPreference
 import android.Manifest
 import android.adwait.com.R
 import android.adwait.com.be_the_change.model.ADOrganiseEventModel
+import android.adwait.com.utils.ADViewClickListener
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -77,6 +78,7 @@ class ADOrganizeEventActivity : ADBaseActivity() {
                 }, year, month, day
             )
 
+            dpd.datePicker.minDate = System.currentTimeMillis() - 1000
             dpd.show()
         })
 
@@ -130,7 +132,10 @@ class ADOrganizeEventActivity : ADBaseActivity() {
                 .setAction(Intent.ACTION_GET_CONTENT)
                 .addCategory(Intent.CATEGORY_OPENABLE)
 
-            startActivityForResult(Intent.createChooser(intent, "Select a File to Upload"), SELECT_FILE)
+            startActivityForResult(
+                Intent.createChooser(intent, "Select a File to Upload"),
+                SELECT_FILE
+            )
         })
 
         /*Page 1 next btn*/
@@ -271,7 +276,12 @@ class ADOrganizeEventActivity : ADBaseActivity() {
         fireBaseDB.child(key).setValue(mEventModel)
             .addOnSuccessListener {
                 progress_layout.visibility = View.GONE
-                finish()
+                showAlertDialog(getString(R.string.event_success),
+                    getString(R.string.close),
+                    "",
+                    ADViewClickListener {
+                        finish()
+                    })
             }
             .addOnFailureListener {
                 progress_layout.visibility = View.GONE
@@ -322,7 +332,11 @@ class ADOrganizeEventActivity : ADBaseActivity() {
     }
 
     //handle requested permission result
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         when (requestCode) {
             FROM_GALLERY -> {
                 if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {

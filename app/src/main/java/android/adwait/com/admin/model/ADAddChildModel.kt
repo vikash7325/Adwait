@@ -3,6 +3,7 @@ package android.adwait.com.admin.model
 import android.adwait.com.utils.ADBaseModel
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.firebase.database.Exclude
 
 class ADAddChildModel(
     var childName: String = "",
@@ -22,7 +23,7 @@ class ADAddChildModel(
     var businessName: String = "",
     var businessType: String = "",
     var childImage: String = ""
-) : ADBaseModel(),Parcelable {
+) : ADBaseModel(), Parcelable {
 
     var keyId: String = ""
     var bankDetails: ADBankDetails = ADBankDetails()
@@ -87,5 +88,29 @@ class ADAddChildModel(
         override fun newArray(size: Int): Array<ADAddChildModel?> {
             return arrayOfNulls(size)
         }
+    }
+
+    @Exclude
+    fun toMap(): Map<String, Any?> {
+        return mapOf(
+            "childName" to childName,
+            "dateOfBirth" to dateOfBirth,
+            "mentorName" to mentorName,
+            "address" to address,
+            "email" to email,
+            "amountNeeded" to amountNeeded,
+            "careerInterest" to careerInterest,
+            "guardianName" to guardianName,
+            "hobbies" to hobbies,
+            "pincode" to pincode,
+            "city" to city,
+            "schoolName" to schoolName,
+            "NGOName" to NGOName,
+            "businessName" to businessName,
+            "businessType" to businessType,
+            "childImage" to childImage,
+            "bankDetails" to bankDetails,
+            "splitDetails" to splitDetails
+        )
     }
 }

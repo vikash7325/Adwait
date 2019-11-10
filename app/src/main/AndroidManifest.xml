@@ -121,7 +121,7 @@
             android:theme="@style/DialogTheme" />
 
         <activity
-            android:name=".my_mentee.view.ADMonthlySplit"
+            android:name=".my_mentee.view.ADMonthlySplitActivity"
             android:excludeFromRecents="true"
             android:theme="@style/DialogTheme" />
     </application>

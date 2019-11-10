@@ -95,8 +95,27 @@ class ADAdminActivity : ADBaseActivity() {
 
     public fun getPreviousMonth() {
         showHideProgress(true)
+
+        val currentDate = MySharedPreference(this).getValueString(getString(R.string.current_date)).toString()
+
+        if (currentDate == null || currentDate.length == 0 || currentDate.equals("null")) {
+            getServerDate("getCurrentDate", object : ADCommonResponseListener {
+                override fun onSuccess(data: Any?) {
+                    getDate(data.toString())
+                }
+
+                override fun onError(data: Any?) {
+                    showHideProgress(false)
+                }
+            })
+        } else {
+            getDate(currentDate)
+        }
+    }
+
+    fun getDate(currentDate: String) {
         getNextDate("getPreviousMonthAndYr",
-            MySharedPreference(this).getValueString(getString(R.string.current_date)).toString(),
+            currentDate,
             object : ADCommonResponseListener {
                 override fun onSuccess(data: Any?) {
                     checkSyncingForLastMonth(data.toString())
@@ -183,16 +202,22 @@ class ADAdminActivity : ADBaseActivity() {
                                 showMessage(data.message, admin_parent, true)
                             }
                         } else {
-                            messageData = gson.fromJson(response.body() , object : TypeToken<HashMap<String, ADTransferData>>() {}.type)
+                            messageData = gson.fromJson(
+                                response.body(),
+                                object : TypeToken<HashMap<String, ADTransferData>>() {}.type
+                            )
                             saveUpdateToServer(
                                 MySharedPreference(applicationContext).getValueString(
-                                    getString(R.string.current_date)).toString())
+                                    getString(R.string.current_date)
+                                ).toString()
+                            )
                         }
                     }
                 } else {
                     val error = Gson().fromJson(
                         response?.errorBody()?.charStream(),
-                        RestError::class.java)
+                        RestError::class.java
+                    )
                     Log.i("Testing ==> ", error.toString())
                     showMessage(error.error.description, null, false)
                     progress_layout.visibility = View.GONE

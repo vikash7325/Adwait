@@ -5,6 +5,7 @@ import android.adwait.com.R
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import android.view.View
+import kotlinx.android.synthetic.main.activity_evle_talk.*
 
 class ADEvleTalkActivity : ADBaseActivity() {
 
@@ -17,5 +18,9 @@ class ADEvleTalkActivity : ADBaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back_arrow)
         toolbar.setNavigationOnClickListener(View.OnClickListener { onBackPressed() })
+
+        pledge_submit.setOnClickListener(View.OnClickListener {
+            finish()
+        })
     }
 }

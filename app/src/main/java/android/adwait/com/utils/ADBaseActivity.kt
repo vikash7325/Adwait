@@ -162,7 +162,7 @@ open class ADBaseActivity : AppCompatActivity() {
 
     public fun isValidContactDetails(contact: String): Boolean {
         var isValid = false
-        val email = "^[A-Za-z][A-Za-z0-9]*([._-]?[A-Za-z0-9]+)@[A-Za-z].[A-Za-z]{0,3}?.[A-Za-z]{0,2}$"
+        val email = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$"
         val emailPat = Pattern.compile(email)
 
         val  mobile= "^[6-9][0-9]{9}$"
@@ -339,8 +339,12 @@ open class ADBaseActivity : AppCompatActivity() {
 
     fun changeData(cdate : String):String{
 
-        val fromFormat = SimpleDateFormat("dd-MMM-yyyy")
+        var fromFormat = SimpleDateFormat("dd-MMM-yyyy")
         val toFormat = SimpleDateFormat("yyyy-MM-dd")
+
+        if (cdate.contains(",")){
+            fromFormat = SimpleDateFormat("MMMM,yyyy")
+        }
 
         val currentDate = fromFormat.parse(cdate)
 

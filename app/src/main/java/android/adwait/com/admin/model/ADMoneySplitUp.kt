@@ -32,6 +32,10 @@ class ADMoneySplitUp(
         return 0
     }
 
+    override fun toString(): String {
+        return "ADMoneySplitUp(educationAmount=$educationAmount, foodAmount=$foodAmount, hobbiesAmount=$hobbiesAmount, necessityAmount=$necessityAmount, extraAmount=$extraAmount)"
+    }
+
     companion object CREATOR : Parcelable.Creator<ADMoneySplitUp> {
         override fun createFromParcel(parcel: Parcel): ADMoneySplitUp {
             return ADMoneySplitUp(parcel)

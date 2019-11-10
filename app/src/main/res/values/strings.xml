@@ -1,13 +1,22 @@
 <resources>
     <!--Common-->
-    <string name="app_name">Adwait</string>
-    <string name="facebook_app_id">305162560131651</string>
+
+    <!--Test Mode-->
     <string name="razor_pay_id">rzp_test_wZwgscDRHEobwb</string>
     <string name="razor_pay_secret">nJ7v0lAat4YfOCC69QrcQgFE</string>
+
+    <!--Live Mode-->
+    <!--<string name="razor_pay_id">rzp_live_bMcUx337Ffwi3N</string>-->
+    <!--<string name="razor_pay_secret">89r9o36aqNp71GATjBtfXaWk</string>-->
+
+    <string name="app_name">Adwait</string>
+    <string name="facebook_app_id">305162560131651</string>
     <string name="loading">Please wait...</string>
     <string name="loading2">Please wait while Elves are setting\nup your account...</string>
     <string name="rupees">₹</string>
     <string name="close">Close</string>
+    <string name="ok">Ok</string>
+    <string name="update_now">Update Now</string>
     <string name="ngoname">Ngo</string>
     <string name="wishitem">Wish Item</string>
 
@@ -136,6 +145,7 @@
         <item>Willing to donate for more</item>
         <item>Others</item>
     </string-array>
+    <string name="contact_success">Thank You for reaching us.\nOur team will get back to you shortly.</string>
 
 
     <!--Hx Club-->
@@ -297,6 +307,7 @@
     <string name="content3">Spread word of mouth in campus events and activities</string>
     <string name="content4">SPOC between campus and management for any communications</string>
     <string name="campus_form">Fill the following details to apply for our Campus Ambassador program</string>
+    <string name="campus_success">Thank You for showing interest in Campus Ambassador.\nOur team will get back to you shortly.</string>
 
     <!--Adwait dayout-->
     <string name="dayout_header">What is Adwait\'s day out?</string>
@@ -306,7 +317,7 @@
     <string name="dayout_content2">A chance for you to be involved personally to do good for society</string>
     <string name="dayout_content3">A chance for you to make a kid happy by being there for them</string>
     <string name="dayout_form_hint">Fill out the following details based on your availability. Our team will get back to you soon.</string>
-    <string name="dayout_success">ThankYou for showing interest in Adwait\'s Day Out.\nOur team will get back to you shortly with the list of engagements.</string>
+    <string name="dayout_success">Thank You for showing interest in Adwait\'s Day Out.\nOur team will get back to you shortly with the list of engagements.</string>
 
     <!--Evle Talk-->
     <string name="evle_talk">Evle Talk</string>
@@ -339,5 +350,9 @@
     <string name="necessity">Necessity(₹)</string>
     <string name="extras">Extras(₹)</string>
     <string name="hobbies_hint">Hobbies(₹)</string>
+
+
+    <string name="event_success">Thank You for registering an event with us.\nOur team will get back to you shortly.</string>
+
 
 </resources>

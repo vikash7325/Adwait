@@ -2,8 +2,11 @@ package android.adwait.com.static_pages.view
 
 import and.com.polam.utils.ADBaseActivity
 import android.adwait.com.R
+import android.adwait.com.dashboard.view.ADDashboardActivity
 import android.adwait.com.static_pages.model.ADContact
 import android.adwait.com.utils.ADBaseFragment
+import android.adwait.com.utils.ADConstants
+import android.adwait.com.utils.ADViewClickListener
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -60,6 +63,12 @@ class ADContactUsFragment : ADBaseFragment() {
                 fireBaseDB.child(key).setValue(contact)
                         .addOnSuccessListener {
                             progress_layout.visibility = View.GONE
+                            (activity as ADBaseActivity).showAlertDialog(getString(R.string.contact_success),
+                                getString(R.string.close),
+                                "",
+                                ADViewClickListener {
+                                    (activity as ADDashboardActivity).menuAction(ADConstants.MENU_HOME,"")
+                                })
                             name.setText("")
                             subject.setSelection(0)
                             email_or_num.setText("")

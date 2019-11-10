@@ -41,7 +41,6 @@ class ADDashboardActivity : ADBaseActivity(),PaymentResultWithDataListener {
     private val TAG: String = "ADDashboardActivity"
     private var mUserName = ""
     private var mSelectedMenu=0
-    private var mHasChild = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,6 +88,10 @@ class ADDashboardActivity : ADBaseActivity(),PaymentResultWithDataListener {
         navigation_list.setOnItemClickListener { parent, view, position, id -> menuAction(position,"") }
         fetchUserData()
         addOrReplaceFragment(true, R.id.home_container, homeFragment, "")
+
+        home_logo.setOnClickListener(View.OnClickListener {
+            menuAction(ADConstants.MENU_HOME,"")
+        })
     }
 
     fun fetchUserData() {
@@ -102,19 +105,12 @@ class ADDashboardActivity : ADBaseActivity(),PaymentResultWithDataListener {
                         if (user != null) {
                             nav_header_title.setText("Hello, " + user.userName)
                             mUserName = user.userName
-
-                            if (user.childId.isEmpty()){
-                                mHasChild = false
-                            }
-                        }else{
-                            mHasChild = false
                         }
                     }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
                     Log.e(TAG, "Error : " + error.message)
-                    mHasChild = false
                 }
             })
 
@@ -159,9 +155,6 @@ class ADDashboardActivity : ADBaseActivity(),PaymentResultWithDataListener {
                     fireLogin()
                     return
                 }
-                if (!mHasChild){
-                    return
-                }
                 val menteeFragment = ADMyMenteeFragment()
                 addOrReplaceFragment(false, R.id.home_container, menteeFragment, addToStack)
                 mSelectedMenu=option
@@ -171,9 +164,6 @@ class ADDashboardActivity : ADBaseActivity(),PaymentResultWithDataListener {
             ADConstants.MENU_BE_THE_CHANGE -> {
                 if (!isLoggedInUser()) {
                     fireLogin()
-                    return
-                }
-                if (!mHasChild){
                     return
                 }
                 val changeFragment = ADBeTheChangeFragment()
@@ -250,9 +240,6 @@ class ADDashboardActivity : ADBaseActivity(),PaymentResultWithDataListener {
 
             /*Donation*/
             ADConstants.MENU_DONATION -> {
-                if (!mHasChild){
-                    return
-                }
                 val adDonationFragment = ADDonationFragment()
                 addOrReplaceFragment(false, R.id.home_container, adDonationFragment, addToStack)
                 mSelectedMenu=option

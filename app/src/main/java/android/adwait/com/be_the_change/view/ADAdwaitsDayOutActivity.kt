@@ -34,16 +34,17 @@ class ADAdwaitsDayOutActivity : ADBaseActivity() {
             val month = cal.get(Calendar.MONTH)
             val day = cal.get(Calendar.DAY_OF_MONTH)
 
-            val dpd = DatePickerDialog(this,
-                    DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                        // Display Selected date in textbox
-                        cal.set(Calendar.YEAR, year)
-                        cal.set(Calendar.MONTH, monthOfYear)
-                        cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                        date.setText(SimpleDateFormat("dd-MM-yyyy").format(cal.time))
-                    }, year, month, day
+            val dpd = DatePickerDialog(
+                this,
+                DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                    // Display Selected date in textbox
+                    cal.set(Calendar.YEAR, year)
+                    cal.set(Calendar.MONTH, monthOfYear)
+                    cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                    date.setText(SimpleDateFormat("dd-MM-yyyy").format(cal.time))
+                }, year, month, day
             )
-
+            dpd.datePicker.minDate = System.currentTimeMillis() - 1000
             dpd.show()
         })
 
@@ -74,8 +75,10 @@ class ADAdwaitsDayOutActivity : ADBaseActivity() {
                     if (!isNetworkAvailable()) {
                         showMessage(getString(R.string.no_internet), day_parent, true)
                     } else {
-                        val dayoutData = ADDayOutModel(MySharedPreference(applicationContext).getValueString(getString(R.string.userId))!!,
-                                uName, uDate, contact, uMessage)
+                        val dayoutData = ADDayOutModel(
+                            MySharedPreference(applicationContext).getValueString(getString(R.string.userId))!!,
+                            uName, uDate, contact, uMessage
+                        )
                         progress_layout.visibility = View.VISIBLE
                         val fireBaseInstance = FirebaseDatabase.getInstance()
                         val fireBaseDB = fireBaseInstance.getReference(DAY_OUT_TABLE)
@@ -83,17 +86,19 @@ class ADAdwaitsDayOutActivity : ADBaseActivity() {
                         val key = fireBaseDB.push().key.toString()
 
                         fireBaseDB.child(key).setValue(dayoutData)
-                                .addOnSuccessListener {
-                                    progress_layout.visibility = View.GONE
-                                    showAlertDialog(getString(R.string.dayout_success),getString(R.string.close),"",
-                                        ADViewClickListener {
-                                            finish()
-                                        })
-                                }
-                                .addOnFailureListener {
-                                    progress_layout.visibility = View.GONE
-                                    showMessage(getString(R.string.contact_failed), day_parent, true)
-                                }
+                            .addOnSuccessListener {
+                                progress_layout.visibility = View.GONE
+                                showAlertDialog(getString(R.string.dayout_success),
+                                    getString(R.string.close),
+                                    "",
+                                    ADViewClickListener {
+                                        finish()
+                                    })
+                            }
+                            .addOnFailureListener {
+                                progress_layout.visibility = View.GONE
+                                showMessage(getString(R.string.contact_failed), day_parent, true)
+                            }
                     }
                 }
             }

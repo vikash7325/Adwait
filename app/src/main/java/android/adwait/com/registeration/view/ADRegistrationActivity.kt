@@ -430,6 +430,7 @@ class ADRegistrationActivity : ADBaseActivity() {
             month,
             day
         )
+        dpd.datePicker.maxDate = System.currentTimeMillis() + 1000
 
         dpd.show()
     }
