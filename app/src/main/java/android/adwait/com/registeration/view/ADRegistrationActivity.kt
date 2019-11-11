@@ -116,7 +116,7 @@ class ADRegistrationActivity : ADBaseActivity() {
                             for (user in data.children) {
                                 elve = user.getValue(ADUserDetails::class.java)!!
 
-                                if (elve.emailAddress.equals(emailId) || (elve.phoneNumber.isEmpty() &&
+                                if (elve.emailAddress.equals(emailId) || (!elve.phoneNumber.isEmpty() &&
                                             elve.phoneNumber.equals(phoneNo))) {
                                     progress_layout.visibility = View.GONE
                                     showMessage(
@@ -362,6 +362,7 @@ class ADRegistrationActivity : ADBaseActivity() {
                         saveData(userRegister)
                     } else {
                         progress_layout.visibility = View.GONE
+                        showMessage("Invalid OTP. Try again",register_parent,true)
                     }
                 }
         }
