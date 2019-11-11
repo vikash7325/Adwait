@@ -4,6 +4,7 @@ import android.adwait.com.R
 import android.adwait.com.login.view.ADLoginActivity
 import android.adwait.com.utils.ADBaseFragment
 import android.adwait.com.utils.ADCommonResponseListener
+import android.adwait.com.utils.ADConstants
 import android.adwait.com.utils.ADViewClickListener
 import android.content.Context
 import android.content.Intent
@@ -11,11 +12,13 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.design.widget.TextInputEditText
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.util.DisplayMetrics
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -61,7 +64,10 @@ open class ADBaseActivity : AppCompatActivity() {
                 val googleSignInClient = GoogleSignIn.getClient(applicationContext, gso)
                 googleSignInClient.signOut()
                 LoginManager.getInstance().logOut()
-                MySharedPreference(applicationContext).saveBoolean(getString(R.string.logged_in), false)
+                MySharedPreference(applicationContext).saveBoolean(
+                    getString(R.string.logged_in),
+                    false
+                )
                 MySharedPreference(applicationContext).saveStrings(getString(R.string.userId), "")
                 var login = Intent(applicationContext, ADLoginActivity::class.java)
                 login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -130,7 +136,12 @@ open class ADBaseActivity : AppCompatActivity() {
         }
     }
 
-    public fun addOrReplaceFragment(isAdd: Boolean, id: Int, fragment: ADBaseFragment, addToStack: String) {
+    public fun addOrReplaceFragment(
+        isAdd: Boolean,
+        id: Int,
+        fragment: ADBaseFragment,
+        addToStack: String
+    ) {
         val manager = supportFragmentManager
         val transaction = manager.beginTransaction()
         if (isAdd) {
@@ -165,10 +176,10 @@ open class ADBaseActivity : AppCompatActivity() {
         val email = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$"
         val emailPat = Pattern.compile(email)
 
-        val  mobile= "^[6-9][0-9]{9}$"
+        val mobile = "^[6-9][0-9]{9}$"
         val mobilePat = Pattern.compile(mobile)
 
-        val  mobile1= "[0-9]+"
+        val mobile1 = "[0-9]+"
         val mobilePat2 = Pattern.compile(mobile1)
         if (mobilePat2.matcher(contact).matches()) {
             if (mobilePat.matcher(contact).matches()) {
@@ -197,6 +208,24 @@ open class ADBaseActivity : AppCompatActivity() {
     fun View.hideKeyboard() {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(windowToken, 0)
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+
+        if (ev?.action == MotionEvent.ACTION_UP) {
+            val view = currentFocus
+
+            if (view is TextInputEditText) {
+                val scrCoords = IntArray(2)
+                view!!.getLocationOnScreen(scrCoords)
+                val x = ev.getRawX() + view.left - scrCoords[0]
+                val y = ev.getRawY() + view.top - scrCoords[1]
+                if (ev.getAction() === MotionEvent.ACTION_UP && (x < view.left || x >= view.right || y < view.top || y > view.bottom)) {
+                    view.hideKeyboard()
+                }
+            }
+        }
+        return super.dispatchTouchEvent(ev)
     }
 
     public fun showMessage(msg: String, view: View?, isError: Boolean) {
@@ -261,7 +290,12 @@ open class ADBaseActivity : AppCompatActivity() {
         return age
     }
 
-    fun showAlertDialog(message: String, btnPositive: String, btnNegative: String, listener: ADViewClickListener?) {
+    fun showAlertDialog(
+        message: String,
+        btnPositive: String,
+        btnNegative: String,
+        listener: ADViewClickListener?
+    ) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle(R.string.app_name)
         builder.setMessage(message)
@@ -283,25 +317,28 @@ open class ADBaseActivity : AppCompatActivity() {
         alertDialog.show()
     }
 
-    fun getServerDate(functionName: String, listener : ADCommonResponseListener?=null): String {
+    fun getServerDate(functionName: String, listener: ADCommonResponseListener? = null): String {
         var serverDate: String = ""
 
         FirebaseFunctions.getInstance().getHttpsCallable(functionName).call()
             .addOnSuccessListener {
                 serverDate = it.data.toString()
-                if (functionName.equals("getCurrentDate")) {
-                    MySharedPreference(this).saveStrings(getString(R.string.current_date), serverDate)
-                } else if(functionName.equals("getCurrentMonthAndYr")){
+                if (functionName.equals(ADConstants.KEY_GET_CURRENT_DATE)) {
+                    MySharedPreference(this).saveStrings(
+                        getString(R.string.current_date),
+                        serverDate
+                    )
+                } else if (functionName.equals(ADConstants.KEY_GET_CURRENT_MONTH_YR)) {
                     MySharedPreference(this).saveStrings(getString(R.string.month_yr), serverDate)
                 }
 
-                if (listener!=null) {
+                if (listener != null) {
                     listener.onSuccess(serverDate)
                 }
             }
             .addOnFailureListener {
                 Log.v(TAG, "getServerDate Exception -> " + it.message)
-                if (listener!=null) {
+                if (listener != null) {
                     listener.onError(it)
                 }
             }
@@ -309,27 +346,38 @@ open class ADBaseActivity : AppCompatActivity() {
         return serverDate
     }
 
-    fun getNextDate(functionName: String, date : String, listener : ADCommonResponseListener?=null): String {
+    fun getNextDate(
+        functionName: String,
+        date: String,
+        listener: ADCommonResponseListener? = null
+    ): String {
         var serverDate: String = ""
 
         val data = hashMapOf(
-            "month" to changeData(date))
+            "month" to changeData(date)
+        )
 
         FirebaseFunctions.getInstance().getHttpsCallable(functionName).call(data)
             .addOnSuccessListener {
                 serverDate = it.data.toString()
-               if(functionName.equals("getPreviousMonthAndYr")){
-                    MySharedPreference(this).saveStrings(getString(R.string.previous_month_yr), serverDate)
+                if (functionName.equals(ADConstants.KEY_GET_PREVIOUS_MONTH_YR)) {
+                    MySharedPreference(this).saveStrings(
+                        getString(R.string.previous_month_yr),
+                        serverDate
+                    )
                 } else {
-                    MySharedPreference(this).saveStrings(getString(R.string.next_month_yr), serverDate)
+                    MySharedPreference(this).saveStrings(
+                        getString(R.string.next_month_yr),
+                        serverDate
+                    )
                 }
-                if (listener!=null) {
+                if (listener != null) {
                     listener.onSuccess(serverDate)
                 }
             }
             .addOnFailureListener {
                 Log.v(TAG, "getServerDate Exception -> " + it.message)
-                if (listener!=null) {
+                if (listener != null) {
                     listener.onError(it)
                 }
             }
@@ -337,18 +385,18 @@ open class ADBaseActivity : AppCompatActivity() {
         return serverDate
     }
 
-    fun changeData(cdate : String):String{
+    fun changeData(cdate: String): String {
 
         var fromFormat = SimpleDateFormat("dd-MMM-yyyy")
         val toFormat = SimpleDateFormat("yyyy-MM-dd")
 
-        if (cdate.contains(",")){
+        if (cdate.contains(",")) {
             fromFormat = SimpleDateFormat("MMMM,yyyy")
         }
 
         val currentDate = fromFormat.parse(cdate)
 
-        val converted =toFormat.format(currentDate)
+        val converted = toFormat.format(currentDate)
         Log.v(TAG, "converted -> " + cdate)
         Log.v(TAG, "converted -> " + converted)
         return converted

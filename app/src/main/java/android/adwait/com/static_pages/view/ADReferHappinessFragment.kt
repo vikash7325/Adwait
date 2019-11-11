@@ -9,7 +9,9 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +27,11 @@ class ADReferHappinessFragment : ADBaseFragment() {
 
     private var mReferralCode = ""
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater?.inflate(R.layout.fragment_referral, container, false)
 
         return view
@@ -75,8 +81,10 @@ class ADReferHappinessFragment : ADBaseFragment() {
         copy.setOnClickListener(View.OnClickListener {
             val clipBoardMan: ClipboardManager =
                 (activity as ADBaseActivity).getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val data = ClipData.newPlainText("Referal Code", mReferralCode)
+            val data = ClipData.newPlainText("Referral Code", mReferralCode)
             clipBoardMan.primaryClip = data
+            Toast.makeText(activity, "Referral code copied!!", Toast.LENGTH_SHORT)
+                .show()
         })
 
         progress_layout.visibility = View.VISIBLE
@@ -116,8 +124,8 @@ class ADReferHappinessFragment : ADBaseFragment() {
                 waIntent.setPackage(packageName)
             }
             waIntent.putExtra(Intent.EXTRA_TEXT, refMessage)
+            waIntent.putExtra(Intent.EXTRA_SUBJECT, "Way to share your Happiness!!")
             startActivity(Intent.createChooser(waIntent, "Share with"))
-
         } catch (e: PackageManager.NameNotFoundException) {
             Toast.makeText(activity, appName + " not Installed", Toast.LENGTH_SHORT)
                 .show()

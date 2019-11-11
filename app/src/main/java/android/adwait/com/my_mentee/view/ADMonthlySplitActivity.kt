@@ -52,9 +52,13 @@ class ADMonthlySplitActivity : ADBaseActivity() {
                 sno.setText(no)
                 count++
 
-                val amt = jsonObject.get(key).toString() + getString(R.string.rupees)
+                val amt =  getString(R.string.rupees) + jsonObject.get(key).toString()
                 amount.setText(amt)
-                uses.setText(key.substring(0, 1).toUpperCase() + key.substring(1))
+
+                var temp = key.substring(0, 1).toUpperCase() + key.substring(1)
+                temp = temp.replace("Amount", " Amount")
+
+                uses.setText(temp)
                 monthly_slit.addView(view)
             }
         }

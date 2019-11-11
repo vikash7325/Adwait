@@ -1,38 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="horizontal"
-              android:background="@android:color/white"
-              android:paddingTop="5dp"
-              android:paddingBottom="5dp"
-              android:weightSum="1">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:weightSum="1">
 
     <TextView
-            android:id="@+id/sno"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:padding="5dp"
-            android:textColor="@color/app_text"
-            android:textSize="@dimen/large_text"/>
+        android:id="@+id/sno"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.1"
+        android:padding="5dp"
+        android:textColor="@color/app_text"
+        android:textSize="@dimen/large_text" />
 
     <TextView
-            android:id="@+id/amount"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            android:padding="5dp"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/large_text"/>
+        android:id="@+id/amount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.25"
+        android:padding="5dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/large_text" />
 
     <TextView
-            android:id="@+id/uses"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.65"
-            android:padding="5dp"
-            android:textColor="@color/app_text"
-            android:textSize="@dimen/large_text"/>
+        android:id="@+id/uses"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.65"
+        android:padding="5dp"
+        android:textColor="@color/app_text"
+        android:textSize="@dimen/large_text" />
 
 </LinearLayout>

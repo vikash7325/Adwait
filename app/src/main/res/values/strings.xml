@@ -174,7 +174,7 @@
     <string name="twitter">Twitter</string>
     <string name="facebook">Facebook</string>
     <string name="others">Others</string>
-    <string name="referral_message">Hey!! Use my code %s to sign up and get happiness points.</string>
+    <string name="referral_message">Hey!! I have found a wonderful app to share happiness. Get it from https://play.google.com/store/apps/details?id=com.whatsapp Use my code %s to sign up and get happiness points. </string>
 
     <!--Be the Change-->
     <string name="quotes1">I alone cannot change the world, but \nI can cast a stone across the water to create many

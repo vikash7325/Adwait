@@ -105,10 +105,10 @@ class ADAddChildActivity : ADBaseActivity() {
             business_type.isEnabled = false
             business_type.isFocusable = false
 
-            education.setText(data.splitDetails.educationAmount.toString())
+            education.setText(data.splitDetails.miscellaneousAmount.toString())
             food.setText(data.splitDetails.foodAmount.toString())
             necessity.setText(data.splitDetails.necessityAmount.toString())
-            extras.setText(data.splitDetails.extraAmount.toString())
+            extras.setText(data.splitDetails.miscellaneousAmount.toString())
             hobbies_amt.setText(data.splitDetails.hobbiesAmount.toString())
 
             mIsEdit = true

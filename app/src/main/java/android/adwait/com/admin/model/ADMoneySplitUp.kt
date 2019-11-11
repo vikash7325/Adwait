@@ -9,7 +9,7 @@ class ADMoneySplitUp(
     val foodAmount: Int = 0,
     val hobbiesAmount: Int = 0,
     val necessityAmount: Int = 0,
-    val extraAmount: Int = 0
+    val miscellaneousAmount: Int = 0
 ) : ADBaseModel(), Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
@@ -25,7 +25,7 @@ class ADMoneySplitUp(
         parcel.writeInt(foodAmount)
         parcel.writeInt(hobbiesAmount)
         parcel.writeInt(necessityAmount)
-        parcel.writeInt(extraAmount)
+        parcel.writeInt(miscellaneousAmount)
     }
 
     override fun describeContents(): Int {
@@ -33,7 +33,7 @@ class ADMoneySplitUp(
     }
 
     override fun toString(): String {
-        return "ADMoneySplitUp(educationAmount=$educationAmount, foodAmount=$foodAmount, hobbiesAmount=$hobbiesAmount, necessityAmount=$necessityAmount, extraAmount=$extraAmount)"
+        return "ADMoneySplitUp(educationAmount=$educationAmount, foodAmount=$foodAmount, hobbiesAmount=$hobbiesAmount, necessityAmount=$necessityAmount, miscellaneousAmount=$miscellaneousAmount)"
     }
 
     companion object CREATOR : Parcelable.Creator<ADMoneySplitUp> {

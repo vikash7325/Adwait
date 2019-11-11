@@ -12,13 +12,16 @@ import android.adwait.com.my_mentee.model.ADMessageModel
 import android.adwait.com.registeration.model.ADUserDetails
 import android.adwait.com.utils.ADBaseFragment
 import android.adwait.com.utils.ADConstants
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.ebanx.swipebtn.OnStateChangeListener
@@ -93,6 +96,18 @@ class ADMyMenteeFragment : ADBaseFragment() {
         mentee_pager.adapter = pageAdapter
         mentee_indicator.setViewPager(mentee_pager)
         pageAdapter.registerDataSetObserver(mentee_indicator.dataSetObserver)
+
+        view.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+
+                if (event?.action == MotionEvent.ACTION_UP){
+                    val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(view!!.getWindowToken(), 0)
+                }
+                return true
+            }
+
+        })
     }
 
     private fun addMessage(message: String) {
@@ -219,7 +234,7 @@ class ADMyMenteeFragment : ADBaseFragment() {
                             }
                             val school = childData.schoolName
                             val dream = childData.careerInterest
-                            val talent =childData.hobbies
+                            val talent = childData.hobbies
 
                             var elveName = menteeDetails.userName
                             if (elveName.contains(" ")) {
@@ -294,12 +309,14 @@ class ADMyMenteeFragment : ADBaseFragment() {
 
                             var monthYr =
                                 MySharedPreference(activity as ADBaseActivity).getValueString(
-                                    getString(R.string.month_yr)).toString()
+                                    getString(R.string.month_yr)
+                                ).toString()
 
                             if (amtCollected) {
                                 monthYr =
                                     MySharedPreference(activity as ADBaseActivity).getValueString(
-                                        getString(R.string.next_month_yr)).toString()
+                                        getString(R.string.next_month_yr)
+                                    ).toString()
                             }
 
                             var collectedAmount =
@@ -318,12 +335,16 @@ class ADMyMenteeFragment : ADBaseFragment() {
                             val text = java.lang.String.format(
                                 getString(R.string.fund_raised_msg),
                                 collectedAmount,
-                                monthlyAmount, monthYr)
+                                monthlyAmount, monthYr
+                            )
 
                             fund_details?.setText(text)
 
-                            if (!collectedAmount.isEmpty() && collectedAmount != null && !collectedAmount.equals("null") &&
-                                monthlyAmount != null && !monthlyAmount.equals("null") && monthlyAmount.toInt() > 0) {
+                            if (!collectedAmount.isEmpty() && collectedAmount != null && !collectedAmount.equals(
+                                    "null"
+                                ) &&
+                                monthlyAmount != null && !monthlyAmount.equals("null") && monthlyAmount.toInt() > 0
+                            ) {
                                 val percent =
                                     ((collectedAmount.toInt()) * 100 / monthlyAmount.toInt())
                                 progress.setProgress(percent)

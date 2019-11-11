@@ -243,28 +243,27 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                                         )
                                     })
                             }
-                            var monthYr =
-                                MySharedPreference(activity as ADBaseActivity).getValueString(
-                                    getString(R.string.month_yr)
-                                ).toString()
 
-                            if (monthYr.isEmpty() || monthYr.length == 0 || monthYr.toLowerCase().equals(
-                                    "null"
-                                )
-                            ) {
-                                (activity as ADBaseActivity).getServerDate("getCurrentMonthAndYr",
-                                    object : ADCommonResponseListener {
-                                        override fun onSuccess(data: Any?) {
-                                            fetchChildData(menteeDetails.childId, data.toString())
-                                        }
+                            (activity as ADBaseActivity).getServerDate(ADConstants.KEY_GET_CURRENT_MONTH_YR,
+                                object : ADCommonResponseListener {
+                                    override fun onSuccess(data: Any?) {
+                                        (activity as ADBaseActivity).getNextDate(
+                                            ADConstants.KEY_GET_NEXT_MONTH_YR,
+                                            data.toString(),
+                                            null
+                                        )
+                                        (activity as ADBaseActivity).getNextDate(
+                                            ADConstants.KEY_GET_PREVIOUS_MONTH_YR,
+                                            data.toString(),
+                                            null
+                                        )
+                                        fetchChildData(menteeDetails.childId, data.toString())
+                                    }
 
-                                        override fun onError(data: Any?) {
-                                            hideProgress()
-                                        }
-                                    })
-                            } else {
-                                fetchChildData(menteeDetails.childId, monthYr)
-                            }
+                                    override fun onError(data: Any?) {
+                                        hideProgress()
+                                    }
+                                })
                         }
                     }
                 }
@@ -338,8 +337,7 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                             progress_layout?.visibility = View.VISIBLE
 
                             (activity as ADBaseActivity).getNextDate(
-                                "getNextMonthAndYr",
-                                monthYr,
+                                ADConstants.KEY_GET_NEXT_MONTH_YR, monthYr,
                                 object : ADCommonResponseListener {
                                     override fun onSuccess(data: Any?) {
                                         MySharedPreference(activity as ADBaseActivity).saveStrings(
@@ -396,24 +394,27 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
             FirebaseDatabase.getInstance()
                 .reference.child((activity as ADBaseActivity).CHILD_TABLE_NAME)
                 .orderByKey()
+
+        var lastMonth =
+            MySharedPreference(activity as ADBaseActivity).getValueString(
+                getString(R.string.previous_month_yr)
+            ).toString()
+        var noContributionList = ArrayList<DataSnapshot>()
+
         mChildDataTable.addValueEventListener(object : ValueEventListener {
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists() || dataSnapshot == null) {
 
+                    var isChildMapped = false
                     for (data in dataSnapshot.children) {
 
-                        if (!data.hasChild("contribution")) {
-                            updateUserWithChild(data.key.toString(), monthYr)
-                            break
-                        } else {
-                            var lastMonth =
-                                MySharedPreference(activity as ADBaseActivity).getValueString(
-                                    getString(R.string.previous_month_yr)
-                                ).toString()
+                        //Check for contribution data in child
+                        if (data.hasChild("contribution")) {
 
+                            //If the child has contribution for previous month and the collected amount is >= to needed amount proceed to next
                             if (data.child("contribution").hasChild(lastMonth)) {
-                                val monthlyAmount = data.child("amount_needed").value.toString()
+                                val monthlyAmount = data.child("amountNeeded").value.toString()
                                 var collectedAmount =
                                     data.child("contribution").child(lastMonth)
                                         .child("collected_amt")
@@ -425,11 +426,26 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
 
                                 if (collectedAmount.toInt() < monthlyAmount.toInt()) {
                                     updateUserWithChild(data.key.toString(), monthYr)
+                                    isChildMapped = true
                                     break
                                 } else {
                                     continue
                                 }
                             }
+                        } else {
+                            noContributionList.add(data)
+                        }
+                    }
+
+                    //If child mapping is not done
+                    if (!isChildMapped) {
+                        if (noContributionList == null || noContributionList.size == 0) {
+                            for (data in dataSnapshot.children) {
+                                updateUserWithChild(data.key.toString(), monthYr)
+                                break
+                            }
+                        } else {
+                            updateUserWithChild(noContributionList.get(0).key.toString(), monthYr)
                         }
                     }
                 } else {

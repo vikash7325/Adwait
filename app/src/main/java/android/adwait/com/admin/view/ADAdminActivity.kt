@@ -11,6 +11,7 @@ import android.adwait.com.login.view.ADLoginActivity
 import android.adwait.com.rest_api.ApiClient
 import android.adwait.com.rest_api.ApiInterface
 import android.adwait.com.utils.ADCommonResponseListener
+import android.adwait.com.utils.ADConstants
 import android.adwait.com.wish_corner.view.ADAddWishesActivity
 import android.app.Activity
 import android.content.Intent
@@ -99,7 +100,7 @@ class ADAdminActivity : ADBaseActivity() {
         val currentDate = MySharedPreference(this).getValueString(getString(R.string.current_date)).toString()
 
         if (currentDate == null || currentDate.length == 0 || currentDate.equals("null")) {
-            getServerDate("getCurrentDate", object : ADCommonResponseListener {
+            getServerDate(ADConstants.KEY_GET_CURRENT_DATE, object : ADCommonResponseListener {
                 override fun onSuccess(data: Any?) {
                     getDate(data.toString())
                 }
@@ -114,7 +115,7 @@ class ADAdminActivity : ADBaseActivity() {
     }
 
     fun getDate(currentDate: String) {
-        getNextDate("getPreviousMonthAndYr",
+        getNextDate(ADConstants.KEY_GET_PREVIOUS_MONTH_YR,
             currentDate,
             object : ADCommonResponseListener {
                 override fun onSuccess(data: Any?) {

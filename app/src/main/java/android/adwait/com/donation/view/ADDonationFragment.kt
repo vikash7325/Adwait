@@ -17,13 +17,16 @@ import android.adwait.com.utils.ADBaseFragment
 import android.adwait.com.utils.ADCommonResponseListener
 import android.adwait.com.utils.ADConstants
 import android.adwait.com.utils.ADViewClickListener
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
 import com.bumptech.glide.Glide
@@ -129,6 +132,18 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
         })
         btn_1000.setOnClickListener(View.OnClickListener {
             amount.setText("1000")
+        })
+
+        view.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+
+                if (event?.action == MotionEvent.ACTION_UP){
+                    val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(view!!.getWindowToken(), 0)
+                }
+                return true
+            }
+
         })
     }
 
@@ -582,7 +597,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                     monthYr
                 )
 
-                (activity as ADBaseActivity).getNextDate("getNextMonthAndYr", monthYr,
+                (activity as ADBaseActivity).getNextDate(ADConstants.KEY_GET_NEXT_MONTH_YR, monthYr,
                     object : ADCommonResponseListener {
                         override fun onSuccess(data: Any?) {
                             MySharedPreference(activity as ADBaseActivity).saveStrings(

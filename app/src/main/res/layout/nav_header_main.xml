@@ -1,18 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/nav_header"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/drawer_header_bg"
     android:gravity="center"
-    android:orientation="vertical"
     android:padding="10dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <TextView
+        android:id="@+id/version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:gravity="center|right"
+        android:paddingRight="@dimen/padd_10"
+        android:text="Version : "
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/small_text"
+        android:textStyle="italic" />
 
     <ImageView
         android:id="@+id/user"
         android:layout_width="@dimen/nav_header_image"
         android:layout_height="@dimen/nav_header_image"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
         android:layout_marginTop="25dp"
         android:contentDescription="@string/nav_header_desc"
         android:src="@drawable/ic_rounded_user" />
@@ -21,9 +34,10 @@
         android:id="@+id/nav_header_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/user"
         android:gravity="center"
         android:paddingTop="5dp"
         android:text="@string/nav_header_title"
         android:textColor="@color/app_text"
         android:textSize="@dimen/large_text" />
-</LinearLayout>
+</RelativeLayout>

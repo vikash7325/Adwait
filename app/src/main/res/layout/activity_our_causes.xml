@@ -43,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
-                android:layout_weight="0.25"
+                android:layout_weight="0.28"
                 android:background="@drawable/rounded_white_bg"
                 card_view:cardCornerRadius="4dp"
                 card_view:cardUseCompatPadding="true"
@@ -59,26 +59,27 @@
                         android:id="@+id/cause_image1"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.5"
+                        android:layout_weight="0.45"
                         android:scaleType="fitXY"
                         android:src="@drawable/cause1" />
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:layout_weight="0.5"
+                        android:layout_weight="0.55"
                         android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/heading1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
                             android:ellipsize="end"
                             android:padding="5dp"
                             android:text="@string/cause1_header"
                             android:textColor="@android:color/black"
-                            android:textSize="@dimen/medium_text"
+                            android:textSize="@dimen/small_text"
                             android:textStyle="bold" />
 
 
@@ -86,6 +87,8 @@
                             android:id="@+id/content1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_above="@+id/click_for_more1"
+                            android:layout_below="@+id/heading1"
                             android:ellipsize="end"
                             android:paddingLeft="5dp"
                             android:paddingRight="5dp"
@@ -97,13 +100,14 @@
                             android:id="@+id/click_for_more1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
                             android:padding="5dp"
                             android:text="@string/click_for_more"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/medium_text" />
+                            android:textSize="@dimen/small_text" />
 
 
-                    </LinearLayout>
+                    </RelativeLayout>
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
@@ -114,7 +118,7 @@
                 android:layout_height="0dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:layout_weight="0.25"
+                android:layout_weight="0.28"
                 android:background="@drawable/rounded_white_bg"
                 card_view:cardCornerRadius="4dp"
                 card_view:cardUseCompatPadding="true"
@@ -130,26 +134,27 @@
                         android:id="@+id/cause_image2"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.5"
+                        android:layout_weight="0.45"
                         android:scaleType="fitXY"
                         android:src="@drawable/cause2" />
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:layout_weight="0.5"
+                        android:layout_weight="0.55"
                         android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/heading2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
                             android:ellipsize="end"
                             android:padding="5dp"
                             android:text="@string/cause2_header"
                             android:textColor="@android:color/black"
-                            android:textSize="@dimen/medium_text"
+                            android:textSize="@dimen/small_text"
                             android:textStyle="bold" />
 
 
@@ -157,6 +162,8 @@
                             android:id="@+id/content2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_above="@+id/click_for_more2"
+                            android:layout_below="@+id/heading2"
                             android:ellipsize="end"
                             android:paddingLeft="5dp"
                             android:paddingRight="5dp"
@@ -168,13 +175,14 @@
                             android:id="@+id/click_for_more2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
                             android:padding="5dp"
                             android:text="@string/click_for_more"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/medium_text" />
+                            android:textSize="@dimen/small_text" />
 
 
-                    </LinearLayout>
+                    </RelativeLayout>
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
@@ -185,7 +193,7 @@
                 android:layout_height="0dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:layout_weight="0.25"
+                android:layout_weight="0.28"
                 android:background="@drawable/rounded_white_bg"
                 card_view:cardCornerRadius="4dp"
                 card_view:cardUseCompatPadding="true"
@@ -201,26 +209,27 @@
                         android:id="@+id/cause_image3"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.5"
+                        android:layout_weight="0.45"
                         android:scaleType="fitXY"
                         android:src="@drawable/cause3" />
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:layout_weight="0.5"
+                        android:layout_weight="0.55"
                         android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/heading3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
                             android:ellipsize="end"
                             android:padding="5dp"
                             android:text="@string/cause3_header"
                             android:textColor="@android:color/black"
-                            android:textSize="@dimen/medium_text"
+                            android:textSize="@dimen/small_text"
                             android:textStyle="bold" />
 
 
@@ -228,6 +237,8 @@
                             android:id="@+id/content3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_above="@+id/click_for_more3"
+                            android:layout_below="@id/heading3"
                             android:ellipsize="end"
                             android:paddingLeft="5dp"
                             android:paddingRight="5dp"
@@ -239,13 +250,14 @@
                             android:id="@+id/click_for_more3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
                             android:padding="5dp"
                             android:text="@string/click_for_more"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/medium_text" />
+                            android:textSize="@dimen/small_text" />
 
 
-                    </LinearLayout>
+                    </RelativeLayout>
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
