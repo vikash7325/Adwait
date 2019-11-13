@@ -4,6 +4,7 @@ import and.com.polam.utils.ADBaseActivity
 import and.com.polam.utils.MySharedPreference
 import android.adwait.com.R
 import android.adwait.com.be_the_change.model.ADPledgeBdayModel
+import android.adwait.com.utils.ADConstants
 import android.adwait.com.utils.ADViewClickListener
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -11,6 +12,7 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_pledge_bday.*
+import kotlinx.android.synthetic.main.common_toolbar.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -22,7 +24,7 @@ class ADPledgeBdayActivity : ADBaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pledge_bday)
-        val toolbar: Toolbar = findViewById(R.id.pledge_toolbar)
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -102,5 +104,15 @@ class ADPledgeBdayActivity : ADBaseActivity() {
 
         })
 
+
+        action_menu.setOnClickListener(View.OnClickListener {
+            setResult(ADConstants.KEY_MENU)
+            finish()
+        })
+
+        action_profile.setOnClickListener(View.OnClickListener {
+            setResult(ADConstants.KEY_PROFILE)
+            finish()
+        })
     }
 }

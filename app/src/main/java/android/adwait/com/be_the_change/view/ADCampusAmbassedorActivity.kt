@@ -4,6 +4,7 @@ import and.com.polam.utils.ADBaseActivity
 import and.com.polam.utils.MySharedPreference
 import android.adwait.com.R
 import android.adwait.com.be_the_change.model.ADCampusambassadorModel
+import android.adwait.com.utils.ADConstants
 import android.adwait.com.utils.ADViewClickListener
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
@@ -12,6 +13,7 @@ import android.text.TextWatcher
 import android.view.View
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_campus_ambassador.*
+import kotlinx.android.synthetic.main.common_toolbar.*
 
 class ADCampusambassadorActivity : ADBaseActivity() {
     private val CAMPUS_TABLE: String = "Campus_ambassador"
@@ -107,6 +109,16 @@ class ADCampusambassadorActivity : ADBaseActivity() {
                 }
 
             })
+
+        action_menu.setOnClickListener(View.OnClickListener {
+            setResult(ADConstants.KEY_MENU)
+            finish()
+        })
+
+        action_profile.setOnClickListener(View.OnClickListener {
+            setResult(ADConstants.KEY_PROFILE)
+            finish()
+        })
 
     }
 }

@@ -57,7 +57,8 @@
 
         <activity
             android:name=".dashboard.view.ADDashboardActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            android:launchMode="singleTask"/>
 
         <activity
             android:name=".be_the_change.view.ADAdwaitsDayOutActivity"

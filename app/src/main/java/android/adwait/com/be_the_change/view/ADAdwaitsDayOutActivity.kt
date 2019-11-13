@@ -4,6 +4,7 @@ import and.com.polam.utils.ADBaseActivity
 import and.com.polam.utils.MySharedPreference
 import android.adwait.com.R
 import android.adwait.com.be_the_change.model.ADDayOutModel
+import android.adwait.com.utils.ADConstants
 import android.adwait.com.utils.ADViewClickListener
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -11,6 +12,7 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_adwaits_day_out.*
+import kotlinx.android.synthetic.main.common_toolbar.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -102,6 +104,16 @@ class ADAdwaitsDayOutActivity : ADBaseActivity() {
                     }
                 }
             }
+        })
+
+        action_menu.setOnClickListener(View.OnClickListener {
+            setResult(ADConstants.KEY_MENU)
+            finish()
+        })
+
+        action_profile.setOnClickListener(View.OnClickListener {
+            setResult(ADConstants.KEY_PROFILE)
+            finish()
         })
     }
 }

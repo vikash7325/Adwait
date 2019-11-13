@@ -4,6 +4,7 @@ import and.com.polam.utils.ADBaseActivity
 import android.adwait.com.R
 import android.adwait.com.dashboard.adapter.ADHomePageAdapter
 import android.adwait.com.utils.ADBaseFragment
+import android.adwait.com.utils.ADConstants
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -91,6 +92,6 @@ class ADBeTheChangeFragment : ADBaseFragment(), View.OnClickListener {
                 nextScreen = Intent(activity, ADAdwaitsDayOutActivity::class.java)
             }
         }
-        startActivity(nextScreen)
+        activity?.startActivityForResult(nextScreen,ADConstants.KEY_REQUEST)
     }
 }

@@ -2,12 +2,11 @@ package android.adwait.com.static_pages.view
 
 import and.com.polam.utils.ADBaseActivity
 import android.adwait.com.R
-import android.adwait.com.be_the_change.adapter.ADCausesListAdapter
-import android.adwait.com.be_the_change.model.ADOurCauseModel
+import android.adwait.com.utils.ADConstants
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import android.view.View
-import kotlinx.android.synthetic.main.activity_our_causes.*
+import kotlinx.android.synthetic.main.common_toolbar.*
 
 class ADOurCauseActivity : ADBaseActivity() {
 
@@ -20,6 +19,16 @@ class ADOurCauseActivity : ADBaseActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener(View.OnClickListener { onBackPressed() })
+
+        action_menu.setOnClickListener(View.OnClickListener {
+            setResult(ADConstants.KEY_MENU)
+            finish()
+        })
+
+        action_profile.setOnClickListener(View.OnClickListener {
+            setResult(ADConstants.KEY_PROFILE)
+            finish()
+        })
     }
 
 }

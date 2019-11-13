@@ -293,18 +293,9 @@ class ADLoginActivity : ADBaseActivity() {
                             val hint = java.lang.String.format(con, user.userName)
                             congrats_text.text = CommonUtils.getHtmlText(hint)
                             mUserId = userId
-                            MySharedPreference(applicationContext).saveStrings(
-                                getString(R.string.userId),
-                                userId
-                            )
-                            MySharedPreference(applicationContext).saveBoolean(
-                                getString(R.string.logged_in),
-                                true
-                            )
-                            MySharedPreference(applicationContext).saveBoolean(
-                                getString(R.string.registered),
-                                true
-                            )
+                            MySharedPreference(applicationContext).saveStrings(getString(R.string.userId), userId)
+                            MySharedPreference(applicationContext).saveBoolean(getString(R.string.logged_in), true)
+                            MySharedPreference(applicationContext).saveBoolean(getString(R.string.registered), true)
                             celebration_view.visibility = View.VISIBLE
                             celebration_view.build()
                                 .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)

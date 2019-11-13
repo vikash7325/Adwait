@@ -2,10 +2,12 @@ package android.adwait.com.be_the_change.view
 
 import and.com.polam.utils.ADBaseActivity
 import android.adwait.com.R
+import android.adwait.com.utils.ADConstants
 import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import android.view.View
 import kotlinx.android.synthetic.main.activity_evle_talk.*
+import kotlinx.android.synthetic.main.common_toolbar.*
 
 class ADEvleTalkActivity : ADBaseActivity() {
 
@@ -20,6 +22,16 @@ class ADEvleTalkActivity : ADBaseActivity() {
         toolbar.setNavigationOnClickListener(View.OnClickListener { onBackPressed() })
 
         pledge_submit.setOnClickListener(View.OnClickListener {
+            finish()
+        })
+
+        action_menu.setOnClickListener(View.OnClickListener {
+            setResult(ADConstants.KEY_MENU)
+            finish()
+        })
+
+        action_profile.setOnClickListener(View.OnClickListener {
+            setResult(ADConstants.KEY_PROFILE)
             finish()
         })
     }

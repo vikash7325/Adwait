@@ -74,7 +74,7 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
             }
         })
         val homeFragment = ADHomeFragment()
-        mSelectedMenu = 0
+        mSelectedMenu = ADConstants.MENU_HOME
 
         nav_header.setOnClickListener(View.OnClickListener {
             menuAction(ADConstants.MENU_PROFILE, "")
@@ -93,15 +93,17 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
         addOrReplaceFragment(true, R.id.home_container, homeFragment, "")
 
         home_logo.setOnClickListener(View.OnClickListener {
-            menuAction(ADConstants.MENU_HOME, "")
+            if (mSelectedMenu != ADConstants.MENU_HOME) {
+                menuAction(ADConstants.MENU_HOME, "")
+            }
         })
 
         getPackageVersion()
     }
 
-    fun getPackageVersion(){
-        val info = packageManager.getPackageInfo(packageName,0)
-        version.setText("Version : "+info.versionName)
+    fun getPackageVersion() {
+        val info = packageManager.getPackageInfo(packageName, 0)
+        version.setText("Version : " + info.versionName)
     }
 
     fun fetchUserData() {
@@ -135,7 +137,7 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
         if (drawerLayout.isDrawerOpen(Gravity.END)) {
             drawerLayout.closeDrawer(Gravity.END)
         } else {
-            if (mSelectedMenu == 0) {
+            if (mSelectedMenu == ADConstants.MENU_HOME) {
                 var message =
                     java.lang.String.format(getString(R.string.exit_message), mUserName)
                 showAlertDialog(message,
@@ -155,12 +157,12 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
     }
 
     public fun menuAction(option: Int, addToStack: String) {
+        mSelectedMenu = option
         when (option) {
             /*Home*/
             ADConstants.MENU_HOME -> {
                 val homeFragment = ADHomeFragment()
                 addOrReplaceFragment(false, R.id.home_container, homeFragment, addToStack)
-                mSelectedMenu = option
             }
 
             /*My Mentee*/
@@ -171,7 +173,6 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
                 }
                 val menteeFragment = ADMyMenteeFragment()
                 addOrReplaceFragment(false, R.id.home_container, menteeFragment, addToStack)
-                mSelectedMenu = option
             }
 
             /*Be the change*/
@@ -182,7 +183,6 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
                 }
                 val changeFragment = ADBeTheChangeFragment()
                 addOrReplaceFragment(false, R.id.home_container, changeFragment, addToStack)
-                mSelectedMenu = option
             }
 
             /*Wish Corner*/
@@ -193,7 +193,6 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
                 }
                 val cornerFragment = ADWishCornerFragment()
                 addOrReplaceFragment(false, R.id.home_container, cornerFragment, addToStack)
-                mSelectedMenu = option
             }
 
             /*Hx Club*/
@@ -204,7 +203,6 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
                 }
                 val adHxFragment = ADHxFragment()
                 addOrReplaceFragment(false, R.id.home_container, adHxFragment, addToStack)
-                mSelectedMenu = option
             }
 
             /*My Contributions*/
@@ -216,34 +214,30 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
 
                 val adMyContributions = ADMyContributionsFragment()
                 addOrReplaceFragment(false, R.id.home_container, adMyContributions, addToStack)
-                mSelectedMenu = option
             }
 
             /*Our Partners*/
             ADConstants.MENU_OUR_PARTNERS -> {
                 val adPartnersFragment = ADPartnersFragment()
                 addOrReplaceFragment(false, R.id.home_container, adPartnersFragment, addToStack)
-                mSelectedMenu = option
             }
 
             /*Refer Happiness*/
             ADConstants.MENU_REFER_HAPPINESS -> {
                 val happinessFragment = ADReferHappinessFragment()
                 addOrReplaceFragment(false, R.id.home_container, happinessFragment, addToStack)
-                mSelectedMenu = option
             }
 
             /*Our Cause*/
             ADConstants.MENU_OUR_CAUSE -> {
                 val intent = Intent(this, ADOurCauseActivity::class.java)
-                startActivity(intent)
+                startActivityForResult(intent, ADConstants.KEY_REQUEST)
             }
 
             /*Contact us*/
             ADConstants.MENU_CONTACT_US -> {
                 val contactUsFragment = ADContactUsFragment()
                 addOrReplaceFragment(false, R.id.home_container, contactUsFragment, addToStack)
-                mSelectedMenu = option
             }
 
             /*Contact us*/
@@ -256,7 +250,6 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
             ADConstants.MENU_DONATION -> {
                 val adDonationFragment = ADDonationFragment()
                 addOrReplaceFragment(false, R.id.home_container, adDonationFragment, addToStack)
-                mSelectedMenu = option
             }
 
             /*Profile*/
@@ -267,7 +260,6 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
                 }
                 val profileFragment = ADMyProfileFragment()
                 addOrReplaceFragment(false, R.id.home_container, profileFragment, addToStack)
-                mSelectedMenu = option
             }
         }
 
@@ -291,5 +283,18 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
         val donationFragment =
             supportFragmentManager.findFragmentById(R.id.home_container) as ADDonationFragment
         donationFragment.onPaymentSuccess(p0, p1)
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == ADConstants.KEY_REQUEST) {
+            if (resultCode == ADConstants.KEY_MENU) {
+                drawer_layout.openDrawer(Gravity.END)
+            } else if (resultCode == ADConstants.KEY_PROFILE) {
+                menuAction(ADConstants.MENU_PROFILE, "")
+            }
+        }
     }
 }

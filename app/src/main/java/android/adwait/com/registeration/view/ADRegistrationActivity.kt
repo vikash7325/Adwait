@@ -381,6 +381,7 @@ class ADRegistrationActivity : ADBaseActivity() {
                 var pre = MySharedPreference(applicationContext)
                 pre.saveBoolean(getString(R.string.logged_in), true)
                 pre.saveBoolean(getString(R.string.registered), true)
+                pre.saveStrings(getString(R.string.userId), mUserId)
                 register_layout.visibility = View.GONE
                 register_layout.visibility = View.GONE
                 referral_code_layout.visibility = View.GONE

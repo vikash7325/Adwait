@@ -5,6 +5,7 @@ import and.com.polam.utils.MySharedPreference
 import android.Manifest
 import android.adwait.com.R
 import android.adwait.com.be_the_change.model.ADOrganiseEventModel
+import android.adwait.com.utils.ADConstants
 import android.adwait.com.utils.ADViewClickListener
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
@@ -28,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import kotlinx.android.synthetic.main.activity_organize_event.*
+import kotlinx.android.synthetic.main.common_toolbar.*
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -195,6 +197,16 @@ class ADOrganizeEventActivity : ADBaseActivity() {
             mEventModel.eventAutoCheckIn = auto_checkin.isChecked
             mEventModel.eventAllowGift = allow_gift.isChecked
             saveImageInServer()
+        })
+
+        action_menu.setOnClickListener(View.OnClickListener {
+            setResult(ADConstants.KEY_MENU)
+            finish()
+        })
+
+        action_profile.setOnClickListener(View.OnClickListener {
+            setResult(ADConstants.KEY_PROFILE)
+            finish()
         })
     }
 
