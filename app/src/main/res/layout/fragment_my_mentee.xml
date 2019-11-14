@@ -15,7 +15,7 @@
         android:paddingLeft="@dimen/default_padding"
         android:paddingTop="5dp"
         android:paddingRight="@dimen/default_padding"
-        android:paddingBottom="@dimen/default_padding"
+        android:paddingBottom="@dimen/padd_10"
         android:weightSum="1">
 
         <!--Child details-->
@@ -23,7 +23,7 @@
             android:id="@+id/child_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.34"
+            android:layout_weight="0.33"
             android:gravity="center"
             android:orientation="vertical"
             android:weightSum="1">
@@ -33,15 +33,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginBottom="7dp"
-                android:layout_weight="0.8"
+                android:layout_weight="0.78"
                 android:background="@drawable/rounded_white_bg"
                 android:gravity="center"
                 android:orientation="vertical"
+                android:paddingBottom="2dp"
                 android:weightSum="1">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.79"
                     android:orientation="horizontal"
                     android:weightSum="1">
 
@@ -54,7 +56,7 @@
                         android:paddingTop="5dp"
                         android:paddingRight="10dp"
                         android:paddingBottom="5dp"
-                        android:scaleType="fitXY"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/ic_guest_user" />
 
                     <LinearLayout
@@ -66,7 +68,7 @@
                         android:orientation="vertical"
                         android:paddingTop="8dp"
                         android:paddingRight="10dp"
-                        android:paddingBottom="8dp">
+                        android:paddingBottom="3dp">
 
                         <TextView
                             android:id="@+id/child_name"
@@ -74,7 +76,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:lines="1"
-                            android:paddingBottom="3dp"
+                            android:paddingBottom="1dp"
                             android:text="Name:"
                             android:textColor="@color/app_text"
                             android:textSize="@dimen/medium_text" />
@@ -85,7 +87,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:lines="1"
-                            android:paddingBottom="3dp"
+                            android:paddingBottom="1dp"
                             android:text="Age:"
                             android:textColor="@color/app_text"
                             android:textSize="@dimen/medium_text" />
@@ -96,7 +98,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:lines="1"
-                            android:paddingBottom="3dp"
+                            android:paddingBottom="1dp"
                             android:text="Guardian\'s Name:"
                             android:textColor="@color/app_text"
                             android:textSize="@dimen/medium_text" />
@@ -107,7 +109,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:lines="1"
-                            android:paddingBottom="3dp"
+                            android:paddingBottom="1dp"
                             android:text="Location"
                             android:textColor="@color/app_text"
                             android:textSize="@dimen/medium_text" />
@@ -118,7 +120,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:lines="1"
-                            android:paddingBottom="3dp"
+                            android:paddingBottom="1dp"
                             android:text="NGO"
                             android:textColor="@color/app_text"
                             android:textSize="@dimen/medium_text" />
@@ -128,9 +130,10 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+                    android:layout_weight="0.09"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp">
 
@@ -160,22 +163,24 @@
                     <ImageView
                         android:id="@+id/info_icon"
                         android:layout_width="20dp"
-                        android:layout_marginLeft="5dp"
                         android:layout_height="20dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
+                        android:layout_marginLeft="5dp"
                         android:src="@drawable/ic_info_icon" />
                 </RelativeLayout>
 
                 <TextView
                     android:id="@+id/fund_details"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+                    android:layout_weight="0.1"
+                    android:ellipsize="end"
+                    android:gravity="center"
                     android:lines="1"
                     android:paddingLeft="10dp"
-                    android:gravity="center"
                     android:paddingTop="3dp"
                     android:paddingRight="10dp"
                     android:text="@string/fund_raised"
@@ -187,7 +192,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.2">
+                android:layout_weight="0.22">
 
                 <com.ebanx.swipebtn.SwipeButton
                     android:id="@+id/swipe_btn"
@@ -209,10 +214,10 @@
                     app:initial_state="disabled"
                     app:inner_text="@string/swipe_to_contribute"
                     app:inner_text_background="@drawable/swipe_btn_white_bg"
-                    app:inner_text_bottom_padding="10dp"
+                    app:inner_text_bottom_padding="8dp"
                     app:inner_text_color="@color/colorPrimaryDark"
                     app:inner_text_size="@dimen/large_text"
-                    app:inner_text_top_padding="10dp" />
+                    app:inner_text_top_padding="8dp" />
 
 
                 <ImageView
@@ -235,8 +240,8 @@
             android:id="@+id/slider_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="5dp"
-            android:layout_weight="0.25"
+            android:layout_marginTop="4dp"
+            android:layout_weight="0.28"
             android:background="@android:color/white"
             android:gravity="center"
             android:weightSum="1">
@@ -245,25 +250,26 @@
                 android:id="@+id/mentee_pager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@+id/mentee_indicator" />
+                android:layout_above="@+id/mentee_indicator"
+                android:layout_marginBottom="2dp" />
 
             <me.relex.circleindicator.CircleIndicator
                 android:id="@+id/mentee_indicator"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/pin_box"
+                android:layout_height="@dimen/h2_text"
                 android:layout_alignParentBottom="true"
                 app:ci_drawable="@drawable/ic_carasol_selected"
                 app:ci_drawable_unselected="@drawable/ic_carasol_unselected"
-                app:ci_height="10dp"
-                app:ci_width="10dp" />
+                app:ci_height="@dimen/tiny_text"
+                app:ci_width="@dimen/tiny_text" />
         </RelativeLayout>
 
         <!--Tile layout-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="0.25"
+            android:layout_marginTop="8dp"
+            android:layout_weight="0.22"
             android:background="@drawable/rounded_white_bg"
             android:orientation="vertical"
             android:visibility="visible"
@@ -291,13 +297,14 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_margin="3dp"
-                        android:layout_weight="0.3"
+                        android:layout_weight="0.35"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/ic_men_birthday_cake" />
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.7"
+                        android:layout_weight="0.65"
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -346,7 +353,7 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.7"
+                        android:layout_weight="0.65"
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -378,7 +385,8 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_margin="3dp"
-                        android:layout_weight="0.3"
+                        android:layout_weight="0.35"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/ic_talent" />
 
                 </LinearLayout>
@@ -412,13 +420,14 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_margin="3dp"
-                        android:layout_weight="0.3"
+                        android:layout_weight="0.35"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/ic_professional_advance" />
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.7"
+                        android:layout_weight="0.65"
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -467,7 +476,7 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.7"
+                        android:layout_weight="0.65"
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -499,7 +508,8 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_margin="3dp"
-                        android:layout_weight="0.3"
+                        android:layout_weight="0.35"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/ic_university" />
                 </LinearLayout>
 
@@ -511,7 +521,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.16">
+            android:layout_weight="0.17">
 
             <include layout="@layout/item_message_received" />
 
@@ -538,7 +548,7 @@
                 <Button
                     android:id="@+id/send_btn"
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/send_btn_height"
+                    android:layout_height="@dimen/btn_height"
                     android:layout_weight="0.25"
                     android:background="@drawable/rounded_primary_color_bg"
                     android:imeOptions="actionSend"

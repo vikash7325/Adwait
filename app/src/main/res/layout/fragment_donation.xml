@@ -54,6 +54,8 @@
                         android:layout_height="wrap_content"
                         android:padding="2dp"
                         android:text="Name:"
+                        android:lines="1"
+                        android:ellipsize="end"
                         android:textColor="@color/app_text"
                         android:textSize="@dimen/medium_text"
                         android:textStyle="bold" />
@@ -64,6 +66,8 @@
                         android:layout_height="wrap_content"
                         android:padding="2dp"
                         android:text="Age:"
+                        android:lines="1"
+                        android:ellipsize="end"
                         android:textColor="@color/app_text"
                         android:textSize="@dimen/medium_text"
                         android:textStyle="bold" />
@@ -108,11 +112,13 @@
                             android:src="@drawable/ic_info_icon" />
                     </RelativeLayout>
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
                         android:id="@+id/fund_details"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="2dp"
+                        android:singleLine="true"
+                        android:lines="1"
                         android:text="@string/fund_raised"
                         android:textColor="@color/hint_text_color"
                         android:textSize="@dimen/small_text" />
@@ -121,6 +127,8 @@
                         android:id="@+id/my_contribution"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:lines="1"
+                        android:ellipsize="end"
                         android:padding="2dp"
                         android:text="Your contribution this month: ₹0"
                         android:textColor="@color/header_text_color"

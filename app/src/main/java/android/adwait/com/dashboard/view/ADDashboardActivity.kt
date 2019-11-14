@@ -103,7 +103,7 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
 
     fun getPackageVersion() {
         val info = packageManager.getPackageInfo(packageName, 0)
-        version.setText("Version : " + info.versionName)
+        version.setText("Version : " + info.versionName + "  ")
     }
 
     fun fetchUserData() {

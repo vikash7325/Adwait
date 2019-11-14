@@ -3,6 +3,7 @@
 
     <dimen name="large_text">16sp</dimen>
     <dimen name="medium_text">14sp</dimen>
+    <dimen name="small_text2">11sp</dimen>
     <dimen name="small_text">12sp</dimen>
     <dimen name="tiny_text">10sp</dimen>
     <dimen name="h1_text">22sp</dimen>
@@ -12,5 +13,6 @@
     <dimen name="dashboard_smile">55dp</dimen>
     <dimen name="dashboard_smile2">50dp</dimen>
     <dimen name="dashboard_smile3">45dp</dimen>
+    <dimen name="pin_box">30dp</dimen>
 
 </resources>
