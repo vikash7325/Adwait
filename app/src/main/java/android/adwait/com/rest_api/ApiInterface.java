@@ -1,6 +1,7 @@
 package android.adwait.com.rest_api;
 
 import android.adwait.com.admin.model.*;
+import android.adwait.com.donation.ADSubscriptionResponse;
 import android.adwait.com.donation.model.*;
 
 import com.google.gson.JsonElement;
@@ -29,4 +30,8 @@ public interface ApiInterface {
     @Headers("Content-Type: application/json")
     @POST("api/transfer")
     Call<JsonElement> transferAmount(@Body ADTransferRequest request);
+
+    @Headers("Content-Type: application/json")
+    @POST("api/subscription")
+    Call<ADSubscriptionResponse> getSubscription(@Body ADSubscriptionRequest request);
 }

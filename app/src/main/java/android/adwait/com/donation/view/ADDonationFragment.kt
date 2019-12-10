@@ -8,6 +8,7 @@ import android.adwait.com.admin.model.ADAddChildModel
 import android.adwait.com.admin.model.ADMoneySplitUp
 import android.adwait.com.admin.model.RestError
 import android.adwait.com.dashboard.view.ADDashboardActivity
+import android.adwait.com.donation.ADSubscriptionResponse
 import android.adwait.com.donation.model.*
 import android.adwait.com.my_mentee.view.ADMonthlySplitActivity
 import android.adwait.com.registeration.model.ADUserDetails
@@ -95,7 +96,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                         (activity as ADDashboardActivity).menuAction(ADConstants.MENU_PROFILE, "")
                     })
             } else {
-                createOrder()
+                createOrderOrSub()
             }
         })
         hx_content.setText(CommonUtils.getHtmlText(getString(R.string.hx_content)))
@@ -137,8 +138,9 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
         view.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(v: View?, event: MotionEvent?): Boolean {
 
-                if (event?.action == MotionEvent.ACTION_UP){
-                    val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                if (event?.action == MotionEvent.ACTION_UP) {
+                    val imm =
+                        context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.hideSoftInputFromWindow(view!!.getWindowToken(), 0)
                 }
                 return true
@@ -147,7 +149,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
         })
     }
 
-    private fun createOrder() {
+    private fun createOrderOrSub() {
         if (amount.text.toString().isEmpty()) {
             (activity as ADBaseActivity).showMessage(
                 getString(R.string.empty_amount),
@@ -171,27 +173,83 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
             return
         }
         progress_layout.visibility = View.VISIBLE
-        receiptNo = receiptNo + System.currentTimeMillis()
 
-        if (receiptNo.length > 30) {
-            receiptNo = receiptNo.substring(0, 25)
+
+        if (monthly_subscription.isChecked) {
+            createSubscription(money)
+        } else {
+
+            receiptNo = receiptNo + System.currentTimeMillis()
+
+            if (receiptNo.length > 30) {
+                receiptNo = receiptNo.substring(0, 25)
+            }
+            var orderRequest = ADCreateOrderRequest(receiptNo, money, "INR");
+            val apiService = ApiClient.getClient().create(ApiInterface::class.java)
+            val call = apiService.createOrder(orderRequest)
+
+            Log.v("orderRequest=> ", orderRequest.toString())
+            call.enqueue(object : Callback<ADCreateOrderResponse> {
+                override fun onResponse(
+                    call: Call<ADCreateOrderResponse>?,
+                    response: Response<ADCreateOrderResponse>?
+                ) {
+
+                    if (response != null && response.isSuccessful) {
+                        if (response.body().successFlag) {
+                            if (response.body() != null) {
+                                val fullResponse: ADCreateOrderResponse = response?.body()!!
+                                startPayment(fullResponse.data, "")
+                            }
+                        } else {
+                            (activity as ADBaseActivity).showMessage(
+                                response.body().message,
+                                donation_parent,
+                                true
+                            )
+                            progress_layout.visibility = View.GONE
+                        }
+                    } else {
+                        val error = Gson().fromJson(
+                            response?.errorBody()?.charStream(),
+                            RestError::class.java
+                        )
+                        Log.i("Testing ==> ", error.toString())
+                        (activity as ADBaseActivity).showMessage(
+                            error.error.description,
+                            donation_parent,
+                            true
+                        )
+                        progress_layout.visibility = View.GONE
+                    }
+                }
+
+                override fun onFailure(call: Call<ADCreateOrderResponse>?, t: Throwable?) {
+                    progress_layout.visibility = View.GONE
+                }
+
+            })
         }
-        var orderRequest = ADCreateOrderRequest(receiptNo, money, "INR");
-        val apiService = ApiClient.getClient().create(ApiInterface::class.java)
-        val call = apiService.createOrder(orderRequest)
 
-        Log.v("orderRequest=> ", orderRequest.toString())
-        call.enqueue(object : Callback<ADCreateOrderResponse> {
+    }
+
+    private fun createSubscription(amount: Int) {
+        var subRequest = ADSubscriptionRequest(amount, "", "");
+        val apiService = ApiClient.getClient().create(ApiInterface::class.java)
+        val call = apiService.getSubscription(subRequest)
+
+        call.enqueue(object : Callback<ADSubscriptionResponse> {
+
             override fun onResponse(
-                call: Call<ADCreateOrderResponse>?,
-                response: Response<ADCreateOrderResponse>?
+                call: Call<ADSubscriptionResponse>?,
+                response: Response<ADSubscriptionResponse>?
             ) {
 
                 if (response != null && response.isSuccessful) {
-                    if (response.body().successFlag) {
+                    if (response.body().isSuccessFlag) {
                         if (response.body() != null) {
-                            val fullResponse: ADCreateOrderResponse = response?.body()!!
-                            startPayment(fullResponse.data)
+                            val fullResponse: ADSubscriptionResponse = response?.body()!!
+                            startPayment(null, fullResponse.data.id)
                         }
                     } else {
                         (activity as ADBaseActivity).showMessage(
@@ -216,18 +274,17 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                 }
             }
 
-            override fun onFailure(call: Call<ADCreateOrderResponse>?, t: Throwable?) {
+            override fun onFailure(call: Call<ADSubscriptionResponse>?, t: Throwable?) {
                 progress_layout.visibility = View.GONE
             }
-
         })
-
     }
 
-    private fun startPayment(data: ADCreateOrderData) {
+    private fun startPayment(data: ADCreateOrderData?, sub_id: String) {
 
         val checkout = Checkout()
         try {
+
 
             val options = JSONObject()
             options.put("name", getString(R.string.app_name))
@@ -235,8 +292,16 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
 
 
             options.put("currency", "INR")
-            options.put("amount", data.amount.toString())
-            options.put("order_id", data.id);
+
+            if (sub_id != null && sub_id.length == 0) {
+                options.put("order_id", data?.id)
+                options.put("amount", data?.amount.toString())
+            } else {
+                val money = amount.text.toString().toInt() * 100
+
+                options.put("subscription_id", sub_id)
+                options.put("amount", money.toString())
+            }
             val preFill = JSONObject()
             preFill.put("email", mEmail)
             preFill.put("contact", mPhoneNumber)
