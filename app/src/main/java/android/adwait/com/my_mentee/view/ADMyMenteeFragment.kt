@@ -15,6 +15,7 @@ import android.adwait.com.utils.ADConstants
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -22,6 +23,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
+import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.ebanx.swipebtn.OnStateChangeListener
@@ -42,7 +45,8 @@ class ADMyMenteeFragment : ADBaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater?.inflate(R.layout.fragment_my_mentee, container, false)
 
         return view
@@ -99,8 +103,9 @@ class ADMyMenteeFragment : ADBaseFragment() {
         view.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(v: View?, event: MotionEvent?): Boolean {
 
-                if (event?.action == MotionEvent.ACTION_UP){
-                    val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                if (event?.action == MotionEvent.ACTION_UP) {
+                    val imm =
+                        context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.hideSoftInputFromWindow(view!!.getWindowToken(), 0)
                 }
                 return true
@@ -117,6 +122,8 @@ class ADMyMenteeFragment : ADBaseFragment() {
                 true
             )
         } else {
+            val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(typed_msg.windowToken, 0)
 
             if (!(activity as ADBaseActivity).isNetworkAvailable()) {
                 (activity as ADBaseActivity).showMessage(
@@ -134,21 +141,19 @@ class ADMyMenteeFragment : ADBaseFragment() {
 
 
             val message = ADMessageModel(today, message, menteeDetails.userName, false)
-            FirebaseDatabase.getInstance()
+            val mChildTable = FirebaseDatabase.getInstance()
                 .reference.child((activity as ADBaseActivity).CHILD_TABLE_NAME)
-                .child(menteeDetails.childId).child(menteeDetails.userName).setValue(message)
+            var key = mChildTable.push().key.toString()
+            mChildTable.child(menteeDetails.childId).child(menteeDetails.userName).child(key)
+                .setValue(message)
                 .addOnSuccessListener {
 
                     var message = java.lang.String.format(
-                        getString(R.string.message_sent),
-                        menteeDetails.userName, childData.childName
+                        getString(R.string.mentee_success_msg), childData.childName
                     )
                     typed_msg.setText("")
                     progress_layout.visibility = View.GONE
-                    (activity as ADBaseActivity).showAlertDialog(
-                        message, "",
-                        "Close", null
-                    )
+                    showAlert(message)
                 }
                 .addOnFailureListener {
                     progress_layout.visibility = View.GONE
@@ -159,6 +164,24 @@ class ADMyMenteeFragment : ADBaseFragment() {
                     )
                 }
         }
+    }
+
+    private fun showAlert(message: String) {
+        val builder = AlertDialog.Builder(activity as ADBaseActivity)
+        val view = View.inflate(context, R.layout.success_msg_layout, null)
+        val msg = view.findViewById<TextView>(R.id.message)
+        msg.text = message
+
+
+        builder.setView(view)
+        val alertDialog: AlertDialog = builder.create()
+        val doneBtn = view.findViewById<Button>(R.id.done_btn)
+        doneBtn.setOnClickListener {
+            alertDialog.dismiss()
+        }
+
+        alertDialog.setCancelable(false)
+        alertDialog.show()
     }
 
     private fun fetchUserData() {

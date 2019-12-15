@@ -22,13 +22,13 @@
 
     <!--Help Screen-->
     <string name="help1"> Get 100% visibility on your money.\nAnytime, Anywhere, Any Device</string>
-    <string name="help2">Discover the joy of satellite parenting by\ntracking child's well being in Adwait\'s way.</string>
-    <string name="help3">Ensuring Happiness with our Unique\nPrescription, Arbitration and Prevention program</string>
-    <string name="help4">Get control of all your contributions on fingertips.\nAll bills and their break-ups at a single place.</string>
+    <string name="help2">Discover the joy of satellite parenting by\n ensuring psycho-emotional and physical well\n being of your mentee</string>
+    <string name="help3">Ensuring happiness with our unique long term\n one-to-one Adwait mentorship program</string>
+    <string name="help4">Get control of all contribution on your fingertips.\n All bills and it\'s break-ups at a single place.</string>
 
 
     <!--Registration-->
-    <string name="reg_hint">We are APPsolutely happy!\n Let us know whos is our new Elve.</string>
+    <string name="reg_hint">We are APPsolutely happy!\n Let us know who is our new Elf.</string>
     <string name="full_name">Full Name</string>
     <string name="email_address">Email Address</string>
     <string name="phone_num">Phone Number</string>
@@ -112,7 +112,7 @@
     <string name="sign_up">Sign up</string>
     <string name="sign_in">Sign in</string>
     <string name="skip_for_now">Skip for now</string>
-    <string name="already_elve">Already an Elve!</string>
+    <string name="already_elve">Already an Elf!</string>
 
     <!--My Profile-->
     <string name="profile_name">Name:</string>
@@ -281,8 +281,9 @@
     <string name="mentee_location"><![CDATA[Location: <font style="color:Black;"><b>%s</b></font>]]></string>
     <string name="mentee_ngo"><![CDATA[NGO Name: <font style="color:Black;"><b>%s</b></font>]]></string>
     <string name="evle_msg">Hey Elve %s,Please leave a personalized note for %s</string>
-    <string name="message_sent">Thank You Elve %s for your message.%s would be delighted to listen from you.You will soon receive her reply in your dashboard</string>
-
+    <string name="mentee_msg_hint">You\'re a caring Elf.</string>
+    <string name="mentee_success_msg">We will inform you once we receive a \nreply from %s.</string>
+    
     <!--Our Causes-->
     <string name="cause1_header">Ensuring the dignity these wonderful god\'s creation deserve.</string>
     <string name="cause2_header">She is still a Daughter?</string>

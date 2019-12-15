@@ -45,49 +45,58 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_padding"
+                android:background="@drawable/rounded_white_bg"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="5dp">
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:id="@+id/spanned_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:textColor="@color/hint_text_color2" />
+
+                    <TextView
+                        android:id="@+id/header_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:text="@string/apply_for_vol"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/medium_text"
+                        android:textStyle="italic" />
+
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/spanned_text"
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="@string/quotes1"
+                    android:textColor="@color/hint_text_color"
+                    android:textSize="@dimen/small_text" />
+
+                <TextView
+                    android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:textColor="@color/hint_text_color2" />
-
-                <TextView
-                    android:id="@+id/header_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="@string/apply_for_vol"
-                    android:textStyle="italic"
+                    android:text="@string/bethechange_hashtag"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/medium_text" />
-
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="5dp"
-                android:text="@string/quotes1"
-                android:textColor="@color/hint_text_color"
-                android:textSize="@dimen/medium_text" />
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="@string/bethechange_hashtag"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/medium_text" />
 
             <!--Tile layout-->
             <LinearLayout

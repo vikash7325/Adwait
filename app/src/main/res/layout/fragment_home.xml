@@ -204,6 +204,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="0.28">
 
+
                     <com.ebanx.swipebtn.SwipeButton
                         android:id="@+id/swipe_btn"
                         android:layout_width="match_parent"
@@ -230,6 +231,35 @@
                         app:inner_text_top_padding="10dp" />
 
                     <ImageView
+                        android:id="@+id/sad_icon"
+                        android:layout_width="@dimen/dashboard_smile"
+                        android:layout_height="@dimen/dashboard_smile"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginRight="5dp"
+                        android:padding="9dp"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:id="@+id/arrow1"
+                        android:layout_width="@dimen/small_text"
+                        android:layout_height="@dimen/large_text"
+                        android:layout_centerInParent="true"
+                        android:layout_toRightOf="@id/sad_icon"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_next"
+                        android:visibility="visible" />
+
+                    <ImageView
+                        android:layout_width="@dimen/small_text"
+                        android:layout_height="@dimen/large_text"
+                        android:layout_centerInParent="true"
+                        android:layout_toRightOf="@id/arrow1"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_next"
+                        android:visibility="visible" />
+
+                    <ImageView
                         android:id="@+id/happy_icon"
                         android:layout_width="@dimen/dashboard_smile"
                         android:layout_height="@dimen/dashboard_smile"
@@ -239,6 +269,28 @@
                         android:padding="9dp"
                         android:src="@drawable/ic_happy"
                         android:visibility="visible" />
+
+
+                    <ImageView
+                        android:layout_width="@dimen/small_text"
+                        android:layout_height="@dimen/large_text"
+                        android:layout_centerInParent="true"
+                        android:layout_toLeftOf="@id/arrow4"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_next"
+                        android:visibility="visible" />
+
+                    <ImageView
+                        android:id="@+id/arrow4"
+                        android:layout_width="@dimen/small_text"
+                        android:layout_height="@dimen/large_text"
+                        android:layout_centerInParent="true"
+                        android:layout_marginRight="5dp"
+                        android:layout_toLeftOf="@id/happy_icon"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_next"
+                        android:visibility="visible" />
+
 
                 </RelativeLayout>
 

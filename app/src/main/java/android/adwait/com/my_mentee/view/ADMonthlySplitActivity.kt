@@ -26,6 +26,10 @@ class ADMonthlySplitActivity : ADBaseActivity() {
             splitData = bundle.getParcelable("splitData")
             processData()
         }
+
+        done_btn.setOnClickListener {
+            finish()
+        }
     }
 
     private fun processData() {

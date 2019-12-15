@@ -7,6 +7,8 @@ import android.adwait.com.utils.ADBaseFragment
 import android.adwait.com.utils.ADConstants
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Paint
+import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -17,13 +19,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.fragment_be_the_change.*
-import android.graphics.Paint
 
 
 class ADBeTheChangeFragment : ADBaseFragment(), View.OnClickListener {
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater?.inflate(R.layout.fragment_be_the_change, container, false)
 
         return view
@@ -67,6 +72,11 @@ class ADBeTheChangeFragment : ADBaseFragment(), View.OnClickListener {
         tile4.setOnClickListener(this)
         tile5.setOnClickListener(this)
         tile6.setOnClickListener(this)
+
+        header_1.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com"))
+            startActivity(intent)
+        }
     }
 
     override fun onClick(v: View?) {
@@ -92,6 +102,6 @@ class ADBeTheChangeFragment : ADBaseFragment(), View.OnClickListener {
                 nextScreen = Intent(activity, ADAdwaitsDayOutActivity::class.java)
             }
         }
-        activity?.startActivityForResult(nextScreen,ADConstants.KEY_REQUEST)
+        activity?.startActivityForResult(nextScreen, ADConstants.KEY_REQUEST)
     }
 }

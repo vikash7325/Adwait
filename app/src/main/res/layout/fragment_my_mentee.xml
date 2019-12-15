@@ -219,6 +219,35 @@
                     app:inner_text_size="@dimen/large_text"
                     app:inner_text_top_padding="8dp" />
 
+                <ImageView
+                    android:id="@+id/sad_icon"
+                    android:layout_width="@dimen/dashboard_smile"
+                    android:layout_height="@dimen/dashboard_smile"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="5dp"
+                    android:padding="9dp"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:id="@+id/arrow1"
+                    android:layout_width="@dimen/small_text"
+                    android:layout_height="@dimen/large_text"
+                    android:layout_centerInParent="true"
+                    android:layout_toRightOf="@id/sad_icon"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_next"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:layout_width="@dimen/small_text"
+                    android:layout_height="@dimen/large_text"
+                    android:layout_centerInParent="true"
+                    android:layout_toRightOf="@id/arrow1"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_next"
+                    android:visibility="visible" />
+
 
                 <ImageView
                     android:id="@+id/happy_icon"
@@ -229,6 +258,26 @@
                     android:layout_marginRight="5dp"
                     android:padding="8dp"
                     android:src="@drawable/ic_happy"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:layout_width="@dimen/small_text"
+                    android:layout_height="@dimen/large_text"
+                    android:layout_centerInParent="true"
+                    android:layout_toLeftOf="@id/arrow4"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_next"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/arrow4"
+                    android:layout_width="@dimen/small_text"
+                    android:layout_height="@dimen/large_text"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@id/happy_icon"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_next"
                     android:visibility="visible" />
 
             </RelativeLayout>
@@ -539,6 +588,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.75"
+                    android:inputType="text|textCapSentences"
                     android:background="@drawable/rounded_white_bg"
                     android:hint="@string/msg_hint"
                     android:imeOptions="actionSend"

@@ -173,22 +173,22 @@
                         android:gravity="center"
                         android:orientation="horizontal">
 
-                        <com.facebook.login.widget.LoginButton
-                            android:id="@+id/facebook_btn"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:layout_weight="0.5"
-                            android:paddingLeft="15dp"
-                            android:paddingTop="15dp"
-                            android:paddingBottom="15dp" />
+<!--                        <com.facebook.login.widget.LoginButton-->
+<!--                            android:id="@+id/facebook_btn"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_margin="5dp"-->
+<!--                            android:layout_weight="0.5"-->
+<!--                            android:paddingLeft="15dp"-->
+<!--                            android:paddingTop="15dp"-->
+<!--                            android:paddingBottom="15dp" />-->
 
                         <com.google.android.gms.common.SignInButton
                             android:id="@+id/google"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
-                            android:layout_weight="0.5" />
+                            android:layout_weight="1" />
 
                     </LinearLayout>
 

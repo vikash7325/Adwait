@@ -18,12 +18,10 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
+import android.widget.TextView
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
 import com.facebook.login.LoginManager
-import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -35,7 +33,6 @@ import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_login.*
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
-import java.util.*
 
 class ADLoginActivity : ADBaseActivity() {
 
@@ -98,7 +95,10 @@ class ADLoginActivity : ADBaseActivity() {
                 if (name.equals(ADConstants.SUPER_ADMIN_NAME) && pass.equals(ADConstants.SUPER_ADMIN_PASS)) {
                     progress_layout.visibility = View.GONE
                     var admin = Intent(applicationContext, ADAdminActivity::class.java)
-                    MySharedPreference(applicationContext).saveBoolean(getString(R.string.superAdmin), true)
+                    MySharedPreference(applicationContext).saveBoolean(
+                        getString(R.string.superAdmin),
+                        true
+                    )
                     startToNextScreen(admin, true, false)
                     finish()
                     return@OnClickListener
@@ -162,27 +162,31 @@ class ADLoginActivity : ADBaseActivity() {
         })
 
 
-        facebook_btn.setReadPermissions(Arrays.asList("email"))
-
-        facebook_btn.registerCallback(mCallBackListener, object : FacebookCallback<LoginResult> {
-            override fun onSuccess(loginResult: LoginResult) {
-                Log.d(TAG, "facebook:onSuccess:$loginResult")
-                handleFacebookAccessToken(loginResult.accessToken)
-            }
-
-            override fun onCancel() {
-                Log.d(TAG, "facebook:onCancel")
-            }
-
-            override fun onError(error: FacebookException) {
-                Log.d(TAG, "facebook:onError", error)
-            }
-        })
+//        facebook_btn.setReadPermissions(Arrays.asList("email"))
+//
+//        facebook_btn.registerCallback(mCallBackListener, object : FacebookCallback<LoginResult> {
+//            override fun onSuccess(loginResult: LoginResult) {
+//                Log.d(TAG, "facebook:onSuccess:$loginResult")
+//                handleFacebookAccessToken(loginResult.accessToken)
+//            }
+//
+//            override fun onCancel() {
+//                Log.d(TAG, "facebook:onCancel")
+//            }
+//
+//            override fun onError(error: FacebookException) {
+//                Log.d(TAG, "facebook:onError", error)
+//            }
+//        })
 
 
         done_btn.setOnClickListener(View.OnClickListener {
             launchHomeScreen(true, mUserId)
         })
+
+        var googleTextView = google.getChildAt(0) as TextView
+
+        googleTextView.text = "Login with Google"
     }
 
     private fun handleFacebookAccessToken(token: AccessToken) {
@@ -293,9 +297,18 @@ class ADLoginActivity : ADBaseActivity() {
                             val hint = java.lang.String.format(con, user.userName)
                             congrats_text.text = CommonUtils.getHtmlText(hint)
                             mUserId = userId
-                            MySharedPreference(applicationContext).saveStrings(getString(R.string.userId), userId)
-                            MySharedPreference(applicationContext).saveBoolean(getString(R.string.logged_in), true)
-                            MySharedPreference(applicationContext).saveBoolean(getString(R.string.registered), true)
+                            MySharedPreference(applicationContext).saveStrings(
+                                getString(R.string.userId),
+                                userId
+                            )
+                            MySharedPreference(applicationContext).saveBoolean(
+                                getString(R.string.logged_in),
+                                true
+                            )
+                            MySharedPreference(applicationContext).saveBoolean(
+                                getString(R.string.registered),
+                                true
+                            )
                             celebration_view.visibility = View.VISIBLE
                             celebration_view.build()
                                 .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
