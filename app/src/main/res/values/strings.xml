@@ -356,4 +356,15 @@
     <string name="event_success">Thank You for registering an event with us.\nOur team will get back to you shortly.</string>
 
 
+    <!--Our Partners-->
+    <string name="partner_title">Thank you for sharing our dream!</string>
+    <string name="partner_header">Meet our partners</string>
+    <string name="partner_point1"></string>
+    <string name="partner_point2"></string>
+    <string name="previous">Previous</string>
+    <string name="partner_point11"></string>
+    <string name="partner_point12"></string>
+    <string name="partner_point13"></string>
+    <string name="be_our_partner">Be our partner</string>
+    <string name="local_partners">Meet few our local partners</string>
 </resources>
