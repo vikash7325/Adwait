@@ -359,12 +359,14 @@
     <!--Our Partners-->
     <string name="partner_title">Thank you for sharing our dream!</string>
     <string name="partner_header">Meet our partners</string>
-    <string name="partner_point1"></string>
-    <string name="partner_point2"></string>
+    <string name="partner_point1">Yes, you\'re our partner in achieving our mission to reach development of 1,00,000 children by 2021.</string>
+    <string name="partner_point2">Together we can ensure that every child has long term access to material, emotional &amp; spiritual resources to exercise their rights of survival, development &amp; protection.</string>
     <string name="previous">Previous</string>
-    <string name="partner_point11"></string>
-    <string name="partner_point12"></string>
-    <string name="partner_point13"></string>
+    <string name="partner_point11">How do we work with our partners?</string>
+    <string name="partner_point12">How do we choose our partners?</string>
+    <string name="partner_point13">What does Adwait expect from partners?</string>
     <string name="be_our_partner">Be our partner</string>
     <string name="local_partners">Meet few our local partners</string>
+    <string name="name1">Vikash,26yrs\n Mumbai</string>
+    <string name="name2">Vivek,26yrs\n Mumbai</string>
 </resources>

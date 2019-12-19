@@ -36,6 +36,21 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
     private var mHasChild = true
     private var splitData: ADMoneySplitUp = ADMoneySplitUp()
 
+    companion object {
+        private var homeFragment = ADHomeFragment()
+
+        fun getInstance(): ADHomeFragment {
+            if (homeFragment == null) {
+                homeFragment = ADHomeFragment()
+            }
+            return homeFragment
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -50,14 +65,6 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         val baseActivity = activity as ADBaseActivity
         mScreenWidth = baseActivity.getScreenDetails(false)
-
-        val data =
-            arrayOf(R.drawable.home_banner_1, R.drawable.home_banner_2, R.drawable.superhero_kids)
-
-        val homeAdapter = ADHomePageAdapter((activity as ADBaseActivity).applicationContext, data)
-        home_pager.adapter = homeAdapter
-        home_indicator.setViewPager(home_pager)
-        homeAdapter.registerDataSetObserver(home_indicator.dataSetObserver)
 
         swipe_btn.setOnStateChangeListener(OnStateChangeListener {
 
@@ -100,6 +107,7 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
         }
 
         fetchUserData()
+        fetchBanner()
 
         login_btn.setOnClickListener(View.OnClickListener {
             (activity as ADDashboardActivity).fireLogin()
@@ -387,6 +395,40 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
             guest_layout.visibility = View.VISIBLE
             hideProgress()
         }
+    }
+
+    private fun fetchBanner() {
+
+        if (!(activity as ADBaseActivity).isNetworkAvailable()) {
+            (activity as ADBaseActivity).showMessage(
+                getString(R.string.no_internet),
+                home_parent,
+                true
+            )
+            return
+        }
+
+        (activity as ADBaseActivity).getBannerDetails(object : ValueEventListener {
+
+            override fun onDataChange(data: DataSnapshot) {
+                if (data.exists()) {
+                    var dataUrl: ArrayList<String> = ArrayList<String>()
+                    for (child in data.children) {
+                        dataUrl.add(child.value as String)
+                    }
+
+                    val homeAdapter =
+                        ADHomePageAdapter((activity as ADBaseActivity).applicationContext, dataUrl)
+                    home_pager.adapter = homeAdapter
+                    home_indicator.setViewPager(home_pager)
+                    homeAdapter.registerDataSetObserver(home_indicator.dataSetObserver)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.i(TAG, "Banner fetch Error : " + error.message)
+            }
+        }, "Home_Banner")
     }
 
     private fun mapChildToUser(monthYr: String) {

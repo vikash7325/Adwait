@@ -92,10 +92,9 @@ class ADMyMenteeFragment : ADBaseFragment() {
 
         fetchUserData()
 
-        val data =
-            arrayOf(R.drawable.home_banner_1, R.drawable.home_banner_2, R.drawable.superhero_kids)
+        var dataUrl: ArrayList<String> = ArrayList<String>()
 
-        val pageAdapter = ADHomePageAdapter((activity as ADBaseActivity).applicationContext, data)
+        val pageAdapter = ADHomePageAdapter((activity as ADBaseActivity).applicationContext, dataUrl)
         mentee_pager.adapter = pageAdapter
         mentee_indicator.setViewPager(mentee_pager)
         pageAdapter.registerDataSetObserver(mentee_indicator.dataSetObserver)

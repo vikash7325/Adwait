@@ -39,6 +39,7 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
     private val TAG: String = "ADDashboardActivity"
     private var mUserName = ""
     private var mSelectedMenu = 0
+    private val homeFragment = ADHomeFragment.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -161,7 +162,6 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
         when (option) {
             /*Home*/
             ADConstants.MENU_HOME -> {
-                val homeFragment = ADHomeFragment()
                 addOrReplaceFragment(false, R.id.home_container, homeFragment, addToStack)
             }
 

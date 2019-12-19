@@ -8,8 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 
-public class ADHomePageAdapter(val context: Context, val data: Array<Int>) : PagerAdapter() {
+public class ADHomePageAdapter(val context: Context, val data: ArrayList<String>) : PagerAdapter() {
 
     private val inflater: LayoutInflater
 
@@ -42,8 +44,8 @@ public class ADHomePageAdapter(val context: Context, val data: Array<Int>) : Pag
         val imageView = imageLayout
             .findViewById(R.id.img_pager_item) as ImageView
 
-
-        imageView.setImageResource(data[position])
+        Glide.with(context).load(data.get(position)).diskCacheStrategy(
+            DiskCacheStrategy.ALL).error(R.drawable.image_not_found).into(imageView)
 
         view.addView(imageLayout, 0)
 

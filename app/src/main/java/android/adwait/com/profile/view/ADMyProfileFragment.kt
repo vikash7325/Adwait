@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.fragment_my_profile.*
 class ADMyProfileFragment : ADBaseFragment() {
     private val TAG: String = "ADMyProfileFragment"
     private lateinit var userData: ADUserDetails
+    private var alreadyCreated: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,7 +68,10 @@ class ADMyProfileFragment : ADBaseFragment() {
             showDialog(true)
         })
 
-        fetchUserDetails()
+        if (!alreadyCreated) {
+            alreadyCreated = true
+            fetchUserDetails()
+        }
     }
 
 
@@ -108,8 +112,11 @@ class ADMyProfileFragment : ADBaseFragment() {
 
     private fun fetchContribution() {
         var monthYr =
-            MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.month_yr)).toString()
-        val userId = MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.userId)).toString()
+            MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.month_yr))
+                .toString()
+        val userId =
+            MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.userId))
+                .toString()
         var myContribution = 0;
         FirebaseDatabase.getInstance()
             .getReference((activity as ADBaseActivity).CONTRIBUTION_TABLE_NAME).child(monthYr)

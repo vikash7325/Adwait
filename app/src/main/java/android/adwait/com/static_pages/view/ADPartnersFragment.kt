@@ -19,6 +19,14 @@ class ADPartnersFragment : ADBaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as ADBaseActivity).showMessage(getString(R.string.development), partner_parent, false)
+        previous_btn.setOnClickListener {
+            page2.visibility = View.GONE
+            page1.visibility = View.VISIBLE
+        }
+
+        next_btn.setOnClickListener {
+            page1.visibility = View.GONE
+            page2.visibility = View.VISIBLE
+        }
     }
 }

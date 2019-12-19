@@ -42,6 +42,7 @@ open class ADBaseActivity : AppCompatActivity() {
     val WISH_CORNER_TABLE_NAME: String = "Wish_Corner";
     val ROUTING_TABLE_NAME: String = "Routing_details";
     val WISH_EVENTS_TABLE_NAME: String = "Wish_Corner_Events";
+    val BANNER_TABLE_NAME: String = "Banners";
 
     private val TAG: String = "ADBaseActivity";
     private lateinit var auth: FirebaseAuth.AuthStateListener
@@ -108,6 +109,18 @@ open class ADBaseActivity : AppCompatActivity() {
             mChildDataTable.addListenerForSingleValueEvent(listener)
         }
         return true
+    }
+
+
+    public fun getBannerDetails(listener: ValueEventListener,childName : String) {
+        if (!isNetworkAvailable()) {
+            return
+        }
+
+        val mUserDataTable =
+            FirebaseDatabase.getInstance().reference.child(BANNER_TABLE_NAME).child(childName)
+
+        mUserDataTable.addListenerForSingleValueEvent(listener)
     }
 
     public fun isLoggedInUser(): Boolean {

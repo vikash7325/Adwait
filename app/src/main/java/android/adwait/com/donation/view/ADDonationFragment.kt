@@ -61,6 +61,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
     private var monthlyAmount = "0";
     private var splitData: ADMoneySplitUp = ADMoneySplitUp()
     private var receiptNo = "Receipt_"
+    private var mSubId = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -249,6 +250,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                     if (response.body().isSuccessFlag) {
                         if (response.body() != null) {
                             val fullResponse: ADSubscriptionResponse = response?.body()!!
+                            mSubId = fullResponse.data.id
                             startPayment(null, fullResponse.data.id)
                         }
                     } else {
@@ -318,54 +320,61 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
     }
 
     private fun verifySignature(paymentData: PaymentData?) {
-        var signRequest = ADSignVerifyRequest(paymentData!!.orderId, paymentData!!.signature);
-        val apiService = ApiClient.getClient().create(ApiInterface::class.java)
-        val call = apiService.verifySignature(signRequest)
-        Log.i("Testing ==> ", "verifySignature called")
-        Log.i("Testing ==> ", signRequest.toString())
+        try {
 
-        call.enqueue(object : Callback<ADSignVerifyResponse> {
+            var signRequest = ADSignVerifyRequest(paymentData!!.orderId, paymentData!!.signature);
+            val apiService = ApiClient.getClient().create(ApiInterface::class.java)
+            val call = apiService.verifySignature(signRequest)
+            Log.i("Testing ==> ", "verifySignature called")
+            Log.i("Testing ==> ", signRequest.toString())
 
-            override fun onResponse(
-                call: Call<ADSignVerifyResponse>?,
-                response: Response<ADSignVerifyResponse>?
-            ) {
-                if (response != null && response.isSuccessful) {
-                    if (response.body().isSuccessFlag) {
-                        if (response.body() != null) {
-                            val fullData: ADSignVerifyResponse = response?.body()!!
-                            if (fullData.message.equals("Signature Matched")) {
-                                checkAmountOfChild(paymentData, true)
+            call.enqueue(object : Callback<ADSignVerifyResponse> {
+
+                override fun onResponse(
+                    call: Call<ADSignVerifyResponse>?,
+                    response: Response<ADSignVerifyResponse>?
+                ) {
+                    if (response != null && response.isSuccessful) {
+                        if (response.body().isSuccessFlag) {
+                            if (response.body() != null) {
+                                val fullData: ADSignVerifyResponse = response?.body()!!
+                                if (fullData.message.equals("Signature Matched")) {
+                                    checkAmountOfChild(paymentData, true, null)
+                                }
                             }
+                        } else {
+                            (activity as ADBaseActivity).showMessage(
+                                response.body().message,
+                                donation_parent,
+                                true
+                            )
+                            progress_layout.visibility = View.GONE
                         }
                     } else {
+                        val error = Gson().fromJson(
+                            response?.errorBody()?.charStream(),
+                            RestError::class.java
+                        )
+                        Log.i("Testing ==> ", error.toString())
                         (activity as ADBaseActivity).showMessage(
-                            response.body().message,
+                            error.error.description,
                             donation_parent,
                             true
                         )
                         progress_layout.visibility = View.GONE
                     }
-                } else {
-                    val error = Gson().fromJson(
-                        response?.errorBody()?.charStream(),
-                        RestError::class.java
-                    )
-                    Log.i("Testing ==> ", error.toString())
-                    (activity as ADBaseActivity).showMessage(
-                        error.error.description,
-                        donation_parent,
-                        true
-                    )
-                    progress_layout.visibility = View.GONE
                 }
-            }
 
-            override fun onFailure(call: Call<ADSignVerifyResponse>?, t: Throwable?) {
-                checkAmountOfChild(paymentData, false)
-                Log.i("Testing ==> onFailure", t.toString())
-            }
-        })
+                override fun onFailure(call: Call<ADSignVerifyResponse>?, t: Throwable?) {
+                    checkAmountOfChild(paymentData, false, null)
+                    Log.i("Testing ==> onFailure", t.toString())
+                }
+            })
+        } catch (e: Exception) {
+            progress_layout.visibility = View.GONE
+            Log.i("Testing ==> onException", e.toString())
+
+        }
     }
 
     private fun fetchUserData() {
@@ -607,7 +616,11 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
 
     override fun onPaymentSuccess(paymentId: String?, paymentData: PaymentData?) {
         progress_layout.visibility = View.VISIBLE
-        verifySignature(paymentData)
+        if (monthly_subscription.isChecked) {
+            checkAmountOfChild(paymentData, true, mSubId)
+        } else {
+            verifySignature(paymentData)
+        }
     }
 
     override fun onPaymentError(error_id: Int, error_msg: String?, paymentData: PaymentData?) {
@@ -622,7 +635,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
         (activity as ADBaseActivity).showMessage(error_msg.toString(), donation_parent, true)
     }
 
-    private fun checkAmountOfChild(payment: PaymentData?, status: Boolean) {
+    private fun checkAmountOfChild(payment: PaymentData?, status: Boolean, sub_id: String?) {
         try {
             val preference = MySharedPreference(activity!!.applicationContext)
             val userId = preference.getValueString(getString(R.string.userId)).toString()
@@ -634,8 +647,14 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
             var today =
                 MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.current_date))
                     .toString()
+
+            var id = payment?.orderId.toString()
+
+            if (id == null) {
+                id = mSubId
+            }
             var donation = ADDonationModel(
-                payment?.orderId.toString(), receiptNo,
+                id, receiptNo,
                 payment?.paymentId.toString(), "", today, amount.text.toString().toInt(),
                 status, mChildId, mUserName, userId
             )
@@ -646,7 +665,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                 var balance = monthlyAmount.toInt() - mOldContribution
                 tempAmount = mOldContribution + balance
                 donation = ADDonationModel(
-                    payment?.orderId.toString(), receiptNo,
+                    id, receiptNo,
                     payment?.paymentId.toString(),
                     "",
                     today,

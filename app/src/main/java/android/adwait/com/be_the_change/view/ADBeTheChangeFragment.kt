@@ -14,10 +14,14 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.text.style.StrikethroughSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_be_the_change.*
 
 
@@ -58,14 +62,6 @@ class ADBeTheChangeFragment : ADBaseFragment(), View.OnClickListener {
         params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, pagerHeight)
         bethe_change_pager.layoutParams = params
 
-        val data =
-            arrayOf(R.drawable.home_banner_1, R.drawable.home_banner_2, R.drawable.superhero_kids)
-
-        val pageAdapter = ADHomePageAdapter((activity as ADBaseActivity).applicationContext, data)
-        bethe_change_pager.adapter = pageAdapter
-        change_indicator.setViewPager(bethe_change_pager)
-        pageAdapter.registerDataSetObserver(change_indicator.dataSetObserver)
-
         tile1.setOnClickListener(this)
         tile2.setOnClickListener(this)
         tile3.setOnClickListener(this)
@@ -104,4 +100,39 @@ class ADBeTheChangeFragment : ADBaseFragment(), View.OnClickListener {
         }
         activity?.startActivityForResult(nextScreen, ADConstants.KEY_REQUEST)
     }
+
+    private fun fetchBanner() {
+
+        if (!(activity as ADBaseActivity).isNetworkAvailable()) {
+            (activity as ADBaseActivity).showMessage(
+                getString(R.string.no_internet),
+                change_parent,
+                true
+            )
+            return
+        }
+
+        (activity as ADBaseActivity).getBannerDetails(object : ValueEventListener {
+
+            override fun onDataChange(data: DataSnapshot) {
+                if (data.exists()) {
+                    var dataUrl: ArrayList<String> = ArrayList<String>()
+                    for (child in data.children) {
+                        dataUrl.add(child.value as String)
+                    }
+
+                    val pageAdapter = ADHomePageAdapter((activity as ADBaseActivity).applicationContext, dataUrl)
+                    bethe_change_pager.adapter = pageAdapter
+                    change_indicator.setViewPager(bethe_change_pager)
+                    pageAdapter.registerDataSetObserver(change_indicator.dataSetObserver)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.i("ADBeTheChangeFragment", "Banner fetch Error : " + error.message)
+            }
+        },"Be_The_Change_Banner")
+    }
+
+
 }
