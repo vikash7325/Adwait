@@ -11,12 +11,31 @@ class ADUserDetails(
     var phoneNumber: String = "",
     val emailAddress: String = "",
     var date_of_birth: String = ""
-) : ADBaseModel(),Parcelable {
+) : ADBaseModel(), Parcelable {
     var usedReferralCode: String = ""
     var myReferralCode: String = ""
     var childId: String = ""
     var can_add_data: Boolean = false
     var referralPoints: String = "100"
+    var lastTransaction: ADLastCheckout = ADLastCheckout()
+
+
+    @Exclude
+    fun toMap(): Map<String, Any?> {
+        return mapOf(
+            "userName" to userName,
+            "password" to password,
+            "phoneNumber" to phoneNumber,
+            "date_of_birth" to date_of_birth
+        )
+    }
+
+    @Exclude
+    fun toMap2(): Map<String, Any?> {
+        return mapOf(
+            "lastTransaction" to lastTransaction
+        )
+    }
 
     constructor(parcel: Parcel) : this(
         parcel.readString(),
@@ -32,15 +51,6 @@ class ADUserDetails(
         referralPoints = parcel.readString()
     }
 
-    @Exclude
-    fun toMap(): Map<String, Any?> {
-        return mapOf(
-            "userName" to userName,
-            "password" to password,
-            "phoneNumber" to phoneNumber,
-            "date_of_birth" to date_of_birth
-        )
-    }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(userName)

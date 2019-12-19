@@ -184,12 +184,23 @@
                 android:textSize="@dimen/medium_text" />
 
             <Button
-                android:id="@+id/reset_pwd"
+                android:id="@+id/my_subscription"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/btn_height"
                 android:layout_margin="5dp"
                 android:background="@drawable/rounded_primary_color_bg"
                 android:text="@string/profile_btn3"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/medium_text" />
+
+            <Button
+                android:id="@+id/reset_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btn_height"
+                android:layout_margin="5dp"
+                android:background="@drawable/rounded_primary_color_bg"
+                android:text="@string/profile_btn4"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/medium_text" />

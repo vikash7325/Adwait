@@ -120,7 +120,8 @@
     <string name="profile_contribution">Contribution this month:</string>
     <string name="profile_btn1">My Mentee</string>
     <string name="profile_btn2">My Contributions</string>
-    <string name="profile_btn3">Reset Password</string>
+    <string name="profile_btn3">My Subscriptions</string>
+    <string name="profile_btn4">Reset Password</string>
     <string name="profile_t_c">Terms &amp; Condition</string>
     <string name="profile_contact">Contact</string>
     <string name="profile_faq">FAQ</string>
@@ -264,6 +265,9 @@
     <string name="btn_200">₹ 200</string>
     <string name="btn_500">₹ 500</string>
     <string name="btn_1000">₹ 1000</string>
+    <string name="repeat_trans">Repeat Last Transaction</string>
+    <string name="auto_sub">Adwait Automatic Contribution</string>
+    <string name="auto_sub_msg">Now share happiness automatically. Contribute monthly to your mentee without any hassle.</string>
 
     <!--Contribution-->
     <string name="contribution_header">My Contributions</string>

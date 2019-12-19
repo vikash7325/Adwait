@@ -7,540 +7,650 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:layout_marginBottom="5dp"
-        android:padding="@dimen/default_padding"
-        android:orientation="vertical">
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="@dimen/padd_10"
+        android:fillViewport="true"
+        android:gravity="center_horizontal">
 
-        <!--Donation Layout-->
         <LinearLayout
-            android:id="@+id/payment_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:padding="@dimen/default_padding">
 
-            <RelativeLayout
+            <!--Donation Layout-->
+            <LinearLayout
+                android:id="@+id/payment_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_white_bg"
-                android:padding="5dp">
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="visible">
 
-                <ImageView
-                    android:id="@+id/child_image"
-                    android:layout_width="85dp"
-                    android:layout_height="85dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_margin="5dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/ic_guest_user" />
-
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_margin="5dp"
-                    android:layout_toRightOf="@id/child_image"
-                    android:orientation="vertical">
+                    android:background="@drawable/rounded_white_bg"
+                    android:padding="5dp">
 
-                    <TextView
-                        android:id="@+id/child_name"
+                    <ImageView
+                        android:id="@+id/child_image"
+                        android:layout_width="85dp"
+                        android:layout_height="85dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_margin="5dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_guest_user" />
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="2dp"
-                        android:text="Name:"
-                        android:lines="1"
-                        android:ellipsize="end"
-                        android:textColor="@color/app_text"
-                        android:textSize="@dimen/medium_text"
-                        android:textStyle="bold" />
+                        android:layout_centerInParent="true"
+                        android:layout_margin="5dp"
+                        android:layout_toRightOf="@id/child_image"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/child_age"
-                        android:layout_width="match_parent"
+                        <TextView
+                            android:id="@+id/child_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:padding="2dp"
+                            android:text="Name:"
+                            android:textColor="@color/app_text"
+                            android:textSize="@dimen/medium_text"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/child_age"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:padding="2dp"
+                            android:text="Age:"
+                            android:textColor="@color/app_text"
+                            android:textSize="@dimen/medium_text"
+                            android:textStyle="bold" />
+
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ProgressBar
+                                android:id="@+id/progress"
+                                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="20dp"
+                                android:layout_centerInParent="true"
+                                android:layout_gravity="left"
+                                android:layout_toLeftOf="@+id/info_icon"
+                                android:progress="0"
+                                android:progressDrawable="@drawable/seekbar_fill" />
+
+                            <TextView
+                                android:id="@+id/progress_value"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_toLeftOf="@+id/info_icon"
+                                android:gravity="center"
+                                android:lines="1"
+                                android:textColor="@android:color/white"
+                                android:textSize="10sp"
+                                android:textStyle="bold"
+                                android:visibility="gone" />
+
+                            <ImageView
+                                android:id="@+id/info_icon"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerInParent="true"
+                                android:layout_marginLeft="5dp"
+                                android:padding="3dp"
+                                android:src="@drawable/ic_info_icon" />
+                        </RelativeLayout>
+
+                        <me.grantland.widget.AutofitTextView
+                            android:id="@+id/fund_details"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:lines="1"
+                            android:padding="2dp"
+                            android:singleLine="true"
+                            android:text="@string/fund_raised"
+                            android:textColor="@color/hint_text_color"
+                            android:textSize="@dimen/small_text" />
+
+                        <TextView
+                            android:id="@+id/my_contribution"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:padding="2dp"
+                            android:text="Your contribution this month: ₹0"
+                            android:textColor="@color/header_text_color"
+                            android:textSize="@dimen/small_text"
+                            android:visibility="gone" />
+
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="@string/donation_hint"
+                    android:textColor="@color/hint_text_color"
+                    android:textSize="@dimen/small_text"
+                    android:visibility="gone" />
+
+                <!--Repeat layout-->
+                <LinearLayout
+                    android:id="@+id/repeat_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padd_10"
+                    android:background="@drawable/rounded_white_bg"
+                    android:orientation="vertical"
+                    android:padding="@dimen/default_padding"
+                    android:visibility="gone">
+
+                    <android.adwait.com.utils.customfonts.ADBoldFont
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="2dp"
-                        android:text="Age:"
-                        android:lines="1"
                         android:ellipsize="end"
+                        android:lines="1"
+                        android:text="@string/repeat_trans"
+                        android:textAllCaps="false"
                         android:textColor="@color/app_text"
-                        android:textSize="@dimen/medium_text"
-                        android:textStyle="bold" />
-
+                        android:textSize="@dimen/medium_text" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <ProgressBar
-                            android:id="@+id/progress"
-                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="20dp"
-                            android:layout_centerInParent="true"
-                            android:layout_gravity="left"
-                            android:layout_toLeftOf="@+id/info_icon"
-                            android:progress="0"
-                            android:progressDrawable="@drawable/seekbar_fill" />
-
                         <TextView
-                            android:id="@+id/progress_value"
-                            android:layout_width="match_parent"
+                            android:id="@+id/repeat"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:layout_toLeftOf="@+id/info_icon"
-                            android:gravity="center"
-                            android:lines="1"
-                            android:textColor="@android:color/white"
-                            android:textSize="10sp"
-                            android:textStyle="bold"
-                            android:visibility="gone" />
-
-                        <ImageView
-                            android:id="@+id/info_icon"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
                             android:layout_alignParentRight="true"
                             android:layout_centerInParent="true"
-                            android:padding="3dp"
-                            android:layout_marginLeft="5dp"
-                            android:src="@drawable/ic_info_icon" />
-                    </RelativeLayout>
-
-                    <me.grantland.widget.AutofitTextView
-                        android:id="@+id/fund_details"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="2dp"
-                        android:singleLine="true"
-                        android:lines="1"
-                        android:text="@string/fund_raised"
-                        android:textColor="@color/hint_text_color"
-                        android:textSize="@dimen/small_text" />
-
-                    <TextView
-                        android:id="@+id/my_contribution"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:lines="1"
-                        android:ellipsize="end"
-                        android:padding="2dp"
-                        android:text="Your contribution this month: ₹0"
-                        android:textColor="@color/header_text_color"
-                        android:textSize="@dimen/small_text" />
-
-
-                </LinearLayout>
-
-            </RelativeLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@string/donation_hint"
-                android:textColor="@color/hint_text_color"
-                android:textSize="@dimen/small_text" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_white_bg"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:padding="@dimen/default_padding">
-
-                <TextView
-                    android:id="@+id/hint_with_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:gravity="center_vertical"
-                    android:text="@string/hint_with_name"
-                    android:textColor="@color/hint_text_color"
-                    android:textSize="@dimen/medium_text" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
-
-
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
-                        android:layout_weight="0.7"
-                        android:background="@drawable/bottomline_gray">
+                            android:text="Repeat"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/large_text" />
 
                         <TextView
-                            android:id="@+id/rs"
+                            android:id="@+id/repeat_amount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
-                            android:layout_centerInParent="true"
-                            android:padding="3dp"
+                            android:layout_alignParentTop="true"
+                            android:padding="5dp"
                             android:text="@string/rupees"
-                            android:textColor="@android:color/black"
-                            android:textSize="@dimen/large_text" />
+                            android:textColor="@color/app_text"
+                            android:textSize="@dimen/large_text"
+                            android:textStyle="bold" />
 
-                        <EditText
-                            android:id="@+id/amount"
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:id="@+id/mode"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:layout_toRightOf="@+id/rs"
-                            android:background="@android:color/transparent"
-                            android:inputType="numberDecimal"
-                            android:lines="1"
-                            android:paddingLeft="5dp"
-                            android:textSize="@dimen/medium_text" />
+                            android:layout_below="@+id/repeat_amount"
+                            android:layout_alignParentLeft="true"
+                            android:textColor="@color/app_text"
+                            android:textSize="@dimen/small_text"
+                            android:visibility="gone" />
                     </RelativeLayout>
-
-                    <Button
-                        android:id="@+id/donate_now"
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/btn_height"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="0.3"
-                        android:background="@drawable/rounded_primary_color_bg"
-                        android:text="@string/btn_proceed"
-                        android:textAllCaps="false"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/medium_text" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:layout_marginTop="@dimen/padd_10"
+                    android:background="@drawable/rounded_white_bg"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:padding="@dimen/default_padding">
 
-                    <Button
-                        android:id="@+id/btn_monthly"
-                        android:layout_width="@dimen/btn_width"
-                        android:layout_height="@dimen/btn_height"
-                        android:background="@drawable/payment_btn"
-                        android:gravity="center"
-                        android:padding="3dp"
-                        android:text="@string/rupees"
-                        android:textColor="@color/app_text"
+                    <TextView
+                        android:id="@+id/hint_with_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/hint_with_name"
+                        android:textColor="@color/hint_text_color"
                         android:textSize="@dimen/medium_text" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:layout_weight="0.7"
+                            android:background="@drawable/bottomline_gray">
+
+                            <TextView
+                                android:id="@+id/rs"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_centerInParent="true"
+                                android:padding="3dp"
+                                android:text="@string/rupees"
+                                android:textColor="@android:color/black"
+                                android:textSize="@dimen/large_text" />
+
+                            <EditText
+                                android:id="@+id/amount"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_toRightOf="@+id/rs"
+                                android:background="@android:color/transparent"
+                                android:inputType="numberDecimal"
+                                android:lines="1"
+                                android:paddingLeft="5dp"
+                                android:textSize="@dimen/medium_text" />
+                        </RelativeLayout>
+
+                        <Button
+                            android:id="@+id/donate_now"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/btn_height"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="0.3"
+                            android:background="@drawable/rounded_primary_color_bg"
+                            android:text="@string/btn_proceed"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/medium_text" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/btn_monthly"
+                            android:layout_width="@dimen/btn_width"
+                            android:layout_height="@dimen/btn_height"
+                            android:background="@drawable/payment_btn"
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="@string/rupees"
+                            android:textColor="@color/app_text"
+                            android:textSize="@dimen/medium_text" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:text="One Month's expense"
+                            android:textColor="@color/app_text"
+                            android:textSize="@dimen/medium_text" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <Button
+                                android:id="@+id/btn_100"
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/btn_height"
+                                android:layout_marginRight="10dp"
+                                android:layout_weight="0.25"
+                                android:background="@drawable/payment_btn"
+                                android:gravity="center"
+                                android:padding="3dp"
+                                android:text="@string/btn_100"
+                                android:textColor="@color/app_text"
+                                android:textSize="@dimen/medium_text" />
+
+                            <Button
+                                android:id="@+id/btn_200"
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/btn_height"
+                                android:layout_marginRight="10dp"
+                                android:layout_weight="0.25"
+                                android:background="@drawable/payment_btn"
+                                android:gravity="center"
+                                android:padding="3dp"
+                                android:text="@string/btn_200"
+                                android:textColor="@color/app_text"
+                                android:textSize="@dimen/medium_text" />
+
+                            <Button
+                                android:id="@+id/btn_500"
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/btn_height"
+                                android:layout_marginRight="10dp"
+                                android:layout_weight="0.25"
+                                android:background="@drawable/payment_btn"
+                                android:gravity="center"
+                                android:padding="3dp"
+                                android:text="@string/btn_500"
+                                android:textColor="@color/app_text"
+                                android:textSize="@dimen/medium_text" />
+
+                            <Button
+                                android:id="@+id/btn_1000"
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/btn_height"
+                                android:layout_weight="0.25"
+                                android:background="@drawable/payment_btn"
+                                android:gravity="center"
+                                android:padding="3dp"
+                                android:text="@string/btn_1000"
+                                android:textColor="@color/app_text"
+                                android:textSize="@dimen/medium_text" />
+
+
+                        </LinearLayout>
+
+                        <CheckBox
+                            android:id="@+id/monthly_subscription"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/checkbox"
+                            android:textColor="@color/app_text"
+                            android:textSize="@dimen/small_text" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!--Subscribe layout-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padd_10"
+                    android:background="@drawable/rounded_white_bg"
+                    android:padding="@dimen/default_padding">
+
+                    <ImageView
+                        android:id="@+id/auto_image"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_auto_btn" />
+
+                    <TextView
+                        android:id="@+id/auto_header"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="@dimen/padd_10"
+                        android:layout_toRightOf="@id/auto_image"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:text="@string/auto_sub"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/large_text" />
+
+                    <TextView
+                        android:id="@+id/start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:text="Start"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/large_text" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="10dp"
-                        android:text="One Month's expense"
+                        android:layout_below="@+id/auto_header"
+                        android:layout_marginLeft="@dimen/padd_10"
+                        android:layout_toLeftOf="@id/start"
+                        android:layout_toRightOf="@id/auto_image"
+                        android:padding="5dp"
+                        android:text="@string/auto_sub_msg"
                         android:textColor="@color/app_text"
-                        android:textSize="@dimen/medium_text" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
-
-                        <Button
-                            android:id="@+id/btn_100"
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/btn_height"
-                            android:layout_marginRight="10dp"
-                            android:layout_weight="0.25"
-                            android:background="@drawable/payment_btn"
-                            android:gravity="center"
-                            android:padding="3dp"
-                            android:text="@string/btn_100"
-                            android:textColor="@color/app_text"
-                            android:textSize="@dimen/medium_text" />
-
-                        <Button
-                            android:id="@+id/btn_200"
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/btn_height"
-                            android:layout_marginRight="10dp"
-                            android:layout_weight="0.25"
-                            android:background="@drawable/payment_btn"
-                            android:gravity="center"
-                            android:padding="3dp"
-                            android:text="@string/btn_200"
-                            android:textColor="@color/app_text"
-                            android:textSize="@dimen/medium_text" />
-
-                        <Button
-                            android:id="@+id/btn_500"
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/btn_height"
-                            android:layout_marginRight="10dp"
-                            android:layout_weight="0.25"
-                            android:background="@drawable/payment_btn"
-                            android:gravity="center"
-                            android:padding="3dp"
-                            android:text="@string/btn_500"
-                            android:textColor="@color/app_text"
-                            android:textSize="@dimen/medium_text" />
-
-                        <Button
-                            android:id="@+id/btn_1000"
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/btn_height"
-                            android:layout_weight="0.25"
-                            android:background="@drawable/payment_btn"
-                            android:gravity="center"
-                            android:padding="3dp"
-                            android:text="@string/btn_1000"
-                            android:textColor="@color/app_text"
-                            android:textSize="@dimen/medium_text" />
+                        android:textSize="@dimen/small_text2" />
 
 
-                    </LinearLayout>
+                </RelativeLayout>
 
-                    <CheckBox
-                        android:id="@+id/monthly_subscription"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="@string/checkbox"
-                        android:textColor="@color/app_text"
-                        android:textSize="@dimen/small_text" />
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_padding"
-                android:background="@drawable/rounded_white_bg"
-                android:padding="15dp">
-
-                <ScrollView
+                <!--Top contri-->
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fillViewport="true"
-                    android:scrollbars="none">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_padding"
+                    android:background="@drawable/rounded_white_bg"
+                    android:orientation="vertical"
+                    android:padding="15dp">
 
-
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/no_contribution"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
                         android:gravity="center"
+                        android:padding="5dp"
+                        android:textColor="@color/app_text"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:id="@+id/top_contribution"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal"
                         android:orientation="vertical">
 
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/ic_trophy" />
+
                         <TextView
-                            android:id="@+id/no_contribution"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
-                            android:gravity="center"
                             android:padding="5dp"
-                            android:textColor="@color/app_text"
-                            android:visibility="gone" />
+                            android:text="@string/top_contributers"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/small_text"
+                            android:textStyle="bold" />
 
                         <LinearLayout
-                            android:id="@+id/top_contribution"
+                            android:id="@+id/contributers_list"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center_horizontal"
                             android:orientation="vertical">
 
-                            <ImageView
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:src="@drawable/ic_trophy" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="5dp"
-                                android:padding="5dp"
-                                android:text="@string/top_contributers"
-                                android:textColor="@android:color/black"
-                                android:textSize="@dimen/small_text"
-                                android:textStyle="bold" />
-
-                            <LinearLayout
-                                android:id="@+id/contributers_list"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:gravity="center_horizontal"
-                                android:orientation="vertical">
-
-
-                            </LinearLayout>
 
                         </LinearLayout>
 
                     </LinearLayout>
-                </ScrollView>
 
+
+                </LinearLayout>
 
             </LinearLayout>
 
-        </LinearLayout>
-
-        <!--Congrats layout-->
-        <LinearLayout
-            android:id="@+id/congrats_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone">
-
+            <!--Congrats layout-->
             <LinearLayout
+                android:id="@+id/congrats_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_white_bg"
+                android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:visibility="gone">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:padding="5dp"
-                    android:text="@string/thankyou"
-                    android:textColor="@color/hint_text_color"
-                    android:textSize="@dimen/large_text"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:padding="5dp"
-                    android:text="@string/happiness_is_yours"
-                    android:textColor="@color/hint_text_color"
-                    android:textSize="@dimen/medium_text"
-                    android:textStyle="bold" />
-
-
-                <TextView
-                    android:id="@+id/congrats_text"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rounded_white_bg"
                     android:gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/congrats_content"
-                    android:textColor="@color/hint_text_color"
-                    android:textSize="@dimen/medium_text" />
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:padding="5dp"
+                        android:text="@string/thankyou"
+                        android:textColor="@color/hint_text_color"
+                        android:textSize="@dimen/large_text"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:padding="5dp"
+                        android:text="@string/happiness_is_yours"
+                        android:textColor="@color/hint_text_color"
+                        android:textSize="@dimen/medium_text"
+                        android:textStyle="bold" />
 
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    <TextView
+                        android:id="@+id/congrats_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="@string/congrats_content"
+                        android:textColor="@color/hint_text_color"
+                        android:textSize="@dimen/medium_text" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:padding="5dp"
+                        android:text="@string/footer"
+                        android:textColor="@color/hint_text_color"
+                        android:textSize="@dimen/medium_text"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/done_btn"
+                    android:layout_width="@dimen/btn_width"
+                    android:layout_height="@dimen/btn_height"
+                    android:layout_marginTop="15dp"
                     android:layout_marginBottom="10dp"
-                    android:padding="5dp"
-                    android:text="@string/footer"
-                    android:textColor="@color/hint_text_color"
-                    android:textSize="@dimen/medium_text"
-                    android:textStyle="bold" />
+                    android:background="@drawable/rounded_primary_color_bg"
+                    android:text="@string/done"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/medium_text" />
             </LinearLayout>
 
-            <Button
-                android:id="@+id/done_btn"
-                android:layout_width="@dimen/btn_width"
-                android:layout_height="@dimen/btn_height"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/rounded_primary_color_bg"
-                android:text="@string/done"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/medium_text" />
-        </LinearLayout>
-
-        <!--Hx layout-->
-        <LinearLayout
-            android:id="@+id/hx_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone">
-
+            <!--Hx layout-->
             <LinearLayout
+                android:id="@+id/hx_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_white_bg"
+                android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:visibility="gone">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:padding="5dp"
-                    android:text="@string/congrats"
-                    android:textColor="@color/hint_text_color"
-                    android:textSize="@dimen/large_text"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:padding="5dp"
-                    android:text="@string/happiness_is_yours"
-                    android:textColor="@color/hint_text_color"
-                    android:textSize="@dimen/medium_text"
-                    android:textStyle="bold" />
-
-
-                <TextView
-                    android:id="@+id/hx_content"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rounded_white_bg"
                     android:gravity="center"
-                    android:padding="5dp"
-                    android:text="@string/hx_content"
-                    android:textColor="@color/hint_text_color"
-                    android:textSize="@dimen/medium_text" />
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:padding="5dp"
+                        android:text="@string/congrats"
+                        android:textColor="@color/hint_text_color"
+                        android:textSize="@dimen/large_text"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:padding="5dp"
+                        android:text="@string/happiness_is_yours"
+                        android:textColor="@color/hint_text_color"
+                        android:textSize="@dimen/medium_text"
+                        android:textStyle="bold" />
 
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    <TextView
+                        android:id="@+id/hx_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="@string/hx_content"
+                        android:textColor="@color/hint_text_color"
+                        android:textSize="@dimen/medium_text" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:padding="5dp"
+                        android:text="@string/footer"
+                        android:textColor="@color/hint_text_color"
+                        android:textSize="@dimen/medium_text"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/next_btn"
+                    android:layout_width="@dimen/btn_width"
+                    android:layout_height="@dimen/btn_height"
+                    android:layout_marginTop="15dp"
                     android:layout_marginBottom="10dp"
-                    android:padding="5dp"
-                    android:text="@string/footer"
-                    android:textColor="@color/hint_text_color"
-                    android:textSize="@dimen/medium_text"
-                    android:textStyle="bold" />
+                    android:background="@drawable/rounded_primary_color_bg"
+                    android:text="@string/next"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/medium_text" />
             </LinearLayout>
 
-            <Button
-                android:id="@+id/next_btn"
-                android:layout_width="@dimen/btn_width"
-                android:layout_height="@dimen/btn_height"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/rounded_primary_color_bg"
-                android:text="@string/next"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/medium_text" />
         </LinearLayout>
 
-    </LinearLayout>
+    </ScrollView>
 
     <!--Progress Layout-->
     <LinearLayout

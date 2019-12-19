@@ -11,6 +11,7 @@ import android.adwait.com.dashboard.view.ADDashboardActivity
 import android.adwait.com.donation.ADSubscriptionResponse
 import android.adwait.com.donation.model.*
 import android.adwait.com.my_mentee.view.ADMonthlySplitActivity
+import android.adwait.com.registeration.model.ADLastCheckout
 import android.adwait.com.registeration.model.ADUserDetails
 import android.adwait.com.rest_api.ApiClient
 import android.adwait.com.rest_api.ApiInterface
@@ -86,6 +87,15 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                 (activity as ADDonationActivity).finish()
             }
         })
+
+        start.setOnClickListener {
+            monthly_subscription.isChecked = true
+        }
+
+        repeat.setOnClickListener {
+            amount.setText(repeat_amount.text.toString())
+            donate_now.performClick()
+        }
 
         donate_now.setOnClickListener(View.OnClickListener {
             if (mPhoneNumber == null || mPhoneNumber.length == 0) {
@@ -339,7 +349,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                             if (response.body() != null) {
                                 val fullData: ADSignVerifyResponse = response?.body()!!
                                 if (fullData.message.equals("Signature Matched")) {
-                                    checkAmountOfChild(paymentData, true, null)
+                                    checkAmountOfChild(paymentData, true)
                                 }
                             }
                         } else {
@@ -366,7 +376,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                 }
 
                 override fun onFailure(call: Call<ADSignVerifyResponse>?, t: Throwable?) {
-                    checkAmountOfChild(paymentData, false, null)
+                    checkAmountOfChild(paymentData, false)
                     Log.i("Testing ==> onFailure", t.toString())
                 }
             })
@@ -413,6 +423,14 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
 
                         if (mUserName.isEmpty()) {
                             mUserName = mEmail
+                        }
+
+                        if (menteeDetails.lastTransaction != null && menteeDetails.lastTransaction.amount > 0) {
+                            repeat_amount.setText(getString(R.string.rupees) + " " + menteeDetails.lastTransaction.amount)
+                            mode.setText(menteeDetails.lastTransaction.method)
+                            repeat_layout.visibility = View.VISIBLE
+                        } else {
+                            repeat_layout.visibility = View.GONE
                         }
                         fetchChildData(menteeDetails.childId, false)
                     }
@@ -565,11 +583,11 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                         my_contribution?.setText(text)
 
                         var count = 1
-                        val size = topList.size
+                        var size = topList.size
                         var looper = size - 1
 
                         if (size > 3) {
-                            size == 3
+                            size = 5
                         }
 
                         if (size == 0) {
@@ -617,7 +635,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
     override fun onPaymentSuccess(paymentId: String?, paymentData: PaymentData?) {
         progress_layout.visibility = View.VISIBLE
         if (monthly_subscription.isChecked) {
-            checkAmountOfChild(paymentData, true, mSubId)
+            checkAmountOfChild(paymentData, true)
         } else {
             verifySignature(paymentData)
         }
@@ -635,8 +653,9 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
         (activity as ADBaseActivity).showMessage(error_msg.toString(), donation_parent, true)
     }
 
-    private fun checkAmountOfChild(payment: PaymentData?, status: Boolean, sub_id: String?) {
+    private fun checkAmountOfChild(payment: PaymentData?, status: Boolean) {
         try {
+            updateUserLastTrans(payment)
             val preference = MySharedPreference(activity!!.applicationContext)
             val userId = preference.getValueString(getString(R.string.userId)).toString()
 
@@ -711,7 +730,6 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                         }
                     })
             } else {
-
                 savePaymentToServer(monthYr, donation, tempAmount, status, true)
             }
 
@@ -779,5 +797,19 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
             }
     }
 
+    private fun updateUserLastTrans(payment: PaymentData?) {
 
+        val user = ADUserDetails()
+        user.lastTransaction = ADLastCheckout(amount.text.toString().toInt(), "")
+        val mFirebaseInstance = FirebaseDatabase.getInstance()
+
+        // get reference to 'users' node
+        val mFirebaseDatabase =
+            mFirebaseInstance.getReference((activity as ADBaseActivity).USER_TABLE_NAME)
+        mFirebaseDatabase.child(
+            MySharedPreference((activity as ADBaseActivity).applicationContext).getValueString(
+                getString(R.string.userId)
+            )!!
+        ).updateChildren(user.toMap2())
+    }
 }

@@ -59,6 +59,10 @@ class ADMyProfileFragment : ADBaseFragment() {
             )
         })
 
+        my_subscription.setOnClickListener {
+
+        }
+
         reset_pwd.setOnClickListener(View.OnClickListener {
             val intent = Intent(activity, ADResetPassword::class.java)
             startActivity(intent)
