@@ -7,6 +7,7 @@ import android.adwait.com.wish_corner.model.ADWishModel
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.Toolbar
 import android.text.TextUtils
 import android.view.View
@@ -17,6 +18,7 @@ import java.util.*
 class ADAddWishesActivity : ADBaseActivity() {
     private var mIsEdit = false
     private var mKey = ""
+    private lateinit var mProgressDialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,7 +76,9 @@ class ADAddWishesActivity : ADBaseActivity() {
                     showMessage(getString(R.string.no_internet), add_wish_parent, true)
                     return@OnClickListener
                 }
-                progress_layout.visibility = View.VISIBLE
+                mProgressDialog = showProgressDialog("", false)
+                mProgressDialog.show()
+
                 val user = MySharedPreference(this).getValueString(getString(R.string.userName))
                 val wishModel = ADWishModel(
                     name, doBirth, getAge(doBirth, "dd-MM-yyyy"), ngo, wish, price.toInt(),
@@ -91,12 +95,12 @@ class ADAddWishesActivity : ADBaseActivity() {
                 }
                 mWishesTable.child(key).setValue(wishModel)
                     .addOnSuccessListener {
-                        progress_layout.visibility = View.GONE
+                        hideProgress(mProgressDialog)
                         setResult(Activity.RESULT_OK)
                         finish()
                     }
                     .addOnFailureListener {
-                        progress_layout.visibility = View.GONE
+                        hideProgress(mProgressDialog)
                     }
             }
         })

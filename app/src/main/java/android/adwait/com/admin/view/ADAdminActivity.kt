@@ -18,6 +18,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.view.ViewPager
+import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.View
 import com.example.myapplication.admin.adapter.AdSectionsPagerAdapter
@@ -43,6 +44,7 @@ class ADAdminActivity : ADBaseActivity() {
     private var mLastMonth = ""
     private var mRetryCount = 0
     private var messageData = HashMap<String, ADTransferData>();
+    private lateinit var mProgressDialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,12 +94,15 @@ class ADAdminActivity : ADBaseActivity() {
             startActivityForResult(Intent(this, ADAddChildActivity::class.java), 1235)
             hideFABMenu()
         })
+
+        mProgressDialog = showProgressDialog("", false)
     }
 
     public fun getPreviousMonth() {
         showHideProgress(true)
 
-        val currentDate = MySharedPreference(this).getValueString(getString(R.string.current_date)).toString()
+        val currentDate =
+            MySharedPreference(this).getValueString(getString(R.string.current_date)).toString()
 
         if (currentDate == null || currentDate.length == 0 || currentDate.equals("null")) {
             getServerDate(ADConstants.KEY_GET_CURRENT_DATE, object : ADCommonResponseListener {
@@ -199,7 +204,7 @@ class ADAdminActivity : ADBaseActivity() {
                         if (jsonElement.isJsonObject()) {
                             val data = gson.fromJson(response.body(), ADTransferData::class.java)
                             if (!data.isSuccessFlag) {
-                                progress_layout.visibility = View.GONE
+                                showHideProgress(false)
                                 showMessage(data.message, admin_parent, true)
                             }
                         } else {
@@ -221,7 +226,7 @@ class ADAdminActivity : ADBaseActivity() {
                     )
                     Log.i("Testing ==> ", error.toString())
                     showMessage(error.error.description, null, false)
-                    progress_layout.visibility = View.GONE
+                   showHideProgress(false)
                 }
             }
 
@@ -299,9 +304,10 @@ class ADAdminActivity : ADBaseActivity() {
 
     public fun showHideProgress(show: Boolean) {
         if (show) {
-            progress_layout.visibility = View.VISIBLE
+            mProgressDialog.show()
         } else {
-            progress_layout.visibility = View.GONE
+            if (mProgressDialog.isShowing)
+                mProgressDialog.hide()
         }
     }
 

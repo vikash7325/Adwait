@@ -8,6 +8,7 @@ import android.adwait.com.utils.ADConstants
 import android.adwait.com.utils.ADViewClickListener
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.Toolbar
 import android.view.View
 import com.google.firebase.database.FirebaseDatabase
@@ -20,6 +21,7 @@ import java.util.*
 
 class ADPledgeBdayActivity : ADBaseActivity() {
     private val PLEDGE_TABLE: String = "Pledge_bday"
+    private lateinit var mProgressDialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,7 +78,9 @@ class ADPledgeBdayActivity : ADBaseActivity() {
                 if (!isNetworkAvailable()) {
                     showMessage(getString(R.string.no_internet), pledge_parent, true)
                 } else {
-                    progress_layout.visibility = View.VISIBLE
+                    mProgressDialog = showProgressDialog("", false)
+                    mProgressDialog.show()
+
                     val dataModel = ADPledgeBdayModel(
                         MySharedPreference(applicationContext).getValueString(getString(R.string.userId))!!,
                         uName,
@@ -90,13 +94,13 @@ class ADPledgeBdayActivity : ADBaseActivity() {
 
                     fireBaseDB.child(key).setValue(dataModel)
                         .addOnSuccessListener {
-                            progress_layout.visibility = View.GONE
+                            hideProgress(mProgressDialog)
                             showAlertDialog(getString(R.string.pledge_bday_msg),getString(R.string.done),"", ADViewClickListener {
                                 finish()
                             })
                         }
                         .addOnFailureListener {
-                            progress_layout.visibility = View.GONE
+                            hideProgress(mProgressDialog)
                             showMessage(getString(R.string.contact_failed), pledge_parent, true)
                         }
                 }

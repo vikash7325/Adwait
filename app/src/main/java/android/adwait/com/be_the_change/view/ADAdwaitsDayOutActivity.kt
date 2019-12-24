@@ -8,6 +8,7 @@ import android.adwait.com.utils.ADConstants
 import android.adwait.com.utils.ADViewClickListener
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.Toolbar
 import android.view.View
 import com.google.firebase.database.FirebaseDatabase
@@ -18,6 +19,7 @@ import java.util.*
 
 class ADAdwaitsDayOutActivity : ADBaseActivity() {
     private val DAY_OUT_TABLE: String = "Adwait_day_out"
+    private lateinit var mProgressDialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,7 +83,8 @@ class ADAdwaitsDayOutActivity : ADBaseActivity() {
                             MySharedPreference(applicationContext).getValueString(getString(R.string.userId))!!,
                             uName, uDate, contact, uMessage
                         )
-                        progress_layout.visibility = View.VISIBLE
+                        mProgressDialog = showProgressDialog("", false)
+                        mProgressDialog.show()
                         val fireBaseInstance = FirebaseDatabase.getInstance()
                         val fireBaseDB = fireBaseInstance.getReference(DAY_OUT_TABLE)
 
@@ -89,7 +92,7 @@ class ADAdwaitsDayOutActivity : ADBaseActivity() {
 
                         fireBaseDB.child(key).setValue(dayoutData)
                             .addOnSuccessListener {
-                                progress_layout.visibility = View.GONE
+                                hideProgress(mProgressDialog)
                                 showAlertDialog(getString(R.string.dayout_success),
                                     getString(R.string.close),
                                     "",
@@ -98,7 +101,7 @@ class ADAdwaitsDayOutActivity : ADBaseActivity() {
                                     })
                             }
                             .addOnFailureListener {
-                                progress_layout.visibility = View.GONE
+                                hideProgress(mProgressDialog)
                                 showMessage(getString(R.string.contact_failed), day_parent, true)
                             }
                     }

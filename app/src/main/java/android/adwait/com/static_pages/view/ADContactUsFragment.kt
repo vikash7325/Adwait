@@ -8,6 +8,7 @@ import android.adwait.com.utils.ADBaseFragment
 import android.adwait.com.utils.ADConstants
 import android.adwait.com.utils.ADViewClickListener
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import kotlinx.android.synthetic.main.fragment_contact_us.*
 class ADContactUsFragment : ADBaseFragment() {
 
     private val CONTACT_TABLE: String = "Contact_details"
+    private lateinit var mProgressDialog: AlertDialog
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_contact_us, container, false)
@@ -51,7 +53,8 @@ class ADContactUsFragment : ADBaseFragment() {
                     return@OnClickListener
                 }
 
-                progress_layout.visibility = View.VISIBLE
+                mProgressDialog = (activity as ADBaseActivity).showProgressDialog("", false)
+                mProgressDialog.show()
 
                 val contact = ADContact(userName, cSubject, cContact, cMessage)
 
@@ -62,7 +65,7 @@ class ADContactUsFragment : ADBaseFragment() {
 
                 fireBaseDB.child(key).setValue(contact)
                         .addOnSuccessListener {
-                            progress_layout.visibility = View.GONE
+                            (activity as ADBaseActivity).hideProgress(mProgressDialog)
                             (activity as ADBaseActivity).showAlertDialog(getString(R.string.contact_success),
                                 getString(R.string.close),
                                 "",
@@ -75,7 +78,7 @@ class ADContactUsFragment : ADBaseFragment() {
                             message.setText("")
                         }
                         .addOnFailureListener {
-                            progress_layout.visibility = View.GONE
+                            (activity as ADBaseActivity).hideProgress(mProgressDialog)
                             (activity as ADBaseActivity).showMessage(getString(R.string.contact_failed), contact_parent, true)
                         }
             }

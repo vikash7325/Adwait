@@ -13,7 +13,8 @@ class ADWishModel(
     var price: Int = 0,
     var donatedBy: String = "",
     var fulFilled: String = "",
-    var addedBy: String = ""
+    var addedBy: String = "",
+    var childAim: String = ""
 ) : ADBaseModel(), Parcelable {
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -27,6 +28,7 @@ class ADWishModel(
         parcel.writeString(fulFilled)
         parcel.writeString(addedBy)
         parcel.writeString(keyId)
+        parcel.writeString(childAim)
     }
 
     override fun describeContents(): Int {
@@ -42,6 +44,7 @@ class ADWishModel(
         parcel.readString(),
         parcel.readString(),
         parcel.readInt(),
+        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString()

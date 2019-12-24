@@ -11,6 +11,7 @@ import android.adwait.com.utils.ADConstants
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +26,7 @@ class ADMyProfileFragment : ADBaseFragment() {
     private val TAG: String = "ADMyProfileFragment"
     private lateinit var userData: ADUserDetails
     private var alreadyCreated: Boolean = false
+    private lateinit var mProgressDialog: AlertDialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,12 +67,13 @@ class ADMyProfileFragment : ADBaseFragment() {
 
         reset_pwd.setOnClickListener(View.OnClickListener {
             val intent = Intent(activity, ADResetPassword::class.java)
-            startActivity(intent)
+            startActivityForResult(intent, 444)
         })
 
         edit_layout.setOnClickListener(View.OnClickListener {
             showDialog(true)
         })
+        mProgressDialog = (activity as ADBaseActivity).showProgressDialog("", false)
 
         if (!alreadyCreated) {
             alreadyCreated = true
@@ -84,8 +87,8 @@ class ADMyProfileFragment : ADBaseFragment() {
             (activity as ADBaseActivity).showMessage(getString(R.string.no_internet), null, true)
             return
         }
+        mProgressDialog.show()
 
-        progress_layout.visibility = View.VISIBLE
         (activity as ADBaseActivity).getUserDetails(object : ValueEventListener {
 
             override fun onDataChange(data: DataSnapshot) {
@@ -99,17 +102,19 @@ class ADMyProfileFragment : ADBaseFragment() {
                         p_contribution.setText("")
 
                         if (userData.phoneNumber.isEmpty() && userData.date_of_birth.isEmpty()) {
-                            progress_layout.visibility = View.GONE
+                            (activity as ADBaseActivity).hideProgress(mProgressDialog)
                             showDialog(false)
                         }
                         fetchContribution()
+                    } else {
+                        (activity as ADBaseActivity).hideProgress(mProgressDialog)
                     }
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Log.e(TAG, "Error : " + error.message)
-                progress_layout.visibility = View.GONE
+                (activity as ADBaseActivity).hideProgress(mProgressDialog)
             }
         })
     }
@@ -128,7 +133,7 @@ class ADMyProfileFragment : ADBaseFragment() {
             .addListenerForSingleValueEvent(object : ValueEventListener {
 
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    progress_layout.visibility = View.GONE
+                    (activity as ADBaseActivity).hideProgress(mProgressDialog)
                     if (dataSnapshot.exists()) {
                         for (data in dataSnapshot.children) {
                             Log.e(TAG, "onDataChange : " + data)
@@ -146,7 +151,7 @@ class ADMyProfileFragment : ADBaseFragment() {
 
                 override fun onCancelled(error: DatabaseError) {
                     Log.e(TAG, "fetchContribution Error : " + error.message)
-                    progress_layout.visibility = View.GONE
+                    (activity as ADBaseActivity).hideProgress(mProgressDialog)
                 }
 
             })
@@ -162,10 +167,11 @@ class ADMyProfileFragment : ADBaseFragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        (activity as ADDashboardActivity).hideProgress()
         if (requestCode == 444) {
             if (resultCode == Activity.RESULT_OK) {
                 fetchUserDetails()
-                (activity as ADDashboardActivity).fetchUserData()
+                (activity as ADDashboardActivity).fetchUserData(true)
             }
         }
     }

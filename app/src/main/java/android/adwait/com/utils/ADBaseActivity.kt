@@ -8,6 +8,8 @@ import android.adwait.com.utils.ADConstants
 import android.adwait.com.utils.ADViewClickListener
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
@@ -21,6 +23,8 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -81,7 +85,7 @@ open class ADBaseActivity : AppCompatActivity() {
 
     }
 
-    public fun getUserDetails(listener: ValueEventListener): Boolean {
+    fun getUserDetails(listener: ValueEventListener): Boolean {
         val preference = MySharedPreference(applicationContext)
         if (!isNetworkAvailable()) {
             return false
@@ -97,7 +101,7 @@ open class ADBaseActivity : AppCompatActivity() {
         return true
     }
 
-    public fun getChildDetails(childId: String, listener: ValueEventListener): Boolean {
+    fun getChildDetails(childId: String, listener: ValueEventListener): Boolean {
         if (!isNetworkAvailable()) {
             return false
         }
@@ -112,7 +116,7 @@ open class ADBaseActivity : AppCompatActivity() {
     }
 
 
-    public fun getBannerDetails(listener: ValueEventListener,childName : String) {
+    fun getBannerDetails(listener: ValueEventListener, childName: String) {
         if (!isNetworkAvailable()) {
             return
         }
@@ -413,6 +417,40 @@ open class ADBaseActivity : AppCompatActivity() {
         Log.v(TAG, "converted -> " + cdate)
         Log.v(TAG, "converted -> " + converted)
         return converted
+    }
+
+    fun showProgressDialog(message: String, showChildMapping: Boolean): AlertDialog {
+
+        var displayMessage = message
+        val builder = AlertDialog.Builder(this)
+        val view = View.inflate(applicationContext, R.layout.progress_dialog_layout, null)
+
+        val normalLayout = view.findViewById<LinearLayout>(R.id.nrml_progress_bar)
+        val mappingLayout = view.findViewById<LinearLayout>(R.id.child_mapping)
+        val loading_text = view.findViewById<TextView>(R.id.loading_text)
+        if (displayMessage == null || displayMessage.length == 0) {
+            displayMessage = getString(R.string.loading)
+        }
+        if (showChildMapping) {
+            normalLayout.visibility = View.GONE
+            mappingLayout.visibility = View.VISIBLE
+        } else {
+            normalLayout.visibility = View.VISIBLE
+            mappingLayout.visibility = View.GONE
+        }
+
+        loading_text.setText(displayMessage)
+        builder.setView(view)
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.setCancelable(false)
+        alertDialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        return alertDialog
+    }
+
+    fun hideProgress(mProgressDialog: AlertDialog) {
+        if (mProgressDialog.isShowing) {
+            mProgressDialog.dismiss()
+        }
     }
 
 }

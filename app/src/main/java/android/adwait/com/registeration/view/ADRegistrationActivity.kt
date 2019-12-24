@@ -11,6 +11,7 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -44,6 +45,7 @@ class ADRegistrationActivity : ADBaseActivity() {
     private val SEND_EMAIL_VERIFICATION: Int = 0
     private val SEND_MOBILE_VERIFICATION: Int = 1
     private val SEND_ALL_VERIFICATION: Int = 2
+    private lateinit var mProgressDialog: AlertDialog
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +58,7 @@ class ADRegistrationActivity : ADBaseActivity() {
         mFirebaseDatabase = mFirebaseInstance.getReference(USER_TABLE_NAME)
 
         back_icon.visibility = View.VISIBLE
+        mProgressDialog = showProgressDialog("", false)
 
         back_icon.setOnClickListener(View.OnClickListener { finish() })
 
@@ -98,7 +101,8 @@ class ADRegistrationActivity : ADBaseActivity() {
                     showMessage(getString(R.string.no_internet), register_parent, true)
                     return@OnClickListener
                 }
-                progress_layout.visibility = View.VISIBLE
+                mProgressDialog.show()
+
                 userRegister = ADUserDetails(name, pass, phoneNo, emailId, doBirth)
                 userRegister.myReferralCode = getReferralString()
                 mFirebaseAuth = FirebaseAuth.getInstance()
@@ -118,7 +122,7 @@ class ADRegistrationActivity : ADBaseActivity() {
 
                                 if (elve.emailAddress.equals(emailId) || (!elve.phoneNumber.isEmpty() &&
                                             elve.phoneNumber.equals(phoneNo))) {
-                                    progress_layout.visibility = View.GONE
+                                    hideProgress(mProgressDialog)
                                     showMessage(
                                         getString(R.string.registration_duplicate),
                                         register_parent,
@@ -140,7 +144,7 @@ class ADRegistrationActivity : ADBaseActivity() {
 
                     override fun onCancelled(error: DatabaseError) {
                         showMessage(getString(R.string.registration_failed), register_parent, true)
-                        progress_layout.visibility = View.GONE
+                        hideProgress(mProgressDialog)
                     }
                 })
             }
@@ -176,7 +180,7 @@ class ADRegistrationActivity : ADBaseActivity() {
 
         //Final submit button click
         final_submit.setOnClickListener(View.OnClickListener {
-            progress_layout.visibility = View.VISIBLE
+            mProgressDialog.show()
             verifyMobileNum()
         })
 
@@ -256,9 +260,9 @@ class ADRegistrationActivity : ADBaseActivity() {
                         sendVerificationCodes(SEND_ALL_VERIFICATION)
                     }
 
-                    progress_layout.visibility = View.GONE
+                    hideProgress(mProgressDialog)
                 } else {
-                    progress_layout.visibility = View.GONE
+                    hideProgress(mProgressDialog)
                     if (task.exception is FirebaseAuthUserCollisionException) {
                         showMessage(
                             getString(R.string.registration_duplicate),
@@ -306,7 +310,7 @@ class ADRegistrationActivity : ADBaseActivity() {
                 Log.d(TAG, "onCodeSent:" + verificationId!!)
                 storedVerificationId = verificationId
                 verify_mobile.text = userRegister.phoneNumber
-                progress_layout.visibility = View.GONE
+               hideProgress(mProgressDialog)
             }
         }
 
@@ -315,7 +319,7 @@ class ADRegistrationActivity : ADBaseActivity() {
             if (case == SEND_EMAIL_VERIFICATION) {
                 user.sendEmailVerification()
                     .addOnCompleteListener(this) { task ->
-                        progress_layout.visibility = View.GONE
+                       hideProgress(mProgressDialog)
                         verify_email.text = userRegister.emailAddress
                     }
             } else if (case == SEND_MOBILE_VERIFICATION) {
@@ -331,7 +335,7 @@ class ADRegistrationActivity : ADBaseActivity() {
 
                 user.sendEmailVerification()
                     .addOnCompleteListener(this) { task ->
-                        progress_layout.visibility = View.GONE
+                       hideProgress(mProgressDialog)
                         verify_email.text = userRegister.emailAddress
                     }
 
@@ -361,7 +365,7 @@ class ADRegistrationActivity : ADBaseActivity() {
                     if (task.isSuccessful) {
                         saveData(userRegister)
                     } else {
-                        progress_layout.visibility = View.GONE
+                       hideProgress(mProgressDialog)
                         showMessage("Invalid OTP. Try again",register_parent,true)
                     }
                 }
@@ -377,7 +381,7 @@ class ADRegistrationActivity : ADBaseActivity() {
         mFirebaseDatabase.child(mUserId).setValue(user)
             .addOnSuccessListener {
 
-                progress_layout.visibility = View.GONE
+                hideProgress(mProgressDialog)
                 var pre = MySharedPreference(applicationContext)
                 pre.saveBoolean(getString(R.string.logged_in), true)
                 pre.saveBoolean(getString(R.string.registered), true)
@@ -410,7 +414,7 @@ class ADRegistrationActivity : ADBaseActivity() {
             .addOnFailureListener {
                 Log.i("Test", it.message)
                 showMessage(getString(R.string.registration_failed), register_parent, true)
-                progress_layout.visibility = View.GONE
+                hideProgress(mProgressDialog)
             }
     }
 

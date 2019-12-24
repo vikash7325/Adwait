@@ -12,6 +12,7 @@ import android.adwait.com.utils.ADConstants
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -42,10 +43,12 @@ class ADLoginActivity : ADBaseActivity() {
     private val RC_SIGN_IN = 2345
     private lateinit var mCallBackListener: CallbackManager
     private var mUserId: String = ""
+    private lateinit var mProgressDialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        mProgressDialog = showProgressDialog("", false)
 
         mFirebaseAuth = FirebaseAuth.getInstance()
 
@@ -91,9 +94,9 @@ class ADLoginActivity : ADBaseActivity() {
                     showMessage(getString(R.string.no_internet), login_parent, true)
                     return@OnClickListener
                 }
-                progress_layout.visibility = View.VISIBLE
+                 mProgressDialog.show()
                 if (name.equals(ADConstants.SUPER_ADMIN_NAME) && pass.equals(ADConstants.SUPER_ADMIN_PASS)) {
-                    progress_layout.visibility = View.GONE
+                    hideProgress(mProgressDialog)
                     var admin = Intent(applicationContext, ADAdminActivity::class.java)
                     MySharedPreference(applicationContext).saveBoolean(
                         getString(R.string.superAdmin),
@@ -125,12 +128,12 @@ class ADLoginActivity : ADBaseActivity() {
                                             login_parent,
                                             true
                                         )
-                                        progress_layout.visibility = View.GONE
+                                        hideProgress(mProgressDialog)
                                     }
                             }
                         } else {
                             showMessage(getString(R.string.invalid_user_pass), login_parent, true)
-                            progress_layout.visibility = View.GONE
+                            hideProgress(mProgressDialog)
                         }
                     }
             }
@@ -222,7 +225,7 @@ class ADLoginActivity : ADBaseActivity() {
     }
 
     private fun startGoogleSignin() {
-        progress_layout.visibility = View.VISIBLE
+         mProgressDialog.show()
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
@@ -230,12 +233,12 @@ class ADLoginActivity : ADBaseActivity() {
         val googleSignInClient = GoogleSignIn.getClient(applicationContext, gso)
         val signInIntent = googleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
-        progress_layout.visibility = View.GONE
+        hideProgress(mProgressDialog)
     }
 
     private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.id!!)
-        progress_layout.visibility = View.VISIBLE
+         mProgressDialog.show()
 
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
         mFirebaseAuth.signInWithCredential(credential)
@@ -254,14 +257,14 @@ class ADLoginActivity : ADBaseActivity() {
                         )
                         checkUserInDb(userRegister, user.uid)
                     } else {
-                        progress_layout.visibility = View.GONE
+                        hideProgress(mProgressDialog)
                     }
 
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
                     showMessage(getString(R.string.login_failed), login_parent, true)
-                    progress_layout.visibility = View.GONE
+                    hideProgress(mProgressDialog)
                 }
 
             }
@@ -280,7 +283,7 @@ class ADLoginActivity : ADBaseActivity() {
             override fun onDataChange(data: DataSnapshot) {
 
                 if (data.exists()) {
-                    progress_layout.visibility = View.GONE
+                    hideProgress(mProgressDialog)
                     mUserId = userId
                     launchHomeScreen(true, userId)
                 } else {
@@ -290,7 +293,7 @@ class ADLoginActivity : ADBaseActivity() {
                         .addOnSuccessListener {
                             login_layout.visibility = View.GONE
                             congrats_layout.visibility = View.VISIBLE
-                            progress_layout.visibility = View.GONE
+                            hideProgress(mProgressDialog)
                             var con: String = getString(R.string.congrats_1)
                             skip_btn.visibility = View.INVISIBLE
 
@@ -326,14 +329,14 @@ class ADLoginActivity : ADBaseActivity() {
                         }
                         .addOnFailureListener {
                             showMessage(getString(R.string.registration_failed), login_parent, true)
-                            progress_layout.visibility = View.GONE
+                            hideProgress(mProgressDialog)
                         }
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {
                 showMessage(getString(R.string.registration_failed), login_parent, true)
-                progress_layout.visibility = View.GONE
+                hideProgress(mProgressDialog)
             }
 
         })

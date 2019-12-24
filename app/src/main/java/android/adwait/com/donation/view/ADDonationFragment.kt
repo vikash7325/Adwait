@@ -23,6 +23,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -63,6 +64,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
     private var splitData: ADMoneySplitUp = ADMoneySplitUp()
     private var receiptNo = "Receipt_"
     private var mSubId = ""
+    private lateinit var mProgressDialog: AlertDialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,6 +73,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
     ): View? {
         val view = inflater?.inflate(R.layout.fragment_donation, container, false)
 
+        mProgressDialog = (activity as ADBaseActivity).showProgressDialog("", false)
         return view
     }
 
@@ -183,7 +186,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
             (activity as ADBaseActivity).showMessage(getString(R.string.no_internet), null, true)
             return
         }
-        progress_layout.visibility = View.VISIBLE
+        mProgressDialog.show()
 
 
         if (monthly_subscription.isChecked) {
@@ -218,7 +221,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                                 donation_parent,
                                 true
                             )
-                            progress_layout.visibility = View.GONE
+                           (activity as ADBaseActivity).hideProgress(mProgressDialog)
                         }
                     } else {
                         val error = Gson().fromJson(
@@ -231,12 +234,12 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                             donation_parent,
                             true
                         )
-                        progress_layout.visibility = View.GONE
+                       (activity as ADBaseActivity).hideProgress(mProgressDialog)
                     }
                 }
 
                 override fun onFailure(call: Call<ADCreateOrderResponse>?, t: Throwable?) {
-                    progress_layout.visibility = View.GONE
+                   (activity as ADBaseActivity).hideProgress(mProgressDialog)
                 }
 
             })
@@ -269,7 +272,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                             donation_parent,
                             true
                         )
-                        progress_layout.visibility = View.GONE
+                       (activity as ADBaseActivity).hideProgress(mProgressDialog)
                     }
                 } else {
                     val error = Gson().fromJson(
@@ -282,12 +285,12 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                         donation_parent,
                         true
                     )
-                    progress_layout.visibility = View.GONE
+                   (activity as ADBaseActivity).hideProgress(mProgressDialog)
                 }
             }
 
             override fun onFailure(call: Call<ADSubscriptionResponse>?, t: Throwable?) {
-                progress_layout.visibility = View.GONE
+               (activity as ADBaseActivity).hideProgress(mProgressDialog)
             }
         })
     }
@@ -324,7 +327,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
 
         } catch (e: Exception) {
             Toast.makeText(activity, "Error in payment: " + e.message, Toast.LENGTH_SHORT).show();
-            progress_layout.visibility = View.GONE
+           (activity as ADBaseActivity).hideProgress(mProgressDialog)
             e.printStackTrace();
         }
     }
@@ -358,7 +361,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                                 donation_parent,
                                 true
                             )
-                            progress_layout.visibility = View.GONE
+                           (activity as ADBaseActivity).hideProgress(mProgressDialog)
                         }
                     } else {
                         val error = Gson().fromJson(
@@ -371,7 +374,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                             donation_parent,
                             true
                         )
-                        progress_layout.visibility = View.GONE
+                       (activity as ADBaseActivity).hideProgress(mProgressDialog)
                     }
                 }
 
@@ -381,7 +384,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                 }
             })
         } catch (e: Exception) {
-            progress_layout.visibility = View.GONE
+           (activity as ADBaseActivity).hideProgress(mProgressDialog)
             Log.i("Testing ==> onException", e.toString())
 
         }
@@ -398,7 +401,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
             return
         }
         if ((activity as ADBaseActivity).isLoggedInUser()) {
-            progress_layout?.visibility = View.VISIBLE
+            mProgressDialog.show()
 
             (activity as ADBaseActivity).getUserDetails(object : ValueEventListener {
 
@@ -438,7 +441,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
 
                 override fun onCancelled(error: DatabaseError) {
                     Log.e(TAG, "Mentee fetch Error : " + error.message)
-                    progress_layout?.visibility = View.GONE
+                   (activity as ADBaseActivity).hideProgress(mProgressDialog)
                 }
             })
         }
@@ -455,7 +458,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
             return
         }
         if (childId.isEmpty()) {
-            progress_layout.visibility = View.GONE
+           (activity as ADBaseActivity).hideProgress(mProgressDialog)
             return
         }
         if ((activity as ADBaseActivity).isLoggedInUser()) {
@@ -464,7 +467,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
 
                 override fun onDataChange(data: DataSnapshot) {
                     Log.e(TAG, "Child Fetched.")
-                    progress_layout?.visibility = View.GONE
+                   (activity as ADBaseActivity).hideProgress(mProgressDialog)
                     if (data.exists()) {
                         if (data != null) {
 
@@ -545,7 +548,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
 
                 override fun onCancelled(error: DatabaseError) {
                     Log.e(TAG, "Error : " + error.message)
-                    progress_layout?.visibility = View.GONE
+                   (activity as ADBaseActivity).hideProgress(mProgressDialog)
                 }
             })
         }
@@ -633,7 +636,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
     }
 
     override fun onPaymentSuccess(paymentId: String?, paymentData: PaymentData?) {
-        progress_layout.visibility = View.VISIBLE
+        mProgressDialog.show()
         if (monthly_subscription.isChecked) {
             checkAmountOfChild(paymentData, true)
         } else {
@@ -642,7 +645,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
     }
 
     override fun onPaymentError(error_id: Int, error_msg: String?, paymentData: PaymentData?) {
-        progress_layout.visibility = View.GONE
+       (activity as ADBaseActivity).hideProgress(mProgressDialog)
         Log.i("Testing ==> ", error_msg.toString())
         if (error_id == Checkout.PAYMENT_CANCELED
             || error_id == Checkout.NETWORK_ERROR
@@ -726,7 +729,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                         }
 
                         override fun onError(data: Any?) {
-                            progress_layout.visibility = View.GONE
+                           (activity as ADBaseActivity).hideProgress(mProgressDialog)
                         }
                     })
             } else {
@@ -735,7 +738,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
 
         } catch (e: Exception) {
             Log.i("Tag", e.printStackTrace().toString())
-            progress_layout.visibility = View.GONE
+           (activity as ADBaseActivity).hideProgress(mProgressDialog)
         }
     }
 
@@ -757,43 +760,49 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
 
                 mFirebaseDatabase = FirebaseDatabase.getInstance()
                     .getReference((activity as ADBaseActivity).CHILD_TABLE_NAME)
-                val key2 = mFirebaseDatabase.push().key.toString()
-                mFirebaseDatabase.child(mChildId).child("contribution")
-                    .child(monthYr).child(key2).setValue(donation)
-                    .addOnSuccessListener {
-                        if (status) {
-                            mFirebaseDatabase.child(mChildId).child("contribution")
-                                .child(monthYr).child("collected_amt")
-                                .setValue(amount)
-                        }
-                        if (showCele) {
-                            payment_layout.visibility = View.GONE
-                            congrats_layout.visibility = View.VISIBLE
-                            progress_layout.visibility = View.GONE
+//                val key2 = mFirebaseDatabase.push().key.toString()
+//                mFirebaseDatabase.child(mChildId).child("contribution")
+//                    .child(monthYr).child(key2).setValue(donation)
 
-                            celebration_view.visibility = View.VISIBLE
-                            celebration_view.build()
-                                .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
-                                .setDirection(0.0, 359.0)
-                                .setSpeed(1f, 5f)
-                                .setFadeOutEnabled(true)
-                                .setTimeToLive(ADConstants.ANIMATION_TIME_TO_LIVE)
-                                .addShapes(Shape.RECT, Shape.CIRCLE)
-                                .addSizes(Size(ADConstants.ANIMATION_SIZE))
-                                .setPosition(-50f, celebration_view.width + 50f, -50f, -50f)
-                                .streamFor(
-                                    ADConstants.ANIMATION_COUNT,
-                                    ADConstants.ANIMATION_EMITTING_TIME
-                                )
+                mFirebaseDatabase.child(mChildId).child("contribution")
+                    .child(monthYr).child("collected_amt")
+                    .setValue(amount).addOnSuccessListener {
+                        if (status) {
+
+                            if (showCele) {
+                                payment_layout.visibility = View.GONE
+                                congrats_layout.visibility = View.VISIBLE
+                               (activity as ADBaseActivity).hideProgress(mProgressDialog)
+
+                                celebration_view.visibility = View.VISIBLE
+                                celebration_view.build()
+                                    .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
+                                    .setDirection(0.0, 359.0)
+                                    .setSpeed(1f, 5f)
+                                    .setFadeOutEnabled(true)
+                                    .setTimeToLive(ADConstants.ANIMATION_TIME_TO_LIVE)
+                                    .addShapes(Shape.RECT, Shape.CIRCLE)
+                                    .addSizes(Size(ADConstants.ANIMATION_SIZE))
+                                    .setPosition(
+                                        -50f,
+                                        celebration_view.width + 50f,
+                                        -50f,
+                                        -50f
+                                    )
+                                    .streamFor(
+                                        ADConstants.ANIMATION_COUNT,
+                                        ADConstants.ANIMATION_EMITTING_TIME
+                                    )
+                            }
                         }
                     }
                     .addOnFailureListener {
-                        progress_layout.visibility = View.GONE
+                       (activity as ADBaseActivity).hideProgress(mProgressDialog)
                     }
 
             }
             .addOnFailureListener {
-                progress_layout.visibility = View.GONE
+               (activity as ADBaseActivity).hideProgress(mProgressDialog)
             }
     }
 

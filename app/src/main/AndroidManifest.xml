@@ -19,7 +19,6 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
         <meta-data
             android:name="com.razorpay.ApiKey"
             android:value="@string/razor_pay_id" />
@@ -34,93 +33,79 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".startup.view.ADHelpScreenActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
-
         <activity
             android:name=".login.view.ADPreSignActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
-
         <activity
             android:name=".login.view.ADLoginActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
-
         <activity
             android:name=".registeration.view.ADRegistrationActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-
         <activity
             android:name=".wish_corner.view.ADAddWishesActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-
         <activity
             android:name=".dashboard.view.ADDashboardActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            android:launchMode="singleTask"/>
-
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity
             android:name=".be_the_change.view.ADAdwaitsDayOutActivity"
             android:label="@string/adwait_header"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-
         <activity
             android:name=".be_the_change.view.ADCampusambassadorActivity"
             android:label="@string/campus_header"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-
         <activity
             android:name=".be_the_change.view.ADEvleTalkActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-
         <activity
             android:name=".donation.view.ADDonationActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-
         <activity
             android:name=".admin.view.ADAdminActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-
         <activity
             android:name=".admin.view.ADAddChildActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-
         <activity
             android:name=".be_the_change.view.ADOrganizeEventActivity"
             android:label="@string/organise_event"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-
         <activity
             android:name=".be_the_change.view.ADPledgeBdayActivity"
             android:label="@string/pledge_your_bday"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-
         <activity
             android:name=".static_pages.view.ADOurCauseActivity"
             android:label="@string/our_cause"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-
         <activity
             android:name=".admin.view.ADRoutingMessagesActivity"
             android:label="Transfer Details"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
 
+        <activity android:name=".wish_corner.view.AdWishDetailsActivity"
+            android:label="Wish Details"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+
+        <!--Dialog activity-->
         <activity
             android:name=".login.view.ADForgetActivity"
             android:excludeFromRecents="true"
             android:theme="@style/DialogTheme" />
-
         <activity
             android:name=".profile.view.ADEditProfileActivity"
             android:excludeFromRecents="true"
             android:theme="@style/DialogTheme" />
-
         <activity
             android:name=".profile.view.ADResetPassword"
             android:excludeFromRecents="true"
             android:theme="@style/DialogTheme" />
-
         <activity
             android:name=".my_mentee.view.ADMonthlySplitActivity"
             android:excludeFromRecents="true"

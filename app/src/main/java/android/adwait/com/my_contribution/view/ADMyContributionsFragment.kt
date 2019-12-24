@@ -7,6 +7,7 @@ import android.adwait.com.donation.model.ADDonationModel
 import android.adwait.com.my_contribution.adapter.ADContributionAdapter
 import android.adwait.com.utils.ADBaseFragment
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,8 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_my_contributions.*
 
 class ADMyContributionsFragment : ADBaseFragment() {
+
+    private lateinit var mProgressDialog: AlertDialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,7 +45,8 @@ class ADMyContributionsFragment : ADBaseFragment() {
 
         if ((activity as ADBaseActivity).isLoggedInUser()) {
 
-            progress_layout.visibility = View.VISIBLE
+            mProgressDialog = (activity as ADBaseActivity).showProgressDialog("", false)
+            mProgressDialog.show()
 
             val mContributionData = ArrayList<ADDonationModel>()
             FirebaseDatabase.getInstance()
@@ -73,7 +77,7 @@ class ADMyContributionsFragment : ADBaseFragment() {
                             contribution_list.setAdapter(adapter)
                             contribution_layout.visibility = View.VISIBLE
                             no_contribution.visibility = View.GONE
-                            progress_layout.visibility = View.GONE
+                            (activity as ADBaseActivity).hideProgress(mProgressDialog)
 
                         }else{
                             contribution_layout.visibility = View.GONE
@@ -82,7 +86,7 @@ class ADMyContributionsFragment : ADBaseFragment() {
                     }
 
                     override fun onCancelled(error: DatabaseError) {
-                        progress_layout.visibility = View.GONE
+                        (activity as ADBaseActivity).hideProgress(mProgressDialog)
                         contribution_layout.visibility = View.GONE
                         no_contribution.visibility = View.VISIBLE     }
                 })

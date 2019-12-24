@@ -11,6 +11,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +27,7 @@ import kotlinx.android.synthetic.main.fragment_referral.*
 class ADReferHappinessFragment : ADBaseFragment() {
 
     private var mReferralCode = ""
+    private lateinit var mProgressDialog: AlertDialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -87,12 +89,13 @@ class ADReferHappinessFragment : ADBaseFragment() {
                 .show()
         })
 
-        progress_layout.visibility = View.VISIBLE
+        mProgressDialog = (activity as ADBaseActivity).showProgressDialog("", false)
+        mProgressDialog.show()
 
         (activity as ADBaseActivity).getUserDetails(object : ValueEventListener {
 
             override fun onDataChange(data: DataSnapshot) {
-                progress_layout.visibility = View.GONE
+                (activity as ADBaseActivity).hideProgress(mProgressDialog)
 
                 if (data.exists()) {
                     var userData = data.getValue(ADUserDetails::class.java)
@@ -104,7 +107,7 @@ class ADReferHappinessFragment : ADBaseFragment() {
             }
 
             override fun onCancelled(p0: DatabaseError) {
-                progress_layout.visibility = View.GONE
+                (activity as ADBaseActivity).hideProgress(mProgressDialog)
             }
 
         })

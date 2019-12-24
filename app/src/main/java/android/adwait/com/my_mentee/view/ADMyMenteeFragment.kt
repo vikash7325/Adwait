@@ -41,6 +41,7 @@ class ADMyMenteeFragment : ADBaseFragment() {
     private lateinit var menteeDetails: ADUserDetails
     private var splitData: ADMoneySplitUp = ADMoneySplitUp()
     private lateinit var childData: ADAddChildModel
+    private lateinit var mProgressDialog: AlertDialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -89,7 +90,7 @@ class ADMyMenteeFragment : ADBaseFragment() {
                 startActivity(intent)
             }
         })
-
+        mProgressDialog = (activity as ADBaseActivity).showProgressDialog("", false)
         fetchUserData()
 
         var dataUrl: ArrayList<String> = ArrayList<String>()
@@ -133,7 +134,7 @@ class ADMyMenteeFragment : ADBaseFragment() {
                 return
             }
 
-            progress_layout.visibility = View.VISIBLE
+            mProgressDialog.show()
             var today =
                 MySharedPreference(activity as ADBaseActivity).getValueString(getString(R.string.current_date))
                     .toString()
@@ -151,11 +152,11 @@ class ADMyMenteeFragment : ADBaseFragment() {
                         getString(R.string.mentee_success_msg), childData.childName
                     )
                     typed_msg.setText("")
-                    progress_layout.visibility = View.GONE
+                    (activity as ADBaseActivity).hideProgress(mProgressDialog)
                     showAlert(message)
                 }
                 .addOnFailureListener {
-                    progress_layout.visibility = View.GONE
+                    (activity as ADBaseActivity).hideProgress(mProgressDialog)
                     (activity as ADBaseActivity).showMessage(
                         getString(R.string.message_failed),
                         mentee_parent,
@@ -194,7 +195,7 @@ class ADMyMenteeFragment : ADBaseFragment() {
             return
         }
         if ((activity as ADBaseActivity).isLoggedInUser()) {
-            progress_layout?.visibility = View.VISIBLE
+            mProgressDialog.show()
 
             (activity as ADBaseActivity).getUserDetails(object : ValueEventListener {
 
@@ -210,7 +211,7 @@ class ADMyMenteeFragment : ADBaseFragment() {
 
                 override fun onCancelled(error: DatabaseError) {
                     Log.e(TAG, "Mentee fetch Error : " + error.message)
-                    progress_layout?.visibility = View.GONE
+                    (activity as ADBaseActivity).hideProgress(mProgressDialog)
                 }
             })
         } else {
@@ -229,7 +230,7 @@ class ADMyMenteeFragment : ADBaseFragment() {
             return
         }
         if (childId.isEmpty()) {
-            progress_layout.visibility = View.GONE
+            (activity as ADBaseActivity).hideProgress(mProgressDialog)
             return
         }
         if ((activity as ADBaseActivity).isLoggedInUser()) {
@@ -238,7 +239,7 @@ class ADMyMenteeFragment : ADBaseFragment() {
 
                 override fun onDataChange(data: DataSnapshot) {
                     Log.e(TAG, "Child Fetched.")
-                    progress_layout?.visibility = View.GONE
+                    (activity as ADBaseActivity).hideProgress(mProgressDialog)
                     if (data.exists()) {
                         if (data != null) {
 
@@ -376,7 +377,7 @@ class ADMyMenteeFragment : ADBaseFragment() {
 
                 override fun onCancelled(error: DatabaseError) {
                     Log.e(TAG, "Error : " + error.message)
-                    progress_layout?.visibility = View.GONE
+                    (activity as ADBaseActivity).hideProgress(mProgressDialog)
                 }
             })
         } else {

@@ -46,6 +46,7 @@ class ADOrganizeEventActivity : ADBaseActivity() {
     private var selectedImagePath: String = ""
     private var selectedFilePath: String = ""
     private val ORGANIZE_EVENT_TABLE: String = "Organize_event_details"
+    private lateinit var mProgressDialog: AlertDialog
 
     @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -191,7 +192,8 @@ class ADOrganizeEventActivity : ADBaseActivity() {
                 showMessage(getString(R.string.no_internet), organize_parent, true)
                 return@OnClickListener
             }
-            progress_layout.visibility = View.VISIBLE
+            mProgressDialog = showProgressDialog("", false)
+            mProgressDialog.show()
 
             mEventModel.eventInviteOthers = invite_others.isChecked
             mEventModel.eventAutoCheckIn = auto_checkin.isChecked
@@ -240,7 +242,7 @@ class ADOrganizeEventActivity : ADBaseActivity() {
                         saveDataInServer()
                     }
                 } else {
-                    progress_layout.visibility = View.GONE
+                    hideProgress(mProgressDialog)
                     showMessage(getString(R.string.contact_failed), organize_parent, true)
                 }
             }
@@ -272,7 +274,7 @@ class ADOrganizeEventActivity : ADBaseActivity() {
                     mEventModel.eventDocumentsUrl = downloadUri.toString()
                     saveDataInServer()
                 } else {
-                    progress_layout.visibility = View.GONE
+                    hideProgress(mProgressDialog)
                     showMessage(getString(R.string.contact_failed), organize_parent, true)
                 }
             }
@@ -287,7 +289,7 @@ class ADOrganizeEventActivity : ADBaseActivity() {
 
         fireBaseDB.child(key).setValue(mEventModel)
             .addOnSuccessListener {
-                progress_layout.visibility = View.GONE
+                hideProgress(mProgressDialog)
                 showAlertDialog(getString(R.string.event_success),
                     getString(R.string.close),
                     "",
@@ -296,7 +298,7 @@ class ADOrganizeEventActivity : ADBaseActivity() {
                     })
             }
             .addOnFailureListener {
-                progress_layout.visibility = View.GONE
+                hideProgress(mProgressDialog)
                 showMessage(getString(R.string.contact_failed), organize_parent, true)
             }
     }

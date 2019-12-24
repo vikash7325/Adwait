@@ -5,13 +5,13 @@
     android:layout_height="match_parent"
     android:background="@drawable/app_bg_with_line"
     android:gravity="center_horizontal"
+    android:paddingBottom="@dimen/padd_10"
     android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_marginBottom="@dimen/padd_10"
         android:fillViewport="true"
         android:gravity="center_horizontal">
 
@@ -652,19 +652,6 @@
 
     </ScrollView>
 
-    <!--Progress Layout-->
-    <LinearLayout
-        android:id="@+id/progress_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <include layout="@layout/progress_layout" />
-
-    </LinearLayout>
 
     <!--Celebration Layout-->
     <nl.dionsegijn.konfetti.KonfettiView

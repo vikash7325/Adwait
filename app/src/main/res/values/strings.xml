@@ -287,7 +287,7 @@
     <string name="evle_msg">Hey Elve %s,Please leave a personalized note for %s</string>
     <string name="mentee_msg_hint">You\'re a caring Elf.</string>
     <string name="mentee_success_msg">We will inform you once we receive a \nreply from %s.</string>
-    
+
     <!--Our Causes-->
     <string name="cause1_header">Ensuring the dignity these wonderful god\'s creation deserve.</string>
     <string name="cause2_header">She is still a Daughter?</string>
@@ -301,6 +301,9 @@
     <string name="wish_corner_hint">Planning to get them a gift?\nHere are the things that they would love to have.</string>
     <string name="upcoming">Upcoming</string>
     <string name="recent">Recent</string>
+    <string name="aim_hint">"I wish to be: %s"</string>
+    <string name="wish_hint">Buy %s: %s</string>
+    <string name="hint_for_donor">A small amount for you but a priceless gift for %s</string>
 
     <!--Campus Ambassador-->
     <string name="option1">Summer Internship</string>

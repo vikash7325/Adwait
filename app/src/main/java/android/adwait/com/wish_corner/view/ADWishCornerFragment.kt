@@ -13,7 +13,9 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TabLayout
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +32,7 @@ class ADWishCornerFragment : ADBaseFragment() {
     var mUpComingEvent = ArrayList<ADEventsModel>()
     var mPastEvent = ArrayList<ADEventsModel>()
     lateinit var eventsAdapter: ADEventsAdapter
+    private lateinit var mProgressDialog: AlertDialog
 
 
     override fun onCreateView(
@@ -97,7 +100,9 @@ class ADWishCornerFragment : ADBaseFragment() {
     private fun fetchWishes() {
         val mWishesTable =
             FirebaseDatabase.getInstance().reference.child("Wish_Corner")
-        progress_layout.visibility = View.VISIBLE
+        mProgressDialog = (activity as ADBaseActivity).showProgressDialog("", false)
+        mProgressDialog.show()
+
         mWishesTable.addListenerForSingleValueEvent(object : ValueEventListener {
 
 
@@ -114,7 +119,7 @@ class ADWishCornerFragment : ADBaseFragment() {
                         val adapter = AdWishListAdapter(activity as ADBaseActivity, mData)
                         wishes_list.adapter = adapter
                         wish_layout.visibility = View.VISIBLE
-                        if(adapter.count>4){
+                        if (adapter.count > 4) {
                             checkHeight()
                         }
                     }
@@ -130,7 +135,7 @@ class ADWishCornerFragment : ADBaseFragment() {
         })
     }
 
-    private fun checkHeight(){
+    private fun checkHeight() {
         val screenHeight: Int = ((activity as ADBaseActivity).getScreenDetails(true) * 0.3).toInt()
         val params = events_layout.layoutParams
         params.height = screenHeight
@@ -141,7 +146,8 @@ class ADWishCornerFragment : ADBaseFragment() {
         mUpComingEvent = ArrayList<ADEventsModel>()
         mPastEvent = ArrayList<ADEventsModel>()
         val eventsTable =
-            FirebaseDatabase.getInstance().reference.child((activity as ADBaseActivity).WISH_EVENTS_TABLE_NAME)
+            FirebaseDatabase.getInstance()
+                .reference.child((activity as ADBaseActivity).WISH_EVENTS_TABLE_NAME)
         eventsTable.addListenerForSingleValueEvent(object : ValueEventListener {
 
 
@@ -177,20 +183,20 @@ class ADWishCornerFragment : ADBaseFragment() {
                 } else {
                     events_layout.visibility = View.GONE
                 }
-                progress_layout.visibility = View.GONE
+                (activity as ADBaseActivity).hideProgress(mProgressDialog)
             }
 
             override fun onCancelled(error: DatabaseError) {
-                progress_layout.visibility = View.GONE
+                (activity as ADBaseActivity).hideProgress(mProgressDialog)
             }
         })
     }
 
-    private fun showError(count:Int){
-        if(count==0){
+    private fun showError(count: Int) {
+        if (count == 0) {
             error_msg.visibility = View.VISIBLE
             events_list.visibility = View.INVISIBLE
-        }else{
+        } else {
             events_list.visibility = View.VISIBLE
             error_msg.visibility = View.GONE
         }
@@ -213,7 +219,7 @@ class ADWishCornerFragment : ADBaseFragment() {
             }
 
             override fun onCancelled(p0: DatabaseError) {
-
+                Log.v("checkUserForAdmin", p0.message)
             }
         })
     }

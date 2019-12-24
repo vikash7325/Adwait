@@ -15,6 +15,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="8dp"
+        android:scaleType="fitXY"
         android:src="@drawable/image_not_found" />
 
     <LinearLayout

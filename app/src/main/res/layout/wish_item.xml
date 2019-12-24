@@ -111,6 +111,7 @@
         android:layout_height="wrap_content"
         android:background="@color/light_gray_color2"
         android:orientation="horizontal"
+        android:gravity="center"
         android:weightSum="1">
 
         <TextView

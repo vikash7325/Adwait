@@ -7,6 +7,7 @@ import android.adwait.com.be_the_change.model.ADCampusambassadorModel
 import android.adwait.com.utils.ADConstants
 import android.adwait.com.utils.ADViewClickListener
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.Toolbar
 import android.text.Editable
 import android.text.TextWatcher
@@ -17,6 +18,7 @@ import kotlinx.android.synthetic.main.common_toolbar.*
 
 class ADCampusambassadorActivity : ADBaseActivity() {
     private val CAMPUS_TABLE: String = "Campus_ambassador"
+    private lateinit var mProgressDialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +57,8 @@ class ADCampusambassadorActivity : ADBaseActivity() {
                         showMessage(getString(R.string.no_internet), campus_parent, true)
                     } else {
 
-                        progress_layout.visibility = View.VISIBLE
+                        mProgressDialog = showProgressDialog("", false)
+                        mProgressDialog.show()
                         val campusModel = ADCampusambassadorModel(
                             MySharedPreference(applicationContext).getValueString(getString(R.string.userId))!!,
                             area_of_interest.selectedItem.toString(),
@@ -71,7 +74,7 @@ class ADCampusambassadorActivity : ADBaseActivity() {
 
                         fireBaseDB.child(key).setValue(campusModel)
                             .addOnSuccessListener {
-                                progress_layout.visibility = View.GONE
+                                hideProgress(mProgressDialog)
                                 showAlertDialog(getString(R.string.campus_success),
                                     getString(R.string.close),
                                     "",
@@ -80,7 +83,7 @@ class ADCampusambassadorActivity : ADBaseActivity() {
                                     })
                             }
                             .addOnFailureListener {
-                                progress_layout.visibility = View.GONE
+                                hideProgress(mProgressDialog)
                                 showMessage(getString(R.string.contact_failed), campus_parent, true)
                             }
                     }

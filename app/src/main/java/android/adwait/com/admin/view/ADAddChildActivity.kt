@@ -47,6 +47,7 @@ class ADAddChildActivity : ADBaseActivity() {
     private val GALLERY = 1
     private val CAMERA = 2
     private var mImageTaken = false
+    private lateinit var mProgressDialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -204,8 +205,8 @@ class ADAddChildActivity : ADBaseActivity() {
                     showMessage(getString(R.string.no_internet), add_child_parent, true)
                     return@OnClickListener
                 }
-                progress_layout.visibility = View.VISIBLE
-
+                mProgressDialog= showProgressDialog("",false)
+                mProgressDialog.show()
                 val bankDetails = ADBankDetails(number, ifsc, holderName, accountType)
                 val splitDetails = ADMoneySplitUp(
                     educationAmt.toInt(), foodAmt.toInt(), hobbiesAmt.toInt(),
@@ -271,7 +272,7 @@ class ADAddChildActivity : ADBaseActivity() {
                                 }
                             } else {
                                 showMessage(response.body().message, add_child_parent, true)
-                                progress_layout.visibility = View.GONE
+                                hideProgress(mProgressDialog)
                             }
                         } else {
                             val error = Gson().fromJson(
@@ -280,12 +281,12 @@ class ADAddChildActivity : ADBaseActivity() {
                             )
                             Log.i("Testing ==> ", error.toString())
                             showMessage(error.error.description, add_child_parent, true)
-                            progress_layout.visibility = View.GONE
+                            hideProgress(mProgressDialog)
                         }
                     }
 
                     override fun onFailure(call: Call<ADCreateAccountResponse>?, t: Throwable?) {
-                        progress_layout.visibility = View.GONE
+                        hideProgress(mProgressDialog)
                         showMessage("Something went wrong. Try again later", add_child_parent, true)
                         Log.i("Testing ==> ", t?.message.toString())
                     }
@@ -311,24 +312,24 @@ class ADAddChildActivity : ADBaseActivity() {
 
             mChildTable.child(key).updateChildren(mChildData.toMap())
                 .addOnSuccessListener {
-                    progress_layout.visibility = View.GONE
+                    hideProgress(mProgressDialog)
                     setResult(Activity.RESULT_OK)
                     finish()
                 }
                 .addOnFailureListener {
-                    progress_layout.visibility = View.GONE
+                    hideProgress(mProgressDialog)
                     showMessage(it.message.toString(), null, true)
                 }
         } else {
 
             mChildTable.child(key).setValue(mChildData)
                 .addOnSuccessListener {
-                    progress_layout.visibility = View.GONE
+                    hideProgress(mProgressDialog)
                     setResult(Activity.RESULT_OK)
                     finish()
                 }
                 .addOnFailureListener {
-                    progress_layout.visibility = View.GONE
+                    hideProgress(mProgressDialog)
                     showMessage(it.message.toString(), null, true)
                 }
         }
@@ -504,7 +505,7 @@ class ADAddChildActivity : ADBaseActivity() {
                 if (task.isSuccessful) {
                     mChildData.childImage = task.result.toString()
                     progressDialog.dismiss()
-                    progress_layout.visibility = View.VISIBLE
+                    mProgressDialog.show()
                     addChildToServer()
                     Log.d("TAG", "File Saved::--->" + mChildData.childImage)
                 } else {

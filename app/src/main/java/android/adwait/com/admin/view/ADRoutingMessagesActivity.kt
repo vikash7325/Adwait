@@ -6,6 +6,7 @@ import android.adwait.com.admin.adapter.ADTransferMessagesAdapter
 import android.adwait.com.admin.model.ADAddChildModel
 import android.adwait.com.admin.model.ADTransferData
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.Toolbar
@@ -16,12 +17,14 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_routing_layout.*
-import java.util.HashMap
+import java.util.*
 
 class ADRoutingMessagesActivity : ADBaseActivity() {
 
     var mChildListData: HashMap<String, ADAddChildModel> = HashMap<String, ADAddChildModel>()
     var messageData: HashMap<String, ADTransferData> = HashMap<String, ADTransferData>()
+    private lateinit var mProgressDialog: AlertDialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_routing_layout)
@@ -43,7 +46,8 @@ class ADRoutingMessagesActivity : ADBaseActivity() {
 
     fun getData() {
 
-        progress_layout.visibility = View.VISIBLE
+        mProgressDialog = showProgressDialog("", false)
+        mProgressDialog.show()
 
         val mChildDataTable =
             FirebaseDatabase.getInstance()
@@ -65,20 +69,24 @@ class ADRoutingMessagesActivity : ADBaseActivity() {
 
                         recycler_view.itemAnimator = (DefaultItemAnimator())
                         recycler_view.addItemDecoration(
-                            DividerItemDecoration(applicationContext, DividerItemDecoration.VERTICAL)
+                            DividerItemDecoration(
+                                applicationContext,
+                                DividerItemDecoration.VERTICAL
+                            )
                         )
                         recycler_view.adapter = messagesAdapter
                     }
                 }
-                progress_layout.visibility = View.GONE
+                hideProgress(mProgressDialog)
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Log.i("Testing==>", error.message)
-                progress_layout.visibility = View.GONE
+                hideProgress(mProgressDialog)
             }
 
         })
     }
+
 
 }

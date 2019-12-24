@@ -1,6 +1,7 @@
 package android.adwait.com.dashboard.view
 
 import and.com.polam.utils.ADBaseActivity
+import and.com.polam.utils.MySharedPreference
 import android.adwait.com.R
 import android.adwait.com.be_the_change.view.ADBeTheChangeFragment
 import android.adwait.com.dashboard.adapter.ADNavigationListAdapter
@@ -11,6 +12,7 @@ import android.adwait.com.my_mentee.view.ADMyMenteeFragment
 import android.adwait.com.profile.view.ADMyProfileFragment
 import android.adwait.com.registeration.model.ADUserDetails
 import android.adwait.com.static_pages.view.*
+import android.adwait.com.utils.ADCommonResponseListener
 import android.adwait.com.utils.ADConstants
 import android.adwait.com.utils.ADViewClickListener
 import android.adwait.com.wish_corner.view.ADWishCornerFragment
@@ -20,6 +22,7 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.Gravity
@@ -27,6 +30,7 @@ import android.view.View
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.razorpay.PaymentData
 import com.razorpay.PaymentResultWithDataListener
@@ -40,6 +44,12 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
     private var mUserName = ""
     private var mSelectedMenu = 0
     private val homeFragment = ADHomeFragment.getInstance()
+    private lateinit var childData: DataSnapshot
+    private lateinit var homeBannerData: DataSnapshot
+    private var mChildId = ""
+    private var monthYear = ""
+    var mHasChild = true
+    private lateinit var progressDialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,7 +84,6 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
                 drawerLayout.openDrawer(Gravity.END)
             }
         })
-        val homeFragment = ADHomeFragment()
         mSelectedMenu = ADConstants.MENU_HOME
 
         nav_header.setOnClickListener(View.OnClickListener {
@@ -90,8 +99,22 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
                 ""
             )
         }
-        fetchUserData()
         addOrReplaceFragment(true, R.id.home_container, homeFragment, "")
+
+        if (isLoggedInUser() &&
+            !MySharedPreference(applicationContext).getValueBoolean(getString(R.string.already_logged))
+        ) {
+            progressDialog = showProgressDialog("", true)
+
+            MySharedPreference(applicationContext).saveBoolean(
+                getString(R.string.already_logged), true
+            )
+        } else {
+            progressDialog = showProgressDialog("", false)
+        }
+
+        fetchUserData(false)
+        fetchBanner()
 
         home_logo.setOnClickListener(View.OnClickListener {
             if (mSelectedMenu != ADConstants.MENU_HOME) {
@@ -107,30 +130,238 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
         version.setText("Version : " + info.versionName + "  ")
     }
 
-    fun fetchUserData() {
+    fun fetchUserData(isSilentCall: Boolean) {
+
+        if (!isNetworkAvailable()) {
+            showMessage(
+                getString(R.string.no_internet),
+                drawer_layout,
+                true
+            )
+            return
+        }
         if (isLoggedInUser()) {
+
+            if (!isSilentCall) {
+                progressDialog.show()
+            }
+
             getUserDetails(object : ValueEventListener {
 
                 override fun onDataChange(data: DataSnapshot) {
-                    Log.e(TAG, "onDataChange called : ")
+                    Log.i(TAG, "Mentee fetched.")
                     if (data.exists()) {
-                        val user = data.getValue(ADUserDetails::class.java)!!
-                        if (user != null) {
-                            nav_header_title.setText("Hello, " + user.userName)
-                            mUserName = user.userName
+                        var menteeDetails = data.getValue(ADUserDetails::class.java)!!
+                        if (menteeDetails != null) {
+
+                            MySharedPreference(applicationContext).saveStrings(
+                                getString(R.string.userName),
+                                menteeDetails.userName
+                            )
+                            if (menteeDetails.phoneNumber.isEmpty() && menteeDetails.date_of_birth.isEmpty()) {
+                                showAlertDialog(
+                                    getString(R.string.no_phone_num),
+                                    getString(R.string.update_now),
+                                    getString(R.string.cancel),
+                                    ADViewClickListener {
+                                        menuAction(
+                                            ADConstants.MENU_PROFILE, ""
+                                        )
+                                    })
+                            }
+
+                            getServerDate(ADConstants.KEY_GET_CURRENT_MONTH_YR,
+                                object : ADCommonResponseListener {
+                                    override fun onSuccess(data: Any?) {
+                                        getNextDate(
+                                            ADConstants.KEY_GET_NEXT_MONTH_YR,
+                                            data.toString(),
+                                            null
+                                        )
+                                        getNextDate(
+                                            ADConstants.KEY_GET_PREVIOUS_MONTH_YR,
+                                            data.toString(),
+                                            null
+                                        )
+                                        fetchChildData(menteeDetails.childId, data.toString(),isSilentCall)
+                                    }
+
+                                    override fun onError(data: Any?) {
+                                        hideProgress()
+                                    }
+                                })
                         }
                     }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    Log.e(TAG, "Error : " + error.message)
+                    Log.i(TAG, "Mentee fetch Error : " + error.message)
+                    hideProgress()
                 }
             })
-
-        } else {
-            nav_header_title.setText("Hello, Guest")
-            mUserName = "Guest"
         }
+    }
+
+    fun fetchChildData(childId: String, monthYr: String, isSilentCall: Boolean) {
+
+        if (!isNetworkAvailable()) {
+            showMessage(
+                getString(R.string.no_internet), drawer_layout, true
+            )
+            return
+        }
+        if (childId.isEmpty() || childId.equals("null")) {
+            mapChildToUser(monthYr)
+            return
+        }
+        if (isLoggedInUser()) {
+
+            if (!isSilentCall){
+                progressDialog.show()
+            }
+            mChildId = childId
+            monthYear = monthYr
+            getChildDetails(childId, object : ValueEventListener {
+
+                override fun onDataChange(data: DataSnapshot) {
+                    Log.i(TAG, "Child Fetched.")
+                    if (data.exists() || data != null) {
+                        childData = data
+                        if (homeFragment != null && homeFragment.isVisible) {
+                            homeFragment.populateChildData(childData, monthYr, childId)
+                        } else {
+                            hideProgress()
+                        }
+                    } else {
+                        hideProgress()
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.i(TAG, "Error : " + error.message)
+                    hideProgress()
+                }
+            })
+        } else {
+            hideProgress()
+        }
+    }
+
+    private fun fetchBanner() {
+
+        if (!isNetworkAvailable()) {
+            showMessage(
+                getString(R.string.no_internet),
+                drawer_layout,
+                true
+            )
+            return
+        }
+
+        getBannerDetails(object : ValueEventListener {
+
+            override fun onDataChange(data: DataSnapshot) {
+                if (data.exists()) {
+                    homeBannerData = data
+                    homeFragment?.populateBanner(homeBannerData)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.i(TAG, "Banner fetch Error : " + error.message)
+            }
+        }, "Home_Banner")
+    }
+
+    private fun mapChildToUser(monthYr: String) {
+        val mChildDataTable =
+            FirebaseDatabase.getInstance()
+                .reference.child(CHILD_TABLE_NAME)
+                .orderByKey()
+
+        var lastMonth =
+            MySharedPreference(applicationContext).getValueString(
+                getString(R.string.previous_month_yr)
+            ).toString()
+        var noContributionList = ArrayList<DataSnapshot>()
+
+        mChildDataTable.addValueEventListener(object : ValueEventListener {
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists() || dataSnapshot == null) {
+
+                    var isChildMapped = false
+                    for (data in dataSnapshot.children) {
+
+                        //Check for contribution data in child
+                        if (data.hasChild("contribution")) {
+
+                            //If the child has contribution for previous month and the collected amount is >= to needed amount proceed to next
+                            if (data.child("contribution").hasChild(lastMonth)) {
+                                val monthlyAmount = data.child("amountNeeded").value.toString()
+                                var collectedAmount =
+                                    data.child("contribution").child(lastMonth)
+                                        .child("collected_amt")
+                                        .value.toString()
+
+                                if (collectedAmount.isEmpty() || collectedAmount.equals("null")) {
+                                    collectedAmount = "0"
+                                }
+
+                                if (collectedAmount.toInt() < monthlyAmount.toInt()) {
+                                    updateUserWithChild(data.key.toString(), monthYr)
+                                    isChildMapped = true
+                                    break
+                                } else {
+                                    continue
+                                }
+                            }
+                        } else {
+                            noContributionList.add(data)
+                        }
+                    }
+
+                    //If child mapping is not done
+                    if (!isChildMapped) {
+                        if (noContributionList == null || noContributionList.size == 0) {
+                            for (data in dataSnapshot.children) {
+                                updateUserWithChild(data.key.toString(), monthYr)
+                                break
+                            }
+                        } else {
+                            updateUserWithChild(noContributionList.get(0).key.toString(), monthYr)
+                        }
+                    }
+                } else {
+                    hideProgress()
+                    mHasChild = false
+                }
+
+            }
+
+            override fun onCancelled(dataError: DatabaseError) {
+                Log.i(TAG, "Error : " + dataError.message)
+                hideProgress()
+                mHasChild = false
+            }
+        })
+    }
+
+    private fun updateUserWithChild(childId: String, monthYr: String) {
+        val preference = MySharedPreference(applicationContext)
+        val userId = preference.getValueString(getString(R.string.userId)).toString()
+        val updateTable =
+            FirebaseDatabase.getInstance()
+                .reference.child(USER_TABLE_NAME).child(userId)
+        updateTable.child("childId").setValue(childId)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    fetchChildData(childId, monthYr,true)
+                } else {
+                    hideProgress()
+                    Log.i(TAG, "Error : " + "Something went wrong while updating child")
+                }
+            }
     }
 
     override fun onBackPressed() {
@@ -157,7 +388,7 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
         }
     }
 
-    public fun menuAction(option: Int, addToStack: String) {
+    fun menuAction(option: Int, addToStack: String) {
         mSelectedMenu = option
         when (option) {
             /*Home*/
@@ -266,7 +497,7 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
         drawer_layout.closeDrawer(GravityCompat.END)
     }
 
-    public fun fireLogin() {
+    fun fireLogin() {
         var login = Intent(applicationContext, ADLoginActivity::class.java)
         login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -285,7 +516,6 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
         donationFragment.onPaymentSuccess(p0, p1)
     }
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -296,5 +526,16 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
                 menuAction(ADConstants.MENU_PROFILE, "")
             }
         }
+    }
+
+    fun checkData() {
+        if (mChildId != null && monthYear != null && ::homeBannerData.isInitialized) {
+            homeFragment?.populateBanner(homeBannerData)
+            homeFragment?.populateChildData(childData, monthYear, mChildId)
+        }
+    }
+
+    fun hideProgress() {
+        hideProgress(progressDialog)
     }
 }
