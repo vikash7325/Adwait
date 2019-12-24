@@ -194,11 +194,13 @@
     <string name="day_out">Adwait\'s Day Out</string>
     <string name="pledge_header">Pledge your birthday</string>
     <string name="pledge_header_ques">What is Pledge your birthday?</string>
-    <string name="pledge_hint">It’s easy. Instead of gifts, ask for donations.</string>
+    <string name="pledge_hint">This year, donate your birthday to Adwait Foundation and give the gift of education and forever happiness to an underprivileged child.</string>
     <string name="date_of_bday">Date of Birth</string>
-    <string name="pledge_content1"></string>
-    <string name="pledge_content2"></string>
-    <string name="pledge_content3"></string>
+    <string name="pledge_content1">You pledge your birthday by sharing details on next page</string>
+    <string name="pledge_content2">We create your customized birthday campaign for fundraising</string>
+    <string name="pledge_content3">Let the world know by sharing the pledge and sending invitations. Simple!</string>
+    <string name="pledge_content">It\’s easy to pledge your birthday. Just sign up with your DOB, then send a note to your family and friends with the news!</string>
+   <string name="pledge_hint2">100% of the funds raised will be contributed towards the education of a child. We will keep you updated with the proceedings in your dashboard</string>
     <string name="congrats">Congratulations!</string>
     <string name="step_closer">You are a step closer to spreading happiness</string>
     <string name="tell_us_about_u">Tell us about your event!</string>

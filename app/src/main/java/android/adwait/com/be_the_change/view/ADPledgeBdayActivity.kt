@@ -38,6 +38,7 @@ class ADPledgeBdayActivity : ADBaseActivity() {
 
             pledge_page1.visibility = View.GONE
             pledge_page2.visibility = View.VISIBLE
+            hint2.visibility = View.VISIBLE
         })
 
 
