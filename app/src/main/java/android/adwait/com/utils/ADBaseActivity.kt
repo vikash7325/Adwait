@@ -33,6 +33,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.functions.FirebaseFunctions
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -47,6 +49,7 @@ open class ADBaseActivity : AppCompatActivity() {
     val ROUTING_TABLE_NAME: String = "Routing_details";
     val WISH_EVENTS_TABLE_NAME: String = "Wish_Corner_Events";
     val BANNER_TABLE_NAME: String = "Banners";
+    val REMOTE_CONFIG_TIME: Long = 3600
 
     private val TAG: String = "ADBaseActivity";
     private lateinit var auth: FirebaseAuth.AuthStateListener
@@ -451,6 +454,76 @@ open class ADBaseActivity : AppCompatActivity() {
         if (mProgressDialog.isShowing) {
             mProgressDialog.dismiss()
         }
+    }
+
+    fun getPackageVersion(): String {
+        val info = packageManager.getPackageInfo(packageName, 0)
+        return info.versionName
+    }
+
+    fun checkAppVersion(listener: ADCommonResponseListener?) {
+
+        var newVersion = ""
+        var forceUpdate = false
+        var remoteConfig = FirebaseRemoteConfig.getInstance()
+        val configSettings = FirebaseRemoteConfigSettings.Builder()
+            .setMinimumFetchIntervalInSeconds(REMOTE_CONFIG_TIME)
+            .build()
+        remoteConfig.setConfigSettingsAsync(configSettings)
+        remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
+
+        remoteConfig.fetchAndActivate()
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    val updated = task.result
+                    Log.d(TAG, "Config params updated: $updated")
+                    newVersion = remoteConfig.getString("new_version")
+                    forceUpdate = remoteConfig.getBoolean("force_update")
+                    if (compareVersionNames(getPackageVersion(), newVersion) > 0) {
+
+                        if (forceUpdate) {
+                            listener?.onSuccess(getString(R.string.new_version))
+                        } else {
+                            listener?.onError(getString(R.string.new_version))
+                        }
+
+                    } else {
+                        listener?.onError(null)
+                    }
+                } else {
+                    Log.d(TAG, "Config params Failed")
+                }
+            }
+    }
+
+    fun compareVersionNames(oldVersionName: String, newVersionName: String): Int {
+        var res = 0;
+
+        var oldNumbers = oldVersionName.split(".");
+        var newNumbers = newVersionName.split(".");
+
+        // To avoid IndexOutOfBounds
+        val maxIndex = Math.min(oldNumbers.size, newNumbers.size);
+
+        for (i in 0..maxIndex - 1) {
+            var oldVersionPart = Integer.valueOf(oldNumbers[i]);
+            var newVersionPart = Integer.valueOf(newNumbers[i]);
+
+            if (oldVersionPart < newVersionPart) {
+                res = 1;
+                break;
+            } else if (oldVersionPart > newVersionPart) {
+                res = 1;
+                break;
+            }
+        }
+
+        // If versions are the same so far, but they have different length...
+        if (res == 0 && oldNumbers.size != newNumbers.size) {
+            res = 1;
+        }
+
+        return res;
     }
 
 }

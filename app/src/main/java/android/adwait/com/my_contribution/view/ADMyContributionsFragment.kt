@@ -72,8 +72,7 @@ class ADMyContributionsFragment : ADBaseFragment() {
                             val adapter =
                                 ADContributionAdapter(
                                     (activity as ADBaseActivity),
-                                    mContributionData
-                                )
+                                    mContributionData)
                             contribution_list.setAdapter(adapter)
                             contribution_layout.visibility = View.VISIBLE
                             no_contribution.visibility = View.GONE

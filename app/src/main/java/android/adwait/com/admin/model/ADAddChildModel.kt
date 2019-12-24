@@ -28,6 +28,7 @@ class ADAddChildModel(
     var keyId: String = ""
     var bankDetails: ADBankDetails = ADBankDetails()
     var splitDetails: ADMoneySplitUp = ADMoneySplitUp()
+    var videosAndImages: ADChildVideos = ADChildVideos()
 
     constructor(parcel: Parcel) : this(
         parcel.readString(),
@@ -51,6 +52,7 @@ class ADAddChildModel(
         keyId = parcel.readString()
         bankDetails = parcel.readParcelable(ADBankDetails::class.java.classLoader)
         splitDetails = parcel.readParcelable(ADMoneySplitUp::class.java.classLoader)
+        videosAndImages = parcel.readParcelable(ADChildVideos::class.java.classLoader)
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -74,6 +76,7 @@ class ADAddChildModel(
         parcel.writeString(keyId)
         parcel.writeParcelable(bankDetails, flags)
         parcel.writeParcelable(splitDetails, flags)
+        parcel.writeParcelable(videosAndImages, flags)
     }
 
     override fun describeContents(): Int {

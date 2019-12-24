@@ -93,13 +93,6 @@ class ADMyMenteeFragment : ADBaseFragment() {
         mProgressDialog = (activity as ADBaseActivity).showProgressDialog("", false)
         fetchUserData()
 
-        var dataUrl: ArrayList<String> = ArrayList<String>()
-
-        val pageAdapter = ADHomePageAdapter((activity as ADBaseActivity).applicationContext, dataUrl)
-        mentee_pager.adapter = pageAdapter
-        mentee_indicator.setViewPager(mentee_pager)
-        pageAdapter.registerDataSetObserver(mentee_indicator.dataSetObserver)
-
         view.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(v: View?, event: MotionEvent?): Boolean {
 
@@ -243,6 +236,8 @@ class ADMyMenteeFragment : ADBaseFragment() {
                     if (data.exists()) {
                         if (data != null) {
 
+                            val bannerData = data.child("videosAndImages")
+                            fetchChildBanners(bannerData)
                             childData = data.getValue(ADAddChildModel::class.java)!!
                             val name = childData.childName
                             val imageUrl = childData.childImage
@@ -383,5 +378,18 @@ class ADMyMenteeFragment : ADBaseFragment() {
         } else {
 
         }
+    }
+
+    private fun fetchChildBanners(bannerData: DataSnapshot) {
+        var dataUrl: ArrayList<String> = ArrayList<String>()
+        for (child in bannerData.children) {
+            dataUrl.add(child.value as String)
+        }
+        mentee_pager.offscreenPageLimit = dataUrl.size
+        val pageAdapter =
+            ADHomePageAdapter((activity as ADBaseActivity).applicationContext, dataUrl)
+        mentee_pager.adapter = pageAdapter
+        mentee_indicator.setViewPager(mentee_pager)
+        pageAdapter.registerDataSetObserver(mentee_indicator.dataSetObserver)
     }
 }

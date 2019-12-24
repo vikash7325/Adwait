@@ -25,7 +25,6 @@ import kotlinx.android.synthetic.main.fragment_my_profile.*
 class ADMyProfileFragment : ADBaseFragment() {
     private val TAG: String = "ADMyProfileFragment"
     private lateinit var userData: ADUserDetails
-    private var alreadyCreated: Boolean = false
     private lateinit var mProgressDialog: AlertDialog
 
     override fun onCreateView(
@@ -62,7 +61,10 @@ class ADMyProfileFragment : ADBaseFragment() {
         })
 
         my_subscription.setOnClickListener {
-
+            (activity as ADDashboardActivity).menuAction(
+                ADConstants.MENU_MY_CONTRIBUTION,
+                "my_subscription"
+            )
         }
 
         reset_pwd.setOnClickListener(View.OnClickListener {
@@ -75,10 +77,8 @@ class ADMyProfileFragment : ADBaseFragment() {
         })
         mProgressDialog = (activity as ADBaseActivity).showProgressDialog("", false)
 
-        if (!alreadyCreated) {
-            alreadyCreated = true
-            fetchUserDetails()
-        }
+        fetchUserDetails()
+
     }
 
 

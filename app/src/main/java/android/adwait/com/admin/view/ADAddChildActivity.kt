@@ -487,7 +487,7 @@ class ADAddChildActivity : ADBaseActivity() {
             val storage = FirebaseStorage.getInstance();
             val storageReference = storage.getReference();
 
-            val childImagesRef = storageReference.child("images/" + child_name.text.toString())
+            val childImagesRef = storageReference.child("images/" + child_name.text.toString()+"/"+ child_name.text.toString())
 
             var progressDialog = ProgressDialog(this);
             progressDialog.setTitle("Uploading...");

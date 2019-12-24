@@ -17,6 +17,7 @@ import android.adwait.com.utils.ADConstants
 import android.adwait.com.utils.ADViewClickListener
 import android.adwait.com.wish_corner.view.ADWishCornerFragment
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -37,6 +38,7 @@ import com.razorpay.PaymentResultWithDataListener
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
+
 
 class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
 
@@ -122,13 +124,50 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
             }
         })
 
-        getPackageVersion()
+        version.setText("Version : " + getPackageVersion() + "  ")
+
+
+        checkAppVersion(object : ADCommonResponseListener {
+            override fun onSuccess(data: Any?) {
+                showAlertDialog(data.toString(), getString(R.string.update), "",
+                    ADViewClickListener { openPlayStore() })
+            }
+
+            override fun onError(data: Any?) {
+                if (data is String) {
+                    if (data != null) {
+
+                        showAlertDialog(data.toString(),
+                            getString(R.string.update),
+                            getString(R.string.cancel),
+                            ADViewClickListener { openPlayStore() })
+                    }
+                }
+            }
+        })
+
     }
 
-    fun getPackageVersion() {
-        val info = packageManager.getPackageInfo(packageName, 0)
-        version.setText("Version : " + info.versionName + "  ")
+    fun openPlayStore() {
+        val appPackageName = packageName // getPackageName() from Context or Activity object
+        try {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("market://details?id=$appPackageName")
+                )
+            )
+        } catch (anfe: android.content.ActivityNotFoundException) {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
+                )
+            )
+        }
+
     }
+
 
     fun fetchUserData(isSilentCall: Boolean) {
 
@@ -183,7 +222,11 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
                                             data.toString(),
                                             null
                                         )
-                                        fetchChildData(menteeDetails.childId, data.toString(),isSilentCall)
+                                        fetchChildData(
+                                            menteeDetails.childId,
+                                            data.toString(),
+                                            isSilentCall
+                                        )
                                     }
 
                                     override fun onError(data: Any?) {
@@ -216,7 +259,7 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
         }
         if (isLoggedInUser()) {
 
-            if (!isSilentCall){
+            if (!isSilentCall) {
                 progressDialog.show()
             }
             mChildId = childId
@@ -356,7 +399,7 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
         updateTable.child("childId").setValue(childId)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    fetchChildData(childId, monthYr,true)
+                    fetchChildData(childId, monthYr, true)
                 } else {
                     hideProgress()
                     Log.i(TAG, "Error : " + "Something went wrong while updating child")

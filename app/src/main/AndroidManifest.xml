@@ -88,12 +88,17 @@
             android:name=".admin.view.ADRoutingMessagesActivity"
             android:label="Transfer Details"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-
-        <activity android:name=".wish_corner.view.AdWishDetailsActivity"
+        <activity
+            android:name=".wish_corner.view.AdWishDetailsActivity"
             android:label="Wish Details"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+
+        <activity android:name=".my_mentee.view.ADVideoPlayerActivity"
+            android:label="Video"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
 
-        <!--Dialog activity-->
+
+        <!-- Dialog activity -->
         <activity
             android:name=".login.view.ADForgetActivity"
             android:excludeFromRecents="true"

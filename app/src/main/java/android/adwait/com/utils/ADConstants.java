@@ -15,6 +15,7 @@ public class ADConstants {
     public static final int MENU_LOGOUT = 10;
     public static final int MENU_DONATION = 11;
     public static final int MENU_PROFILE = 12;
+    public static final int MENU_MY_SUBSCRIPTION = 13;
     public static final int KEY_REQUEST = 1222;
     public static final int KEY_MENU = 1223;
     public static final int KEY_PROFILE = 1224;

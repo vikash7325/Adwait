@@ -83,6 +83,8 @@
     <string name="sign_in_dash">Please sign to access this info</string>
     <string name="exit">Yes, quit</string>
     <string name="exit_message">Hey Elve %s.\n\nDo You Really want to leave the world of happiness?</string>
+    <string name="new_version">An update is available in Playstore. Update now</string>
+    <string name="update">Update</string>
 
     <string-array name="navigation_items">
         <item>Home</item>
