@@ -19,6 +19,10 @@
     <string name="update_now">Update Now</string>
     <string name="ngoname">Ngo</string>
     <string name="wishitem">Wish Item</string>
+    <string name="subscription">Subscription</string>
+    <string name="video">Video</string>
+    <string name="wish_details">Wish Details</string>
+    <string name="transfer_details">Transfer Details</string>
 
     <!--Help Screen-->
     <string name="help1"> Get 100% visibility on your money.\nAnytime, Anywhere, Any Device</string>

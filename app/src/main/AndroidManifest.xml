@@ -86,17 +86,21 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".admin.view.ADRoutingMessagesActivity"
-            android:label="Transfer Details"
+            android:label="@string/transfer_details"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".wish_corner.view.AdWishDetailsActivity"
-            android:label="Wish Details"
+            android:label="@string/wish_details"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".my_mentee.view.ADVideoPlayerActivity"
+            android:label="@string/video"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
 
-        <activity android:name=".my_mentee.view.ADVideoPlayerActivity"
-            android:label="Video"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
-
+        <activity
+            android:name=".subscription.view.ADSubscriptionActivity"
+            android:label="@string/subscription"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
 
         <!-- Dialog activity -->
         <activity

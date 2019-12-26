@@ -61,10 +61,8 @@ class ADMyProfileFragment : ADBaseFragment() {
         })
 
         my_subscription.setOnClickListener {
-            (activity as ADDashboardActivity).menuAction(
-                ADConstants.MENU_MY_CONTRIBUTION,
-                "my_subscription"
-            )
+            val intent = Intent(activity, ADSubscriptionActivity::class.java)
+            startActivity(intent)
         }
 
         reset_pwd.setOnClickListener(View.OnClickListener {
@@ -167,7 +165,6 @@ class ADMyProfileFragment : ADBaseFragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        (activity as ADDashboardActivity).hideProgress()
         if (requestCode == 444) {
             if (resultCode == Activity.RESULT_OK) {
                 fetchUserDetails()

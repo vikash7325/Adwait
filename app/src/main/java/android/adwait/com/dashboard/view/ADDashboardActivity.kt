@@ -166,6 +166,24 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
             )
         }
 
+    fun openPlayStore() {
+        val appPackageName = packageName // getPackageName() from Context or Activity object
+        try {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("market://details?id=$appPackageName")
+                )
+            )
+        } catch (anfe: android.content.ActivityNotFoundException) {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
+                )
+            )
+        }
+
     }
 
 
