@@ -9,7 +9,7 @@ import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Build
 import android.os.Parcelable
-import android.support.v4.view.PagerAdapter
+import androidx.viewpager.widget.PagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +18,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 
-public class ADHomePageAdapter(val context: Context, val data: ArrayList<String>) : PagerAdapter() {
+public class ADHomePageAdapter(val context: Context, val data: ArrayList<String>) : androidx.viewpager.widget.PagerAdapter() {
 
     private val inflater: LayoutInflater
 
@@ -62,6 +62,7 @@ public class ADHomePageAdapter(val context: Context, val data: ArrayList<String>
 
             playBtn.setOnClickListener{
                 val intent = Intent(context, ADVideoPlayerActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 intent.putExtra("videoUrl",imageUrl)
                 context.startActivity(intent)
             }

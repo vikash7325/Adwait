@@ -8,7 +8,7 @@ import android.adwait.com.startup.adapter.ADHelpPagerAdapter
 import android.adwait.com.startup.model.ADHelpPagerModel
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.view.ViewPager
+import androidx.viewpager.widget.ViewPager
 import android.view.View
 import kotlinx.android.synthetic.main.activity_help_screen.*
 
@@ -67,7 +67,7 @@ class ADHelpScreenActivity : ADBaseActivity() {
             }
         })
 
-        pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        pager.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
             }
 

@@ -15,7 +15,7 @@ import android.adwait.com.utils.ADConstants
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -232,7 +232,6 @@ class ADMyMenteeFragment : ADBaseFragment() {
 
                 override fun onDataChange(data: DataSnapshot) {
                     Log.e(TAG, "Child Fetched.")
-                    (activity as ADBaseActivity).hideProgress(mProgressDialog)
                     if (data.exists()) {
                         if (data != null) {
 
@@ -368,6 +367,8 @@ class ADMyMenteeFragment : ADBaseFragment() {
                             }
                         }
                     }
+
+                    (activity as ADBaseActivity).hideProgress(mProgressDialog)
                 }
 
                 override fun onCancelled(error: DatabaseError) {

@@ -6,16 +6,17 @@ import android.adwait.com.R
 import android.adwait.com.dashboard.view.ADDashboardActivity
 import android.adwait.com.donation.model.ADDonationModel
 import android.adwait.com.registeration.model.ADUserDetails
+import android.adwait.com.subscription.view.ADSubscriptionActivity
 import android.adwait.com.utils.ADBaseFragment
 import android.adwait.com.utils.ADConstants
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -62,7 +63,7 @@ class ADMyProfileFragment : ADBaseFragment() {
 
         my_subscription.setOnClickListener {
             val intent = Intent(activity, ADSubscriptionActivity::class.java)
-            startActivity(intent)
+            startActivityForResult(intent, 323)
         }
 
         reset_pwd.setOnClickListener(View.OnClickListener {
@@ -169,6 +170,10 @@ class ADMyProfileFragment : ADBaseFragment() {
             if (resultCode == Activity.RESULT_OK) {
                 fetchUserDetails()
                 (activity as ADDashboardActivity).fetchUserData(true)
+            }
+        } else if (requestCode == 323) {
+            if (resultCode == Activity.RESULT_OK) {
+                (activity as ADDashboardActivity).menuAction(ADConstants.MENU_DONATION, "")
             }
         }
     }

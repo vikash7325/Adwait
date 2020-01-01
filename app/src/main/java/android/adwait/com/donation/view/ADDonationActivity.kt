@@ -3,7 +3,7 @@ package android.adwait.com.donation.view
 import and.com.polam.utils.ADBaseActivity
 import android.adwait.com.R
 import android.os.Bundle
-import android.support.v7.widget.Toolbar
+import androidx.appcompat.widget.Toolbar
 import android.view.View
 
 class ADDonationActivity : ADBaseActivity() {

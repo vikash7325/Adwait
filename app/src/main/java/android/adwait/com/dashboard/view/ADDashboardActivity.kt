@@ -17,17 +17,20 @@ import android.adwait.com.utils.ADConstants
 import android.adwait.com.utils.ADViewClickListener
 import android.adwait.com.wish_corner.view.ADWishCornerFragment
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.NavigationView
-import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.Gravity
 import android.view.View
+import android.view.WindowManager
+import android.widget.Button
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -63,7 +66,8 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
 
         supportActionBar?.setDisplayShowHomeEnabled(false)
 
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        val drawerLayout: androidx.drawerlayout.widget.DrawerLayout =
+            findViewById(R.id.drawer_layout)
         val navigationView: NavigationView = findViewById(R.id.nav_view)
         navigationView.setItemIconTintList(null)
         val toggle = ActionBarDrawerToggle(
@@ -79,7 +83,8 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
         })
 
         action_menu.setOnClickListener(View.OnClickListener {
-            val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+            val drawerLayout: androidx.drawerlayout.widget.DrawerLayout =
+                findViewById(R.id.drawer_layout)
             if (drawerLayout.isDrawerOpen(Gravity.END)) {
                 drawerLayout.closeDrawer(Gravity.END)
             } else {
@@ -166,26 +171,7 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
             )
         }
 
-    fun openPlayStore() {
-        val appPackageName = packageName // getPackageName() from Context or Activity object
-        try {
-            startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("market://details?id=$appPackageName")
-                )
-            )
-        } catch (anfe: android.content.ActivityNotFoundException) {
-            startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
-                )
-            )
-        }
-
     }
-
 
     fun fetchUserData(isSilentCall: Boolean) {
 
@@ -215,6 +201,7 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
                                 getString(R.string.userName),
                                 menteeDetails.userName
                             )
+                            nav_header_title.setText("Hello " + menteeDetails.userName)
                             if (menteeDetails.phoneNumber.isEmpty() && menteeDetails.date_of_birth.isEmpty()) {
                                 showAlertDialog(
                                     getString(R.string.no_phone_num),
@@ -260,6 +247,8 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
                     hideProgress()
                 }
             })
+        } else {
+            showSwipeHelpScreen()
         }
     }
 
@@ -426,7 +415,8 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
     }
 
     override fun onBackPressed() {
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        val drawerLayout: androidx.drawerlayout.widget.DrawerLayout =
+            findViewById(R.id.drawer_layout)
         if (drawerLayout.isDrawerOpen(Gravity.END)) {
             drawerLayout.closeDrawer(Gravity.END)
         } else {
@@ -590,7 +580,7 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
     }
 
     fun checkData() {
-        if (mChildId != null && monthYear != null && ::homeBannerData.isInitialized) {
+        if (mChildId != null && monthYear != null && ::homeBannerData.isInitialized && ::childData.isInitialized) {
             homeFragment?.populateBanner(homeBannerData)
             homeFragment?.populateChildData(childData, monthYear, mChildId)
         }
@@ -598,5 +588,32 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
 
     fun hideProgress() {
         hideProgress(progressDialog)
+        showSwipeHelpScreen()
+    }
+
+    private fun showSwipeHelpScreen() {
+
+        var pref = MySharedPreference(applicationContext)
+        if (pref.getValueBoolean(getString(R.string.swipe_tutorial))) {
+            return
+        }
+        pref.saveBoolean(getString(R.string.swipe_tutorial), true)
+
+        val builder = AlertDialog.Builder(this, android.R.style.Theme_Translucent_NoTitleBar)
+        val view = View.inflate(applicationContext, R.layout.swipe_help_screen, null)
+        val doneBtn = view.findViewById<Button>(R.id.done_btn)
+
+        builder.setView(view)
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        alertDialog.window.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.MATCH_PARENT
+        )
+        alertDialog.setCancelable(false)
+        alertDialog.show()
+        doneBtn.setOnClickListener {
+            alertDialog.dismiss()
+        }
     }
 }

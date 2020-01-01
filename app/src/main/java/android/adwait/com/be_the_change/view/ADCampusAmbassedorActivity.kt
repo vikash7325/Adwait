@@ -7,8 +7,8 @@ import android.adwait.com.be_the_change.model.ADCampusambassadorModel
 import android.adwait.com.utils.ADConstants
 import android.adwait.com.utils.ADViewClickListener
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.Toolbar
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View

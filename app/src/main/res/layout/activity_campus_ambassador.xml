@@ -334,7 +334,7 @@
                             android:layout_marginBottom="5dp"
                             android:orientation="vertical">
 
-                            <android.support.v7.widget.AppCompatSpinner
+                            <androidx.appcompat.widget.AppCompatSpinner
                                 android:id="@+id/area_of_interest"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -356,7 +356,7 @@
                             android:layout_marginBottom="5dp"
                             android:orientation="vertical">
 
-                            <android.support.v7.widget.AppCompatSpinner
+                            <androidx.appcompat.widget.AppCompatSpinner
                                 android:id="@+id/area_of_expert"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -371,12 +371,12 @@
                                 android:padding="5dp" />
                         </LinearLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="5dp">
 
-                            <android.support.design.widget.TextInputEditText
+                            <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/location"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -388,14 +388,14 @@
                                 android:textColor="@android:color/black"
                                 android:textSize="@dimen/medium_text" />
 
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="5dp">
 
-                            <android.support.design.widget.TextInputEditText
+                            <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/contact_phone"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -408,7 +408,7 @@
                                 android:textColor="@android:color/black"
                                 android:textSize="@dimen/medium_text" />
 
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                     </LinearLayout>
 

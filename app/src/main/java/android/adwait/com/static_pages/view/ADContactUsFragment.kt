@@ -8,7 +8,7 @@ import android.adwait.com.utils.ADBaseFragment
 import android.adwait.com.utils.ADConstants
 import android.adwait.com.utils.ADViewClickListener
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View

@@ -3,9 +3,8 @@ package android.adwait.com.admin.adapter;
 import android.adwait.com.R;
 import android.adwait.com.admin.model.ADAddChildModel;
 import android.adwait.com.admin.model.ADTransferData;
-import android.adwait.com.wish_corner.model.ADWishModel;
-import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 public class ADTransferMessagesAdapter extends RecyclerView.Adapter<ADTransferMessagesAdapter.MyViewHolder> {
 

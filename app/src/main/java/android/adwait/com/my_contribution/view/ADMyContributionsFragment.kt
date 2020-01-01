@@ -7,7 +7,7 @@ import android.adwait.com.donation.model.ADDonationModel
 import android.adwait.com.my_contribution.adapter.ADContributionAdapter
 import android.adwait.com.utils.ADBaseFragment
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

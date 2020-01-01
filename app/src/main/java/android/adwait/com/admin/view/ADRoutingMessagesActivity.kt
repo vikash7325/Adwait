@@ -6,10 +6,10 @@ import android.adwait.com.admin.adapter.ADTransferMessagesAdapter
 import android.adwait.com.admin.model.ADAddChildModel
 import android.adwait.com.admin.model.ADTransferData
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.Toolbar
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.appcompat.widget.Toolbar
 import android.util.Log
 import android.view.View
 import com.google.firebase.database.DataSnapshot
@@ -67,11 +67,11 @@ class ADRoutingMessagesActivity : ADBaseActivity() {
 
                         val messagesAdapter = ADTransferMessagesAdapter(mChildListData, messageData)
 
-                        recycler_view.itemAnimator = (DefaultItemAnimator())
+                        recycler_view.itemAnimator = (androidx.recyclerview.widget.DefaultItemAnimator())
                         recycler_view.addItemDecoration(
-                            DividerItemDecoration(
+                            androidx.recyclerview.widget.DividerItemDecoration(
                                 applicationContext,
-                                DividerItemDecoration.VERTICAL
+                                androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
                             )
                         )
                         recycler_view.adapter = messagesAdapter

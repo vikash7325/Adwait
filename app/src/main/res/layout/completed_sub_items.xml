@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_white_bg"
+    android:orientation="vertical"
+    android:layout_margin="@dimen/padd_10"
+    android:padding="@dimen/padd_10">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="3dp"
+        android:text="@string/monthly_sub"
+        android:textColor="@color/app_text"
+        android:textSize="@dimen/small_text" />
+
+    <TextView
+        android:id="@+id/amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="3dp"
+        android:text="@string/rupees"
+        android:textColor="@color/app_text"
+        android:textSize="@dimen/large_text" />
+
+    <TextView
+        android:id="@+id/last_contribution"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="3dp"
+        android:text="@string/last_contribution"
+        android:textColor="@color/app_text"
+        android:textSize="@dimen/medium_text" />
+
+    <TextView
+        android:id="@+id/cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="2dp"
+        android:paddingBottom="3dp"
+        android:text="@string/cancel_sub"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/medium_text" />
+</LinearLayout>

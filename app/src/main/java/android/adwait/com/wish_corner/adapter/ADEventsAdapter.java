@@ -3,7 +3,7 @@ package android.adwait.com.wish_corner.adapter;
 import android.adwait.com.R;
 import android.adwait.com.wish_corner.model.ADEventsModel;
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +41,7 @@ public class ADEventsAdapter extends RecyclerView.Adapter<ADEventsAdapter.EventH
 
     @Override
     public int getItemCount() {
-        if (mEventsData==null){
+        if (mEventsData == null) {
             return 0;
         }
         return mEventsData.size();
@@ -60,7 +60,7 @@ public class ADEventsAdapter extends RecyclerView.Adapter<ADEventsAdapter.EventH
         View view;
 
         view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.event_item_layout, null, false);
+                .inflate(R.layout.event_item_layout, parent, false);
         EventHolder holder = new EventHolder(view);
         holder.eventImage.getLayoutParams().width = mScreenWidth;
         holder.eventImage.getLayoutParams().height = mScreenHeight;

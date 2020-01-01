@@ -1,6 +1,6 @@
 package android.adwait.com.utils
 
-import android.support.multidex.MultiDexApplication
+import androidx.multidex.MultiDexApplication
 
 class ADApplication : MultiDexApplication() {
 

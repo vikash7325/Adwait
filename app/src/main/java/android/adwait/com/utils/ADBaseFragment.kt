@@ -1,8 +1,8 @@
 package android.adwait.com.utils
 
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 
-open class ADBaseFragment : Fragment() {
+open class ADBaseFragment : androidx.fragment.app.Fragment() {
 
 
 

@@ -8,13 +8,13 @@ import android.adwait.com.admin.view.ADAdminActivity
 import android.adwait.com.utils.ChildItemTouchHelper
 import android.graphics.Color
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
+import com.google.android.material.snackbar.Snackbar
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ItemTouchHelper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +25,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_layout.*
 
-class ADFragmentChild : Fragment(), ChildItemTouchHelper.RecyclerItemTouchHelperListener {
+class ADFragmentChild : androidx.fragment.app.Fragment(), ChildItemTouchHelper.RecyclerItemTouchHelperListener {
 
 
     companion object {
@@ -52,12 +52,12 @@ class ADFragmentChild : Fragment(), ChildItemTouchHelper.RecyclerItemTouchHelper
 
         childAdapter = ADChildListAdapter(activity, mChildListData)
 
-        recycler_view.layoutManager = LinearLayoutManager(activity)
-        recycler_view.itemAnimator = (DefaultItemAnimator())
+        recycler_view.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
+        recycler_view.itemAnimator = (androidx.recyclerview.widget.DefaultItemAnimator())
         recycler_view.addItemDecoration(
-            DividerItemDecoration(
+            androidx.recyclerview.widget.DividerItemDecoration(
                 activity,
-                DividerItemDecoration.VERTICAL
+                androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
             )
         )
         recycler_view.adapter = childAdapter
@@ -70,7 +70,7 @@ class ADFragmentChild : Fragment(), ChildItemTouchHelper.RecyclerItemTouchHelper
         getData(true)
     }
 
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int, position: Int) {
+    override fun onSwiped(viewHolder: androidx.recyclerview.widget.RecyclerView.ViewHolder?, direction: Int, position: Int) {
 
         if (viewHolder is ADChildListAdapter.MyViewHolder) {
 

@@ -2,7 +2,7 @@ package android.adwait.com.my_mentee.adapter;
 
 import android.adwait.com.R;
 import android.adwait.com.my_mentee.model.ADMessageModel;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

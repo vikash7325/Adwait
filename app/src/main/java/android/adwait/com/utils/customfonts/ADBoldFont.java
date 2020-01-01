@@ -1,13 +1,11 @@
 package android.adwait.com.utils.customfonts;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.util.AttributeSet;
 
 
-public class ADBoldFont extends android.support.v7.widget.AppCompatTextView {
+public class ADBoldFont extends androidx.appcompat.widget.AppCompatTextView {
 
 
     public ADBoldFont(Context context) {

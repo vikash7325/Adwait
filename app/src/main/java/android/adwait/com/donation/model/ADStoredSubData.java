@@ -4,7 +4,7 @@ import android.adwait.com.utils.ADBaseModel;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ADSubscriptionData extends ADBaseModel {
+public class ADStoredSubData extends ADBaseModel {
 
     @SerializedName("id")
     private String id;
@@ -17,7 +17,7 @@ public class ADSubscriptionData extends ADBaseModel {
     private int total_count;
     private int remaining_count;
 
-    public ADSubscriptionData(String id, String entity, String plan_id, String status, int total_count, int remaining_count) {
+    public ADStoredSubData(String id, String entity, String plan_id, String status, int total_count, int remaining_count) {
         this.id = id;
         this.entity = entity;
         this.plan_id = plan_id;

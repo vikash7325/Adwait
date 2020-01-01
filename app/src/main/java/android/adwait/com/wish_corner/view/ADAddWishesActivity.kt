@@ -7,8 +7,8 @@ import android.adwait.com.wish_corner.model.ADWishModel
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.Toolbar
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
 import android.text.TextUtils
 import android.view.View
 import com.google.firebase.database.FirebaseDatabase

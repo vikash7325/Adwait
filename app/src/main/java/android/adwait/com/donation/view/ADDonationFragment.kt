@@ -23,7 +23,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -32,6 +31,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.database.DataSnapshot
@@ -221,7 +221,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                                 donation_parent,
                                 true
                             )
-                           (activity as ADBaseActivity).hideProgress(mProgressDialog)
+                            (activity as ADBaseActivity).hideProgress(mProgressDialog)
                         }
                     } else {
                         val error = Gson().fromJson(
@@ -234,12 +234,13 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                             donation_parent,
                             true
                         )
-                       (activity as ADBaseActivity).hideProgress(mProgressDialog)
+                        (activity as ADBaseActivity).hideProgress(mProgressDialog)
                     }
                 }
 
                 override fun onFailure(call: Call<ADCreateOrderResponse>?, t: Throwable?) {
-                   (activity as ADBaseActivity).hideProgress(mProgressDialog)
+                    (activity as ADBaseActivity).hideProgress(mProgressDialog)
+                    Log.i("Testing ==> ", t?.message.toString())
                 }
 
             })
@@ -272,7 +273,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                             donation_parent,
                             true
                         )
-                       (activity as ADBaseActivity).hideProgress(mProgressDialog)
+                        (activity as ADBaseActivity).hideProgress(mProgressDialog)
                     }
                 } else {
                     val error = Gson().fromJson(
@@ -285,12 +286,12 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                         donation_parent,
                         true
                     )
-                   (activity as ADBaseActivity).hideProgress(mProgressDialog)
+                    (activity as ADBaseActivity).hideProgress(mProgressDialog)
                 }
             }
 
             override fun onFailure(call: Call<ADSubscriptionResponse>?, t: Throwable?) {
-               (activity as ADBaseActivity).hideProgress(mProgressDialog)
+                (activity as ADBaseActivity).hideProgress(mProgressDialog)
             }
         })
     }
@@ -327,7 +328,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
 
         } catch (e: Exception) {
             Toast.makeText(activity, "Error in payment: " + e.message, Toast.LENGTH_SHORT).show();
-           (activity as ADBaseActivity).hideProgress(mProgressDialog)
+            (activity as ADBaseActivity).hideProgress(mProgressDialog)
             e.printStackTrace();
         }
     }
@@ -352,7 +353,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                             if (response.body() != null) {
                                 val fullData: ADSignVerifyResponse = response?.body()!!
                                 if (fullData.message.equals("Signature Matched")) {
-                                    checkAmountOfChild(paymentData, true)
+                                    checkAmountOfChild(paymentData, true, "")
                                 }
                             }
                         } else {
@@ -361,7 +362,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                                 donation_parent,
                                 true
                             )
-                           (activity as ADBaseActivity).hideProgress(mProgressDialog)
+                            (activity as ADBaseActivity).hideProgress(mProgressDialog)
                         }
                     } else {
                         val error = Gson().fromJson(
@@ -374,17 +375,70 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                             donation_parent,
                             true
                         )
-                       (activity as ADBaseActivity).hideProgress(mProgressDialog)
+                        (activity as ADBaseActivity).hideProgress(mProgressDialog)
                     }
                 }
 
                 override fun onFailure(call: Call<ADSignVerifyResponse>?, t: Throwable?) {
-                    checkAmountOfChild(paymentData, false)
+                    fetchPaymentMethod(paymentData, false)
                     Log.i("Testing ==> onFailure", t.toString())
                 }
             })
         } catch (e: Exception) {
-           (activity as ADBaseActivity).hideProgress(mProgressDialog)
+            (activity as ADBaseActivity).hideProgress(mProgressDialog)
+            Log.i("Testing ==> onException", e.toString())
+
+        }
+    }
+
+    private fun fetchPaymentMethod(paymentData: PaymentData?, status: Boolean) {
+        try {
+
+            var signRequest =
+                ADPaymentMethodRequest(paymentData!!.orderId, paymentData!!.signature);
+            val apiService = ApiClient.getClient().create(ApiInterface::class.java)
+            val call = apiService.getPaymentMethod(signRequest)
+            Log.i("Testing ==> ", signRequest.toString())
+
+            call.enqueue(object : Callback<ADPaymentMethodResponse> {
+
+                override fun onResponse(
+                    call: Call<ADPaymentMethodResponse>?,
+                    response: Response<ADPaymentMethodResponse>?
+                ) {
+                    if (response != null && response.isSuccessful) {
+                        if (response.body().isSuccessFlag) {
+                            if (response.body() != null) {
+                                val fullData: ADPaymentMethodResponse = response?.body()!!
+                                checkAmountOfChild(paymentData, status, "")
+                            }
+                        } else {
+                            (activity as ADBaseActivity).showMessage(
+                                response.body().message, donation_parent, true
+                            )
+                            (activity as ADBaseActivity).hideProgress(mProgressDialog)
+                        }
+                    } else {
+                        val error = Gson().fromJson(
+                            response?.errorBody()?.charStream(),
+                            RestError::class.java
+                        )
+                        Log.i("Testing ==> ", error.toString())
+                        (activity as ADBaseActivity).showMessage(
+                            error.error.description, donation_parent,
+                            true
+                        )
+                        (activity as ADBaseActivity).hideProgress(mProgressDialog)
+                    }
+                }
+
+                override fun onFailure(call: Call<ADPaymentMethodResponse>?, t: Throwable?) {
+                    checkAmountOfChild(paymentData, status, "No Data")
+                    Log.i("Testing ==> onFailure", t.toString())
+                }
+            })
+        } catch (e: Exception) {
+            (activity as ADBaseActivity).hideProgress(mProgressDialog)
             Log.i("Testing ==> onException", e.toString())
 
         }
@@ -441,7 +495,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
 
                 override fun onCancelled(error: DatabaseError) {
                     Log.e(TAG, "Mentee fetch Error : " + error.message)
-                   (activity as ADBaseActivity).hideProgress(mProgressDialog)
+                    (activity as ADBaseActivity).hideProgress(mProgressDialog)
                 }
             })
         }
@@ -458,7 +512,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
             return
         }
         if (childId.isEmpty()) {
-           (activity as ADBaseActivity).hideProgress(mProgressDialog)
+            (activity as ADBaseActivity).hideProgress(mProgressDialog)
             return
         }
         if ((activity as ADBaseActivity).isLoggedInUser()) {
@@ -467,7 +521,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
 
                 override fun onDataChange(data: DataSnapshot) {
                     Log.e(TAG, "Child Fetched.")
-                   (activity as ADBaseActivity).hideProgress(mProgressDialog)
+                    (activity as ADBaseActivity).hideProgress(mProgressDialog)
                     if (data.exists()) {
                         if (data != null) {
 
@@ -548,7 +602,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
 
                 override fun onCancelled(error: DatabaseError) {
                     Log.e(TAG, "Error : " + error.message)
-                   (activity as ADBaseActivity).hideProgress(mProgressDialog)
+                    (activity as ADBaseActivity).hideProgress(mProgressDialog)
                 }
             })
         }
@@ -638,14 +692,14 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
     override fun onPaymentSuccess(paymentId: String?, paymentData: PaymentData?) {
         mProgressDialog.show()
         if (monthly_subscription.isChecked) {
-            checkAmountOfChild(paymentData, true)
+            fetchPaymentMethod(paymentData, true)
         } else {
             verifySignature(paymentData)
         }
     }
 
     override fun onPaymentError(error_id: Int, error_msg: String?, paymentData: PaymentData?) {
-       (activity as ADBaseActivity).hideProgress(mProgressDialog)
+        (activity as ADBaseActivity).hideProgress(mProgressDialog)
         Log.i("Testing ==> ", error_msg.toString())
         if (error_id == Checkout.PAYMENT_CANCELED
             || error_id == Checkout.NETWORK_ERROR
@@ -656,7 +710,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
         (activity as ADBaseActivity).showMessage(error_msg.toString(), donation_parent, true)
     }
 
-    private fun checkAmountOfChild(payment: PaymentData?, status: Boolean) {
+    private fun checkAmountOfChild(payment: PaymentData?, status: Boolean, paymentMethod: String) {
         try {
             updateUserLastTrans(payment)
             val preference = MySharedPreference(activity!!.applicationContext)
@@ -677,7 +731,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
             }
             var donation = ADDonationModel(
                 id, receiptNo,
-                payment?.paymentId.toString(), "", today, amount.text.toString().toInt(),
+                payment?.paymentId.toString(), paymentMethod, today, amount.text.toString().toInt(),
                 status, mChildId, mUserName, userId
             )
 
@@ -689,7 +743,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                 donation = ADDonationModel(
                     id, receiptNo,
                     payment?.paymentId.toString(),
-                    "",
+                    paymentMethod,
                     today,
                     balance,
                     status,
@@ -729,7 +783,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                         }
 
                         override fun onError(data: Any?) {
-                           (activity as ADBaseActivity).hideProgress(mProgressDialog)
+                            (activity as ADBaseActivity).hideProgress(mProgressDialog)
                         }
                     })
             } else {
@@ -738,7 +792,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
 
         } catch (e: Exception) {
             Log.i("Tag", e.printStackTrace().toString())
-           (activity as ADBaseActivity).hideProgress(mProgressDialog)
+            (activity as ADBaseActivity).hideProgress(mProgressDialog)
         }
     }
 
@@ -772,7 +826,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                             if (showCele) {
                                 payment_layout.visibility = View.GONE
                                 congrats_layout.visibility = View.VISIBLE
-                               (activity as ADBaseActivity).hideProgress(mProgressDialog)
+                                (activity as ADBaseActivity).hideProgress(mProgressDialog)
 
                                 celebration_view.visibility = View.VISIBLE
                                 celebration_view.build()
@@ -797,12 +851,12 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                         }
                     }
                     .addOnFailureListener {
-                       (activity as ADBaseActivity).hideProgress(mProgressDialog)
+                        (activity as ADBaseActivity).hideProgress(mProgressDialog)
                     }
 
             }
             .addOnFailureListener {
-               (activity as ADBaseActivity).hideProgress(mProgressDialog)
+                (activity as ADBaseActivity).hideProgress(mProgressDialog)
             }
     }
 

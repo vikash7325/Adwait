@@ -16,9 +16,9 @@ import android.adwait.com.wish_corner.view.ADAddWishesActivity
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
-import android.support.v4.view.ViewPager
-import android.support.v7.app.AlertDialog
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.viewpager.widget.ViewPager
+import androidx.appcompat.app.AlertDialog
 import android.util.Log
 import android.view.View
 import com.example.myapplication.admin.adapter.AdSectionsPagerAdapter
@@ -53,7 +53,7 @@ class ADAdminActivity : ADBaseActivity() {
 
         sectionsPagerAdapter =
             AdSectionsPagerAdapter(this, supportFragmentManager)
-        val viewPager: ViewPager = findViewById(R.id.view_pager)
+        val viewPager: androidx.viewpager.widget.ViewPager = findViewById(R.id.view_pager)
         viewPager.adapter = sectionsPagerAdapter
         tabs.setupWithViewPager(viewPager)
         val fab: FloatingActionButton = findViewById(R.id.fab)

@@ -4,14 +4,14 @@ import android.adwait.com.R
 import android.adwait.com.startup.model.ADHelpPagerModel
 import android.content.Context
 import android.os.Parcelable
-import android.support.v4.view.PagerAdapter
+import androidx.viewpager.widget.PagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 
-public class ADHelpPagerAdapter(val context: Context, val data: MutableList<ADHelpPagerModel>) : PagerAdapter() {
+public class ADHelpPagerAdapter(val context: Context, val data: MutableList<ADHelpPagerModel>) : androidx.viewpager.widget.PagerAdapter() {
 
     private val inflater: LayoutInflater
 

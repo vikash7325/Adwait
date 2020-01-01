@@ -12,9 +12,9 @@ import android.adwait.com.wish_corner.model.ADWishModel
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.TabLayout
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
+import com.google.android.material.tabs.TabLayout
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -73,9 +73,9 @@ class ADWishCornerFragment : ADBaseFragment() {
         })
 
         events_list.layoutManager = (
-                LinearLayoutManager(
+                androidx.recyclerview.widget.LinearLayoutManager(
                     activity as ADBaseActivity,
-                    LinearLayoutManager.HORIZONTAL,
+                    androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL,
                     false
                 ))
         fetchWishes()

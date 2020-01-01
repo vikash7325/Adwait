@@ -3,7 +3,7 @@ package android.adwait.com.my_contribution.adapter
 import android.adwait.com.R
 import android.adwait.com.donation.model.ADDonationModel
 import android.content.Context
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

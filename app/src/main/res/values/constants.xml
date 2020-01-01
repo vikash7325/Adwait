@@ -14,5 +14,6 @@
     <string name="current_date">current_date</string>
     <string name="transferred_date">transferred_date</string>
     <string name="is_update_failed">is_update_failed</string>
+    <string name="swipe_tutorial">swipe_tutorial</string>
 
 </resources>

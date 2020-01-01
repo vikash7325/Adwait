@@ -1,17 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/sub_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/app_bg_with_line"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        app:theme="@style/ToolBarStyle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/action_bar_height"
-        android:background="@android:color/white" />
+        android:background="@android:color/white"
+        app:theme="@style/ToolBarStyle" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/completed_subscription"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/padd_10"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    <TextView
+        android:id="@+id/no_subscription"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="@string/no_subscription"
+        android:textSize="@dimen/large_text" />
 
 
 </LinearLayout>

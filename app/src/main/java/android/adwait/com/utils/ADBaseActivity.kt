@@ -13,11 +13,11 @@ import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.design.widget.TextInputEditText
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.MotionEvent
@@ -513,7 +513,7 @@ open class ADBaseActivity : AppCompatActivity() {
                 res = 1;
                 break;
             } else if (oldVersionPart > newVersionPart) {
-                res = 1;
+                res = -1;
                 break;
             }
         }

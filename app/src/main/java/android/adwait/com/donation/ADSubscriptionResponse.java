@@ -1,6 +1,6 @@
 package android.adwait.com.donation;
 
-import android.adwait.com.donation.model.ADSubscriptionData;
+import android.adwait.com.donation.model.ADStoredSubData;
 import android.adwait.com.utils.ADBaseModel;
 
 import com.google.gson.annotations.SerializedName;
@@ -28,15 +28,15 @@ public class ADSubscriptionResponse extends ADBaseModel {
         this.successFlag = successFlag;
     }
 
-    public ADSubscriptionData getData() {
+    public ADStoredSubData getData() {
         return data;
     }
 
-    public void setData(ADSubscriptionData data) {
+    public void setData(ADStoredSubData data) {
         this.data = data;
     }
 
-    private ADSubscriptionData data;
+    private ADStoredSubData data;
 
 
 }

@@ -133,6 +133,10 @@
     <string name="profile_faq">FAQ</string>
     <string name="profile_save">Save</string>
     <string name="profile_edit">Update details</string>
+    <string name="monthly_sub">Monthly subscription</string>
+    <string name="last_contribution">Last contribution on :%s</string>
+    <string name="cancel_sub">Cancel Subscription</string>
+    <string name="no_subscription">You don\'t have any active subscriptions. \nClick here to subscribe</string>
 
 
     <!--Contact us-->
