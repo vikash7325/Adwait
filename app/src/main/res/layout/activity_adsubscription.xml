@@ -14,6 +14,18 @@
         android:background="@android:color/white"
         app:theme="@style/ToolBarStyle" />
 
+    <TextView
+        android:id="@+id/activeSubscription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="@dimen/default_padding"
+        android:text="@string/subscription_details"
+        android:textColor="@color/app_text"
+        android:textSize="@dimen/large_text"
+        android:textStyle="bold|italic"
+        android:visibility="gone" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/completed_subscription"
         android:layout_width="match_parent"
@@ -27,9 +39,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:visibility="gone"
         android:text="@string/no_subscription"
-        android:textSize="@dimen/large_text" />
+        android:textSize="@dimen/large_text"
+        android:visibility="gone" />
 
 
 </LinearLayout>

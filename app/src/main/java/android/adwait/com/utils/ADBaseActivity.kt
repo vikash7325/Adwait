@@ -45,6 +45,7 @@ open class ADBaseActivity : AppCompatActivity() {
     val USER_TABLE_NAME: String = "Elve_details";
     val CHILD_TABLE_NAME: String = "Children_Details";
     val CONTRIBUTION_TABLE_NAME: String = "Contribution";
+    val SUBSCRIPTION_TABLE_NAME: String = "Subscriptions";
     val WISH_CORNER_TABLE_NAME: String = "Wish_Corner";
     val ROUTING_TABLE_NAME: String = "Routing_details";
     val WISH_EVENTS_TABLE_NAME: String = "Wish_Corner_Events";
@@ -77,6 +78,7 @@ open class ADBaseActivity : AppCompatActivity() {
                     false
                 )
                 MySharedPreference(applicationContext).saveStrings(getString(R.string.userId), "")
+                MySharedPreference(applicationContext).saveStrings(getString(R.string.subscription_id), "")
                 var login = Intent(applicationContext, ADLoginActivity::class.java)
                 login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

@@ -8,13 +8,15 @@ import android.adwait.com.admin.model.ADAddChildModel
 import android.adwait.com.admin.model.ADMoneySplitUp
 import android.adwait.com.admin.model.RestError
 import android.adwait.com.dashboard.view.ADDashboardActivity
-import android.adwait.com.donation.ADSubscriptionResponse
 import android.adwait.com.donation.model.*
 import android.adwait.com.my_mentee.view.ADMonthlySplitActivity
 import android.adwait.com.registeration.model.ADLastCheckout
 import android.adwait.com.registeration.model.ADUserDetails
 import android.adwait.com.rest_api.ApiClient
 import android.adwait.com.rest_api.ApiInterface
+import android.adwait.com.subscription.model.ADSubscriptionRequest
+import android.adwait.com.subscription.model.ADSubscriptionResponse
+import android.adwait.com.subscription.view.ADSubscriptionActivity
 import android.adwait.com.utils.ADBaseFragment
 import android.adwait.com.utils.ADCommonResponseListener
 import android.adwait.com.utils.ADConstants
@@ -23,6 +25,9 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -32,6 +37,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.database.DataSnapshot
@@ -85,6 +91,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
         done_btn.setOnClickListener(View.OnClickListener {
 
             if (activity is ADDashboardActivity) {
+                (activity as ADDashboardActivity).fetchUserData(true)
                 (activity as ADDashboardActivity).menuAction(ADConstants.MENU_HOME, "")
             } else {
                 (activity as ADDonationActivity).finish()
@@ -132,6 +139,11 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
             }
         })
 
+        activeSubscription.setOnClickListener {
+            val intent = Intent(activity, ADSubscriptionActivity::class.java)
+            startActivity(intent)
+        }
+
         btn_monthly.setOnClickListener(View.OnClickListener {
             amount.setText(monthlyAmount)
         })
@@ -161,6 +173,179 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
             }
 
         })
+
+
+        val spannable = SpannableString(getString(R.string.subscription_details))
+        spannable.setSpan(
+            ForegroundColorSpan(ContextCompat.getColor(context!!, R.color.colorPrimary)),
+            32,
+            getString(R.string.subscription_details).length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        activeSubscription.setText(spannable, TextView.BufferType.SPANNABLE)
+    }
+
+    private fun fetchUserData() {
+
+        if (!(activity as ADBaseActivity).isNetworkAvailable()) {
+            (activity as ADBaseActivity).showMessage(
+                getString(R.string.no_internet),
+                donation_parent,
+                true
+            )
+            return
+        }
+        if ((activity as ADBaseActivity).isLoggedInUser()) {
+            mProgressDialog.show()
+
+            (activity as ADBaseActivity).getUserDetails(object : ValueEventListener {
+
+                override fun onDataChange(data: DataSnapshot) {
+                    Log.e(TAG, "Mentee fetched.")
+                    if (data.exists()) {
+                        val menteeDetails = data.getValue(ADUserDetails::class.java)!!
+                        mPhoneNumber = menteeDetails.phoneNumber
+                        mEmail = menteeDetails.emailAddress
+                        mUserName = menteeDetails.userName
+
+                        mUserId =
+                            MySharedPreference(activity as ADBaseActivity).getValueString(
+                                getString(
+                                    R.string.userId
+                                )
+                            )
+                                .toString()
+                        mPhoneNumber = CommonUtils.checkForEmpty(mPhoneNumber)
+                        mEmail = CommonUtils.checkForEmpty(mEmail)
+                        mUserName = CommonUtils.checkForEmpty(mUserName)
+
+                        if (mUserName.isEmpty()) {
+                            mUserName = mEmail
+                        }
+
+                        if (menteeDetails.lastTransaction != null && menteeDetails.lastTransaction.amount > 0) {
+                            repeat_amount.setText(getString(R.string.rupees) + " " + menteeDetails.lastTransaction.amount)
+                            mode.setText(menteeDetails.lastTransaction.method)
+                            repeat_layout.visibility = View.VISIBLE
+                        } else {
+                            repeat_layout.visibility = View.GONE
+                        }
+                        fetchChildData(menteeDetails.childId, false)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "Mentee fetch Error : " + error.message)
+                    (activity as ADBaseActivity).hideProgress(mProgressDialog)
+                }
+            })
+        }
+    }
+
+    private fun fetchChildData(childId: String, amtCollected: Boolean) {
+        mChildId = childId
+        if (!(activity as ADBaseActivity).isNetworkAvailable()) {
+            (activity as ADBaseActivity).showMessage(
+                getString(R.string.no_internet),
+                donation_parent,
+                true
+            )
+            return
+        }
+        if (childId.isEmpty()) {
+            (activity as ADBaseActivity).hideProgress(mProgressDialog)
+            return
+        }
+        if ((activity as ADBaseActivity).isLoggedInUser()) {
+
+            (activity as ADBaseActivity).getChildDetails(childId, object : ValueEventListener {
+
+                override fun onDataChange(data: DataSnapshot) {
+                    Log.e(TAG, "Child Fetched.")
+                    getSubscription()
+                    if (data.exists()) {
+                        if (data != null) {
+
+                            val childData = data.getValue(ADAddChildModel::class.java)!!
+                            child_name?.setText(childData.childName)
+                            val imageUrl = childData.childImage
+                            if (!imageUrl.isEmpty()) {
+                                Glide.with(activity as ADBaseActivity).load(imageUrl)
+                                    .placeholder(R.drawable.ic_guest_user)
+                                    .diskCacheStrategy(DiskCacheStrategy.SOURCE).into(child_image)
+                            }
+
+                            val age: String = (activity as ADBaseActivity).getAge(
+                                childData.dateOfBirth,
+                                "dd-MM-yyyy"
+                            ).toString()
+                            child_age?.setText(age + " Years")
+
+
+                            monthlyAmount = childData.amountNeeded.toString()
+                            var monthYr =
+                                MySharedPreference(activity as ADBaseActivity).getValueString(
+                                    getString(R.string.month_yr)
+                                ).toString()
+
+                            if (amtCollected) {
+                                monthYr =
+                                    MySharedPreference(activity as ADBaseActivity).getValueString(
+                                        getString(R.string.next_month_yr)
+                                    ).toString()
+                            }
+
+                            var collectedAmount =
+                                data.child("contribution").child(monthYr).child("collected_amt")
+                                    .value.toString()
+
+                            if (collectedAmount.isEmpty() || collectedAmount.equals("null")) {
+                                collectedAmount = "0"
+                            }
+
+                            if (monthlyAmount.toInt() > 0 && monthlyAmount.toInt() == collectedAmount.toInt()) {
+                                fetchChildData(childId, true)
+                                return
+                            }
+
+                            splitData = childData.splitDetails
+
+
+                            fetchContribution(mUserId, monthYr, childId)
+
+                            btn_monthly.setText(getString(R.string.rupees) + " " + monthlyAmount)
+                            val text = java.lang.String.format(
+                                getString(R.string.fund_raised_msg),
+                                collectedAmount, monthlyAmount, monthYr
+                            )
+                            fund_details?.setText(text)
+
+                            val hint = java.lang.String.format(
+                                getString(R.string.hint_with_name),
+                                childData.childName
+                            )
+                            hint_with_name.setText(hint)
+
+                            if (!collectedAmount.isEmpty() && collectedAmount != null && !collectedAmount.equals(
+                                    "null"
+                                ) &&
+                                monthlyAmount != null && !monthlyAmount.equals("null") && monthlyAmount.toInt() > 0
+                            ) {
+                                val percent =
+                                    ((collectedAmount.toInt()) * 100 / monthlyAmount.toInt())
+                                progress.setProgress(percent)
+                                mOldContribution = collectedAmount.toInt()
+                            }
+                        }
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "Error : " + error.message)
+                    (activity as ADBaseActivity).hideProgress(mProgressDialog)
+                }
+            })
+        }
     }
 
     private fun createOrderOrSub() {
@@ -249,10 +434,17 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
     }
 
     private fun createSubscription(amount: Int) {
-        var subRequest = ADSubscriptionRequest(amount, "", "");
+        var subRequest = ADSubscriptionRequest(
+            amount,
+            "",
+            "",
+            mUserId,
+            mUserName,
+            mChildId
+        );
         val apiService = ApiClient.getClient().create(ApiInterface::class.java)
-        val call = apiService.getSubscription(subRequest)
-
+        val call = apiService.createSubscription(subRequest)
+        Log.v(TAG, subRequest.toString())
         call.enqueue(object : Callback<ADSubscriptionResponse> {
 
             override fun onResponse(
@@ -266,6 +458,10 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                             val fullResponse: ADSubscriptionResponse = response?.body()!!
                             mSubId = fullResponse.data.id
                             startPayment(null, fullResponse.data.id)
+                            MySharedPreference((activity as ADBaseActivity).applicationContext).saveStrings(
+                                getString(R.string.subscription_id),
+                                fullResponse.data.id
+                            )
                         }
                     } else {
                         (activity as ADBaseActivity).showMessage(
@@ -288,6 +484,64 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                     )
                     (activity as ADBaseActivity).hideProgress(mProgressDialog)
                 }
+            }
+
+            override fun onFailure(call: Call<ADSubscriptionResponse>?, t: Throwable?) {
+                (activity as ADBaseActivity).hideProgress(mProgressDialog)
+            }
+        })
+    }
+
+    private fun getSubscription() {
+        val subId =
+            MySharedPreference((activity as ADBaseActivity).applicationContext).getValueString(
+                getString(R.string.subscription_id)
+            )
+
+        if (subId == null || subId.length == 0) {
+            monthly_subscription.visibility = View.VISIBLE
+            subscribe_layout.visibility = View.VISIBLE
+            activeSubscription.visibility = View.GONE
+            (activity as ADBaseActivity).hideProgress(mProgressDialog)
+            return
+        }
+        val apiService = ApiClient.getClient().create(ApiInterface::class.java)
+        val call = apiService.getSubscription(subId)
+
+        if (!(activity as ADBaseActivity).isNetworkAvailable()) {
+            (activity as ADBaseActivity).showMessage(getString(R.string.no_internet), null, true)
+            return
+        }
+        call.enqueue(object : Callback<ADSubscriptionResponse> {
+
+            override fun onResponse(
+                call: Call<ADSubscriptionResponse>?,
+                response: Response<ADSubscriptionResponse>?
+            ) {
+                (activity as ADBaseActivity).hideProgress(mProgressDialog)
+                if (response != null && response.isSuccessful) {
+                    if (response.body() != null && response.body().isSuccessFlag) {
+                        val fullResponse: ADSubscriptionResponse = response?.body()!!
+                        if (fullResponse.data.status.toLowerCase().equals("active")) {
+                            monthly_subscription.visibility = View.GONE
+                            subscribe_layout.visibility = View.GONE
+                            activeSubscription.visibility = View.VISIBLE
+                        } else {
+                            monthly_subscription.visibility = View.VISIBLE
+                            subscribe_layout.visibility = View.VISIBLE
+                            activeSubscription.visibility = View.GONE
+                        }
+
+                    }
+                } else {
+                    val error = Gson().fromJson(
+                        response?.errorBody()?.charStream(),
+                        RestError::class.java
+                    )
+                    Log.i("Testing ==> ", error.toString())
+                    (activity as ADBaseActivity).hideProgress(mProgressDialog)
+                }
+
             }
 
             override fun onFailure(call: Call<ADSubscriptionResponse>?, t: Throwable?) {
@@ -327,7 +581,8 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
             checkout.open(activity, options)
 
         } catch (e: Exception) {
-            Toast.makeText(activity, "Error in payment: " + e.message, Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, "Error in payment: " + e.message, Toast.LENGTH_SHORT)
+                .show();
             (activity as ADBaseActivity).hideProgress(mProgressDialog)
             e.printStackTrace();
         }
@@ -336,7 +591,8 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
     private fun verifySignature(paymentData: PaymentData?) {
         try {
 
-            var signRequest = ADSignVerifyRequest(paymentData!!.orderId, paymentData!!.signature);
+            var signRequest =
+                ADSignVerifyRequest(paymentData!!.orderId, paymentData!!.signature);
             val apiService = ApiClient.getClient().create(ApiInterface::class.java)
             val call = apiService.verifySignature(signRequest)
             Log.i("Testing ==> ", "verifySignature called")
@@ -353,7 +609,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                             if (response.body() != null) {
                                 val fullData: ADSignVerifyResponse = response?.body()!!
                                 if (fullData.message.equals("Signature Matched")) {
-                                    checkAmountOfChild(paymentData, true, "")
+                                    fetchPaymentMethod(paymentData, true)
                                 }
                             }
                         } else {
@@ -393,12 +649,8 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
 
     private fun fetchPaymentMethod(paymentData: PaymentData?, status: Boolean) {
         try {
-
-            var signRequest =
-                ADPaymentMethodRequest(paymentData!!.orderId, paymentData!!.signature);
             val apiService = ApiClient.getClient().create(ApiInterface::class.java)
-            val call = apiService.getPaymentMethod(signRequest)
-            Log.i("Testing ==> ", signRequest.toString())
+            val call = apiService.getPaymentMethod(paymentData?.paymentId)
 
             call.enqueue(object : Callback<ADPaymentMethodResponse> {
 
@@ -410,7 +662,11 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                         if (response.body().isSuccessFlag) {
                             if (response.body() != null) {
                                 val fullData: ADPaymentMethodResponse = response?.body()!!
-                                checkAmountOfChild(paymentData, status, "")
+                                checkAmountOfChild(
+                                    paymentData,
+                                    status,
+                                    fullData.data.method
+                                )
                             }
                         } else {
                             (activity as ADBaseActivity).showMessage(
@@ -432,7 +688,10 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                     }
                 }
 
-                override fun onFailure(call: Call<ADPaymentMethodResponse>?, t: Throwable?) {
+                override fun onFailure(
+                    call: Call<ADPaymentMethodResponse>?,
+                    t: Throwable?
+                ) {
                     checkAmountOfChild(paymentData, status, "No Data")
                     Log.i("Testing ==> onFailure", t.toString())
                 }
@@ -444,171 +703,12 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
         }
     }
 
-    private fun fetchUserData() {
 
-        if (!(activity as ADBaseActivity).isNetworkAvailable()) {
-            (activity as ADBaseActivity).showMessage(
-                getString(R.string.no_internet),
-                donation_parent,
-                true
-            )
-            return
-        }
-        if ((activity as ADBaseActivity).isLoggedInUser()) {
-            mProgressDialog.show()
-
-            (activity as ADBaseActivity).getUserDetails(object : ValueEventListener {
-
-                override fun onDataChange(data: DataSnapshot) {
-                    Log.e(TAG, "Mentee fetched.")
-                    if (data.exists()) {
-                        val menteeDetails = data.getValue(ADUserDetails::class.java)!!
-                        mPhoneNumber = menteeDetails.phoneNumber
-                        mEmail = menteeDetails.emailAddress
-                        mUserName = menteeDetails.userName
-
-                        mUserId =
-                            MySharedPreference(activity as ADBaseActivity).getValueString(
-                                getString(
-                                    R.string.userId
-                                )
-                            )
-                                .toString()
-                        mPhoneNumber = CommonUtils.checkForEmpty(mPhoneNumber)
-                        mEmail = CommonUtils.checkForEmpty(mEmail)
-                        mUserName = CommonUtils.checkForEmpty(mUserName)
-
-                        if (mUserName.isEmpty()) {
-                            mUserName = mEmail
-                        }
-
-                        if (menteeDetails.lastTransaction != null && menteeDetails.lastTransaction.amount > 0) {
-                            repeat_amount.setText(getString(R.string.rupees) + " " + menteeDetails.lastTransaction.amount)
-                            mode.setText(menteeDetails.lastTransaction.method)
-                            repeat_layout.visibility = View.VISIBLE
-                        } else {
-                            repeat_layout.visibility = View.GONE
-                        }
-                        fetchChildData(menteeDetails.childId, false)
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    Log.e(TAG, "Mentee fetch Error : " + error.message)
-                    (activity as ADBaseActivity).hideProgress(mProgressDialog)
-                }
-            })
-        }
-    }
-
-    private fun fetchChildData(childId: String, amtCollected: Boolean) {
-        mChildId = childId
-        if (!(activity as ADBaseActivity).isNetworkAvailable()) {
-            (activity as ADBaseActivity).showMessage(
-                getString(R.string.no_internet),
-                donation_parent,
-                true
-            )
-            return
-        }
-        if (childId.isEmpty()) {
-            (activity as ADBaseActivity).hideProgress(mProgressDialog)
-            return
-        }
-        if ((activity as ADBaseActivity).isLoggedInUser()) {
-
-            (activity as ADBaseActivity).getChildDetails(childId, object : ValueEventListener {
-
-                override fun onDataChange(data: DataSnapshot) {
-                    Log.e(TAG, "Child Fetched.")
-                    (activity as ADBaseActivity).hideProgress(mProgressDialog)
-                    if (data.exists()) {
-                        if (data != null) {
-
-                            val childData = data.getValue(ADAddChildModel::class.java)!!
-                            child_name?.setText(childData.childName)
-                            val imageUrl = childData.childImage
-                            if (!imageUrl.isEmpty()) {
-                                Glide.with(activity as ADBaseActivity).load(imageUrl)
-                                    .placeholder(R.drawable.ic_guest_user).diskCacheStrategy(
-                                        DiskCacheStrategy.SOURCE
-                                    ).into(child_image)
-                            }
-
-                            val age: String = (activity as ADBaseActivity).getAge(
-                                childData.dateOfBirth,
-                                "dd-MM-yyyy"
-                            ).toString()
-                            child_age?.setText(age + " Years")
-
-
-                            monthlyAmount = childData.amountNeeded.toString()
-                            var monthYr =
-                                MySharedPreference(activity as ADBaseActivity).getValueString(
-                                    getString(R.string.month_yr)
-                                ).toString()
-
-                            if (amtCollected) {
-                                monthYr =
-                                    MySharedPreference(activity as ADBaseActivity).getValueString(
-                                        getString(R.string.next_month_yr)
-                                    ).toString()
-                            }
-
-                            var collectedAmount =
-                                data.child("contribution").child(monthYr).child("collected_amt")
-                                    .value.toString()
-
-                            if (collectedAmount.isEmpty() || collectedAmount.equals("null")) {
-                                collectedAmount = "0"
-                            }
-
-                            if (monthlyAmount.toInt() > 0 && monthlyAmount.toInt() == collectedAmount.toInt()) {
-                                fetchChildData(childId, true)
-                                return
-                            }
-
-                            splitData = childData.splitDetails
-
-
-                            fetchContribution(mUserId, monthYr, childId)
-
-                            btn_monthly.setText(getString(R.string.rupees) + " " + monthlyAmount)
-                            val text = java.lang.String.format(
-                                getString(R.string.fund_raised_msg),
-                                collectedAmount, monthlyAmount, monthYr
-                            )
-                            fund_details?.setText(text)
-
-                            val hint = java.lang.String.format(
-                                getString(R.string.hint_with_name),
-                                childData.childName
-                            )
-                            hint_with_name.setText(hint)
-
-                            if (!collectedAmount.isEmpty() && collectedAmount != null && !collectedAmount.equals(
-                                    "null"
-                                ) &&
-                                monthlyAmount != null && !monthlyAmount.equals("null") && monthlyAmount.toInt() > 0
-                            ) {
-                                val percent =
-                                    ((collectedAmount.toInt()) * 100 / monthlyAmount.toInt())
-                                progress.setProgress(percent)
-                                mOldContribution = collectedAmount.toInt()
-                            }
-                        }
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    Log.e(TAG, "Error : " + error.message)
-                    (activity as ADBaseActivity).hideProgress(mProgressDialog)
-                }
-            })
-        }
-    }
-
-    private fun fetchContribution(userId: String, monthYr: String, childId: String) {
+    private fun fetchContribution(
+        userId: String,
+        monthYr: String,
+        childId: String
+    ) {
 
         var myContribution = 0;
         if (contributers_list.childCount > 0) {
@@ -643,7 +743,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                         var size = topList.size
                         var looper = size - 1
 
-                        if (size > 3) {
+                        if (size > 5) {
                             size = 5
                         }
 
@@ -651,7 +751,8 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                             top_contribution.visibility = View.GONE
                             no_contribution.visibility = View.VISIBLE
                             val text = java.lang.String.format(
-                                getString(R.string.no_contribution), child_name.text.toString()
+                                getString(R.string.no_contribution),
+                                child_name.text.toString()
                             )
                             no_contribution.setText(text)
                         } else {
@@ -659,7 +760,9 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                                 val donation = topList.get(looper)
                                 val view =
                                     View.inflate(
-                                        activity, R.layout.contributers_topper_list_item, null
+                                        activity,
+                                        R.layout.contributers_topper_list_item,
+                                        null
                                     )
                                 val name = view.findViewById<TextView>(R.id.contribution_data)
 
@@ -692,13 +795,17 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
     override fun onPaymentSuccess(paymentId: String?, paymentData: PaymentData?) {
         mProgressDialog.show()
         if (monthly_subscription.isChecked) {
-            fetchPaymentMethod(paymentData, true)
+            showCelebration()
         } else {
             verifySignature(paymentData)
         }
     }
 
-    override fun onPaymentError(error_id: Int, error_msg: String?, paymentData: PaymentData?) {
+    override fun onPaymentError(
+        error_id: Int,
+        error_msg: String?,
+        paymentData: PaymentData?
+    ) {
         (activity as ADBaseActivity).hideProgress(mProgressDialog)
         Log.i("Testing ==> ", error_msg.toString())
         if (error_id == Checkout.PAYMENT_CANCELED
@@ -707,10 +814,18 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
             return
         }
         Checkout.clearUserData(activity)
-        (activity as ADBaseActivity).showMessage(error_msg.toString(), donation_parent, true)
+        (activity as ADBaseActivity).showMessage(
+            error_msg.toString(),
+            donation_parent,
+            true
+        )
     }
 
-    private fun checkAmountOfChild(payment: PaymentData?, status: Boolean, paymentMethod: String) {
+    private fun checkAmountOfChild(
+        payment: PaymentData?,
+        status: Boolean,
+        paymentMethod: String
+    ) {
         try {
             updateUserLastTrans(payment)
             val preference = MySharedPreference(activity!!.applicationContext)
@@ -730,9 +845,16 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                 id = mSubId
             }
             var donation = ADDonationModel(
-                id, receiptNo,
-                payment?.paymentId.toString(), paymentMethod, today, amount.text.toString().toInt(),
-                status, mChildId, mUserName, userId
+                id,
+                receiptNo,
+                payment?.paymentId.toString(),
+                paymentMethod,
+                today,
+                amount.text.toString().toInt(),
+                status,
+                mChildId,
+                mUserName,
+                userId
             )
 
             var tempAmount = mOldContribution + amount.text.toString().toInt()
@@ -757,7 +879,8 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                     monthYr
                 )
 
-                (activity as ADBaseActivity).getNextDate(ADConstants.KEY_GET_NEXT_MONTH_YR, monthYr,
+                (activity as ADBaseActivity).getNextDate(ADConstants.KEY_GET_NEXT_MONTH_YR,
+                    monthYr,
                     object : ADCommonResponseListener {
                         override fun onSuccess(data: Any?) {
                             MySharedPreference(activity as ADBaseActivity).saveStrings(
@@ -779,7 +902,13 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                                 mUserName,
                                 userId
                             )
-                            savePaymentToServer(data.toString(), donation, balance, status, true)
+                            savePaymentToServer(
+                                data.toString(),
+                                donation,
+                                balance,
+                                status,
+                                true
+                            )
                         }
 
                         override fun onError(data: Any?) {
@@ -824,29 +953,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                         if (status) {
 
                             if (showCele) {
-                                payment_layout.visibility = View.GONE
-                                congrats_layout.visibility = View.VISIBLE
-                                (activity as ADBaseActivity).hideProgress(mProgressDialog)
-
-                                celebration_view.visibility = View.VISIBLE
-                                celebration_view.build()
-                                    .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
-                                    .setDirection(0.0, 359.0)
-                                    .setSpeed(1f, 5f)
-                                    .setFadeOutEnabled(true)
-                                    .setTimeToLive(ADConstants.ANIMATION_TIME_TO_LIVE)
-                                    .addShapes(Shape.RECT, Shape.CIRCLE)
-                                    .addSizes(Size(ADConstants.ANIMATION_SIZE))
-                                    .setPosition(
-                                        -50f,
-                                        celebration_view.width + 50f,
-                                        -50f,
-                                        -50f
-                                    )
-                                    .streamFor(
-                                        ADConstants.ANIMATION_COUNT,
-                                        ADConstants.ANIMATION_EMITTING_TIME
-                                    )
+                                showCelebration()
                             }
                         }
                     }
@@ -860,11 +967,45 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
             }
     }
 
+    private fun showCelebration() {
+        payment_layout.visibility = View.GONE
+        congrats_layout.visibility = View.VISIBLE
+        (activity as ADBaseActivity).hideProgress(mProgressDialog)
+
+        celebration_view.visibility = View.VISIBLE
+        celebration_view.build()
+            .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
+            .setDirection(0.0, 359.0)
+            .setSpeed(1f, 5f)
+            .setFadeOutEnabled(true)
+            .setTimeToLive(ADConstants.ANIMATION_TIME_TO_LIVE)
+            .addShapes(Shape.RECT, Shape.CIRCLE)
+            .addSizes(Size(ADConstants.ANIMATION_SIZE))
+            .setPosition(
+                -50f,
+                celebration_view.width + 50f,
+                -50f,
+                -50f
+            )
+            .streamFor(
+                ADConstants.ANIMATION_COUNT,
+                ADConstants.ANIMATION_EMITTING_TIME
+            )
+    }
+
     private fun updateUserLastTrans(payment: PaymentData?) {
 
         val user = ADUserDetails()
         user.lastTransaction = ADLastCheckout(amount.text.toString().toInt(), "")
         val mFirebaseInstance = FirebaseDatabase.getInstance()
+
+        val subId =
+            MySharedPreference((activity as ADBaseActivity).applicationContext).getValueString(
+                getString(R.string.subscription_id)
+            )
+        if (subId != null) {
+            user.subscriptionId = subId
+        }
 
         // get reference to 'users' node
         val mFirebaseDatabase =

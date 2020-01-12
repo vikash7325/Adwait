@@ -6,6 +6,26 @@ import com.google.gson.annotations.SerializedName;
 
 public class ADStoredSubData extends ADBaseModel {
 
+    @SerializedName("id")
+    private String id;
+    @SerializedName("entity")
+    private String entity;
+    @SerializedName("plan_id")
+    private String plan_id;
+    @SerializedName("status")
+    private String status;
+    private int total_count;
+    private int remaining_count;
+
+    public ADStoredSubData(String id, String entity, String plan_id, String status, int total_count, int remaining_count) {
+        this.id = id;
+        this.entity = entity;
+        this.plan_id = plan_id;
+        this.status = status;
+        this.total_count = total_count;
+        this.remaining_count = remaining_count;
+    }
+
     public String getId() {
         return id;
     }
@@ -22,12 +42,12 @@ public class ADStoredSubData extends ADBaseModel {
         this.entity = entity;
     }
 
-    public String getAmount() {
-        return amount;
+    public String getPlan_id() {
+        return plan_id;
     }
 
-    public void setAmount(String amount) {
-        this.amount = amount;
+    public void setPlan_id(String plan_id) {
+        this.plan_id = plan_id;
     }
 
     public String getStatus() {
@@ -38,19 +58,19 @@ public class ADStoredSubData extends ADBaseModel {
         this.status = status;
     }
 
-    public ADStoredSubData(String id, String entity, String amount, String status) {
-        this.id = id;
-        this.entity = entity;
-        this.amount = amount;
-        this.status = status;
+    public int getTotal_count() {
+        return total_count;
     }
 
-    @SerializedName("id")
-    private String id;
-    @SerializedName("entity")
-    private String entity;
-    @SerializedName("amount")
-    private String amount;
-    @SerializedName("status")
-    private String status;
+    public void setTotal_count(int total_count) {
+        this.total_count = total_count;
+    }
+
+    public int getRemaining_count() {
+        return remaining_count;
+    }
+
+    public void setRemaining_count(int remaining_count) {
+        this.remaining_count = remaining_count;
+    }
 }

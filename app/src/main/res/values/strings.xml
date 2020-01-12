@@ -137,6 +137,7 @@
     <string name="last_contribution">Last contribution on :%s</string>
     <string name="cancel_sub">Cancel Subscription</string>
     <string name="no_subscription">You don\'t have any active subscriptions. \nClick here to subscribe</string>
+    <string name="active_subscription">You have an active subscription with %s due(s).</string>
 
 
     <!--Contact us-->
@@ -280,6 +281,7 @@
     <string name="repeat_trans">Repeat Last Transaction</string>
     <string name="auto_sub">Adwait Automatic Contribution</string>
     <string name="auto_sub_msg">Now share happiness automatically. Contribute monthly to your mentee without any hassle.</string>
+    <string name="subscription_details">You have an active subscription. Know more</string>
 
     <!--Contribution-->
     <string name="contribution_header">My Contributions</string>

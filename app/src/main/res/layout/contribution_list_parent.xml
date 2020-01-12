@@ -23,6 +23,7 @@
         android:layout_toLeftOf="@+id/indicator"
         android:layout_toRightOf="@+id/cost"
         android:padding="5dp"
+        android:inputType="textCapSentences"
         android:textColor="@color/header_text_color"
         android:textSize="@dimen/medium_text" />d
 

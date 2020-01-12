@@ -22,7 +22,6 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
@@ -85,10 +84,10 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
         action_menu.setOnClickListener(View.OnClickListener {
             val drawerLayout: androidx.drawerlayout.widget.DrawerLayout =
                 findViewById(R.id.drawer_layout)
-            if (drawerLayout.isDrawerOpen(Gravity.END)) {
-                drawerLayout.closeDrawer(Gravity.END)
+            if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
+                drawerLayout.closeDrawer(GravityCompat.END)
             } else {
-                drawerLayout.openDrawer(Gravity.END)
+                drawerLayout.openDrawer(GravityCompat.END)
             }
         })
         mSelectedMenu = ADConstants.MENU_HOME
@@ -201,6 +200,13 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
                                 getString(R.string.userName),
                                 menteeDetails.userName
                             )
+
+                            if (menteeDetails.subscriptionId != null && menteeDetails.subscriptionId.length > 0) {
+                                MySharedPreference(applicationContext).saveStrings(
+                                    getString(R.string.subscription_id),
+                                    menteeDetails.subscriptionId
+                                )
+                            }
                             nav_header_title.setText("Hello " + menteeDetails.userName)
                             if (menteeDetails.phoneNumber.isEmpty() && menteeDetails.date_of_birth.isEmpty()) {
                                 showAlertDialog(
@@ -417,8 +423,8 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
     override fun onBackPressed() {
         val drawerLayout: androidx.drawerlayout.widget.DrawerLayout =
             findViewById(R.id.drawer_layout)
-        if (drawerLayout.isDrawerOpen(Gravity.END)) {
-            drawerLayout.closeDrawer(Gravity.END)
+        if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
+            drawerLayout.closeDrawer(GravityCompat.END)
         } else {
             if (mSelectedMenu == ADConstants.MENU_HOME) {
                 var message =
@@ -572,7 +578,7 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
 
         if (requestCode == ADConstants.KEY_REQUEST) {
             if (resultCode == ADConstants.KEY_MENU) {
-                drawer_layout.openDrawer(Gravity.END)
+                drawer_layout.openDrawer(GravityCompat.END)
             } else if (resultCode == ADConstants.KEY_PROFILE) {
                 menuAction(ADConstants.MENU_PROFILE, "")
             }

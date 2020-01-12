@@ -17,6 +17,7 @@ class ADUserDetails(
     var childId: String = ""
     var can_add_data: Boolean = false
     var referralPoints: String = "100"
+    var subscriptionId: String = ""
     var lastTransaction: ADLastCheckout = ADLastCheckout()
 
 
@@ -33,6 +34,7 @@ class ADUserDetails(
     @Exclude
     fun toMap2(): Map<String, Any?> {
         return mapOf(
+            "subscriptionId" to subscriptionId,
             "lastTransaction" to lastTransaction
         )
     }

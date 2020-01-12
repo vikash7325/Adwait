@@ -1,28 +1,30 @@
 package android.adwait.com.subscription.adapter;
 
 import android.adwait.com.R;
-import android.adwait.com.subscription.model.ADStoredSubData;
+import android.adwait.com.donation.model.ADDonationModel;
+import android.adwait.com.subscription.view.ADSubscriptionActivity;
 import android.content.Context;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ADCompletedSubAdapter extends RecyclerView.Adapter<ADCompletedSubAdapter.SubscriptionHolder> {
-    private List<ADStoredSubData> mCompletedSubData;
+    private List<ADDonationModel> mCompletedSubData;
     private Context mContext;
 
-    public ADCompletedSubAdapter(Context context, List<ADStoredSubData> messageList) {
+    public ADCompletedSubAdapter(Context context, List<ADDonationModel> messageList) {
         mCompletedSubData = messageList;
         mContext = context;
     }
 
-    public void setCompletedSubData(List<ADStoredSubData> eventsData) {
-        mCompletedSubData = new ArrayList<ADStoredSubData>();
+    public void setCompletedSubData(List<ADDonationModel> eventsData) {
+        mCompletedSubData = new ArrayList<ADDonationModel>();
         this.mCompletedSubData.addAll(eventsData);
         notifyDataSetChanged();
     }
@@ -56,8 +58,8 @@ public class ADCompletedSubAdapter extends RecyclerView.Adapter<ADCompletedSubAd
     // Passes the message object to a ViewHolder so that the contents can be bound to UI.
     @Override
     public void onBindViewHolder(SubscriptionHolder holder, int position) {
-//        ADStoredSubData dataItem = (ADStoredSubData) mCompletedSubData.get(position);
-//        ((SubscriptionHolder) holder).bind(dataItem);
+        ADDonationModel dataItem = (ADDonationModel) mCompletedSubData.get(position);
+        ((SubscriptionHolder) holder).bind(dataItem);
     }
 
     public class SubscriptionHolder extends RecyclerView.ViewHolder {
@@ -70,8 +72,8 @@ public class ADCompletedSubAdapter extends RecyclerView.Adapter<ADCompletedSubAd
             cancelSub = (TextView) itemView.findViewById(R.id.cancel);
         }
 
-        void bind(ADStoredSubData data) {
-            String text = String.format(mContext.getString(R.string.last_contribution), "");
+        void bind(ADDonationModel data) {
+            String text = String.format(mContext.getString(R.string.last_contribution), data.getDate());
             lastContribution.setText(text);
             text = mContext.getString(R.string.rupees) + data.getAmount();
             amount.setText(text);
@@ -79,7 +81,7 @@ public class ADCompletedSubAdapter extends RecyclerView.Adapter<ADCompletedSubAd
             cancelSub.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    ((ADSubscriptionActivity)mContext).cancelCompletedSub();
                 }
             });
         }

@@ -1,6 +1,5 @@
-package android.adwait.com.donation;
+package android.adwait.com.subscription.model;
 
-import android.adwait.com.donation.model.ADStoredSubData;
 import android.adwait.com.utils.ADBaseModel;
 
 import com.google.gson.annotations.SerializedName;

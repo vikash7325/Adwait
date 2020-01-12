@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     android:background="@drawable/app_bg_with_line"
     android:gravity="center_horizontal"
-    android:paddingBottom="@dimen/padd_10"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/padd_10">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -378,18 +378,34 @@
                             android:layout_marginTop="10dp"
                             android:text="@string/checkbox"
                             android:textColor="@color/app_text"
-                            android:textSize="@dimen/small_text" />
+                            android:textSize="@dimen/small_text"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/activeSubscription"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:padding="5dp"
+                            android:text="@string/subscription_details"
+                            android:textColor="@color/app_text"
+                            android:textSize="@dimen/small_text2"
+                            android:visibility="gone" />
+
+
                     </LinearLayout>
 
                 </LinearLayout>
 
                 <!--Subscribe layout-->
                 <RelativeLayout
+                    android:id="@+id/subscribe_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/padd_10"
                     android:background="@drawable/rounded_white_bg"
-                    android:padding="@dimen/default_padding">
+                    android:padding="@dimen/default_padding"
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/auto_image"

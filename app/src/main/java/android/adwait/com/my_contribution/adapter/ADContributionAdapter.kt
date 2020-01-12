@@ -3,17 +3,18 @@ package android.adwait.com.my_contribution.adapter
 import android.adwait.com.R
 import android.adwait.com.donation.model.ADDonationModel
 import android.content.Context
-import androidx.core.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 
 class ADContributionAdapter(
     val mContext: Context,
-    val mContributionList: ArrayList<ADDonationModel>) : BaseExpandableListAdapter() {
+    val mContributionList: ArrayList<ADDonationModel>
+) : BaseExpandableListAdapter() {
 
 
     override fun getGroupCount(): Int {
@@ -49,7 +50,12 @@ class ADContributionAdapter(
         return false
     }
 
-    override fun getGroupView(groupPosition: Int, isExpanded: Boolean, convertView: View?, parent: ViewGroup?): View {
+    override fun getGroupView(
+        groupPosition: Int,
+        isExpanded: Boolean,
+        convertView: View?,
+        parent: ViewGroup?
+    ): View {
         var convertView = convertView
         if (convertView == null) {
             val layoutInflater =
@@ -61,13 +67,17 @@ class ADContributionAdapter(
         val groupIndicator = convertView!!.findViewById<ImageView>(R.id.indicator)
 
         val data = mContributionList.get(groupPosition)
-        amount.setText( data.amount.toString()+mContext.getString(R.string.rupees))
-        paymentOption.setText(data.paymentMethod)
+        amount.setText(data.amount.toString() + mContext.getString(R.string.rupees))
+        val payment = data.paymentMethod;
+        if (payment != null && payment.length > 0) {
+            paymentOption.setText(
+                payment.substring(0,1).toUpperCase() + payment.substring(1)
+            )
+        }
 
-
-        if (isExpanded){
+        if (isExpanded) {
             groupIndicator.setImageResource(R.drawable.expanded)
-        }else{
+        } else {
             groupIndicator.setImageResource(R.drawable.collapsed)
         }
 
@@ -75,7 +85,13 @@ class ADContributionAdapter(
     }
 
 
-    override fun getChildView(groupPosition: Int, childPosition: Int, isLastChild: Boolean, convertView: View?, parent: ViewGroup?): View {
+    override fun getChildView(
+        groupPosition: Int,
+        childPosition: Int,
+        isLastChild: Boolean,
+        convertView: View?,
+        parent: ViewGroup?
+    ): View {
         var convertView = convertView
         if (convertView == null) {
             val layoutInflater =
@@ -95,11 +111,11 @@ class ADContributionAdapter(
 
         paymentStatus.setText(pStatus)
 
-        if (data.status){
-            paymentStatus.setTextColor(ContextCompat.getColor(mContext,R.color.successful))
+        if (data.status) {
+            paymentStatus.setTextColor(ContextCompat.getColor(mContext, R.color.successful))
             tryAgain.visibility = View.GONE
-        }else{
-            paymentStatus.setTextColor(ContextCompat.getColor(mContext,R.color.failed))
+        } else {
+            paymentStatus.setTextColor(ContextCompat.getColor(mContext, R.color.failed))
             tryAgain.visibility = View.VISIBLE
         }
 
