@@ -100,10 +100,11 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
 
         start.setOnClickListener {
             monthly_subscription.isChecked = true
+            donate_now.performClick()
         }
 
         repeat.setOnClickListener {
-            amount.setText(repeat_amount.text.toString())
+            amount.setText(repeat_amount.text.toString().replace(getString(R.string.rupees),""))
             donate_now.performClick()
         }
 
@@ -224,8 +225,8 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                         }
 
                         if (menteeDetails.lastTransaction != null && menteeDetails.lastTransaction.amount > 0) {
-                            repeat_amount.setText(getString(R.string.rupees) + " " + menteeDetails.lastTransaction.amount)
-                            mode.setText(menteeDetails.lastTransaction.method)
+                            repeat_amount.setText(getString(R.string.rupees) + menteeDetails.lastTransaction.amount)
+                            payment_method.setText("Using " + menteeDetails.lastTransaction.method)
                             repeat_layout.visibility = View.VISIBLE
                         } else {
                             repeat_layout.visibility = View.GONE
@@ -665,8 +666,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                                 checkAmountOfChild(
                                     paymentData,
                                     status,
-                                    fullData.data.method
-                                )
+                                    fullData.data.method)
                             }
                         } else {
                             (activity as ADBaseActivity).showMessage(
@@ -827,7 +827,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
         paymentMethod: String
     ) {
         try {
-            updateUserLastTrans(payment)
+            updateUserLastTrans(paymentMethod)
             val preference = MySharedPreference(activity!!.applicationContext)
             val userId = preference.getValueString(getString(R.string.userId)).toString()
 
@@ -993,10 +993,10 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
             )
     }
 
-    private fun updateUserLastTrans(payment: PaymentData?) {
+    private fun updateUserLastTrans(paymentMethod: String) {
 
         val user = ADUserDetails()
-        user.lastTransaction = ADLastCheckout(amount.text.toString().toInt(), "")
+        user.lastTransaction = ADLastCheckout(amount.text.toString().toInt(), paymentMethod)
         val mFirebaseInstance = FirebaseDatabase.getInstance()
 
         val subId =

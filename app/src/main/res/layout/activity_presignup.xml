@@ -89,7 +89,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
-                        android:text="your"
+                        android:text="yours"
                         android:textColor="@android:color/holo_red_dark"
                         android:textSize="@dimen/medium_text" />
 
@@ -97,7 +97,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
-                        android:text=" our Elve"
+                        android:text=" our Elf"
                         android:textColor="@color/app_text"
                         android:textSize="@dimen/medium_text" />
                 </LinearLayout>

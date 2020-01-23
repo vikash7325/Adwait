@@ -76,8 +76,8 @@
                             android:gravity="center_vertical"
                             android:padding="10dp"
                             android:text="@string/pledge_header_ques"
-                            android:textColor="@color/header_text_color"
-                            android:textSize="@dimen/large_text"
+                            android:textColor="@color/app_text"
+                            android:textSize="@dimen/medium_text"
                             android:textStyle="bold" />
 
                         <View
@@ -87,35 +87,71 @@
                             android:background="@color/gray1"
                             android:padding="5dp" />
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/ic_check"
-                            android:drawablePadding="3dp"
-                            android:padding="5dp"
-                            android:text="@string/pledge_content1"
-                            android:textColor="@color/hint_text_color"
-                            android:textSize="@dimen/medium_text" />
+                            android:gravity="center_horizontal|left"
+                            android:padding="5dp">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/ic_check"
-                            android:drawablePadding="3dp"
-                            android:padding="5dp"
-                            android:text="@string/pledge_content2"
-                            android:textColor="@color/hint_text_color"
-                            android:textSize="@dimen/medium_text" />
+                            <ImageView
+                                android:layout_width="@dimen/padd_10"
+                                android:layout_height="@dimen/padd_10"
+                                android:layout_margin="5dp"
+                                android:adjustViewBounds="true"
+                                android:src="@drawable/blue_dot" />
 
-                        <TextView
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/pledge_content1"
+                                android:textColor="@color/hint_text_color"
+                                android:textSize="@dimen/medium_text" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/ic_check"
-                            android:drawablePadding="3dp"
-                            android:padding="5dp"
-                            android:text="@string/pledge_content3"
-                            android:textColor="@color/hint_text_color"
-                            android:textSize="@dimen/medium_text" />
+                            android:gravity="center_horizontal|left"
+                            android:padding="5dp">
+
+                            <ImageView
+                                android:layout_width="@dimen/padd_10"
+                                android:layout_height="@dimen/padd_10"
+                                android:layout_margin="5dp"
+                                android:adjustViewBounds="true"
+                                android:src="@drawable/blue_dot" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/pledge_content2"
+                                android:textColor="@color/hint_text_color"
+                                android:textSize="@dimen/medium_text" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal|left"
+                            android:padding="5dp">
+
+                            <ImageView
+                                android:layout_width="@dimen/padd_10"
+                                android:layout_height="@dimen/padd_10"
+                                android:layout_margin="5dp"
+                                android:adjustViewBounds="true"
+                                android:src="@drawable/blue_dot" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/pledge_content3"
+                                android:textColor="@color/hint_text_color"
+                                android:textSize="@dimen/medium_text" />
+
+                        </LinearLayout>
 
                         <TextView
                             android:layout_width="match_parent"
@@ -123,26 +159,6 @@
                             android:padding="5dp"
                             android:text="@string/pledge_content"
                             android:textSize="@dimen/small_text" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-
-                            <Button
-                                android:id="@+id/pledge_apply"
-                                android:layout_width="@dimen/btn_width"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginBottom="10dp"
-                                android:background="@drawable/rounded_primary_color_bg"
-                                android:text="Apply"
-                                android:textAllCaps="false"
-                                android:textColor="@android:color/white"
-                                android:textSize="@dimen/medium_text" />
-
-                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -161,7 +177,7 @@
                             android:padding="5dp"
                             android:text="@string/pledge_hint"
                             android:textColor="@color/app_text"
-                            android:textSize="@dimen/medium_text" />
+                            android:textSize="@dimen/small_text" />
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
@@ -228,7 +244,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="10dp"
                             android:background="@drawable/rounded_primary_color_bg"
-                            android:text="Submit"
+                            android:text="Pledge Now"
                             android:textAllCaps="false"
                             android:textColor="@android:color/white"
                             android:textSize="@dimen/medium_text" />
@@ -237,14 +253,39 @@
 
                 </LinearLayout>
 
+                <Button
+                    android:id="@+id/pledge_apply"
+                    android:layout_width="@dimen/btn_width"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/rounded_primary_color_bg"
+                    android:text="Proceed"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/medium_text" />
+
                 <TextView
-                    android:id="@+id/hint2"
+                    android:id="@+id/hint21"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:visibility="gone"
-                    android:text="@string/pledge_hint2"
-                    android:textSize="@dimen/small_text" />
+                    android:gravity="center"
+                    android:text="@string/pledge_hint21"
+                    android:textSize="@dimen/small_text"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/hint22"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/padd_10"
+                    android:layout_marginTop="@dimen/default_padding"
+                    android:layout_marginRight="@dimen/padd_10"
+                    android:gravity="center_vertical"
+                    android:text="@string/pledge_hint22"
+                    android:textSize="@dimen/small_text"
+                    android:visibility="gone" />
 
             </LinearLayout>
 

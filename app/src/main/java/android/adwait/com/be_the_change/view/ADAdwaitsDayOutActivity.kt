@@ -8,9 +8,9 @@ import android.adwait.com.utils.ADConstants
 import android.adwait.com.utils.ADViewClickListener
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
-import android.view.View
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_adwaits_day_out.*
 import kotlinx.android.synthetic.main.common_toolbar.*
@@ -52,59 +52,59 @@ class ADAdwaitsDayOutActivity : ADBaseActivity() {
             dpd.show()
         })
 
+        dayout_proceed.setOnClickListener {
+            day_out_page1.visibility = View.GONE
+            dayout_proceed.visibility = View.GONE
+            day_out_page2.visibility = View.VISIBLE
+        }
+
         day_out_apply.setOnClickListener(View.OnClickListener {
 
-            if (day_out_page1.visibility == View.VISIBLE) {
 
-                day_out_page1.visibility = View.GONE
-                day_out_page2.visibility = View.VISIBLE
-                day_out_apply.setText("Submit")
+            val uName = name.text.toString()
+            val uDate = date.text.toString()
+            val contact = contact_details.text.toString()
+            val uMessage = message.text.toString()
+
+            if (uName.isEmpty()) {
+                name.setError(getString(R.string.empty_username))
+            } else if (uDate.isEmpty()) {
+                date.setError(getString(R.string.empty_date))
+            } else if (contact.isEmpty()) {
+                contact_details.setError(getString(R.string.empty_contact))
+            } else if (!isValidContactDetails(contact)) {
+                contact_details.setError(getString(R.string.invalid_contact))
+            } else if (uMessage.isEmpty()) {
+                message.setError(getString(R.string.empty_message))
             } else {
-                val uName = name.text.toString()
-                val uDate = date.text.toString()
-                val contact = contact_details.text.toString()
-                val uMessage = message.text.toString()
-
-                if (uName.isEmpty()) {
-                    name.setError(getString(R.string.empty_username))
-                } else if (uDate.isEmpty()) {
-                    date.setError(getString(R.string.empty_date))
-                } else if (contact.isEmpty()) {
-                    contact_details.setError(getString(R.string.empty_contact))
-                } else if (!isValidContactDetails(contact)) {
-                    contact_details.setError(getString(R.string.invalid_contact))
-                } else if (uMessage.isEmpty()) {
-                    message.setError(getString(R.string.empty_message))
+                if (!isNetworkAvailable()) {
+                    showMessage(getString(R.string.no_internet), day_parent, true)
                 } else {
-                    if (!isNetworkAvailable()) {
-                        showMessage(getString(R.string.no_internet), day_parent, true)
-                    } else {
-                        val dayoutData = ADDayOutModel(
-                            MySharedPreference(applicationContext).getValueString(getString(R.string.userId))!!,
-                            uName, uDate, contact, uMessage
-                        )
-                        mProgressDialog = showProgressDialog("", false)
-                        mProgressDialog.show()
-                        val fireBaseInstance = FirebaseDatabase.getInstance()
-                        val fireBaseDB = fireBaseInstance.getReference(DAY_OUT_TABLE)
+                    val dayoutData = ADDayOutModel(
+                        MySharedPreference(applicationContext).getValueString(getString(R.string.userId))!!,
+                        uName, uDate, contact, uMessage
+                    )
+                    mProgressDialog = showProgressDialog("", false)
+                    mProgressDialog.show()
+                    val fireBaseInstance = FirebaseDatabase.getInstance()
+                    val fireBaseDB = fireBaseInstance.getReference(DAY_OUT_TABLE)
 
-                        val key = fireBaseDB.push().key.toString()
+                    val key = fireBaseDB.push().key.toString()
 
-                        fireBaseDB.child(key).setValue(dayoutData)
-                            .addOnSuccessListener {
-                                hideProgress(mProgressDialog)
-                                showAlertDialog(getString(R.string.dayout_success),
-                                    getString(R.string.close),
-                                    "",
-                                    ADViewClickListener {
-                                        finish()
-                                    })
-                            }
-                            .addOnFailureListener {
-                                hideProgress(mProgressDialog)
-                                showMessage(getString(R.string.contact_failed), day_parent, true)
-                            }
-                    }
+                    fireBaseDB.child(key).setValue(dayoutData)
+                        .addOnSuccessListener {
+                            hideProgress(mProgressDialog)
+                            showAlertDialog(getString(R.string.dayout_success),
+                                getString(R.string.close),
+                                "",
+                                ADViewClickListener {
+                                    finish()
+                                })
+                        }
+                        .addOnFailureListener {
+                            hideProgress(mProgressDialog)
+                            showMessage(getString(R.string.contact_failed), day_parent, true)
+                        }
                 }
             }
         })

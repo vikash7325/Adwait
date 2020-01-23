@@ -30,14 +30,13 @@ class ADCampusambassadorActivity : ADBaseActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back_arrow)
         toolbar.setNavigationOnClickListener(View.OnClickListener { onBackPressed() })
+        apply_btn.setOnClickListener {
+            apply_btn.visibility = View.GONE
+            campus_ambassador_page1.visibility = View.GONE
+            campus_ambassador_form.visibility = View.VISIBLE
+        }
 
-
-        apply_btn.setOnClickListener(View.OnClickListener {
-
-            if (campus_ambassador_page1.visibility == View.VISIBLE) {
-                campus_ambassador_page1.visibility = View.GONE
-                campus_ambassador_form.visibility = View.VISIBLE
-            } else {
+        submit_btn.setOnClickListener(View.OnClickListener {
 
                 val loca = location.text.toString()
                 val mobile = contact_phone.text.toString()
@@ -88,7 +87,6 @@ class ADCampusambassadorActivity : ADBaseActivity() {
                             }
                     }
                 }
-            }
         })
 
 

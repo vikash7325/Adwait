@@ -18,10 +18,10 @@
         android:visibility="visible">
 
         <ImageView
-            android:layout_width="@dimen/static_image_hgt2"
-            android:layout_height="@dimen/static_image_hgt2"
+            android:layout_width="@dimen/static_image_hgt"
+            android:layout_height="@dimen/nav_header_image"
+            android:layout_gravity="center"
             android:layout_marginTop="5dp"
-            android:scaleType="fitXY"
             android:src="@drawable/ic_heart" />
 
 
@@ -60,30 +60,53 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/home_banner_1" />
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padd_10"
-                android:drawableLeft="@drawable/blue_dot"
-                android:drawablePadding="5dp"
-                android:ellipsize="end"
-                android:padding="5dp"
-                android:text="@string/partner_point1"
-                android:textAllCaps="false"
-                android:textColor="@color/app_text"
-                android:textSize="@dimen/medium_text" />
+                android:gravity="center_horizontal|left"
+                android:padding="5dp">
 
-            <TextView
+                <ImageView
+                    android:layout_width="@dimen/padd_10"
+                    android:layout_height="@dimen/padd_10"
+                    android:layout_margin="5dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/blue_dot" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:text="@string/partner_point1"
+                    android:textAllCaps="false"
+                    android:textColor="@color/app_text"
+                    android:textSize="@dimen/medium_text" />
+            </LinearLayout>
+
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/blue_dot"
-                android:drawablePadding="5dp"
-                android:ellipsize="end"
-                android:padding="5dp"
-                android:text="@string/partner_point2"
-                android:textAllCaps="false"
-                android:textColor="@color/app_text"
-                android:textSize="@dimen/medium_text" />
+                android:gravity="center_horizontal|left"
+                android:padding="5dp">
+
+                <ImageView
+                    android:layout_width="@dimen/padd_10"
+                    android:layout_height="@dimen/padd_10"
+                    android:layout_margin="5dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/blue_dot" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:text="@string/partner_point2"
+                    android:textAllCaps="false"
+                    android:textColor="@color/app_text"
+                    android:textSize="@dimen/medium_text" />
+
+            </LinearLayout>
 
 
         </LinearLayout>
@@ -241,42 +264,75 @@
             android:padding="15dp"
             android:paddingBottom="5dp">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:drawableLeft="@drawable/blue_dot"
-                android:drawablePadding="5dp"
-                android:ellipsize="end"
-                android:padding="5dp"
-                android:text="@string/partner_point11"
-                android:textAllCaps="false"
-                android:textColor="@color/app_text"
-                android:textSize="@dimen/medium_text" />
+                android:gravity="center_horizontal"
+                android:padding="5dp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/blue_dot"
-                android:drawablePadding="5dp"
-                android:ellipsize="end"
-                android:padding="5dp"
-                android:text="@string/partner_point12"
-                android:textAllCaps="false"
-                android:textColor="@color/app_text"
-                android:textSize="@dimen/medium_text" />
+                <ImageView
+                    android:layout_width="@dimen/padd_10"
+                    android:layout_height="@dimen/padd_10"
+                    android:layout_margin="5dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/blue_dot" />
 
-            <TextView
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:text="@string/partner_point11"
+                    android:textAllCaps="false"
+                    android:textColor="@color/app_text"
+                    android:textSize="@dimen/medium_text" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/blue_dot"
-                android:drawablePadding="5dp"
-                android:ellipsize="end"
-                android:padding="5dp"
-                android:text="@string/partner_point13"
-                android:textAllCaps="false"
-                android:textColor="@color/app_text"
-                android:textSize="@dimen/medium_text" />
+                android:gravity="center_horizontal"
+                android:padding="5dp">
+
+                <ImageView
+                    android:layout_width="@dimen/padd_10"
+                    android:layout_height="@dimen/padd_10"
+                    android:layout_margin="5dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/blue_dot" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:text="@string/partner_point12"
+                    android:textAllCaps="false"
+                    android:textColor="@color/app_text"
+                    android:textSize="@dimen/medium_text" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:padding="5dp">
+
+                <ImageView
+                    android:layout_width="@dimen/padd_10"
+                    android:layout_height="@dimen/padd_10"
+                    android:layout_margin="5dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/blue_dot" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:text="@string/partner_point13"
+                    android:textAllCaps="false"
+                    android:textColor="@color/app_text"
+                    android:textSize="@dimen/medium_text" />
+            </LinearLayout>
 
 
             <TextView
@@ -291,6 +347,7 @@
                 android:textSize="@dimen/medium_text" />
 
             <TextView
+                android:id="@+id/click_here"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"

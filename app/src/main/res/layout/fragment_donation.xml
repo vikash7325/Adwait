@@ -202,14 +202,15 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/mode"
+                            android:id="@+id/payment_method"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/repeat_amount"
                             android:layout_alignParentLeft="true"
+                            android:layout_marginLeft="5dp"
                             android:textColor="@color/app_text"
                             android:textSize="@dimen/small_text"
-                            android:visibility="gone" />
+                            android:visibility="visible" />
                     </RelativeLayout>
                 </LinearLayout>
 
@@ -446,7 +447,7 @@
                         android:layout_marginLeft="@dimen/padd_10"
                         android:layout_toLeftOf="@id/start"
                         android:layout_toRightOf="@id/auto_image"
-                        android:padding="5dp"
+                        android:padding="3dp"
                         android:text="@string/auto_sub_msg"
                         android:textColor="@color/app_text"
                         android:textSize="@dimen/small_text2" />

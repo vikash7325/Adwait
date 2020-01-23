@@ -227,6 +227,7 @@ class ADMyMenteeFragment : ADBaseFragment() {
             return
         }
         if ((activity as ADBaseActivity).isLoggedInUser()) {
+            progress.setProgress(0)
 
             (activity as ADBaseActivity).getChildDetails(childId, object : ValueEventListener {
 

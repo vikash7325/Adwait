@@ -2,7 +2,9 @@ package android.adwait.com.static_pages.view
 
 import and.com.polam.utils.ADBaseActivity
 import android.adwait.com.R
+import android.adwait.com.dashboard.view.ADDashboardActivity
 import android.adwait.com.utils.ADBaseFragment
+import android.adwait.com.utils.ADConstants
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +29,11 @@ class ADPartnersFragment : ADBaseFragment() {
         next_btn.setOnClickListener {
             page1.visibility = View.GONE
             page2.visibility = View.VISIBLE
+        }
+
+        click_here.setOnClickListener{
+            (activity as ADDashboardActivity).menuAction(ADConstants.MENU_CONTACT_US, "")
+
         }
     }
 }

@@ -24,6 +24,7 @@
         <item name="colorControlActivated">@color/colorAccent</item>
         <item name="colorControlHighlight">@color/colorAccent</item>
         <item name="android:textColorHint">@color/gray1</item>
+        <item name="android:windowBackground">@drawable/rounded_white_bg</item>
         <item name="android:textColor">@color/app_text</item>
     </style>
 

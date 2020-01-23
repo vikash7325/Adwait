@@ -202,14 +202,15 @@
     <string name="our_head">Become our Area Head</string>
     <string name="day_out">Adwait\'s Day Out</string>
     <string name="pledge_header">Pledge your birthday</string>
-    <string name="pledge_header_ques">What is Pledge your birthday?</string>
+    <string name="pledge_header_ques">Pledge your birthday in just three steps!</string>
     <string name="pledge_hint">This year, donate your birthday to Adwait Foundation and give the gift of education and forever happiness to an underprivileged child.</string>
     <string name="date_of_bday">Date of Birth</string>
     <string name="pledge_content1">You pledge your birthday by sharing details on next page</string>
     <string name="pledge_content2">We create your customized birthday campaign for fundraising</string>
     <string name="pledge_content3">Let the world know by sharing the pledge and sending invitations. Simple!</string>
     <string name="pledge_content">It\’s easy to pledge your birthday. Just sign up with your DOB, then send a note to your family and friends with the news!</string>
-   <string name="pledge_hint2">100% of the funds raised will be contributed towards the education of a child. We will keep you updated with the proceedings in your dashboard</string>
+   <string name="pledge_hint21">You can even pledge the birthday of your\nbeloved. Let the love spread☺</string>
+   <string name="pledge_hint22">100% of the funds raised will be contributed towards the education of a child. We will keep you updated with the proceedings in your dashboard</string>
     <string name="congrats">Congratulations!</string>
     <string name="step_closer">You are a step closer to spreading happiness</string>
     <string name="tell_us_about_u">Tell us about your event!</string>
@@ -233,7 +234,7 @@
     <string name="choose_file">Choose Files</string>
     <string name="campus_header">Be our Campus Ambassador</string>
     <string name="phone_no">Phone Number</string>
-    <string name="adwait_header">Adwait\'s day out</string>
+    <string name="adwait_header">Adwaits day out</string>
     <string name="pledge_bday_msg">Thankyou for pledging your birthday. We will together celebrate your birthday in Adwait\'s way.</string>
 
     <string-array name="area_of_interest">
@@ -332,13 +333,16 @@
     <string name="campus_success">Thank You for showing interest in Campus Ambassador.\nOur team will get back to you shortly.</string>
 
     <!--Adwait dayout-->
-    <string name="dayout_header">What is Adwait\'s day out?</string>
+    <string name="dayout_header">An outreach program to share your hobbies with kids who desire to excel in art/dance/music/writing, play.</string>
     <string name="date_hint">Your Availability Date</string>
     <string name="message_hint">Tell Us Your area of interest.</string>
-    <string name="dayout_content1">A chance for you to connect with an underprivileged kids</string>
-    <string name="dayout_content2">A chance for you to be involved personally to do good for society</string>
-    <string name="dayout_content3">A chance for you to make a kid happy by being there for them</string>
-    <string name="dayout_form_hint">Fill out the following details based on your availability. Our team will get back to you soon.</string>
+    <string name="dayout_content1">Tell us your hobby and availability in the next page.</string>
+    <string name="dayout_content2">Adwait will schedule a curated program for you to spend a day out with the kids</string>
+    <string name="dayout_content3">You can even plan a tutorial/mentoring session for the kids once a week.</string>
+    <string name="dayout_form_hint1">Discover the joy of sharing your passion with the budding talents.</string>
+    <string name="dayout_form_hint2">Be a part of our mission to ensure 360 degree long term personal development to the most vulnerable buds.</string>
+    <string name="dayout_form_hint">Be a role model for children around you just by doing what you like.</string>
+    <string name="dayout_form_hint22">Example: I want to conduct a painting session for around 10 kids.</string>
     <string name="dayout_success">Thank You for showing interest in Adwait\'s Day Out.\nOur team will get back to you shortly with the list of engagements.</string>
 
     <!--Evle Talk-->
