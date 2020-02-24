@@ -2,5 +2,5 @@
 <network-security-config>
     <!--Set application-wide security config using base-config tag.-->
     <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">adwait.lancepaas.com</domain>
+        <domain includeSubdomains="true">ec2-3-6-213-11.ap-south-1.compute.amazonaws.com</domain>
     </domain-config></network-security-config>

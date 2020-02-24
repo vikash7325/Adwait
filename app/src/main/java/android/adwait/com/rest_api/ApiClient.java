@@ -4,7 +4,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
-    public static final String BASE_URL = "http://adwait.lancepaas.com/";
+    public static final String BASE_URL = "http://ec2-3-6-213-11.ap-south-1.compute.amazonaws.com/AdwaitScript/adwait/index.php/";
     private static Retrofit retrofit = null;
 
 

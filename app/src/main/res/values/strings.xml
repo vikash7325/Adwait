@@ -2,12 +2,12 @@
     <!--Common-->
 
     <!--Test Mode-->
-    <string name="razor_pay_id">rzp_test_wZwgscDRHEobwb</string>
-    <string name="razor_pay_secret">nJ7v0lAat4YfOCC69QrcQgFE</string>
+<!--    <string name="razor_pay_id">rzp_test_wZwgscDRHEobwb</string>-->
+<!--    <string name="razor_pay_secret">nJ7v0lAat4YfOCC69QrcQgFE</string>-->
 
     <!--Live Mode-->
-    <!--<string name="razor_pay_id">rzp_live_bMcUx337Ffwi3N</string>-->
-    <!--<string name="razor_pay_secret">89r9o36aqNp71GATjBtfXaWk</string>-->
+    <string name="razor_pay_id">rzp_live_bMcUx337Ffwi3N</string>
+    <string name="razor_pay_secret">89r9o36aqNp71GATjBtfXaWk</string>
 
     <string name="app_name">Adwait</string>
     <string name="facebook_app_id">305162560131651</string>

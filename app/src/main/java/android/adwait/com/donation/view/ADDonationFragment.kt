@@ -442,7 +442,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
             mUserId,
             mUserName,
             mChildId
-        );
+        )
         val apiService = ApiClient.getClient().create(ApiInterface::class.java)
         val call = apiService.createSubscription(subRequest)
         Log.v(TAG, subRequest.toString())
@@ -523,7 +523,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                 if (response != null && response.isSuccessful) {
                     if (response.body() != null && response.body().isSuccessFlag) {
                         val fullResponse: ADSubscriptionResponse = response?.body()!!
-                        if (fullResponse.data.status.toLowerCase().equals("active")) {
+                        if (fullResponse?.data?.status?.toLowerCase().equals("active")) {
                             monthly_subscription.visibility = View.GONE
                             subscribe_layout.visibility = View.GONE
                             activeSubscription.visibility = View.VISIBLE
@@ -531,6 +531,9 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                             monthly_subscription.visibility = View.VISIBLE
                             subscribe_layout.visibility = View.VISIBLE
                             activeSubscription.visibility = View.GONE
+                            MySharedPreference((activity as ADBaseActivity).applicationContext).saveStrings(
+                                getString(R.string.subscription_id),
+                                "")
                         }
 
                     }

@@ -133,13 +133,15 @@ class ADSubscriptionActivity : ADBaseActivity() {
                 call: Call<ADSubscriptionResponse>?,
                 response: Response<ADSubscriptionResponse>?
             ) {
-
+                fetchCompletedSub()
                 if (response != null && response.isSuccessful) {
                     if (response.body() != null && response.body().isSuccessFlag) {
                         val fullResponse: ADSubscriptionResponse = response?.body()!!
                         if (fullResponse.data.status.toLowerCase().equals("active")) {
-                            fetchCompletedSub()
-                            val text = String.format(getString(R.string.active_subscription),fullResponse.data.remaining_count)
+                            val text = String.format(
+                                getString(R.string.active_subscription),
+                                fullResponse.data.remaining_count
+                            )
                             activeSubscription.setText(text)
                             activeSubscription.visibility = View.VISIBLE
                         } else {
@@ -167,8 +169,12 @@ class ADSubscriptionActivity : ADBaseActivity() {
     }
 
     fun cancelCompletedSub() {
+        val subId =
+            MySharedPreference(applicationContext).getValueString(
+                getString(R.string.subscription_id)
+            )
         val apiService = ApiClient.getClient().create(ApiInterface::class.java)
-        val call = apiService.cancelSubscription("")
+        val call = apiService.cancelSubscription(subId)
 
         if (!isNetworkAvailable()) {
             showMessage(getString(R.string.no_internet), sub_parent, true)

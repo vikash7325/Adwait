@@ -98,7 +98,7 @@ class ADMyProfileFragment : ADBaseFragment() {
                         user_welcome.setText("Hello, " + userData.userName)
                         p_name.setText(userData.userName)
                         p_email.setText(userData.emailAddress)
-                        p_contribution.setText("")
+                        p_contribution.setText("-")
 
                         if (userData.phoneNumber.isEmpty() && userData.date_of_birth.isEmpty()) {
                             (activity as ADBaseActivity).hideProgress(mProgressDialog)
