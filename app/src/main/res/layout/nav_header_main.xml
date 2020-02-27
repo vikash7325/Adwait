@@ -30,7 +30,7 @@
         android:contentDescription="@string/nav_header_desc"
         android:src="@drawable/ic_rounded_user" />
 
-    <android.adwait.com.utils.customfonts.ADBoldFont
+    <ad.adwait.mcom.utils.customfonts.ADBoldFont
         android:id="@+id/nav_header_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

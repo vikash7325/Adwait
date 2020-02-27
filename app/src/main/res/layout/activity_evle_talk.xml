@@ -32,7 +32,7 @@
             android:layout_marginTop="5dp"
             android:src="@drawable/ic_singer" />
 
-        <android.adwait.com.utils.customfonts.ADBoldFont
+        <ad.adwait.mcom.utils.customfonts.ADBoldFont
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
