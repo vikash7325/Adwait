@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "142890698927-1e75mffqmpq3i7e34dfu9rtp9ciqedm2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ad.adwait.mcom",
+            "certificate_hash": "8e34b00dbc5aa7e787bc2b90d76204bef95384bf"
+          }
+        },
+        {
           "client_id": "142890698927-mi3saq66kqfafkaji8j1m9g2k1eesvra.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -47,7 +55,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:142890698927:android:2729913e9e155ae3",
         "android_client_info": {
-          "package_name": "ad.adwait.mcom"
+          "package_name": "android.adwait.com"
         }
       },
       "oauth_client": [
@@ -55,7 +63,7 @@
           "client_id": "142890698927-dt79mdi07g5e62lv4kjk4459q1nqsdg4.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "ad.adwait.mcom",
+            "package_name": "android.adwait.com",
             "certificate_hash": "8e34b00dbc5aa7e787bc2b90d76204bef95384bf"
           }
         },
@@ -63,7 +71,7 @@
           "client_id": "142890698927-k6hkcjh8mf4cl9qtt7veb3i4nk9p1l22.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "ad.adwait.mcom",
+            "package_name": "android.adwait.com",
             "certificate_hash": "4f6a0e5f8c64f7a3877419d8c5ace22dc65cc4c3"
           }
         },
@@ -71,7 +79,7 @@
           "client_id": "142890698927-coc05e2dq2se24f87qi6c177u5imrbu3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "ad.adwait.mcom",
+            "package_name": "android.adwait.com",
             "certificate_hash": "20e14a6b33414cbf2167082a835e25786d34afb6"
           }
         },
@@ -79,7 +87,7 @@
           "client_id": "142890698927-dtnpfmq19mvrteo1nupk0lhks27gbdc1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "ad.adwait.mcom",
+            "package_name": "android.adwait.com",
             "certificate_hash": "a0fee6f34cd0ee282f900e30bbc731ad2bf58038"
           }
         },
@@ -87,7 +95,7 @@
           "client_id": "142890698927-tmtbkr6j359s7ich8tjfn0p8vttfoiv5.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "ad.adwait.mcom",
+            "package_name": "android.adwait.com",
             "certificate_hash": "0e30309136425432b3d67d12348ed3e492a6aa40"
           }
         },
