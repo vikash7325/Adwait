@@ -2,8 +2,8 @@
     <!--Common-->
 
     <!--Test Mode-->
-<!--    <string name="razor_pay_id">rzp_test_wZwgscDRHEobwb</string>-->
-<!--    <string name="razor_pay_secret">nJ7v0lAat4YfOCC69QrcQgFE</string>-->
+    <!--    <string name="razor_pay_id">rzp_test_wZwgscDRHEobwb</string>-->
+    <!--    <string name="razor_pay_secret">nJ7v0lAat4YfOCC69QrcQgFE</string>-->
 
     <!--Live Mode-->
     <string name="razor_pay_id">rzp_live_bMcUx337Ffwi3N</string>
@@ -71,7 +71,7 @@
     <string name="new_password">New Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="cancel">Cancel</string>
-    <string name="email_success">Reset link has been sent to your email. Please login after password reset.</string>
+    <string name="email_success">A password reset link has been sent to your register emailID. Please click on the link in your mail to reset your Password</string>
     <string name="mobile_reset_success">Password has been reset. Login with new password</string>
     <string name="otp_sent">An OTP has been sent to your mobile number.</string>
 
@@ -209,8 +209,8 @@
     <string name="pledge_content2">We create your customized birthday campaign for fundraising</string>
     <string name="pledge_content3">Let the world know by sharing the pledge and sending invitations. Simple!</string>
     <string name="pledge_content">It\’s easy to pledge your birthday. Just sign up with your DOB, then send a note to your family and friends with the news!</string>
-   <string name="pledge_hint21">You can even pledge the birthday of your\nbeloved. Let the love spread☺</string>
-   <string name="pledge_hint22">100% of the funds raised will be contributed towards the education of a child. We will keep you updated with the proceedings in your dashboard</string>
+    <string name="pledge_hint21">You can even pledge the birthday of your\nbeloved. Let the love spread☺</string>
+    <string name="pledge_hint22">100% of the funds raised will be contributed towards the education of a child. We will keep you updated with the proceedings in your dashboard</string>
     <string name="congrats">Congratulations!</string>
     <string name="step_closer">You are a step closer to spreading happiness</string>
     <string name="tell_us_about_u">Tell us about your event!</string>
@@ -394,4 +394,7 @@
     <string name="local_partners">Meet few our local partners</string>
     <string name="name1">Vikash,26yrs\n Mumbai</string>
     <string name="name2">Vivek,26yrs\n Mumbai</string>
+
+    <!--    Links-->
+    <string name="voluntering">https://adwaitfoundation.wufoo.com/forms/merakee-adwait-foundation/</string>
 </resources>

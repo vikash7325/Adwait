@@ -70,7 +70,7 @@ class ADBeTheChangeFragment : ADBaseFragment(), View.OnClickListener {
 
         fetchBanner()
         header_1.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com"))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.voluntering)))
             startActivity(intent)
         }
     }
