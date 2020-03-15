@@ -15,96 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "142890698927-ktuvua591nsuqo5p1ud5d1qdm8vsevo6.apps.googleusercontent.com",
+          "client_id": "142890698927-saahk27qg0gr5hcctc7t5fodqvrte20h.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "ad.adwait.mcom",
-            "certificate_hash": "dac4a99a7d5b0297223b4c6515ceed9da0742146"
-          }
-        },
-        {
-          "client_id": "142890698927-1e75mffqmpq3i7e34dfu9rtp9ciqedm2.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "ad.adwait.mcom",
-            "certificate_hash": "8e34b00dbc5aa7e787bc2b90d76204bef95384bf"
-          }
-        },
-        {
-          "client_id": "142890698927-mi3saq66kqfafkaji8j1m9g2k1eesvra.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "ad.adwait.mcom",
-            "certificate_hash": "4f6a0e5f8c64f7a3877419d8c5ace22dc65cc4c3"
-          }
-        },
-        {
-          "client_id": "142890698927-d4vii97bjg7m8gtvb26dpvhlo88vl10a.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyB9-aGdF89n7P8jGi_h2y1h4MqDbJD8PiM"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "142890698927-d4vii97bjg7m8gtvb26dpvhlo88vl10a.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:142890698927:android:2729913e9e155ae3",
-        "android_client_info": {
-          "package_name": "android.adwait.com"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "142890698927-dt79mdi07g5e62lv4kjk4459q1nqsdg4.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "android.adwait.com",
-            "certificate_hash": "8e34b00dbc5aa7e787bc2b90d76204bef95384bf"
-          }
-        },
-        {
-          "client_id": "142890698927-k6hkcjh8mf4cl9qtt7veb3i4nk9p1l22.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "android.adwait.com",
-            "certificate_hash": "4f6a0e5f8c64f7a3877419d8c5ace22dc65cc4c3"
-          }
-        },
-        {
-          "client_id": "142890698927-coc05e2dq2se24f87qi6c177u5imrbu3.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "android.adwait.com",
-            "certificate_hash": "20e14a6b33414cbf2167082a835e25786d34afb6"
-          }
-        },
-        {
-          "client_id": "142890698927-dtnpfmq19mvrteo1nupk0lhks27gbdc1.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "android.adwait.com",
-            "certificate_hash": "a0fee6f34cd0ee282f900e30bbc731ad2bf58038"
-          }
-        },
-        {
-          "client_id": "142890698927-tmtbkr6j359s7ich8tjfn0p8vttfoiv5.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "android.adwait.com",
-            "certificate_hash": "0e30309136425432b3d67d12348ed3e492a6aa40"
+            "certificate_hash": "cfbceab9a917955d41b1c5586fe773ccbb35c909"
           }
         },
         {
