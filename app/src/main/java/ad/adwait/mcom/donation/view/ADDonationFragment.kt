@@ -67,6 +67,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
     private var receiptNo = "Receipt_"
     private var mSubId = ""
     private lateinit var mProgressDialog: AlertDialog
+    private var mAutoNavigate: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -74,7 +75,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater?.inflate(R.layout.fragment_donation, container, false)
-
+        mAutoNavigate = false
         mProgressDialog = (activity as ADBaseActivity).showProgressDialog("", false)
         return view
     }
@@ -100,7 +101,7 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
         }
 
         repeat.setOnClickListener {
-            amount.setText(repeat_amount.text.toString().replace(getString(R.string.rupees),""))
+            amount.setText(repeat_amount.text.toString().replace(getString(R.string.rupees), ""))
             donate_now.performClick()
         }
 
@@ -123,6 +124,9 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
             var bundle = arguments
             val price: String = bundle?.getInt("amount", 0).toString()
             amount.setText(price)
+            if (price.toInt() > 0) {
+                mAutoNavigate = true
+            }
         }
 
         info_icon.setOnClickListener(View.OnClickListener {
@@ -307,9 +311,12 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
 
                             splitData = childData.splitDetails
 
-
                             fetchContribution(mUserId, monthYr, childId)
-
+                            if (mAutoNavigate) {
+                                mAutoNavigate = false
+                                donate_now.performClick()
+                                (activity as ADBaseActivity).hideProgress(mProgressDialog)
+                            }
                             btn_monthly.setText(getString(R.string.rupees) + " " + monthlyAmount)
                             val text = java.lang.String.format(
                                 getString(R.string.fund_raised_msg),
@@ -529,7 +536,8 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                             activeSubscription.visibility = View.GONE
                             MySharedPreference((activity as ADBaseActivity).applicationContext).saveStrings(
                                 getString(R.string.subscription_id),
-                                "")
+                                ""
+                            )
                         }
 
                     }
@@ -665,7 +673,8 @@ class ADDonationFragment : ADBaseFragment(), PaymentResultWithDataListener {
                                 checkAmountOfChild(
                                     paymentData,
                                     status,
-                                    fullData.data.method)
+                                    fullData.data.method
+                                )
                             }
                         } else {
                             (activity as ADBaseActivity).showMessage(

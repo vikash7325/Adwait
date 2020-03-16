@@ -306,7 +306,7 @@ class ADMyMenteeFragment : ADBaseFragment() {
                             if (!imageUrl.isEmpty()) {
                                 Glide.with(activity as ADBaseActivity).load(imageUrl)
                                     .placeholder(R.drawable.ic_guest_user).diskCacheStrategy(
-                                        DiskCacheStrategy.SOURCE
+                                        DiskCacheStrategy.NONE
                                     ).into(child_image)
                             }
                             val age: String = (activity as ADBaseActivity).getAge(

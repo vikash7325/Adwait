@@ -6,21 +6,30 @@ import ad.adwait.mcom.dashboard.view.ADDashboardActivity
 import ad.adwait.mcom.static_pages.model.ADContact
 import ad.adwait.mcom.utils.ADBaseFragment
 import ad.adwait.mcom.utils.ADConstants
+import and.com.polam.utils.MySharedPreference
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import androidx.appcompat.app.AlertDialog
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.fragment_contact_us.*
+
 
 class ADContactUsFragment : ADBaseFragment() {
 
     private val CONTACT_TABLE: String = "Contact_details"
     private lateinit var mProgressDialog: AlertDialog
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater?.inflate(R.layout.fragment_contact_us, container, false)
 
         return view
@@ -29,6 +38,35 @@ class ADContactUsFragment : ADBaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        email.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SEND)
+            intent.type = "plain/text"
+            intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.contact_mail)))
+            startActivity(Intent.createChooser(intent, ""))
+        }
+
+        number.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL)
+            intent.data = Uri.parse("tel:" + getString(R.string.contact_number))
+            startActivity(intent)
+        }
+
+
+        if (MySharedPreference(activity as ADBaseActivity).getValueBoolean(getString(R.string.from_partner))) {
+            MySharedPreference(activity as ADBaseActivity).saveBoolean(
+                getString(R.string.from_partner),
+                false
+            )
+
+            val adapter = ArrayAdapter.createFromResource(
+                activity,
+                R.array.partner_subject,
+                android.R.layout.simple_spinner_item
+            )
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            subject.setAdapter(adapter)
+        }
         form_submit.setOnClickListener(View.OnClickListener {
             var userName = name.text.toString().trim()
             var cSubject = subject.selectedItem.toString().trim()
@@ -39,7 +77,11 @@ class ADContactUsFragment : ADBaseFragment() {
             if (TextUtils.isEmpty(userName)) {
                 name.setError(getString(R.string.empty_username));
             } else if (subject.selectedItemPosition == 0) {
-                (activity as ADBaseActivity).showMessage(getString(R.string.empty_subject), contact_parent, true);
+                (activity as ADBaseActivity).showMessage(
+                    getString(R.string.empty_subject),
+                    contact_parent,
+                    true
+                );
             } else if (TextUtils.isEmpty(cContact)) {
                 email_or_num.setError(getString(R.string.empty_contact));
             } else if (!(activity as ADBaseActivity).isValidContactDetails(cContact)) {
@@ -48,7 +90,11 @@ class ADContactUsFragment : ADBaseFragment() {
                 message.setError(getString(R.string.empty_message));
             } else {
                 if (!(activity as ADBaseActivity).isNetworkAvailable()) {
-                    (activity as ADBaseActivity).showMessage(getString(R.string.no_internet), contact_parent, true)
+                    (activity as ADBaseActivity).showMessage(
+                        getString(R.string.no_internet),
+                        contact_parent,
+                        true
+                    )
                     return@OnClickListener
                 }
 

@@ -27,6 +27,10 @@ class AdWishDetailsActivity : AppCompatActivity() {
                 java.lang.String.format(getString(R.string.aim_hint), intent.getStringExtra("aim"))
             aim.setText(textFormatter)
 
+            if(intent.getStringExtra("aim").isEmpty()){
+                aim.visibility = View.GONE
+            }
+
             textFormatter =
                 java.lang.String.format(getString(R.string.wish_hint), intent.getStringExtra("name"),intent.getStringExtra("gift"))
             wish.setText(textFormatter)

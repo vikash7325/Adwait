@@ -4,6 +4,6 @@ import ad.adwait.mcom.utils.ADBaseModel
 
 class ADCampusambassadorModel(
         val userId: String, val areaOfInterest: String, val areaOfExpert: String, val location: String,
-        val phone: String
+        val phone: String, val email: String
 ) : ADBaseModel() {
 }

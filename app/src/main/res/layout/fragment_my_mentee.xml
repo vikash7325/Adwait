@@ -53,10 +53,10 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.35"
                         android:paddingLeft="10dp"
-                        android:paddingTop="5dp"
+                        android:paddingTop="@dimen/default_padding"
                         android:paddingRight="10dp"
-                        android:paddingBottom="5dp"
-                        android:scaleType="fitCenter"
+                        android:paddingBottom="@dimen/default_padding"
+                        android:scaleType="fitXY"
                         android:src="@drawable/ic_guest_user" />
 
                     <LinearLayout
@@ -588,10 +588,10 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.75"
-                    android:inputType="text|textCapSentences"
                     android:background="@drawable/rounded_white_bg"
                     android:hint="@string/msg_hint"
                     android:imeOptions="actionSend"
+                    android:inputType="text|textCapSentences"
                     android:padding="5dp"
                     android:textSize="@dimen/medium_text" />
 

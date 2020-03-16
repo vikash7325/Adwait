@@ -252,7 +252,8 @@
                 android:padding="5dp"
                 android:text="@string/profile_faq"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/small_text" />
+                android:textSize="@dimen/small_text"
+                android:visibility="gone" />
         </LinearLayout>
 
     </RelativeLayout>

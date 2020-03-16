@@ -70,7 +70,7 @@ class ADBeTheChangeFragment : ADBaseFragment(), View.OnClickListener {
 
         fetchBanner()
         header_1.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.voluntering)))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://adwaitfoundation.wufoo.com/forms/merakee-adwait-foundation/"))
             startActivity(intent)
         }
     }
@@ -91,8 +91,7 @@ class ADBeTheChangeFragment : ADBaseFragment(), View.OnClickListener {
                 nextScreen = Intent(activity, ADCampusambassadorActivity::class.java)
             }
             R.id.tile5 -> {
-                //  nextScreen = Intent(activity, ADPledgeBdayActivity::class.java)
-                return
+                nextScreen = Intent(activity, ADAreaHeadActivity::class.java)
             }
             R.id.tile6 -> {
                 nextScreen = Intent(activity, ADAdwaitsDayOutActivity::class.java)
@@ -121,7 +120,8 @@ class ADBeTheChangeFragment : ADBaseFragment(), View.OnClickListener {
                         dataUrl.add(child.value as String)
                     }
 
-                    val pageAdapter = ADHomePageAdapter((activity as ADBaseActivity).applicationContext, dataUrl)
+                    val pageAdapter =
+                        ADHomePageAdapter((activity as ADBaseActivity).applicationContext, dataUrl)
                     bethe_change_pager.adapter = pageAdapter
                     change_indicator.setViewPager(bethe_change_pager)
                     pageAdapter.registerDataSetObserver(change_indicator.dataSetObserver)
@@ -131,7 +131,7 @@ class ADBeTheChangeFragment : ADBaseFragment(), View.OnClickListener {
             override fun onCancelled(error: DatabaseError) {
                 Log.i("ADBeTheChangeFragment", "Banner fetch Error : " + error.message)
             }
-        },"Be_The_Change_Banner")
+        }, "Be_The_Change_Banner")
     }
 
 

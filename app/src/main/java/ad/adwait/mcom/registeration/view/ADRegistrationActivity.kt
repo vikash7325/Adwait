@@ -10,12 +10,12 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -27,6 +27,7 @@ import kotlinx.android.synthetic.main.logo_layout.*
 import kotlinx.android.synthetic.main.register_otp.*
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
+import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -120,12 +121,14 @@ class ADRegistrationActivity : ADBaseActivity() {
                                 elve = user.getValue(ADUserDetails::class.java)!!
 
                                 if (elve.emailAddress.equals(emailId) || (!elve.phoneNumber.isEmpty() &&
-                                            elve.phoneNumber.equals(phoneNo))) {
+                                            elve.phoneNumber.equals(phoneNo))
+                                ) {
                                     hideProgress(mProgressDialog)
                                     showMessage(
                                         getString(R.string.registration_duplicate),
                                         register_parent,
-                                        true)
+                                        true
+                                    )
                                     break
                                 } else {
                                     count++
@@ -309,7 +312,7 @@ class ADRegistrationActivity : ADBaseActivity() {
                 Log.d(TAG, "onCodeSent:" + verificationId!!)
                 storedVerificationId = verificationId
                 verify_mobile.text = userRegister.phoneNumber
-               hideProgress(mProgressDialog)
+                hideProgress(mProgressDialog)
             }
         }
 
@@ -318,7 +321,7 @@ class ADRegistrationActivity : ADBaseActivity() {
             if (case == SEND_EMAIL_VERIFICATION) {
                 user.sendEmailVerification()
                     .addOnCompleteListener(this) { task ->
-                       hideProgress(mProgressDialog)
+                        hideProgress(mProgressDialog)
                         verify_email.text = userRegister.emailAddress
                     }
             } else if (case == SEND_MOBILE_VERIFICATION) {
@@ -334,7 +337,7 @@ class ADRegistrationActivity : ADBaseActivity() {
 
                 user.sendEmailVerification()
                     .addOnCompleteListener(this) { task ->
-                       hideProgress(mProgressDialog)
+                        hideProgress(mProgressDialog)
                         verify_email.text = userRegister.emailAddress
                     }
 
@@ -364,8 +367,8 @@ class ADRegistrationActivity : ADBaseActivity() {
                     if (task.isSuccessful) {
                         saveData(userRegister)
                     } else {
-                       hideProgress(mProgressDialog)
-                        showMessage("Invalid OTP. Try again",register_parent,true)
+                        hideProgress(mProgressDialog)
+                        showMessage("Invalid OTP. Try again", register_parent, true)
                     }
                 }
         }
@@ -429,7 +432,10 @@ class ADRegistrationActivity : ADBaseActivity() {
             DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
 
                 // Display Selected date in textbox
-                dob.setText("" + dayOfMonth + "-" + monthOfYear + "-" + year)
+                c.set(Calendar.YEAR, year)
+                c.set(Calendar.MONTH, monthOfYear)
+                c.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                dob.setText(SimpleDateFormat("dd-MM-yyyy").format(c.time).toString())
             },
             year,
             month,

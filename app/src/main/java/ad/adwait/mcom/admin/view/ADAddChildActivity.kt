@@ -106,7 +106,6 @@ class ADAddChildActivity : ADBaseActivity() {
 
             education.setText(data.splitDetails.miscellaneousAmount.toString())
             food.setText(data.splitDetails.foodAmount.toString())
-            necessity.setText(data.splitDetails.necessityAmount.toString())
             extras.setText(data.splitDetails.miscellaneousAmount.toString())
             hobbies_amt.setText(data.splitDetails.hobbiesAmount.toString())
 
@@ -208,8 +207,7 @@ class ADAddChildActivity : ADBaseActivity() {
                 val bankDetails = ADBankDetails(number, ifsc, holderName, accountType)
                 val splitDetails = ADMoneySplitUp(
                     educationAmt.toInt(), foodAmt.toInt(), hobbiesAmt.toInt(),
-                    necessityAmt.toInt(), extrasAmt.toInt()
-                )
+                    extrasAmt.toInt())
 
                 if (mIsEdit) {
                     tempHolder = mChildData

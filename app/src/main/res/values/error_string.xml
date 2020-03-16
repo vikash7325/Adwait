@@ -50,6 +50,8 @@
     <string name="empty_area_of_interest">Select area of interest</string>
     <string name="empty_area_of_expert">Select area of expert</string>
     <string name="empty_location">Enter some location</string>
+    <string name="empty_city">Enter some City name</string>
+    <string name="empty_state">Enter some State name</string>
     <string name="empty_date">Enter some date</string>
     <string name="empty_time">Enter some time</string>
     <string name="empty_event_name">Enter name of your event</string>

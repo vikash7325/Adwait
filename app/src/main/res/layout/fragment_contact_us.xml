@@ -72,7 +72,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:padding="2dp"
-                        android:text="adwait@gmail.com"
+                        android:text="@string/contact_mail"
                         android:textColor="@color/app_text"
                         android:textSize="@dimen/medium_text"
                         android:textStyle="bold" />
@@ -98,7 +98,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:padding="2dp"
-                        android:text="+91-9876543210"
+                        android:text="@string/contact_number"
                         android:textColor="@color/app_text"
                         android:textSize="@dimen/medium_text"
                         android:textStyle="bold" />

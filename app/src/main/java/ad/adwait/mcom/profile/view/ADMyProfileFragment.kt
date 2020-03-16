@@ -41,38 +41,43 @@ class ADMyProfileFragment : ADBaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        profile_logout.setOnClickListener(View.OnClickListener {
+        profile_logout.setOnClickListener {
             (activity as ADDashboardActivity).menuAction(ad.adwait.mcom.utils.ADConstants.MENU_LOGOUT, "")
-        })
+        }
 
-        contact.setOnClickListener(View.OnClickListener {
+        contact.setOnClickListener {
             (activity as ADDashboardActivity).menuAction(ad.adwait.mcom.utils.ADConstants.MENU_CONTACT_US, "Contact")
-        })
+        }
 
-        my_mentee.setOnClickListener(View.OnClickListener {
+        my_mentee.setOnClickListener {
             (activity as ADDashboardActivity).menuAction(ad.adwait.mcom.utils.ADConstants.MENU_MY_MENTEE, "Mentee")
-        })
+        }
 
-        my_contribution.setOnClickListener(View.OnClickListener {
+        terms_condition.setOnClickListener {
+            val intent = Intent(activity, ADTermsActivity::class.java)
+            startActivity(intent)
+        }
+
+        my_contribution.setOnClickListener {
             (activity as ADDashboardActivity).menuAction(
                 ad.adwait.mcom.utils.ADConstants.MENU_MY_CONTRIBUTION,
                 "Contribution"
             )
-        })
+        }
 
         my_subscription.setOnClickListener {
             val intent = Intent(activity, ADSubscriptionActivity::class.java)
             startActivityForResult(intent, 323)
         }
 
-        reset_pwd.setOnClickListener(View.OnClickListener {
+        reset_pwd.setOnClickListener {
             val intent = Intent(activity, ADResetPassword::class.java)
             startActivityForResult(intent, 444)
-        })
+        }
 
-        edit_layout.setOnClickListener(View.OnClickListener {
+        edit_layout.setOnClickListener {
             showDialog(true)
-        })
+        }
         mProgressDialog = (activity as ADBaseActivity).showProgressDialog("", false)
 
         fetchUserDetails()

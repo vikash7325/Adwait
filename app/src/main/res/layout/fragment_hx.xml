@@ -134,6 +134,7 @@
                         android:src="@drawable/blue_dot" />
 
                     <TextView
+                        android:id="@+id/point2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
@@ -156,6 +157,7 @@
                         android:src="@drawable/blue_dot" />
 
                     <TextView
+                        android:id="@+id/point3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"

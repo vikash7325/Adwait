@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <include layout="@layout/common_toolbar"/>
+        <include layout="@layout/common_toolbar" />
 
 
     </LinearLayout>
@@ -69,37 +69,83 @@
                 android:background="@color/gray1"
                 android:padding="5dp" />
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_check"
-                android:drawablePadding="3dp"
-                android:padding="5dp" />
+                android:gravity="center_horizontal|left"
+                android:padding="5dp">
 
-            <TextView
+                <ImageView
+                    android:layout_width="@dimen/padd_10"
+                    android:layout_height="@dimen/padd_10"
+                    android:layout_margin="5dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/blue_dot" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/talk1"
+                    android:textColor="@color/hint_text_color"
+                    android:textSize="@dimen/small_text" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_check"
-                android:drawablePadding="3dp"
-                android:padding="5dp" />
+                android:gravity="center_horizontal|left"
+                android:padding="5dp">
+
+                <ImageView
+                    android:layout_width="@dimen/padd_10"
+                    android:layout_height="@dimen/padd_10"
+                    android:layout_margin="5dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/blue_dot" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/talk2"
+                    android:textColor="@color/hint_text_color"
+                    android:textSize="@dimen/small_text" />
+            </LinearLayout>
 
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_check"
-                android:drawablePadding="3dp"
-                android:padding="5dp" />
+                android:gravity="center_horizontal|left"
+                android:padding="5dp">
 
+                <ImageView
+                    android:layout_width="@dimen/padd_10"
+                    android:layout_height="@dimen/padd_10"
+                    android:layout_margin="5dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/blue_dot" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/talk3"
+                    android:textColor="@color/hint_text_color"
+                    android:textSize="@dimen/small_text" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/pledge_submit"
-                android:layout_width="@dimen/btn_width"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/rounded_primary_color_bg"
-                android:text="Okay"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="@string/coming_soon"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/medium_text" />

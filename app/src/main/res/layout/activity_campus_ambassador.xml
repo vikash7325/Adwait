@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include layout="@layout/common_toolbar"/>
+            <include layout="@layout/common_toolbar" />
 
 
         </LinearLayout>
@@ -354,7 +354,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:layout_marginBottom="5dp"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:visibility="gone">
 
                             <androidx.appcompat.widget.AppCompatSpinner
                                 android:id="@+id/area_of_expert"
@@ -380,7 +381,7 @@
                                 android:id="@+id/location"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="@string/location"
+                                android:hint="@string/ambass_location"
                                 android:imeOptions="actionNext"
                                 android:inputType="text|textCapSentences"
                                 android:lines="1"
@@ -400,7 +401,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="@string/phone_no"
-                                android:imeOptions="actionDone"
+                                android:imeOptions="actionNext"
                                 android:inputType="numberDecimal"
                                 android:lines="1"
                                 android:maxLength="10"
@@ -410,7 +411,29 @@
 
                         </com.google.android.material.textfield.TextInputLayout>
 
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:textColorHint="@android:color/darker_gray">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/email"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:clickable="false"
+                                android:hint="@string/email_address"
+                                android:imeOptions="actionDone"
+                                android:inputType="textEmailAddress"
+                                android:lines="1"
+                                android:textColor="@color/app_text"
+                                android:textSize="@dimen/medium_text" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
                     </LinearLayout>
+
 
                     <Button
                         android:id="@+id/submit_btn"
@@ -420,10 +443,10 @@
                         android:layout_marginBottom="10dp"
                         android:background="@drawable/rounded_primary_color_bg"
                         android:text="@string/submit"
-                        android:visibility="gone"
                         android:textAllCaps="false"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/medium_text" />
+                        android:textSize="@dimen/medium_text"
+                        android:visibility="gone" />
 
                 </LinearLayout>
 
