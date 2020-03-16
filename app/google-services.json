@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "142890698927-96rib6c8353sb036u41v3kd484eis659.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ad.adwait.mcom",
+            "certificate_hash": "8e34b00dbc5aa7e787bc2b90d76204bef95384bf"
+          }
+        },
+        {
           "client_id": "142890698927-saahk27qg0gr5hcctc7t5fodqvrte20h.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
