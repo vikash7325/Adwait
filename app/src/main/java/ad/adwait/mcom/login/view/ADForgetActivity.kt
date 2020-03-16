@@ -1,8 +1,8 @@
 package ad.adwait.mcom.login.view
 
-import and.com.polam.utils.ADBaseActivity
 import ad.adwait.mcom.R
 import ad.adwait.mcom.registeration.model.ADUserDetails
+import and.com.polam.utils.ADBaseActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -34,7 +34,7 @@ class ADForgetActivity : ADBaseActivity() {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.dialog_forget_password)
-
+        storedVerificationId = ""
         setFinishOnTouchOutside(false)
 
         via_Email.setOnClickListener(View.OnClickListener {
@@ -265,17 +265,19 @@ class ADForgetActivity : ADBaseActivity() {
         otp_submit.setOnClickListener(View.OnClickListener {
             val otp = pin1.text.toString() + pin2.text.toString() + pin3.text.toString() +
                     pin4.text.toString() + pin5.text.toString() + pin6.text.toString()
-            val credential = PhoneAuthProvider.getCredential(storedVerificationId!!, otp)
             if (TextUtils.isEmpty(otp)) {
                 showMessage(getString(R.string.empty_pin), forget_parent, true)
             } else if (otp.length < 6) {
                 showMessage(getString(R.string.invalid_pin), forget_parent, true)
+            } else if (storedVerificationId.isEmpty()) {
+                showMessage(getString(R.string.no_pin_sent), forget_parent, true)
             } else {
                 if (!isNetworkAvailable()) {
                     showMessage(getString(R.string.no_internet), forget_parent, true)
                     return@OnClickListener
                 }
                 progress_layout.visibility = View.VISIBLE
+                val credential = PhoneAuthProvider.getCredential(storedVerificationId!!, otp)
                 signInWithPhoneAuthCredential(credential)
             }
         })
@@ -420,6 +422,7 @@ class ADForgetActivity : ADBaseActivity() {
                     var user = FirebaseAuth.getInstance().currentUser
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithCredential:success" + user!!.displayName)
+                    storedVerificationId = ""
 
                     mobile_layout.visibility = View.GONE
                     new_password_layout.visibility = View.VISIBLE
@@ -430,6 +433,7 @@ class ADForgetActivity : ADBaseActivity() {
                     if (task.exception is FirebaseAuthInvalidCredentialsException) {
                         showMessage(getString(R.string.invalid_otp), forget_parent, true)
                     }
+                    storedVerificationId = ""
                     progress_layout.visibility = View.GONE
                 }
             }

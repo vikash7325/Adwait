@@ -26,6 +26,7 @@
     <string name="err_verify_email">Verify email by clicking the link sent to your mail</string>
     <string name="empty_pin">Enter the PIN number</string>
     <string name="invalid_pin">Enter a valid PIN</string>
+    <string name="no_pin_sent">Entered PIN is invalid or expired. Please try generating new PIN</string>
 
     <!--Login-->
     <string name="invalid_user_pass">Enter valid credentials</string>
