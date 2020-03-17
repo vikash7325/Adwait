@@ -1,9 +1,9 @@
 package ad.adwait.mcom.profile.view
 
-import and.com.polam.utils.ADBaseActivity
-import and.com.polam.utils.MySharedPreference
 import ad.adwait.mcom.R
 import ad.adwait.mcom.registeration.model.ADUserDetails
+import and.com.polam.utils.ADBaseActivity
+import and.com.polam.utils.MySharedPreference
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -13,8 +13,17 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.Window
 import android.widget.LinearLayout
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.dialog_edit_profile.*
+import kotlinx.android.synthetic.main.dialog_edit_profile.dob
+import kotlinx.android.synthetic.main.dialog_edit_profile.email
+import kotlinx.android.synthetic.main.dialog_edit_profile.password
+import kotlinx.android.synthetic.main.dialog_edit_profile.phone
+import kotlinx.android.synthetic.main.dialog_edit_profile.username
 import java.util.*
 
 class ADEditProfileActivity : ADBaseActivity() {
@@ -75,7 +84,7 @@ class ADEditProfileActivity : ADBaseActivity() {
                 email.error = getString(R.string.err_invalid_email)
             } else if (!isValidPhone(phoneNo)) {
                 phone.error = getString(R.string.err_invalid_phone)
-            } else if (getAge(doBirth,"dd-MM-yyyy") < 18) {
+            } else if (getAge(doBirth, "dd-MM-yyyy") < 18) {
                 showMessage(getString(R.string.invalid_dob), null, true)
             } else {
                 if (!isNetworkAvailable()) {
@@ -84,7 +93,7 @@ class ADEditProfileActivity : ADBaseActivity() {
                 }
                 progress_layout.visibility = View.VISIBLE
                 val userRegister = ADUserDetails(name, pass, phoneNo, emailId, doBirth)
-                saveData(userRegister)
+                validateData(userRegister)
             }
         })
 
@@ -134,38 +143,89 @@ class ADEditProfileActivity : ADBaseActivity() {
         val day = c.get(Calendar.DAY_OF_MONTH)
 
 
-        val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+        val dpd = DatePickerDialog(
+            this,
+            DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
 
-            // Display Selected date in textbox
-            dob.setText("" + dayOfMonth + "-" + monthOfYear + "-" + year)
-        }, year, month, day)
+                // Display Selected date in textbox
+                dob.setText("" + dayOfMonth + "-" + monthOfYear + "-" + year)
+            },
+            year,
+            month,
+            day
+        )
 
         dpd.datePicker.maxDate = System.currentTimeMillis() + 1000
         dpd.show()
     }
 
-    fun saveData(user: ADUserDetails) {
+    private fun validateData(user: ADUserDetails) {
 
+        val mUserDataTable =
+            FirebaseDatabase.getInstance().reference.child(USER_TABLE_NAME)
+
+        mUserDataTable.addListenerForSingleValueEvent(object : ValueEventListener {
+
+            override fun onDataChange(data: DataSnapshot) {
+                if (data.exists()) {
+                    var elve = ADUserDetails()
+                    var count: Long = 0
+                    val size = data.childrenCount
+                    for (userData in data.children) {
+                        elve = userData.getValue(ADUserDetails::class.java)!!
+
+                        if (!elve.phoneNumber.isEmpty() &&
+                                    elve.phoneNumber.equals(user.phoneNumber)
+                        ) {
+                            progress_layout.visibility = View.GONE
+                            showMessage(
+                                getString(R.string.registrated_num),
+                                register_parent,
+                                true
+                            )
+                            break
+                        } else {
+                            count++
+                        }
+                    }
+
+                    if (count == size) {
+                        saveUserData(user)
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                showMessage(getString(R.string.registration_failed), register_parent, true)
+            }
+        })
+    }
+
+    private fun saveUserData(user: ADUserDetails) {
         val mFirebaseInstance = FirebaseDatabase.getInstance()
 
         // get reference to 'users' node
         val mFirebaseDatabase = mFirebaseInstance.getReference(USER_TABLE_NAME)
-        mFirebaseDatabase.child(MySharedPreference(applicationContext).getValueString(getString(R.string.userId))!!).updateChildren(user.toMap())
-                .addOnSuccessListener {
-                    progress_layout.visibility = View.GONE
-                    setResult(Activity.RESULT_OK)
-                    finish()
-                }
-                .addOnFailureListener {
-                    showMessage(getString(R.string.profile_update_failed), null, true)
-                    progress_layout.visibility = View.GONE
-                }
+        mFirebaseDatabase.child(MySharedPreference(applicationContext).getValueString(getString(R.string.userId))!!)
+            .updateChildren(user.toMap())
+            .addOnSuccessListener {
+                progress_layout.visibility = View.GONE
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
+            .addOnFailureListener {
+                showMessage(getString(R.string.profile_update_failed), null, true)
+                progress_layout.visibility = View.GONE
+            }
     }
 
     override fun onStart() {
         super.onStart()
         val window = this.getWindow()
-        window.setLayout((getScreenDetails(false) * 0.9).toInt(), LinearLayout.LayoutParams.WRAP_CONTENT)
+        window.setLayout(
+            (getScreenDetails(false) * 0.9).toInt(),
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
     }
 
 

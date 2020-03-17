@@ -75,11 +75,11 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
             }
         })
 
-        login_btn.setOnClickListener(View.OnClickListener {
+        login_btn.setOnClickListener{
             (activity as ADDashboardActivity).fireLogin()
-        })
+        }
 
-        mentee_layout.setOnClickListener(View.OnClickListener {
+        mentee_layout.setOnClickListener{
             if ((activity as ADDashboardActivity).mHasChild) {
                 (activity as ADDashboardActivity).menuAction(ad.adwait.mcom.utils.ADConstants.MENU_MY_MENTEE, "")
             } else {
@@ -90,9 +90,9 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                     null
                 )
             }
-        })
+        }
 
-        info_icon.setOnClickListener(View.OnClickListener {
+        info_icon.setOnClickListener{
 
             if (splitData.toString().length == 0) {
             } else {
@@ -102,7 +102,7 @@ class ADHomeFragment : ADBaseFragment(), View.OnClickListener {
                 intent.putExtra("data", bundle)
                 startActivity(intent)
             }
-        })
+        }
 
         tile1.setOnClickListener(this)
         tile2.setOnClickListener(this)

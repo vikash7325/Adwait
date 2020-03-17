@@ -46,6 +46,7 @@
 
     <!--Profile-->
     <string name="profile_update_failed">Profile update failed! Try again.</string>
+    <string name="registrated_num">The number entered is already registered with another account. Try with different number</string>
 
     <!--Be the Change-->
     <string name="empty_area_of_interest">Select area of interest</string>

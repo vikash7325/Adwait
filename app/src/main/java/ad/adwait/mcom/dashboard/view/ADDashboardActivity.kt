@@ -13,6 +13,8 @@ import ad.adwait.mcom.profile.view.ADMyProfileFragment
 import ad.adwait.mcom.registeration.model.ADUserDetails
 import ad.adwait.mcom.static_pages.view.*
 import ad.adwait.mcom.utils.ADCommonResponseListener
+import ad.adwait.mcom.utils.ADConstants
+import ad.adwait.mcom.utils.ADViewClickListener
 import ad.adwait.mcom.wish_corner.view.ADWishCornerFragment
 import android.content.Intent
 import android.graphics.Color
@@ -58,8 +60,8 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
         setContentView(R.layout.activity_dashboard)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        getServerDate(ad.adwait.mcom.utils.ADConstants.KEY_GET_CURRENT_MONTH_YR, null)
-        getServerDate(ad.adwait.mcom.utils.ADConstants.KEY_GET_CURRENT_DATE, null)
+        getServerDate(ADConstants.KEY_GET_CURRENT_MONTH_YR, null)
+        getServerDate(ADConstants.KEY_GET_CURRENT_DATE, null)
 
         supportActionBar?.setDisplayShowHomeEnabled(false)
 
@@ -75,11 +77,11 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        action_profile.setOnClickListener(View.OnClickListener {
-            menuAction(ad.adwait.mcom.utils.ADConstants.MENU_PROFILE, "")
-        })
+        action_profile.setOnClickListener{
+            menuAction(ADConstants.MENU_PROFILE, "")
+        }
 
-        action_menu.setOnClickListener(View.OnClickListener {
+        action_menu.setOnClickListener{
             val drawerLayout: androidx.drawerlayout.widget.DrawerLayout =
                 findViewById(R.id.drawer_layout)
             if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
@@ -87,12 +89,12 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
             } else {
                 drawerLayout.openDrawer(GravityCompat.END)
             }
-        })
-        mSelectedMenu = ad.adwait.mcom.utils.ADConstants.MENU_HOME
+        }
+        mSelectedMenu = ADConstants.MENU_HOME
 
-        nav_header.setOnClickListener(View.OnClickListener {
-            menuAction(ad.adwait.mcom.utils.ADConstants.MENU_PROFILE, "")
-        })
+        nav_header.setOnClickListener{
+            menuAction(ADConstants.MENU_PROFILE, "")
+        }
 
         val adapter = ADNavigationListAdapter(this)
         navigation_list.adapter = adapter
@@ -120,11 +122,11 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
         fetchUserData(false)
         fetchBanner()
 
-        home_logo.setOnClickListener(View.OnClickListener {
-            if (mSelectedMenu != ad.adwait.mcom.utils.ADConstants.MENU_HOME) {
-                menuAction(ad.adwait.mcom.utils.ADConstants.MENU_HOME, "")
+        home_logo.setOnClickListener{
+            if (mSelectedMenu != ADConstants.MENU_HOME) {
+                menuAction(ADConstants.MENU_HOME, "")
             }
-        })
+        }
 
         version.setText("Version : " + getPackageVersion() + "  ")
 
@@ -132,7 +134,7 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
         checkAppVersion(object : ADCommonResponseListener {
             override fun onSuccess(data: Any?) {
                 showAlertDialog(data.toString(), getString(R.string.update), "",
-                    ad.adwait.mcom.utils.ADViewClickListener { openPlayStore() })
+                    ADViewClickListener { openPlayStore() })
             }
 
             override fun onError(data: Any?) {
@@ -142,7 +144,7 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
                         showAlertDialog(data.toString(),
                             getString(R.string.update),
                             getString(R.string.cancel),
-                            ad.adwait.mcom.utils.ADViewClickListener { openPlayStore() })
+                            ADViewClickListener { openPlayStore() })
                     }
                 }
             }
@@ -211,24 +213,24 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
                                     getString(R.string.no_phone_num),
                                     getString(R.string.update_now),
                                     getString(R.string.cancel),
-                                    ad.adwait.mcom.utils.ADViewClickListener {
+                                    ADViewClickListener {
                                         menuAction(
-                                            ad.adwait.mcom.utils.ADConstants.MENU_PROFILE, ""
+                                            ADConstants.MENU_PROFILE, ""
                                         )
                                     })
                             }
 
                             getServerDate(
-                                ad.adwait.mcom.utils.ADConstants.KEY_GET_CURRENT_MONTH_YR,
+                                ADConstants.KEY_GET_CURRENT_MONTH_YR,
                                 object : ADCommonResponseListener {
                                     override fun onSuccess(data: Any?) {
                                         getNextDate(
-                                            ad.adwait.mcom.utils.ADConstants.KEY_GET_NEXT_MONTH_YR,
+                                            ADConstants.KEY_GET_NEXT_MONTH_YR,
                                             data.toString(),
                                             null
                                         )
                                         getNextDate(
-                                            ad.adwait.mcom.utils.ADConstants.KEY_GET_PREVIOUS_MONTH_YR,
+                                            ADConstants.KEY_GET_PREVIOUS_MONTH_YR,
                                             data.toString(),
                                             null
                                         )
@@ -425,20 +427,20 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
         if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
             drawerLayout.closeDrawer(GravityCompat.END)
         } else {
-            if (mSelectedMenu == ad.adwait.mcom.utils.ADConstants.MENU_HOME) {
+            if (mSelectedMenu == ADConstants.MENU_HOME) {
                 var message =
                     java.lang.String.format(getString(R.string.exit_message), mUserName)
                 showAlertDialog(message,
                     getString(R.string.exit),
                     getString(R.string.cancel),
-                    ad.adwait.mcom.utils.ADViewClickListener {
+                    ADViewClickListener {
                         super.onBackPressed()
                     })
             } else {
                 if (supportFragmentManager.backStackEntryCount > 0) {
                     super.onBackPressed()
                 } else {
-                    menuAction(ad.adwait.mcom.utils.ADConstants.MENU_HOME, "")
+                    menuAction(ADConstants.MENU_HOME, "")
                 }
             }
         }
@@ -448,12 +450,12 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
         mSelectedMenu = option
         when (option) {
             /*Home*/
-            ad.adwait.mcom.utils.ADConstants.MENU_HOME -> {
+            ADConstants.MENU_HOME -> {
                 addOrReplaceFragment(false, R.id.home_container, homeFragment, addToStack)
             }
 
             /*My Mentee*/
-            ad.adwait.mcom.utils.ADConstants.MENU_MY_MENTEE -> {
+            ADConstants.MENU_MY_MENTEE -> {
                 if (!isLoggedInUser()) {
                     fireLogin()
                     return
@@ -463,7 +465,7 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
             }
 
             /*Be the change*/
-            ad.adwait.mcom.utils.ADConstants.MENU_BE_THE_CHANGE -> {
+            ADConstants.MENU_BE_THE_CHANGE -> {
                 if (!isLoggedInUser()) {
                     fireLogin()
                     return
@@ -473,7 +475,7 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
             }
 
             /*Wish Corner*/
-            ad.adwait.mcom.utils.ADConstants.MENU_WISH_CORNER -> {
+            ADConstants.MENU_WISH_CORNER -> {
                 if (!isLoggedInUser()) {
                     fireLogin()
                     return
@@ -483,7 +485,7 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
             }
 
             /*Hx Club*/
-            ad.adwait.mcom.utils.ADConstants.MENU_HX_CLUB -> {
+            ADConstants.MENU_HX_CLUB -> {
                 if (!isLoggedInUser()) {
                     fireLogin()
                     return
@@ -493,7 +495,7 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
             }
 
             /*My Contributions*/
-            ad.adwait.mcom.utils.ADConstants.MENU_MY_CONTRIBUTION -> {
+            ADConstants.MENU_MY_CONTRIBUTION -> {
                 if (!isLoggedInUser()) {
                     fireLogin()
                     return
@@ -504,43 +506,43 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
             }
 
             /*Our Partners*/
-            ad.adwait.mcom.utils.ADConstants.MENU_OUR_PARTNERS -> {
+            ADConstants.MENU_OUR_PARTNERS -> {
                 val adPartnersFragment = ADPartnersFragment()
                 addOrReplaceFragment(false, R.id.home_container, adPartnersFragment, addToStack)
             }
 
             /*Refer Happiness*/
-            ad.adwait.mcom.utils.ADConstants.MENU_REFER_HAPPINESS -> {
+            ADConstants.MENU_REFER_HAPPINESS -> {
                 val happinessFragment = ADReferHappinessFragment()
                 addOrReplaceFragment(false, R.id.home_container, happinessFragment, addToStack)
             }
 
             /*Our Cause*/
-            ad.adwait.mcom.utils.ADConstants.MENU_OUR_CAUSE -> {
+            ADConstants.MENU_OUR_CAUSE -> {
                 val intent = Intent(this, ADOurCauseActivity::class.java)
-                startActivityForResult(intent, ad.adwait.mcom.utils.ADConstants.KEY_REQUEST)
+                startActivityForResult(intent, ADConstants.KEY_REQUEST)
             }
 
             /*Contact us*/
-            ad.adwait.mcom.utils.ADConstants.MENU_CONTACT_US -> {
+            ADConstants.MENU_CONTACT_US -> {
                 val contactUsFragment = ADContactUsFragment()
                 addOrReplaceFragment(false, R.id.home_container, contactUsFragment, addToStack)
             }
 
             /*Contact us*/
-            ad.adwait.mcom.utils.ADConstants.MENU_LOGOUT -> {
+            ADConstants.MENU_LOGOUT -> {
                 registerLogoutListener()
                 FirebaseAuth.getInstance().signOut()
             }
 
             /*Donation*/
-            ad.adwait.mcom.utils.ADConstants.MENU_DONATION -> {
+            ADConstants.MENU_DONATION -> {
                 val adDonationFragment = ADDonationFragment()
                 addOrReplaceFragment(false, R.id.home_container, adDonationFragment, addToStack)
             }
 
             /*Profile*/
-            ad.adwait.mcom.utils.ADConstants.MENU_PROFILE -> {
+            ADConstants.MENU_PROFILE -> {
                 if (!isLoggedInUser()) {
                     fireLogin()
                     return
@@ -575,11 +577,11 @@ class ADDashboardActivity : ADBaseActivity(), PaymentResultWithDataListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == ad.adwait.mcom.utils.ADConstants.KEY_REQUEST) {
-            if (resultCode == ad.adwait.mcom.utils.ADConstants.KEY_MENU) {
+        if (requestCode == ADConstants.KEY_REQUEST) {
+            if (resultCode == ADConstants.KEY_MENU) {
                 drawer_layout.openDrawer(GravityCompat.END)
-            } else if (resultCode == ad.adwait.mcom.utils.ADConstants.KEY_PROFILE) {
-                menuAction(ad.adwait.mcom.utils.ADConstants.MENU_PROFILE, "")
+            } else if (resultCode == ADConstants.KEY_PROFILE) {
+                menuAction(ADConstants.MENU_PROFILE, "")
             }
         }
     }

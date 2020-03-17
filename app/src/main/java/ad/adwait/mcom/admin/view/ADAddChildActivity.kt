@@ -193,8 +193,6 @@ class ADAddChildActivity : ADBaseActivity() {
                 food.error = getString(R.string.empty_field)
             } else if (TextUtils.isEmpty(hobbiesAmt)) {
                 hobbies_amt.error = getString(R.string.empty_field)
-            } else if (TextUtils.isEmpty(necessityAmt)) {
-                necessity.error = getString(R.string.empty_field)
             } else if (TextUtils.isEmpty(extrasAmt)) {
                 extras.error = getString(R.string.empty_field)
             } else {

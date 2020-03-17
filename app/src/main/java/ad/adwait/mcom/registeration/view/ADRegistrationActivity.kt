@@ -62,10 +62,10 @@ class ADRegistrationActivity : ADBaseActivity() {
 
         back_icon.setOnClickListener(View.OnClickListener { finish() })
 
-        dob.setOnClickListener(View.OnClickListener {
+        dob.setOnClickListener{
             password.hideKeyboard()
             showCalendar()
-        })
+        }
 
         //Submit button click handling
         submit_btn.setOnClickListener(View.OnClickListener {

@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/swipe_tutorial"
+    android:paddingBottom="@dimen/nav_header_height"
     android:orientation="vertical">
 
 
@@ -11,10 +12,10 @@
         android:layout_width="@dimen/btn_width"
         android:layout_height="@dimen/btn_height"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="@dimen/dashboard_slider"
-        android:layout_marginRight="@dimen/btn_height"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="@dimen/nav_header_image"
         android:background="@drawable/rounded_primary_color_bg"
-        android:text="@string/done"
+        android:text="@string/btn_proceed"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textSize="@dimen/medium_text" />
