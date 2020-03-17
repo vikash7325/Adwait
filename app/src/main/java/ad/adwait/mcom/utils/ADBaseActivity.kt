@@ -7,6 +7,7 @@ import ad.adwait.mcom.utils.ADCommonResponseListener
 import ad.adwait.mcom.utils.ADViewClickListener
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
@@ -58,7 +59,7 @@ open class ADBaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mFirebaseAuth = FirebaseAuth.getInstance()
-
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         auth = FirebaseAuth.AuthStateListener { firebaseAuth ->
 
             var user = FirebaseAuth.getInstance().currentUser
@@ -66,7 +67,6 @@ open class ADBaseActivity : AppCompatActivity() {
             if (user == null) {
 
                 val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestIdToken(getString(R.string.default_web_client_id))
                     .requestEmail()
                     .build()
                 val googleSignInClient = GoogleSignIn.getClient(applicationContext, gso)
