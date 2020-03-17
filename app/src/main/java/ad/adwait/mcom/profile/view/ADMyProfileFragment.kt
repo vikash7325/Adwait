@@ -8,6 +8,7 @@ import ad.adwait.mcom.donation.model.ADDonationModel
 import ad.adwait.mcom.registeration.model.ADUserDetails
 import ad.adwait.mcom.subscription.view.ADSubscriptionActivity
 import ad.adwait.mcom.utils.ADBaseFragment
+import ad.adwait.mcom.utils.ADViewClickListener
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -42,7 +43,11 @@ class ADMyProfileFragment : ADBaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         profile_logout.setOnClickListener {
-            (activity as ADDashboardActivity).menuAction(ad.adwait.mcom.utils.ADConstants.MENU_LOGOUT, "")
+
+            (activity as ADBaseActivity).showAlertDialog(getString(R.string.logout_message),getString(R.string.yes),getString(R.string.cancel),
+                ADViewClickListener {
+                    (activity as ADDashboardActivity).menuAction(ad.adwait.mcom.utils.ADConstants.MENU_LOGOUT, "")
+                })
         }
 
         contact.setOnClickListener {

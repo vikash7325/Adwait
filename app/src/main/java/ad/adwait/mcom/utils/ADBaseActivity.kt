@@ -4,6 +4,7 @@ import ad.adwait.mcom.R
 import ad.adwait.mcom.login.view.ADLoginActivity
 import ad.adwait.mcom.utils.ADBaseFragment
 import ad.adwait.mcom.utils.ADCommonResponseListener
+import ad.adwait.mcom.utils.ADViewClickListener
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -11,11 +12,6 @@ import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.textfield.TextInputEditText
-import androidx.core.content.ContextCompat
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.MotionEvent
@@ -24,9 +20,14 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
@@ -76,7 +77,10 @@ open class ADBaseActivity : AppCompatActivity() {
                     false
                 )
                 MySharedPreference(applicationContext).saveStrings(getString(R.string.userId), "")
-                MySharedPreference(applicationContext).saveStrings(getString(R.string.subscription_id), "")
+                MySharedPreference(applicationContext).saveStrings(
+                    getString(R.string.subscription_id),
+                    ""
+                )
                 var login = Intent(applicationContext, ADLoginActivity::class.java)
                 login.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 login.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -130,11 +134,11 @@ open class ADBaseActivity : AppCompatActivity() {
         mUserDataTable.addListenerForSingleValueEvent(listener)
     }
 
-    public fun isLoggedInUser(): Boolean {
+    fun isLoggedInUser(): Boolean {
         return MySharedPreference(applicationContext).getValueBoolean(getString(R.string.logged_in))
     }
 
-    public fun isNetworkAvailable(): Boolean {
+    fun isNetworkAvailable(): Boolean {
         val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE)
         return if (connectivityManager is ConnectivityManager) {
             val networkInfo: NetworkInfo? = connectivityManager.activeNetworkInfo
@@ -142,7 +146,7 @@ open class ADBaseActivity : AppCompatActivity() {
         } else false
     }
 
-    public fun startToNextScreen(intent: Intent, startFresh: Boolean, isAnimate: Boolean) {
+    fun startToNextScreen(intent: Intent, startFresh: Boolean, isAnimate: Boolean) {
         if (startFresh) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -156,7 +160,7 @@ open class ADBaseActivity : AppCompatActivity() {
         }
     }
 
-    public fun addOrReplaceFragment(
+    fun addOrReplaceFragment(
         isAdd: Boolean,
         id: Int,
         fragment: ADBaseFragment,
@@ -177,21 +181,21 @@ open class ADBaseActivity : AppCompatActivity() {
         transaction.commit()
     }
 
-    public fun isValidPassword(password: String): Boolean {
+    fun isValidPassword(password: String): Boolean {
         return password.length >= 8
     }
 
-    public fun isValidEmail(email: String): Boolean {
+    fun isValidEmail(email: String): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
-    public fun isValidPhone(phone: String): Boolean {
+    fun isValidPhone(phone: String): Boolean {
         val mobile = "^[6-9][0-9]{9}$"
         val pat = Pattern.compile(mobile)
         return pat.matcher(phone).matches()
     }
 
-    public fun isValidContactDetails(contact: String): Boolean {
+    fun isValidContactDetails(contact: String): Boolean {
         var isValid = false
         val email = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$"
         val emailPat = Pattern.compile(email)
@@ -211,7 +215,7 @@ open class ADBaseActivity : AppCompatActivity() {
         return isValid
     }
 
-    public fun getScreenDetails(isHeight: Boolean): Int {
+    fun getScreenDetails(isHeight: Boolean): Int {
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
 
@@ -248,7 +252,7 @@ open class ADBaseActivity : AppCompatActivity() {
         return super.dispatchTouchEvent(ev)
     }
 
-    public fun showMessage(msg: String, view: View?, isError: Boolean) {
+    fun showMessage(msg: String, view: View?, isError: Boolean) {
 
         if (view == null) {
             Toast.makeText(applicationContext, msg, Toast.LENGTH_LONG).show()
@@ -263,11 +267,11 @@ open class ADBaseActivity : AppCompatActivity() {
         }
     }
 
-    public fun registerLogoutListener() {
+    fun registerLogoutListener() {
         mFirebaseAuth.addAuthStateListener(auth)
     }
 
-    public fun getReferralString(): String {
+    fun getReferralString(): String {
         val characters: String = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
         val referral = StringBuilder()
         val rnd = Random()
@@ -314,7 +318,7 @@ open class ADBaseActivity : AppCompatActivity() {
         message: String,
         btnPositive: String,
         btnNegative: String,
-        listener: ad.adwait.mcom.utils.ADViewClickListener?
+        listener: ADViewClickListener?
     ) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle(R.string.app_name)
@@ -496,7 +500,7 @@ open class ADBaseActivity : AppCompatActivity() {
             }
     }
 
-    fun compareVersionNames(oldVersionName: String, newVersionName: String): Int {
+    private fun compareVersionNames(oldVersionName: String, newVersionName: String): Int {
         var res = 0;
 
         var oldNumbers = oldVersionName.split(".");

@@ -58,7 +58,7 @@ class ADForgetActivity : ADBaseActivity() {
                 phone_num.setError(getString(R.string.err_invalid_phone));
             } else {
                 if (!isNetworkAvailable()) {
-                    showMessage(getString(R.string.no_internet), forget_parent, true)
+                    showMessage(getString(R.string.no_internet), null, true)
                     return@OnClickListener
                 }
                 progress_layout.visibility = View.VISIBLE
@@ -266,14 +266,14 @@ class ADForgetActivity : ADBaseActivity() {
             val otp = pin1.text.toString() + pin2.text.toString() + pin3.text.toString() +
                     pin4.text.toString() + pin5.text.toString() + pin6.text.toString()
             if (TextUtils.isEmpty(otp)) {
-                showMessage(getString(R.string.empty_pin), forget_parent, true)
+                showMessage(getString(R.string.empty_pin), null, true)
             } else if (otp.length < 6) {
-                showMessage(getString(R.string.invalid_pin), forget_parent, true)
+                showMessage(getString(R.string.invalid_pin), null, true)
             } else if (storedVerificationId.isEmpty()) {
-                showMessage(getString(R.string.no_pin_sent), forget_parent, true)
+                showMessage(getString(R.string.no_pin_sent), null, true)
             } else {
                 if (!isNetworkAvailable()) {
-                    showMessage(getString(R.string.no_internet), forget_parent, true)
+                    showMessage(getString(R.string.no_internet), null, true)
                     return@OnClickListener
                 }
                 progress_layout.visibility = View.VISIBLE
@@ -301,7 +301,7 @@ class ADForgetActivity : ADBaseActivity() {
                 confirm_password.setError(getString(R.string.password_mismatch))
             } else {
                 if (!isNetworkAvailable()) {
-                    showMessage(getString(R.string.no_internet), forget_parent, true)
+                    showMessage(getString(R.string.no_internet), null, true)
                     return@OnClickListener
                 }
 
@@ -319,7 +319,7 @@ class ADForgetActivity : ADBaseActivity() {
                                         if (task.isSuccessful) {
                                             showMessage(
                                                 getString(R.string.mobile_reset_success),
-                                                forget_parent,
+                                                null,
                                                 true
                                             )
                                             passwordReset()
@@ -327,7 +327,7 @@ class ADForgetActivity : ADBaseActivity() {
                                             progress_layout.visibility = View.GONE
                                             showMessage(
                                                 getString(R.string.unable_to_reset_password),
-                                                forget_parent,
+                                                null,
                                                 true
                                             )
                                         }
@@ -350,20 +350,20 @@ class ADForgetActivity : ADBaseActivity() {
                 email.setError(getString(R.string.err_invalid_email))
             } else {
                 if (!isNetworkAvailable()) {
-                    showMessage(getString(R.string.no_internet), forget_parent, true)
+                    showMessage(getString(R.string.no_internet), null, true)
                     return@OnClickListener
                 }
                 progress_layout.visibility = View.VISIBLE
                 FirebaseAuth.getInstance().sendPasswordResetEmail(emailId)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
-                            showMessage(getString(R.string.email_success), forget_parent, true)
+                            showMessage(getString(R.string.email_success), null, true)
                             passwordReset()
                         } else {
                             progress_layout.visibility = View.GONE
                             showMessage(
                                 getString(R.string.unable_to_send_reset_mail),
-                                forget_parent,
+                                null,
                                 true
                             )
                         }
@@ -410,7 +410,7 @@ class ADForgetActivity : ADBaseActivity() {
         ) {
             Log.d(TAG, "onCodeSent:" + verificationId!!)
             storedVerificationId = verificationId
-            showMessage(getString(R.string.otp_sent), forget_parent, false)
+            showMessage(getString(R.string.otp_sent), null, false)
             progress_layout.visibility = View.GONE
         }
     }
@@ -431,7 +431,7 @@ class ADForgetActivity : ADBaseActivity() {
                     // Sign in failed, display a message and update the UI
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
                     if (task.exception is FirebaseAuthInvalidCredentialsException) {
-                        showMessage(getString(R.string.invalid_otp), forget_parent, true)
+                        showMessage(getString(R.string.invalid_otp), null, true)
                     }
                     storedVerificationId = ""
                     progress_layout.visibility = View.GONE
@@ -468,7 +468,7 @@ class ADForgetActivity : ADBaseActivity() {
                                         } else {
                                             showMessage(
                                                 getString(R.string.num_not_registered),
-                                                forget_parent,
+                                                null,
                                                 true
                                             )
                                             progress_layout.visibility = View.GONE
@@ -488,7 +488,7 @@ class ADForgetActivity : ADBaseActivity() {
                 }
                 if (count == data.childrenCount) {
                     progress_layout.visibility = View.GONE
-                    showMessage(getString(R.string.num_not_registered), forget_parent, true)
+                    showMessage(getString(R.string.num_not_registered), null, true)
                 }
             }
 

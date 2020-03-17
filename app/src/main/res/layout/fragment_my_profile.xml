@@ -214,7 +214,7 @@
                 android:drawableTint="@color/colorPrimaryDark"
                 android:gravity="center"
                 android:padding="5dp"
-                android:text="Log out"
+                android:text="@string/logout"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/medium_text" />
         </LinearLayout>

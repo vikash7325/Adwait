@@ -1,11 +1,11 @@
 package ad.adwait.mcom.be_the_change.view
 
-import and.com.polam.utils.ADBaseActivity
-import and.com.polam.utils.MySharedPreference
 import ad.adwait.mcom.R
 import ad.adwait.mcom.be_the_change.model.ADAreaHeadModel
 import ad.adwait.mcom.utils.ADConstants
 import ad.adwait.mcom.utils.ADViewClickListener
+import and.com.polam.utils.ADBaseActivity
+import and.com.polam.utils.MySharedPreference
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
@@ -28,17 +28,17 @@ class ADAreaHeadActivity : ADBaseActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back_arrow)
-        toolbar.setNavigationOnClickListener(View.OnClickListener { onBackPressed() })
+        toolbar.setNavigationOnClickListener { onBackPressed() }
 
 
-        area_head_apply.setOnClickListener(View.OnClickListener {
+        area_head_apply.setOnClickListener{
 
             area_head_page1.visibility = View.GONE
             area_head_page2.visibility = View.VISIBLE
             area_head_apply.visibility = View.GONE
-        })
+        }
 
-        area_head_submit.setOnClickListener(View.OnClickListener {
+        area_head_submit.setOnClickListener{
             val uName = name.text.toString()
             val mobile = contact_phone.text.toString()
             val emailId = email.text.toString()
@@ -99,17 +99,17 @@ class ADAreaHeadActivity : ADBaseActivity() {
                 }
             }
 
-        })
+        }
 
 
-        action_menu.setOnClickListener(View.OnClickListener {
+        action_menu.setOnClickListener{
             setResult(ADConstants.KEY_MENU)
             finish()
-        })
+        }
 
-        action_profile.setOnClickListener(View.OnClickListener {
+        action_profile.setOnClickListener{
             setResult(ADConstants.KEY_PROFILE)
             finish()
-        })
+        }
     }
 }

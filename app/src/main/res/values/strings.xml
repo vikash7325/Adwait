@@ -137,6 +137,9 @@
     <string name="cancel_sub">Cancel Subscription</string>
     <string name="no_subscription">You don\'t have any active subscriptions. \nClick here to subscribe</string>
     <string name="active_subscription">You have an active subscription with %s due(s).</string>
+    <string name="logout">Log out</string>
+    <string name="logout_message">Are you sure you want to Logout? </string>
+    <string name="yes">Yes</string>
 
 
     <!--Contact us-->

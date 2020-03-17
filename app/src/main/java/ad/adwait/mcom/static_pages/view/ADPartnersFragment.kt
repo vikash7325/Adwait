@@ -3,6 +3,9 @@ package ad.adwait.mcom.static_pages.view
 import ad.adwait.mcom.R
 import ad.adwait.mcom.dashboard.view.ADDashboardActivity
 import ad.adwait.mcom.utils.ADBaseFragment
+import ad.adwait.mcom.utils.ADConstants
+import and.com.polam.utils.ADBaseActivity
+import and.com.polam.utils.MySharedPreference
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,7 +33,8 @@ class ADPartnersFragment : ADBaseFragment() {
         }
 
         click_here.setOnClickListener{
-            (activity as ADDashboardActivity).menuAction(ad.adwait.mcom.utils.ADConstants.MENU_CONTACT_US, "")
+            MySharedPreference(activity as ADBaseActivity).saveBoolean(getString(R.string.from_partner),true)
+            (activity as ADDashboardActivity).menuAction(ADConstants.MENU_CONTACT_US, "")
 
         }
     }

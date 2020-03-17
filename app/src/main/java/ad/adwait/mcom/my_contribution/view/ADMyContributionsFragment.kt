@@ -1,11 +1,11 @@
 package ad.adwait.mcom.my_contribution.view
 
-import and.com.polam.utils.ADBaseActivity
-import and.com.polam.utils.MySharedPreference
 import ad.adwait.mcom.R
 import ad.adwait.mcom.donation.model.ADDonationModel
 import ad.adwait.mcom.my_contribution.adapter.ADContributionAdapter
 import ad.adwait.mcom.utils.ADBaseFragment
+import and.com.polam.utils.ADBaseActivity
+import and.com.polam.utils.MySharedPreference
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -48,14 +48,20 @@ class ADMyContributionsFragment : ADBaseFragment() {
                         }
                     }
 
-                    val adapter =
-                        ADContributionAdapter(
-                            (activity as ADBaseActivity),
-                            mContributionData
-                        )
-                    contribution_list.setAdapter(adapter)
-                    contribution_layout.visibility = View.VISIBLE
-                    no_contribution.visibility = View.GONE
+
+                    if (mContributionData.size == 0) {
+                        contribution_layout.visibility = View.GONE
+                        no_contribution.visibility = View.VISIBLE
+                    } else {
+                        val adapter =
+                            ADContributionAdapter(
+                                (activity as ADBaseActivity),
+                                mContributionData
+                            )
+                        contribution_list.setAdapter(adapter)
+                        contribution_layout.visibility = View.VISIBLE
+                        no_contribution.visibility = View.GONE
+                    }
                     (activity as ADBaseActivity).hideProgress(mProgressDialog)
 
                 } else {
