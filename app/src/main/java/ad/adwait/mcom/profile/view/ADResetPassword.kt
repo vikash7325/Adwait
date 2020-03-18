@@ -1,16 +1,19 @@
 package ad.adwait.mcom.profile.view
 
-import and.com.polam.utils.ADBaseActivity
-import and.com.polam.utils.MySharedPreference
 import ad.adwait.mcom.R
 import ad.adwait.mcom.registeration.model.ADUserDetails
+import and.com.polam.utils.ADBaseActivity
+import and.com.polam.utils.MySharedPreference
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.view.Window
 import android.widget.LinearLayout
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.dialog_reset_password.*
 
 class ADResetPassword : ADBaseActivity() {
@@ -49,12 +52,47 @@ class ADResetPassword : ADBaseActivity() {
                     return@OnClickListener
                 }
                 progress_layout.visibility = View.VISIBLE
-                changePassword(nPswd)
+                verifyPassword(cPswd, nPswd)
             }
         })
     }
 
-    fun changePassword(password: String) {
+    private fun verifyPassword(currentPswd: String, password: String) {
+        getUserDetails(object : ValueEventListener {
+
+            override fun onDataChange(data: DataSnapshot) {
+                if (data.exists()) {
+                    var menteeDetails = data.getValue(ADUserDetails::class.java)!!
+                    if (menteeDetails != null) {
+                        if (currentPswd != (menteeDetails.password)) {
+                            progress_layout.visibility = View.GONE
+                            showMessage(
+                                getString(R.string.current_password_err),
+                                null,
+                                true
+                            )
+                        } else if (menteeDetails.password == password) {
+                            progress_layout.visibility = View.GONE
+                            showMessage(
+                                getString(R.string.same_password),
+                                null,
+                                true
+                            )
+                        } else {
+                            changePassword(password)
+                        }
+                    }
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+                progress_layout.visibility = View.GONE
+            }
+
+        })
+    }
+
+    private fun changePassword(password: String) {
 
         val user = FirebaseAuth.getInstance().currentUser
 
@@ -68,12 +106,17 @@ class ADResetPassword : ADBaseActivity() {
                         progress_layout.visibility = View.GONE
                         showMessage(
                             getString(R.string.unable_to_reset_password),
-                            reset_parent, true
+                            null, true
                         )
                     }
                 }
         } else {
             progress_layout.visibility = View.GONE
+            showMessage(
+                getString(R.string.unable_to_reset_password),
+                null,
+                true
+            )
         }
     }
 
@@ -86,7 +129,7 @@ class ADResetPassword : ADBaseActivity() {
         mFirebaseDatabase.child(MySharedPreference(applicationContext).getValueString(getString(R.string.userId))!!)
             .updateChildren(getData(password))
             .addOnSuccessListener {
-                showMessage(getString(R.string.mobile_reset_success), reset_parent, true)
+                showMessage(getString(R.string.mobile_reset_success), null, true)
                 progress_layout.visibility = View.GONE
                 passwordReset()
             }
@@ -112,6 +155,7 @@ class ADResetPassword : ADBaseActivity() {
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
     }
+
     fun getData(password: String): Map<String, Any?> {
 
         return mapOf(

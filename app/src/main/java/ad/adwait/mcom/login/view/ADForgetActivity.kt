@@ -305,6 +305,15 @@ class ADForgetActivity : ADBaseActivity() {
                     return@OnClickListener
                 }
 
+                if (userpassword == newPassword) {
+                    showMessage(
+                        getString(R.string.same_password),
+                        null,
+                        true
+                    )
+                    return@OnClickListener
+                }
+
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(userEmail, userpassword)
                     .addOnCompleteListener(this) { task ->
 

@@ -74,6 +74,8 @@
     <string name="email_success">Reset link has been sent to your email. Please login after password reset.</string>
     <string name="mobile_reset_success">Password has been reset. Login with new password</string>
     <string name="otp_sent">An OTP has been sent to your mobile number.</string>
+    <string name="same_password">You have entered a password which has been used recently. Try again with new password</string>
+    <string name="current_password_err">The current password entered is wrong. Try Forget password if you missed your password</string>
 
     <!--Dashboard-->
     <string name="navigation_drawer_open">Open navigation drawer</string>
