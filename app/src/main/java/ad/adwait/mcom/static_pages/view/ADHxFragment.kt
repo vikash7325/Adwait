@@ -26,7 +26,7 @@ class ADHxFragment : ADBaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         click_here.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com"))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.adwait.com"))
             startActivity(intent)
         }
 
