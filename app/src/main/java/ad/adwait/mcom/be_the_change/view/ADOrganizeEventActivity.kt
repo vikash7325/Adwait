@@ -1,14 +1,16 @@
 package ad.adwait.mcom.be_the_change.view
 
+import ad.adwait.mcom.R
+import ad.adwait.mcom.be_the_change.model.ADOrganiseEventModel
+import ad.adwait.mcom.utils.ADViewClickListener
 import and.com.polam.utils.ADBaseActivity
 import and.com.polam.utils.MySharedPreference
 import android.Manifest
-import ad.adwait.mcom.R
-import ad.adwait.mcom.be_the_change.model.ADOrganiseEventModel
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
+import android.content.Intent.ACTION_PICK
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -17,10 +19,11 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.view.View
+import android.widget.AdapterView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
-import android.view.View
-import android.widget.Toast
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.FirebaseDatabase
@@ -83,6 +86,27 @@ class ADOrganizeEventActivity : ADBaseActivity() {
             dpd.show()
         })
 
+        event_type.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                if (position == 8) {
+                    other_event_type_layout.visibility = View.VISIBLE
+                } else {
+                    other_event_type_layout.visibility = View.GONE
+                }
+
+            }
+
+        }
+
         /*Show time dialog*/
         event_time.setOnClickListener(View.OnClickListener {
             val cal = Calendar.getInstance()
@@ -128,10 +152,8 @@ class ADOrganizeEventActivity : ADBaseActivity() {
         choosed_image.setOnClickListener(View.OnClickListener { showOptionDialog() })
 
         choose_files.setOnClickListener(View.OnClickListener {
-            val intent = Intent()
+            val intent = Intent(ACTION_PICK)
                 .setType("*/*")
-                .setAction(Intent.ACTION_GET_CONTENT)
-                .addCategory(Intent.CATEGORY_OPENABLE)
 
             startActivityForResult(
                 Intent.createChooser(intent, "Select a File to Upload"),
@@ -146,7 +168,7 @@ class ADOrganizeEventActivity : ADBaseActivity() {
             val location = event_location.text.toString()
             val date = event_date.text.toString()
             val time = event_time.text.toString()
-            val type = event_type.text.toString()
+            var type = event_type.selectedItem.toString()
             val description = event_desc.text.toString()
 
             if (name.isEmpty()) {
@@ -157,8 +179,11 @@ class ADOrganizeEventActivity : ADBaseActivity() {
                 event_date.setError(getString(R.string.empty_date))
             } else if (time.isEmpty()) {
                 event_time.setError(getString(R.string.empty_time))
-            } else if (type.isEmpty()) {
-                event_type.setError(getString(R.string.empty_type))
+            } else if (event_type.selectedItemPosition == 0) {
+                showMessage(getString(R.string.empty_type), organize_parent, true)
+            } else if (event_type.selectedItemPosition == 8 && other_event_type.text.toString().isEmpty()) {
+                type = other_event_type.text.toString()
+                other_event_type.setError(getString(R.string.empty_desc))
             } else if (description.isEmpty()) {
                 event_desc.setError(getString(R.string.empty_desc))
             } else {
@@ -180,7 +205,18 @@ class ADOrganizeEventActivity : ADBaseActivity() {
                 event_page2.visibility = View.GONE
                 event_page3.visibility = View.VISIBLE
             } else {
-                showMessage(getString(R.string.no_event_image), organize_parent, true)
+                showAlertDialog(
+                    getString(R.string.no_event_image),
+                    getString(R.string.yes),
+                    getString(R.string.no),
+                    object : ADViewClickListener {
+                        override fun onViewClicked() {
+                            event_page1.visibility = View.GONE
+                            event_page2.visibility = View.GONE
+                            event_page3.visibility = View.VISIBLE
+                        }
+
+                    })
             }
         })
 
@@ -211,6 +247,16 @@ class ADOrganizeEventActivity : ADBaseActivity() {
     }
 
     private fun saveImageInServer() {
+
+        if (selectedImagePath.isEmpty()) {
+            mEventModel.eventDocumentsUrl = ""
+            if (!selectedFilePath.isEmpty()) {
+                saveFileInServer()
+            } else {
+                saveDataInServer()
+            }
+            return
+        }
         val storage = FirebaseStorage.getInstance()
 
         val path = Uri.fromFile(File(selectedImagePath))
@@ -306,7 +352,7 @@ class ADOrganizeEventActivity : ADBaseActivity() {
 
         val pictureDialogItems = arrayOf("Select photo from gallery", "Capture photo from camera")
 
-        builder.setCancelable(false)
+        builder.setCancelable(true)
         builder.setItems(pictureDialogItems) { dialog, which ->
             when (which) {
                 0 -> choosePhoto(false)
@@ -419,6 +465,7 @@ class ADOrganizeEventActivity : ADBaseActivity() {
                 val columnIndex = cursor.getColumnIndex(filePathColumn[0])
                 val picturePath = cursor.getString(columnIndex)
                 selectedFilePath = picturePath
+                choose_files.text = selectedFilePath
                 cursor.close()
             }
         }

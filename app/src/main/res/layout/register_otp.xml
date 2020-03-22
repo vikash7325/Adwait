@@ -52,6 +52,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal"
         android:paddingTop="10dp"
         android:paddingBottom="10dp">
@@ -60,6 +61,8 @@
             android:id="@+id/pinview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padd_10"
+            android:layout_marginEnd="@dimen/padd_10"
             app:cursorVisible="true"
             app:forceKeyboard="false"
             app:hint="0"
@@ -69,17 +72,17 @@
             app:pinHeight="@dimen/pin_box"
             app:pinLength="6"
             app:pinWidth="@dimen/pin_box" />
-    </LinearLayout>
 
-    <TextView
-        android:id="@+id/resend_otp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="8dp"
-        android:text="@string/resend"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/medium_text" />
+        <TextView
+            android:id="@+id/resend_otp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/resend"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/medium_text" />
+    </LinearLayout>
 
 
     <TextView
@@ -90,7 +93,8 @@
         android:padding="5dp"
         android:text="@string/verify_mail"
         android:textColor="@color/hint_text_color"
-        android:textSize="@dimen/small_text" />
+        android:textSize="@dimen/small_text"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/verify_email"
@@ -101,7 +105,8 @@
         android:gravity="center"
         android:padding="5dp"
         android:textColor="@color/hint_text_color"
-        android:textSize="@dimen/small_text" />
+        android:textSize="@dimen/small_text"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/resend_mail"
@@ -111,7 +116,8 @@
         android:padding="8dp"
         android:text="@string/mail_resend"
         android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/medium_text" />
+        android:textSize="@dimen/medium_text"
+        android:visibility="gone" />
 
 
     <Button

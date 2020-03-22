@@ -59,7 +59,7 @@
     <string name="empty_event_name">Enter name of your event</string>
     <string name="empty_type">Enter type of your event</string>
     <string name="empty_desc">Enter description for your event</string>
-    <string name="no_event_image">Add some image for your event</string>
+    <string name="no_event_image">Events with photos are more likely to draw participants. Do you want to proceed without any photos?</string>
 
     <!--My mentee-->
     <string name="message_failed">We are unable to send your message. Try again</string>

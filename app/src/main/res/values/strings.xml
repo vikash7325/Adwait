@@ -142,6 +142,7 @@
     <string name="logout">Log out</string>
     <string name="logout_message">Are you sure you want to Logout? </string>
     <string name="yes">Yes</string>
+    <string name="no">No</string>
 
 
     <!--Contact us-->
@@ -231,7 +232,7 @@
     <string name="location">Location</string>
     <string name="date">Date</string>
     <string name="time">Time</string>
-    <string name="event_type">Event Type</string>
+    <string name="event_type">Please specify</string>
     <string name="event_desc">Description</string>
     <string name="add_media">Add Media</string>
     <string name="add_image">Add an event image</string>
@@ -266,6 +267,18 @@
         <item>Select your area of expert</item>
         <item>Computers</item>
         <item>Management</item>
+        <item>Others</item>
+    </string-array>
+
+    <string-array name="event_type">
+        <item>Select your Event type</item>
+        <item>Fund Raising</item>
+        <item>Food Distribution</item>
+        <item>Stationary Distribution</item>
+        <item>Hobby Classes</item>
+        <item>Computer Classes</item>
+        <item>Moral Classes</item>
+        <item>Physcometric sessions</item>
         <item>Others</item>
     </string-array>
 

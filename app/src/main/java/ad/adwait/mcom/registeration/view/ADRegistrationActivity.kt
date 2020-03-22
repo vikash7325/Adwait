@@ -319,11 +319,11 @@ class ADRegistrationActivity : ADBaseActivity() {
         if (user != null) {
 
             if (case == SEND_EMAIL_VERIFICATION) {
-                user.sendEmailVerification()
-                    .addOnCompleteListener(this) { task ->
-                        hideProgress(mProgressDialog)
-                        verify_email.text = userRegister.emailAddress
-                    }
+//                user.sendEmailVerification()
+//                    .addOnCompleteListener(this) { task ->
+//                        hideProgress(mProgressDialog)
+//                        verify_email.text = userRegister.emailAddress
+//                    }
             } else if (case == SEND_MOBILE_VERIFICATION) {
                 PhoneAuthProvider.getInstance()
                     .verifyPhoneNumber(
@@ -335,11 +335,11 @@ class ADRegistrationActivity : ADBaseActivity() {
                     )
             } else {
 
-                user.sendEmailVerification()
-                    .addOnCompleteListener(this) { task ->
-                        hideProgress(mProgressDialog)
-                        verify_email.text = userRegister.emailAddress
-                    }
+//                user.sendEmailVerification()
+//                    .addOnCompleteListener(this) { task ->
+//                        hideProgress(mProgressDialog)
+//                        verify_email.text = userRegister.emailAddress
+//                    }
 
                 PhoneAuthProvider.getInstance()
                     .verifyPhoneNumber(
