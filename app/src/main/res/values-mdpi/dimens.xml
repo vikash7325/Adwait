@@ -13,5 +13,5 @@
     <dimen name="dashboard_smile2">40dp</dimen>
     <dimen name="dashboard_smile3">35dp</dimen>
 
-    <dimen name="pin_box">25dp</dimen>
+    <dimen name="pin_box">20dp</dimen>
 </resources>

@@ -9,7 +9,7 @@
     <dimen name="h1_text">20sp</dimen>
     <dimen name="h2_text">18sp</dimen>
     <dimen name="h3_text">16sp</dimen>
-    <dimen name="pin_box">28dp</dimen>
+    <dimen name="pin_box">23dp</dimen>
 
     <dimen name="dashboard_smile">50dp</dimen>
     <dimen name="dashboard_smile2">45dp</dimen>

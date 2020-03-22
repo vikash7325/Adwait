@@ -13,6 +13,6 @@
     <dimen name="dashboard_smile">55dp</dimen>
     <dimen name="dashboard_smile2">50dp</dimen>
     <dimen name="dashboard_smile3">45dp</dimen>
-    <dimen name="pin_box">30dp</dimen>
+    <dimen name="pin_box">25dp</dimen>
 
 </resources>

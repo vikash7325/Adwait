@@ -53,16 +53,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:weightSum="1"
         android:orientation="horizontal"
         android:paddingTop="10dp"
         android:paddingBottom="10dp">
 
         <com.goodiebag.pinview.Pinview
             android:id="@+id/pinview"
-            android:layout_width="match_parent"
+            android:layout_weight="0.8"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/padd_10"
-            android:layout_marginEnd="@dimen/padd_10"
+            android:layout_marginEnd="5dp"
             app:cursorVisible="true"
             app:forceKeyboard="false"
             app:hint="0"
@@ -75,10 +76,11 @@
 
         <TextView
             android:id="@+id/resend_otp"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.20"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:padding="8dp"
+            android:padding="5dp"
             android:text="@string/resend"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/medium_text" />
