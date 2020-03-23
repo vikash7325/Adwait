@@ -37,7 +37,7 @@ class ADOurCauseActivity : ADBaseActivity(), View.OnClickListener {
     }
 
     override fun onClick(p0: View?) {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.adwait.com"))
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.website_url)))
         startActivity(intent)
     }
 

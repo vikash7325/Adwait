@@ -15,6 +15,7 @@
     <string name="loading2">Please wait while Elves are setting\nup your account...</string>
     <string name="rupees">₹</string>
     <string name="close">Close</string>
+    <string name="website_url">https://www.adwait.com</string>
     <string name="ok">Ok</string>
     <string name="update_now">Update Now</string>
     <string name="ngoname">Ngo</string>
